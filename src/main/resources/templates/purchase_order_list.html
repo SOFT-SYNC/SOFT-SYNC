@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link type="text/css" rel="stylesheet" href="CSS/header.css">
+<link type="text/css" rel="stylesheet" href="CSS/common.css">
+<link type="text/css" rel="stylesheet" href="CSS/sidebar.css">
+<link type="text/css" rel="stylesheet" href="CSS/invoice.css">
+</head>
+<body>
+	<div th:insert="~{sidebar :: sidebar}"></div>
+	<div class="main-content">
+		<div th:insert="~{header :: header}"></div>
+		<div id="row1">
+			<h2 class="visual-title">발주 리스트</h2>
+
+			<!-- (하단)발주 품목 조회 리스트 scope -->
+			<div class="head">
+				<div class="left">
+					품목코드 <input id="searchInput" type="text" placeholder="품목코드 입력">
+					<button onclick="search()" class="blueBtn">검색</button>
+				</div>
+				<div class="right">
+					<input type="date" id="date-start"> ~ <input type="date"
+						id="date-end">
+				</div>
+			</div>
+			<table>
+				<thead>
+					<tr>
+						<th>품목코드</th>
+						<th>발주일자</th>
+						<th>납기일</th>
+						<th>품명</th>
+						<th>발주수량</th>
+						<th>공급가액</th>
+						<th>검수현황</th>
+					</tr>
+				</thead>
+				<tbody id="order-list">
+					<!-- 여기에 발주 리스트가 동적으로 추가될 것입니다. -->
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<script>
+  // 더미 데이터로 발주 리스트 생성
+  const orderData = [
+    { code: "001", orderDate: "2024-05-01", deliveryDate: "2024-05-10", name: "제품A", quantity: 100, price: 500000, status: "검수완료" },
+    { code: "002", orderDate: "2024-05-02", deliveryDate: "2024-05-12", name: "제품B", quantity: 200, price: 800000, status: "검수중" },
+    { code: "003", orderDate: "2024-05-03", deliveryDate: "2024-05-15", name: "제품C", quantity: 150, price: 600000, status: "검수대기" },
+  ];
+
+  // 발주 리스트 초기화 함수
+  function initOrderList() {
+    const orderList = document.getElementById("order-list");
+    orderList.innerHTML = ""; // 기존 내용 초기화
+
+  // 더미 데이터를 이용하여 발주 리스트를 동적으로 생성
+  orderData.forEach(order => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+    <td>${order.code}</td>
+    <td>${order.orderDate}</td>
+    <td>${order.deliveryDate}</td>
+    <td>${order.name}</td>
+    <td>${order.quantity}</td>
+    <td>${order.price}</td>
+    <td>${order.status}</td>
+  `;
+  orderList.appendChild(row);
+    });
+  }
+
+  // 검색 기능 함수
+  function search() {
+    const searchInput = document.getElementById("searchInput").value;
+    const filteredOrders = orderData.filter(order => order.code.includes(searchInput));
+    const orderList = document.getElementById("order-list");
+    orderList.innerHTML = ""; // 기존 내용 초기화
+
+    // 검색 결과를 이용하여 발주 리스트를 동적으로 생성
+    filteredOrders.forEach(order => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+      <td>${order.code}</td>
+      <td>${order.orderDate}</td>
+      <td>${order.deliveryDate}</td>
+      <td>${order.name}</td>
+      <td>${order.quantity}</td>
+      <td>${order.price}</td>
+      <td>${order.status}</td>
+    `;
+    orderList.appendChild(row);
+  });
+}
+
+// 초기 발주 리스트 표시
+initOrderList();
+</script>
+	<script>
+function toggleSidenav() {
+  const sidenav = document.querySelector('.sidenav');
+  const mainContent = document.querySelector('.main-content');
+  const sidenavToggle = document.querySelector('.sidenav-toggle');
+
+  if (sidenav.style.left === '0px') {
+    sidenav.style.left = '-200px'; // 사이드바 숨기기
+    mainContent.style.marginLeft = '0'; // 메인 콘텐츠 원래 위치로
+    sidenavToggle.style.left = '5px'; // 토글 버튼 원래 위치로
+  } else {
+    sidenav.style.left = '0'; // 사이드바 보이기
+    mainContent.style.marginLeft = '200px'; // 메인 콘텐츠를 오른쪽으로 밀어냄
+    sidenavToggle.style.left = '205px'; // 토글 버튼 오른쪽으로 이동
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  // 드롭다운 버튼을 모두 선택합니다.
+  var dropdowns = document.querySelectorAll('.dropdown-btn');
+
+  // 각 버튼에 클릭 이벤트 리스너를 추가합니다.
+  dropdowns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      // 모든 드롭다운 컨테이너를 닫습니다.
+      closeAllDropdowns();
+
+      // 현재 클릭된 버튼의 다음 요소(드롭다운 컨테이너)의 표시 상태를 토글합니다.
+      var dropdownContainer = this.nextElementSibling;
+      dropdownContainer.style.display = dropdownContainer.style.display === 'block' ? 'none' : 'block';
+      
+      // 클릭된 버튼에 'active' 클래스를 추가합니다.
+      this.classList.toggle('active');
+    });
+  });
+  
+  // 모든 드롭다운을 닫는 함수
+  function closeAllDropdowns() {
+    var dropdownContainers = document.querySelectorAll('.dropdown-container');
+    dropdownContainers.forEach(function(container) { 
+      container.style.display = 'none';
+    });
+
+    // 모든 드롭다운 버튼에서 'active' 클래스를 제거합니다.
+    dropdowns.forEach(function(btn) {
+      btn.classList.remove('active');
+    }); 
+  }
+});
+</script>
+</body>
+
+</html>

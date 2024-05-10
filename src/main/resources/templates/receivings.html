@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link type="text/css" rel="stylesheet" href="css/header.css">
+  <link type="text/css" rel="stylesheet" href="css/common.css">
+  <link type="text/css" rel="stylesheet" href="css/receivings.css">
+  <link type="text/css" rel="stylesheet" href="css/sidebar.css">
+  <title>자재입고</title>
+</head>
+<body>
+  <div th:insert="~{sidebar :: sidebar}"></div>
+	<div class="main-content">
+		<div th:insert="~{header :: header}"></div>
+    <div id="row1">
+      <h2 class="visual-title">자재입고</h2>
+      <table class="regi-table">
+        <colgroup>
+          <col width="15%">
+          <col width="30%">
+          <col width="35%">
+          <col width="10%">
+          <col width="5%">
+        </colgroup>
+        <tr>
+          <th> 품목코드</th>
+          <th> 품목명</th>
+          <th> 기입고수량 / 발주수량</th>
+          <th> 입고수량</th>
+          <th rowspan="2"> <button type="button" id="deleteBtn" class="blueBtn">삭제</button></th>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>  
+      <div class="button_wrap">
+        <button type="submit" class="blueBtn">저장</button>
+        <button type="button" class="blueBtn">마감</button>
+      </div>
+    </div>
+  <div id="row2">
+    <div id="planList">
+      <h2 class="visual-title">입고예정품목</h2>
+      <div class="search-container">
+        <label for="dateInput"></label>
+        <input type="date" id="dateInput">
+
+        <!-- 드롭다운 메뉴로 필터 선택 -->
+        <select id="filterSelect">
+            <option value="itemCode">품목코드</option>
+            <option value="itemName">품목명</option>
+        </select>
+        <!-- 검색 입력 필드 -->
+        <input type="text" id="searchInput" placeholder="검색어를 입력하세요">
+        <!-- 검색 버튼 -->
+        <button onclick="performSearch()" class="blueBtn">검색</button>
+      </div>
+
+      <table class="list-table">
+        <colgroup>
+          <col width="11%">
+          <col width="11%">
+          <col width="5%">
+          <col width="20%">
+          <col width="11%">
+          <col width="11%">
+          <col width="5%">
+        </colgroup>
+        <tr>
+          <th> 품목코드</th>
+          <th> 품목명</th>
+          <th> 재질</th>
+          <th> 기입고수량 / 발주수량</th>
+          <th> 발주일</th>
+          <th> 납기일</th>
+          <th> 현황</th>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td><input type="button" value="입고" class="blueBtn"></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td><input type="button" value="입고" class="blueBtn"></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>입고완료</td>
+        </tr>
+      </table>  
+    </div>
+  </div>
+</div>
+
+<script>
+  function toggleSidenav() {
+      const sidenav = document.querySelector('.sidenav');
+      const mainContent = document.querySelector('.main-content');
+      const sidenavToggle = document.querySelector('.sidenav-toggle');
+  
+      if (sidenav.style.left === '0px') {
+          sidenav.style.left = '-200px'; // 사이드바 숨기기
+          mainContent.style.marginLeft = '0'; // 메인 콘텐츠 원래 위치로
+          sidenavToggle.style.left = '5px'; // 토글 버튼 원래 위치로
+      } else {
+          sidenav.style.left = '0'; // 사이드바 보이기
+          mainContent.style.marginLeft = '200px'; // 메인 콘텐츠를 오른쪽으로 밀어냄
+          sidenavToggle.style.left = '205px'; // 토글 버튼 오른쪽으로 이동
+      }
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+      // 드롭다운 버튼을 모두 선택합니다.
+      var dropdowns = document.querySelectorAll('.dropdown-btn');
+  
+      // 각 버튼에 클릭 이벤트 리스너를 추가합니다.
+      dropdowns.forEach(function(btn) {
+          btn.addEventListener('click', function() {
+              // 모든 드롭다운 컨테이너를 닫습니다.
+              closeAllDropdowns();
+  
+              // 현재 클릭된 버튼의 다음 요소(드롭다운 컨테이너)의 표시 상태를 토글합니다.
+              var dropdownContainer = this.nextElementSibling;
+              dropdownContainer.style.display = dropdownContainer.style.display === 'block' ? 'none' : 'block';
+              
+              // 클릭된 버튼에 'active' 클래스를 추가합니다.
+              this.classList.toggle('active');
+          });
+      });
+  
+      // 모든 드롭다운을 닫는 함수
+      function closeAllDropdowns() {
+          var dropdownContainers = document.querySelectorAll('.dropdown-container');
+          dropdownContainers.forEach(function(container) { 
+              container.style.display = 'none';
+          });
+          
+          // 모든 드롭다운 버튼에서 'active' 클래스를 제거합니다.
+          dropdowns.forEach(function(btn) {
+              btn.classList.remove('active');
+          });
+      }
+  });
+  </script>
+  <script>
+    function performSearch() {
+        var filter = document.getElementById('filterSelect').value;
+        var searchText = document.getElementById('searchInput').value.trim();
+        alert("검색 필터: " + filter + "\n검색어: " + searchText);
+        // 실제 검색 로직 구현 필요
+    }
+    </script>
+</body>
+</html>

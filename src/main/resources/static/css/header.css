@@ -1,0 +1,64 @@
+#header_wrap {
+	height: 50px;
+	background-color: rgb(255, 255, 255);
+	margin-bottom: 30px;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+	color: white;
+}
+
+.topbar {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	height: 50px;
+}
+
+/* 토글 버튼을 왼쪽에 배치 */
+.toggle_button {
+	float: left;
+	/* order: -1; */
+}
+
+.l-flex {
+	display: flex;
+	align-items: center;
+}
+
+/* 프로필 이미지 */
+.profile-img img {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%; /* 이미지 동그라미 */
+	background-color: skyblue;
+}
+
+.l-flex {
+	margin: 10px 20px;
+}
+/* 이름과 직책*/
+.l-flex span {
+	display: flex;
+	flex-direction: column;
+	/* border: 1px sienna solid; */
+	margin: 0 -5px;
+}
+
+.l-flex .profile-info {
+	margin: 0 20px;
+}
+
+/* 로그아웃 */
+.button {
+	display: inline-block;
+	padding: 10px 20px;
+	background-color: #007BFF;
+	text-decoration: none;
+	border-radius: 5px;
+	border: none;
+	cursor: pointer;
+}
+
+.button:hover {
+	background-color: #27508d;
+	color: white;
+}

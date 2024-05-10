@@ -1,0 +1,91 @@
+.logo { 
+  height: 50px;
+  width: 200px;
+}
+.logo img {
+  height: 50px;
+}
+
+.main-title {
+  text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+  font-size: larger;
+}
+.sidenav-toggle {
+  position: fixed;
+  top: 2px;
+  left: 5px; /* 기본 위치 */
+  z-index: 1001; /* 사이드바 위에 보이도록 */
+  transition: left 0.3s; /* 이동 속도 조절 */
+}
+
+.sidenav-toggle button {
+  background-color: #ffffff; /* 배경색 */
+  color: black;
+  border: none;
+  cursor: pointer;
+  padding: 9px 15px;
+  font-size: 20px;
+  transition: background-color 0.3s; /* 배경색 변경 속도 */
+  border-radius: 5px;
+}
+.dropdown-btn:hover, .sidenav-toggle button:hover {
+  color: #ffffff;
+  background-color: #0056b3;
+}
+
+.dropdown-btn.active {
+  background-color: #0056b3;
+  color: #ffffff;
+}
+
+.sidenav {
+  height: 100%;
+  width: 200px;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: -200px; /* 완전히 숨김 */
+  background-color: #ffffff;
+  overflow-x: hidden;
+  padding-top: 20px;
+  transition: left 0.3s;
+  box-shadow: 0 6px 6px rgba(0,0,0,0.4);
+}
+.dropdown-btn {
+  font-weight: bold;
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 18px;
+  color: #818181;
+  display: block;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+}
+.dropdown-container {
+  display: none;
+  background-color: #f5f5f5;
+  padding-left: 8px;
+
+}
+
+.sidenav .dropdown-item{
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 18px;
+  color: #818181;
+  display: block;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+}
+.sidenav .dropdown-item:hover{
+  color: #000;
+  background-color: #ddd;
+}
