@@ -24,6 +24,7 @@
 	align-items: center;
 }
 
+
 /* 프로필 이미지 */
 .profile-img img {
 	width: 40px;
@@ -36,12 +37,11 @@
 	margin: 10px 20px;
 }
 /* 이름과 직책*/
-.l-flex span {
+/* .l-flex span {
 	display: flex;
 	flex-direction: column;
-	/* border: 1px sienna solid; */
 	margin: 0 -5px;
-}
+} */
 
 .l-flex .profile-info {
 	margin: 0 20px;
@@ -61,4 +61,11 @@
 .button:hover {
 	background-color: #27508d;
 	color: white;
+}
+
+.topbarA span{
+	color :black;
+	display: inline-block;
+	padding: 10px 20px;
+	cursor: pointer;
 }

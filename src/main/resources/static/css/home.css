@@ -1,130 +1,223 @@
 body {
-  background-color: #f1f1f1;
+  background-color: #fafbfe;
 }
 
-#row1 {
+#row1, #row2, #row3 {
   display: flex;
-}
-.notice, .notice2 {
-  border-radius: 5px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); 
-  /* border: 1px solid #999; */
-  height: 250px;
-  padding: 20px;
-  width: 45%;
-  margin: 10px auto;
-  background-color: white;
+  margin-bottom: 20px;
 }
 
+.home-title {
+  font-weight: bold;
+  color: #747474;
+  margin-bottom: 10px;
+  height:  30px;
+}
+
+.page-title-box .page-title {
+  font-size: 18px;
+  margin-left: 40px;
+  line-height: 75px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/************************************************************************/
+/***************************** 정보 카드섹션*****************************/
+/************************************************************************/
+.card-wrap {
+  margin-left: 40px;
+  display: flex;
+  /* width: 50%; */
+  /* background-color: #2b80c5; */
+}
+.card {
+  box-shadow: 0px 0px 35px 0px rgba(154, 161, 171, 0.15);
+  margin : 30px;
+  background-color: white;
+  border: none;
+  padding: 2.0rem;
+  border-radius: 5px;
+  width: 400px;
+  height: 160px;
+
+}
+.card-title {
+  font-weight: 100;
+  font-size: 15px;
+  color: #999;
+}
+.card-content {
+  margin: 1.5em auto !important;
+}
+
+/************************************************************************/
+/***************************** 막대그래프 *****************************/
+/************************************************************************/
+.b-graph-wrap {
+  margin-left: 40px;
+  display: flex;
+  width: 50%;
+  /* background-color: #2b80c5; */
+}
+.b-graph {
+  box-shadow: 0px 0px 35px 0px rgba(154, 161, 171, 0.15);
+  margin : 30px;
+  background-color: white;
+  border: none;
+  padding: 2.0rem;
+  width: 820px;
+  margin-right: 40px;
+}
+.b-graph-body {
+  height: 230px; /* 그래프 전체의 높이 */
+  position: relative;
+  /* border: 1px solid #ccc;  */
+  /* background-color: #2196F3; */
+  
+}
+
+.bar {
+  position: absolute;
+  bottom: 0; /* 그래프의 아래쪽에 막대가 정렬되도록 설정 */
+  width: 20px; /* 막대의 너비 */
+  background-color: #2b80c5;
+  height: 0%;
+  transition: height 1s ease-in-out;
+}
+
+/************************************************************************/
+/***************************** 최근발주내역 *****************************/
+/************************************************************************/
+.recent-wrap {
+  margin-left: 40px;
+  /* display: flex; */
+  width: 35%;
+}
 .recentList {
-  padding: 20px;
-  height: 200px;
-  border-radius: 5px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); 
-  /* border: 1px solid #999; */
-  margin: 10px auto;
-  width: 95%;
+  height: 550px;
+  width: 600px;
+  box-shadow: 0px 0px 35px 0px rgba(154, 161, 171, 0.15);
+  margin : 30px;
   background-color: white;
+  border: none;
+  padding: 2.0rem;
+  border-radius: 5px;
+
+}
+table{
+  border: none;
+}
+.recent-item td{
+  padding: 20px 15px;
+  border: none;
+  border-bottom: 1px solid #999;
+}
+.recent-item h5{
+ margin-top: 5px;
+ font-weight: 300;
+ color: #7a7a7a;
+}
+.recent-item h3{
+  color: #5e5e5e;
+  font-weight: 600;
+ }
+.recent-item:hover{
+ background-color: #e7e7e7;
 }
 
-/* 그래프 */
-#row3 {
+/************************************************************************/
+/***************************** 원형그래프 *****************************/
+/************************************************************************/
+.c-graph-wrap {
+  margin-left: 40px;
   display: flex;
+  width: 26%;
+  /* background-color: #2b80c5; */
 }
-
-.graph1, .graph2 {
-  border-radius: 5px;
-  /* border: 1px solid #999; */
-  height: 250px;
-  margin: 10px auto;
+.c-graph {
+  box-shadow: 0px 0px 35px 0px rgba(154, 161, 171, 0.15);
+  margin : 30px;
   background-color: white;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); 
+  border: none;
+  border-radius: 5px;
+  padding: 2.0rem;
+  width: 420px;
+  margin-right: 40px;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
 }
-.graph1 {
+.c-graph-body {
+  margin: 50px auto;
   width: 300px; /* 원의 지름을 200px로 설정 */
   height: 300px; /* 원의 지름을 200px로 설정 */
   position: relative;
-  border: 1px solid #ccc; /* 그래픽 테두리 스타일링 */
   border-radius: 50%; /* 원형 모양으로 설정 */
   overflow: hidden; /* 넘치는 그래픽을 숨김 */
 }
+
 
 .slice {
   position: absolute;
   width: 100%;
   height: 100%;
   clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%, 50% 50%);
+  transform-origin: center;
+  transition: transform 1s ease-in-out;
 }
-
-.slice1 {
-  transform: rotate(0deg);
-  clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%, 50% 50%);
-  background-color: skyblue; /* 50% 비율 슬라이스의 색상 */
+.slice1 { 
+  transform: rotate(0deg); 
+  background-color: skyblue;
 }
-
 .slice2 {
-  transform: rotate(72deg);
-  clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 85% 100%, 50% 50%);
-  background-color: lightgreen; /* 30% 비율 슬라이스의 색상 */
+  transform: rotate(72deg); 
+  background-color: lightgreen;
 }
-
-.slice3 {
-  transform: rotate(144deg);
-  clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 70% 100%, 50% 50%);
-  background-color: lightcoral; /* 5% 비율 슬라이스의 색상 */
+.slice3 { 
+  transform: rotate(144deg); 
+  background-color: lightcoral; 
 }
-
-.slice4 {
-  transform: rotate(216deg);
-  clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 55% 100%, 50% 50%);
-  background-color: lightsalmon; /* 15% 비율 슬라이스의 색상 */
-}
-
-.slice5 {
+.slice4 { 
+  transform: rotate(256deg);
+  background-color: lightsalmon;
+ }
+.slice5 { 
   transform: rotate(288deg);
-  clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 45% 100%, 50% 50%);
-  background-color: lightpink; /* 15% 비율 슬라이스의 색상 */
-}
+  background-color: lightpink; 
+ }
 
-.graph2 {
-  width: 300px; /* 그래프 전체의 너비 */
-  height: 300px; /* 그래프 전체의 높이 */
-  position: relative;
-  border: 1px solid #ccc; /* 그래픽 테두리 스타일 */
+/************************************************************************/
+/******************************* 공지사항** *****************************/
+/************************************************************************/
+.notice-wrap {
+  margin-left: 40px;
+  display: flex;
+  width: 30%;
 }
-
-.bar {
-  position: absolute;
-  bottom: 0; /* 그래프의 아래쪽에 막대가 정렬되도록 설정 */
-  width: 50px; /* 막대의 너비 */
+.noticeList {
+  height: 550px;
+  width: 600px;
+  box-shadow: 0px 0px 35px 0px rgba(154, 161, 171, 0.15);
+  margin : 30px 5px;
+  background-color: white;
+  border: none;
+  padding: 2.0rem;
+  border-radius: 5px;
 }
-
-.bar1 {
-  left: 20px; /* 첫 번째 막대의 좌표 */
-  height: 50%; /* 첫 번째 막대의 높이 (50%) */
-  background-color: #4CAF50; /* 첫 번째 막대의 색상 */
+.notice-item td{
+  padding:15px;
 }
-
-.bar2 {
-  left: 75px; /* 두 번째 막대의 좌표 */
-  height: 30%; /* 두 번째 막대의 높이 (30%) */
-  background-color: #2196F3; /* 두 번째 막대의 색상 */
+.notice-item h5{
+ margin-top: 5px;
+ font-weight: 300;
+ color: #7a7a7a;
 }
-
-.bar3 {
-  left: 130px; /* 세 번째 막대의 좌표 */
-  height: 20%; /* 세 번째 막대의 높이 (20%) */
-  background-color: #f44336; /* 세 번째 막대의 색상 */
-}
-
-.bar4 {
-  left: 185px; /* 네 번째 막대의 좌표 */
-  height: 7%; /* 네 번째 막대의 높이 (7%) */
-  background-color: #FF9800; /* 네 번째 막대의 색상 */
-}
-
-.bar5 {
-  left: 240px; /* 다섯 번째 막대의 좌표 */
-  height: 3%; /* 다섯 번째 막대의 높이 (3%) */
-  background-color: #9C27B0; /* 다섯 번째 막대의 색상 */
+.notice-item h3{
+  color: #5e5e5e;
+  font-weight: 600;
+ }
+.notice-item:hover{
+ background-color: #e7e7e7;
 }

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link type="text/css" rel="stylesheet" href="../CSS/header.css">
+  <link type="text/css" rel="stylesheet" href="../CSS/common.css">
+  <link type="text/css" rel="stylesheet" href="../CSS/home.css">
+  <link type="text/css" rel="stylesheet" href="../CSS/sidebar.css">
+</head>
+<body>
+	<div th:insert="~{common/sidebar :: sidebar}"></div>
+	<div class="main-content">
+		<div th:insert="~{common/header :: header}"></div>
+	 <div class="page-title-box">
+	      <h4 class="page-title">Dashboard</h4>
+	    </div>
+	  <div id="row1">
+	    <div class="card-wrap">
+	      <div class="col1">
+	        <div class="card">
+	          <div class="card-body">
+	            <p class="card-title">금일 입고 수량</p>
+	            <h2 class="card-content">37,845</h2>
+	          </div>
+	        </div>
+	        <div class="card">
+	          <div class="card-body">
+	            <p class="card-title">금일 출고 수량</p>
+	            <h2 class="card-content">3,845</h2>
+	          </div>
+	        </div>
+	      </div>
+	      <div class="col1">
+	        <div class="card">
+	          <div class="card-body">
+	            <p class="card-title">금일 발주 수량</p>
+	            <h2 class="card-content">1,845</h2>
+	          </div>
+	        </div>
+	        <div class="card">
+	          <div class="card-body">
+	            <p class="card-title">금일 ** 수량</p>
+	            <h2 class="card-content">**</h2>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	    <!-- 이거 백엔드 구현할 때는 프론트 코드 고쳐야함 svg text -->
+	    <div class="b-graph-wrap">
+	      <div class="b-graph">
+	        <p class="home-title"> MONTHLY </p>
+	        <div class="b-graph-body">
+	          <div class="bar bar1"></div>
+	          <div class="bar bar2"></div>
+	          <div class="bar bar3"></div>
+	          <div class="bar bar4"></div>
+	          <div class="bar bar5"></div>
+	          <div class="bar bar6"></div>
+	          <div class="bar bar7"></div>
+	          <div class="bar bar8"></div>
+	          <div class="bar bar9"></div>
+	          <div class="bar bar10"></div>
+	          <div class="bar bar11"></div>
+	          <div class="bar bar12"></div>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	  <div id="row2">
+	    <div class="recent-wrap">
+	      <div class="recentList">
+	        <p class="home-title"> RECENT LIST </p>
+	        <div class="recent-content">
+	        <table>
+	          <colgroup>
+	          <col width="30%">
+	          <col width="20%">
+	          <col width="20%">
+	          <col width="30%">
+	        </colgroup>
+	          <tr class="recent-item">
+	            <td><h3>발주내역출력</h3><h5>2024 MAY 25</h5></td>
+	            <td><h3>단가출력</h3><h5>Price</h5></td>
+	            <td><h3>수량출력</h3><h5>Quantity</h5></td>
+	            <td><h3>총 발주금액</h3><h5>Amount</h5></td>
+	          </tr>
+	          <tr class="recent-item">
+	            <td><h3>너트</h3><h5>2024 MAY 25</h5></td>
+	            <td><h3>\ 200</h3><h5>Price</h5></td>
+	            <td><h3>3500</h3><h5>Quantity</h5></td>
+	            <td><h3>\ 700,000</h3><h5>Amount </h5></td>
+	          </tr>
+	          <tr class="recent-item">
+	            <td><h3>볼트</h3><h5>2024 MAY 25</h5></td>
+	            <td><h3>\ 100</h3><h5>Price </h5></td>
+	            <td><h3>3500</h3><h5>Quantity</h5></td>
+	            <td><h3>\ 350,000</h3><h5>Amount </h5></td>
+	          </tr>
+	          <tr class="recent-item">
+	            <td><h3>aaa건전지</h3><h5>2024 MAY 25</h5></td>
+	            <td><h3>\ 560</h3><h5>Price </h5></td>
+	            <td><h3>1,000</h3><h5>Quantity</h5></td>
+	            <td><h3>\ 5,600,000</h3><h5>Amount </h5></td>
+	          </tr>
+	          <tr class="recent-item">
+	            <td><h3>단자리드줄</h3><h5>2024 MAY 25</h5></td>
+	            <td><h3>\ 200</h3><h5>Price </h5></td>
+	            <td><h3>1,500</h3><h5>Quantity</h5></td>
+	            <td><h3>\ 300,000</h3><h5>Amount </h5></td>
+	          </tr>
+	        </table>
+	        </div>
+	      </div>
+	    </div>
+	    <!-- 이거 백엔드 구현할 때는 프론트 코드 고쳐야함 svg text -->
+	    <div class="c-graph-wrap">
+	      <div class="c-graph">
+	        <p class="home-title"> MONTHLY</p>
+	        <div class="c-graph-body">
+	          <div class="slice slice1">a</div>
+	          <div class="slice slice2">b</div>
+	          <div class="slice slice3">c</div>
+	          <div class="slice slice4">d</div>
+	          <div class="slice slice5">e</div>
+	        </div>
+	      </div>
+	    </div>
+	    <div class="notice-wrap">
+	      <div class="noticeList">
+	        <a href="notice"><p class="home-title"> NOTICE LIST </p></a>
+	        <div class="notice-content">
+	        <table>
+	          <tr class="notice-item">
+	            <td>공지사항입니다</td>
+	          </tr>
+	          <tr class="notice-item">
+	            <td>공지사항입니다</td>
+	          </tr>
+	          <tr class="notice-item">
+	            <td>공지사항입니다</td>
+	          </tr>
+	          <tr class="notice-item">
+	            <td>공지사항입니다</td>
+	          </tr>
+	          <tr class="notice-item">
+	            <td>공지사항입니다</td>
+	          </tr>
+	          <tr class="notice-item">
+	            <td>공지사항입니다</td>
+	          </tr>
+	          <tr class="notice-item">
+	            <td>공지사항입니다</td>
+	          </tr>
+	          <tr class="notice-item">
+	            <td>공지사항입니다</td>
+	          </tr>
+	        </table>
+	        </div>
+	      </div>
+	    </div>
+	  <div id="row3">
+	  </div>
+  </div>
+</div>
+
+<script>
+  function toggleSidenav() {
+      const sidenav = document.querySelector('.sidenav');
+      const mainContent = document.querySelector('.main-content');
+      const sidenavToggle = document.querySelector('.sidenav-toggle');
+  
+      if (sidenav.style.left === '0px') {
+          sidenav.style.left = '-200px'; // 사이드바 숨기기
+          mainContent.style.marginLeft = '0'; // 메인 콘텐츠 원래 위치로
+          sidenavToggle.style.left = '5px'; // 토글 버튼 원래 위치로
+      } else {
+          sidenav.style.left = '0'; // 사이드바 보이기
+          mainContent.style.marginLeft = '200px'; // 메인 콘텐츠를 오른쪽으로 밀어냄
+          sidenavToggle.style.left = '205px'; // 토글 버튼 오른쪽으로 이동
+      }
+  }
+  
+ 
+  document.addEventListener('DOMContentLoaded', function() {
+      // 드롭다운 버튼을 모두 선택합니다.
+      var dropdowns = document.querySelectorAll('.dropdown-btn');
+  
+      // 각 버튼에 클릭 이벤트 리스너를 추가합니다.
+      dropdowns.forEach(function(btn) {
+          btn.addEventListener('click', function() {
+              // 모든 드롭다운 컨테이너를 닫습니다.
+              closeAllDropdowns();
+  
+              // 현재 클릭된 버튼의 다음 요소(드롭다운 컨테이너)의 표시 상태를 토글합니다.
+              var dropdownContainer = this.nextElementSibling;
+              dropdownContainer.style.display = dropdownContainer.style.display === 'block' ? 'none' : 'block';
+              
+              // 클릭된 버튼에 'active' 클래스를 추가합니다.
+              this.classList.toggle('active');
+          });
+      });
+  
+      // 모든 드롭다운을 닫는 함수
+      function closeAllDropdowns() {
+          var dropdownContainers = document.querySelectorAll('.dropdown-container');
+          dropdownContainers.forEach(function(container) { 
+              container.style.display = 'none';
+          });
+          
+          // 모든 드롭다운 버튼에서 'active' 클래스를 제거합니다.
+          dropdowns.forEach(function(btn) {
+              btn.classList.remove('active');
+          });
+      }
+  });
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // 각 막대에 대해 높이를 지정하는 값을 변경
+      var bars = document.querySelectorAll(".bar");
+      var gap = 30; // 막대 간격
+      var width = 20; // 막대 너비
+      var start
+      bars.forEach(function(bar, index) {
+        var leftValue = index * (gap + width) + 20; // 좌표 계산
+        bar.style.left = leftValue + "px"; // 각 막대에 좌표를 지정
+
+        var height = Math.random() * 100; // 0부터 100까지 무작위 높이 생성
+        bar.style.height = height + "%"; // 각 막대에 높이를 지정
+      });
+    });
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var slices = document.querySelectorAll(".slice");
+      var ratios = [0.5, 0.3, -0.1, 0.1, 0.15];// 각 슬라이스의 비율 설정
+      var totalRatio = ratios.reduce((a, b) => a + b, 0); // 전체 비율 계산
+  
+      // 각 슬라이스의 각도 설정
+      slices.forEach(function(slice, index) {
+        var angle = (360 * ratios[index]) / totalRatio;
+        slice.style.transform = "rotate(" + angle + "deg)";
+      });
+    });
+  </script>
+</body>
+</html>

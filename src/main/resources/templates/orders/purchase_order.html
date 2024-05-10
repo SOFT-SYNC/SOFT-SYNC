@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link type="text/css" rel="stylesheet" href="../CSS/header.css">
+<link type="text/css" rel="stylesheet" href="../CSS/common.css">
+<link type="text/css" rel="stylesheet" href="../CSS/sidebar.css">
+<link type="text/css" rel="stylesheet" href="../CSS/invoice.css">
+
+</head>
+<body>
+	<div th:insert="~{common/sidebar :: sidebar}"></div>
+	<div class="main-content">
+		<div th:insert="~{common/header :: header}"></div>
+		<div id="row1">
+			<h2 class="visual-title">구매 발주서</h2>
+
+			<!-- (상단)구매발주서  테이블-->
+			<button type="submit" class="sub blueBtn">발행</button>
+			<table>
+				<thead>
+					<tr>
+						<th>발주번호</th>
+						<td>발주번호 출력</td>
+						<th>등록번호</th>
+						<td>등록번호 출력</td>
+					</tr>
+					<tr>
+						<th>발신처</th>
+						<td>발신처 출력</td>
+						<th>수신처</th>
+						<td>수신처 출력</td>
+					</tr>
+					<tr>
+						<th>연락처</th>
+						<td>연락처 출력</td>
+						<th>대표자명</th>
+						<td>대표자명 출력</td>
+					</tr>
+					<tr>
+						<th>발주일</th>
+						<td>발주일 출력</td>
+						<th>주소</th>
+						<td>주소 출력</td>
+					</tr>
+					<tr>
+						<th>납기일</th>
+						<td>납기일 출력</td>
+						<th>담당자</th>
+						<td>담당자 출력</td>
+					</tr>
+					<tr>
+						<th>지불조건</th>
+						<td>지불조건 출력</td>
+						<th>연락처</th>
+						<td>연락처 출력</td>
+					</tr>
+				</thead>
+			</table>
+
+			<div id="centertb">
+				<table>
+					<thead>
+						<tr>
+							<th>번호</th>
+							<th>품명</th>
+							<th>규격</th>
+							<th>단위</th>
+							<th>수량</th>
+							<th>단가</th>
+							<th>공급가액</th>
+							<th>비고</th>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+		<div id="row2">
+			<h2 class="visual-title">
+				발주 품목 조회
+				</h4>
+				<!-- (하단)발주 품목 조회 리스트 scope -->
+				<div id="bottomtb">
+					<input type="date"> ~ <input type="date">
+					<button type="submit" class="blueBtn">검색</button>
+					<a href="18p.html">
+						<button type="button" class="blueBtn">목록</button>
+					</a>
+					<table>
+						<thead>
+							<tr>
+								<th>품목코드</th>
+								<th>품목명</th>
+								<th>재질</th>
+								<th>발주수량</th>
+								<th>발주일</th>
+								<th>납기일</th>
+							</tr>
+
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+					</table>
+					<div class="button-container">
+						<button type="submit" onclick="openNewWindow()" class="blueBtn">발행</button>
+						<button type="submit" class="blueBtn">인쇄</button>
+					</div>
+					<div id="newTableContainer"></div>
+					<!-- 새로운 테이블이 표시될 컨테이너 -->
+				</div>
+		</div>
+	</div>
+
+	<script>
+  function toggleSidenav() {
+      const sidenav = document.querySelector('.sidenav');
+      const mainContent = document.querySelector('.main-content');
+      const sidenavToggle = document.querySelector('.sidenav-toggle');
+  
+      if (sidenav.style.left === '0px') {
+          sidenav.style.left = '-200px'; // 사이드바 숨기기
+          mainContent.style.marginLeft = '0'; // 메인 콘텐츠 원래 위치로
+          sidenavToggle.style.left = '5px'; // 토글 버튼 원래 위치로
+      } else {
+          sidenav.style.left = '0'; // 사이드바 보이기
+          mainContent.style.marginLeft = '200px'; // 메인 콘텐츠를 오른쪽으로 밀어냄
+          sidenavToggle.style.left = '205px'; // 토글 버튼 오른쪽으로 이동
+      }
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+      // 드롭다운 버튼을 모두 선택합니다.
+      var dropdowns = document.querySelectorAll('.dropdown-btn');
+  
+      // 각 버튼에 클릭 이벤트 리스너를 추가합니다.
+      dropdowns.forEach(function(btn) {
+          btn.addEventListener('click', function() {
+              // 모든 드롭다운 컨테이너를 닫습니다.
+              closeAllDropdowns();
+  
+              // 현재 클릭된 버튼의 다음 요소(드롭다운 컨테이너)의 표시 상태를 토글합니다.
+              var dropdownContainer = this.nextElementSibling;
+              dropdownContainer.style.display = dropdownContainer.style.display === 'block' ? 'none' : 'block';
+              
+              // 클릭된 버튼에 'active' 클래스를 추가합니다.
+              this.classList.toggle('active');
+          });
+      });
+  
+      // 모든 드롭다운을 닫는 함수
+      function closeAllDropdowns() {
+          var dropdownContainers = document.querySelectorAll('.dropdown-container');
+          dropdownContainers.forEach(function(container) { 
+              container.style.display = 'none';
+          });
+          
+          // 모든 드롭다운 버튼에서 'active' 클래스를 제거합니다.
+          dropdowns.forEach(function(btn) {
+              btn.classList.remove('active');
+          });
+      }
+  });
+
+    // 더미 데이터 정의
+    var dummyData = [
+        { key: "발주번호", value: "123456" },
+        { key: "등록번호", value: "789012" },
+        { key: "발신처", value: "ABC 회사" },
+        { key: "수신처", value: "XYZ 회사" },
+        { key: "연락처", value: "010-1234-5678" },
+        { key: "대표자명", value: "홍길동" },
+        { key: "발주일", value: "2024-05-20" },
+        { key: "주소", value: "서울시 강남구" },
+        { key: "납기일", value: "2024-06-10" },
+        { key: "담당자", value: "이몽룡" },
+        { key: "지불조건", value: "카드 결제" },
+        { key: "연락처", value: "010-5678-1234" }
+    ];
+    
+    // 새 창을 열어 발주서 출력하는 함수
+    function openNewWindow() {
+        var width = 900;
+        var height = 700;
+        var left = (window.screen.width - width) / 2;
+        var top = (window.screen.height - height) / 2;
+    
+        var newWindow = window.open("", "_blank", "width=" + width + ", height=" + height + ", left=" + left + ", top=" + top);
+        
+        // 제목 중앙 정렬
+        newWindow.document.write("<h4 style='text-align: center;'>발주서</h4>");
+    
+        // 첫 번째 테이블 생성
+        var table1 = document.createElement("table");
+        table1.style.border = "1px solid #ddd"; // 테두리 스타일 추가
+        table1.style.margin = "0 auto"; // 가운데 정렬
+        table1.style.width = "70%"; // 너비 설정
+        var tbody1 = document.createElement("tbody");
+    
+        for (var i = 0; i < dummyData.length; i += 2) {
+            var row = document.createElement("tr");
+            row.innerHTML = `
+                <th style='border: 1px solid #ddd; padding: 8px;'>${dummyData[i].key}</th>
+                <td style='border: 1px solid #ddd; padding: 8px;'>${dummyData[i].value}</td>
+                <th style='border: 1px solid #ddd; padding: 8px;'>${dummyData[i + 1].key}</th>
+                <td style='border: 1px solid #ddd; padding: 8px;'>${dummyData[i + 1].value}</td>
+            `;
+            tbody1.appendChild(row);
+        }
+    
+        table1.appendChild(tbody1);
+    
+        // 새 창에 첫 번째 테이블 추가
+        newWindow.document.body.appendChild(table1);
+
+        // 두 번째 테이블 생성
+        var table2 = document.createElement("table");
+        table2.style.border = "1px solid #ddd"; // 테두리 스타일 추가
+        table2.style.margin = "0 auto"; // 가운데 정렬
+        table2.style.width = "70%"; // 너비 설정
+        table2.innerHTML = `
+            <thead>
+                <tr>
+                    <th style='border: 1px solid #ddd; padding: 8px;'>번호</th>
+                    <th style='border: 1px solid #ddd; padding: 8px;'>품명</th>
+                    <th style='border: 1px solid #ddd; padding: 8px;'>규격</th>
+                    <th style='border: 1px solid #ddd; padding: 8px;'>단위</th>
+                    <th style='border: 1px solid #ddd; padding: 8px;'>수량</th>
+                    <th style='border: 1px solid #ddd; padding: 8px;'>단가</th>
+                    <th style='border: 1px solid #ddd; padding: 8px;'>공급가액</th>
+                    <th style='border: 1px solid #ddd; padding: 8px;'>비고</th>
+                </tr>
+                <tr>  
+                    <td style='border: 1px solid #ddd; padding: 8px;'>1</td>
+                    <td style='border: 1px solid #ddd; padding: 8px;'>상품A</td>
+                    <td style='border: 1px solid #ddd; padding: 8px;'>규격A</td>
+                    <td style='border: 1px solid #ddd; padding: 8px;'>개</td>
+                    <td style='border: 1px solid #ddd; padding: 8px;'>10</td>
+                    <td style='border: 1px solid #ddd; padding: 8px;'>10000</td>
+                    <td style='border: 1px solid #ddd; padding: 8px;'>100000</td>
+                    <td style='border: 1px solid #ddd; padding: 8px;'>비고</td>
+                </tr>
+            </thead>
+        `;
+        newWindow.document.body.appendChild(table2);
+    }
+</script>
+	<script>
+  // 사이드 바 드롭다운
+  var dropdown = document.getElementsByClassName("dropdown-btn");
+  var i;
+
+  for (i = 0; i < dropdown.length; i++) {
+    dropdown[i].addEventListener("click", function() {
+      this.classList.toggle("active");
+      var dropdownContent = this.nextElementSibling;
+      if (dropdownContent.style.display === "block") {
+        dropdownContent.style.display = "none";
+      } else {
+        dropdownContent.style.display = "block";
+      }
+    });
+  }
+</script>
+</body>
+</html>

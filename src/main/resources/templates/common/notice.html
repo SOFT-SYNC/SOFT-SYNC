@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link type="text/css" rel="stylesheet" href="../CSS/header.css">
+  <link type="text/css" rel="stylesheet" href="../CSS/common.css">
+  <link type="text/css" rel="stylesheet" href="../CSS/notice.css">
+  <link type="text/css" rel="stylesheet" href="../CSS/sidebar.css">
+</head>
+<body>
+	<div th:insert="~{common/sidebar :: sidebar}"></div>
+	<div class="main-content">
+		<div th:insert="~{common/header :: header}"></div>
+  <div id="row1">
+    <div class="list_wrap">
+    <h2 class="visual-title">공지사항</h2>
+        <table class="sub_news" cellspacing="0">
+          <caption>게시판 리스트</caption>
+          <colgroup>
+            <col width="80">
+            <col>
+            <col width="50">
+            <col width="90">
+            <col width="100">
+            <col width="60">
+          </colgroup>
+          <thead>
+            <tr>
+              <th scope="col">번호</th>
+              <th scope="col">제목</th>
+              <th scope="col">첨부</th>
+              <th scope="col">작성자</th>
+              <th scope="col">날짜</th>
+              <th scope="col">조회수</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="num">5874</td>
+              <td class="title">
+                <a href="#">낚시 등의 금지지역 지정 행정예고 고시문</a>
+                <img class="new" src="images/ic_new.gif">
+              </td>
+              <td class="file"><img src="images/list-file-icon.gif"></td>
+              <td class="name">생태하천과</td>
+              <td class="date">2023/12/29</td>
+              <td class="hit">321</td>
+            </tr>
+            <tr>
+              <td class="num">5873</td>
+              <td class="title">
+                <a href="#">2024년 제 1기 원예관리사 취창업 과정 교육생 모집안내_아산시 여성커뮤니티센터'나온(ON)'</a>
+              </td>
+              <td class="file"><img src="images/list-file-icon.gif"></td>
+              <td class="name">여성복지과</td>
+              <td class="date">2023/12/29</td>
+              <td class="hit">587</td>
+            </tr>
+            <tr>
+              <td class="num">5872</td>
+              <td class="title">
+                <a href="#">제 8기 시민명예기자 추가모집 공고</a>
+              </td>
+              <td class="file"><img src="images/list-file-icon.gif"></td>
+              <td class="name">홍보담당관</td>
+              <td class="date">2023/12/29</td>
+              <td class="hit">168</td>
+            </tr>
+            <tr>
+              <td class="num">5871</td>
+              <td class="title">
+                <a href="#">2024년 아산시 동계 대학생 아르바이트 선발 결과 공지</a>
+              </td>
+              <td class="file"><img src="images/list-file-icon.gif"></td>
+              <td class="name">자치행정과</td>
+              <td class="date">2023/12/28</td>
+              <td class="hit">1861</td>
+            </tr>
+            <tr>
+              <td class="num">5870</td>
+              <td class="title">
+                <a href="#">2024년 장애아동가족지원사업(발달재활서비스) 이용자 모집 안내(대기자모집)</a>
+              </td>
+              <td class="file"><img src="images/list-file-icon.gif"></td>
+              <td class="name">경로장애인과</td>
+              <td class="date">2023/12/28</td>
+              <td class="hit">2341</td>
+            </tr>
+            <tr>
+              <td class="num">5869</td>
+              <td class="title">
+                <a href="#">2024년 상반기 영양플러스사업 대상자 모집</a>
+              </td>
+              <td class="file"></td>
+              <td class="name">보건행정과</td>
+              <td class="date">2023/12/28</td>
+              <td class="hit">724</td>
+            </tr>
+            <tr>
+              <td class="num">5868</td>
+              <td class="title">
+                <a href="#">2023년 아산시를 빛낸 10대 우수시책 선정결과</a>
+              </td>
+              <td class="file"></td>
+              <td class="name">기획예산과</td>
+              <td class="date">2023/12/28</td>
+              <td class="hit">196</td>
+            </tr>
+            <tr>
+              <td class="num">5867</td>
+              <td class="title">
+                <a href="#">인사발령 게시(2024. 1. 2.자)</a>
+              </td>
+              <td class="file"><img src="images/list-file-icon.gif"></td>
+              <td class="name">홈페이지관리자</td>
+              <td class="date">2023/12/27</td>
+              <td class="hit">3709</td>
+            </tr>
+            <tr>
+              <td class="num">5866</td>
+              <td class="title">
+                <a href="#">2023년 공무직 임금협상에 대한 아산시 입장문</a>
+              </td>
+              <td class="file"><img src="images/list-file-icon.gif"></td>
+              <td class="name">총무과</td>
+              <td class="date">2023/12/27</td>
+              <td class="hit">2066</td>
+            </tr>
+            <tr>
+              <td class="num">5865</td>
+              <td class="title">
+                <a href="#">1월 식중독 주의정보 알림(식약처 제공)</a>
+              </td>
+              <td class="file"><img src="images/list-file-icon.gif"></td>
+              <td class="name">위생과</td>
+              <td class="date">2023/12/26</td>
+              <td class="hit">1057</td>
+            </tr><tr>
+              <td class="num">5864</td>
+              <td class="title">
+                <a href="#">아산시 보건소 코로나19 선별진료소 운영종료</a>
+              </td>
+              <td class="file"><img src="images/list-file-icon.gif"></td>
+              <td class="name">질병예방과</td>
+              <td class="date">2023/12/22</td>
+              <td class="hit">1327</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="buttons_wrap">
+          <button type="button" class="list_buttons"><a href="#"><<</a></button>
+          <button type="button" class="list_buttons sec"><a href="#">1</a></button>
+          <button type="button" class="list_buttons"><a href="#">2</a></button>
+          <button type="button" class="list_buttons"><a href="#">3</a></button>
+          <button type="button" class="list_buttons"><a href="#">4</a> </button>
+          <button type="button" class="list_buttons"><a href="#">5</a> </button>
+          <button type="button" class="list_buttons"><a href="#">6</a> </button>
+          <button type="button" class="list_buttons"><a href="#">7</a> </button>
+          <button type="button" class="list_buttons"><a href="#">8</a> </button>
+          <button type="button" class="list_buttons"><a href="#">9</a> </button>
+          <button type="button" class="list_buttons"><a href="#">10</a> </button>
+          <button type="button" class="list_buttons"><a href="#">>></a></button>
+        </div>
+      </div>
+  </div>
+</div>
+</div>
+
+  <script>
+    function toggleSidenav() {
+        const sidenav = document.querySelector('.sidenav');
+        const mainContent = document.querySelector('.main-content');
+        const sidenavToggle = document.querySelector('.sidenav-toggle');
+    
+        if (sidenav.style.left === '0px') {
+            sidenav.style.left = '-200px'; // 사이드바 숨기기
+            mainContent.style.marginLeft = '0'; // 메인 콘텐츠 원래 위치로
+            sidenavToggle.style.left = '5px'; // 토글 버튼 원래 위치로
+        } else {
+            sidenav.style.left = '0'; // 사이드바 보이기
+            mainContent.style.marginLeft = '200px'; // 메인 콘텐츠를 오른쪽으로 밀어냄
+            sidenavToggle.style.left = '205px'; // 토글 버튼 오른쪽으로 이동
+        }
+    }
+    
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     loadDummyData();
+    // });
+    document.addEventListener('DOMContentLoaded', function() {
+        // 드롭다운 버튼을 모두 선택합니다.
+        var dropdowns = document.querySelectorAll('.dropdown-btn');
+    
+        // 각 버튼에 클릭 이벤트 리스너를 추가합니다.
+        dropdowns.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                // 모든 드롭다운 컨테이너를 닫습니다.
+                closeAllDropdowns();
+    
+                // 현재 클릭된 버튼의 다음 요소(드롭다운 컨테이너)의 표시 상태를 토글합니다.
+                var dropdownContainer = this.nextElementSibling;
+                dropdownContainer.style.display = dropdownContainer.style.display === 'block' ? 'none' : 'block';
+                
+                // 클릭된 버튼에 'active' 클래스를 추가합니다.
+                this.classList.toggle('active');
+            });
+        });
+    
+        // 모든 드롭다운을 닫는 함수
+        function closeAllDropdowns() {
+            var dropdownContainers = document.querySelectorAll('.dropdown-container');
+            dropdownContainers.forEach(function(container) { 
+                container.style.display = 'none';
+            });
+            
+            // 모든 드롭다운 버튼에서 'active' 클래스를 제거합니다.
+            dropdowns.forEach(function(btn) {
+                btn.classList.remove('active');
+            });
+        }
+    });
+  </script>
+  <script>
+    function performSearch() {
+        var filter = document.getElementById('filterSelect').value;
+        var searchText = document.getElementById('searchInput').value.trim();
+        alert("검색 필터: " + filter + "\n검색어: " + searchText);
+        // 실제 검색 로직 구현 필요
+    }
+    </script>
+</body>
+</html>

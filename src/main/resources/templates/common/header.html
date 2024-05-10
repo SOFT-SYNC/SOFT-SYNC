@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>header</title>
+</head>
+<body>
+<header>
+     <div id="header_wrap">
+  <!-----------------top-bar start ---------------- -->
+  <div class="navbar-custom"> <!--화면 길이만큼의 topbar-->
+    <div class="topbar"> <!--사이드바를 제외한 topbar-->
+      <div class="l-flex">       
+       	<a th:href="@{/notice}" class="topbarA"><span>공지사항</span></a>
+        <a th:href="@{/logout}" class="button">로그아웃</a>    
+      </div>
+    </div>
+  </div>
+  </div>
+</header>
+</body>
+</html>
