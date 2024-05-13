@@ -9,8 +9,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.softsync.zerock.User;
-import com.softsync.zerock.UserRepository;
+import com.softsync.zerock.entity.User;
+import com.softsync.zerock.repository.UserRepository;
 
 
 @Service

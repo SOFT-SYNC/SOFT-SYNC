@@ -1,7 +1,9 @@
-package com.softsync.zerock;
+package com.softsync.zerock.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import com.softsync.zerock.entity.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {

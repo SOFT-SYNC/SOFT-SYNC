@@ -9,8 +9,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.softsync.zerock.PasswordUtil;
-import com.softsync.zerock.User;
-import com.softsync.zerock.UserRepository;
+import com.softsync.zerock.entity.User;
+import com.softsync.zerock.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
 

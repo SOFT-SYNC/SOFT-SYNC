@@ -12,9 +12,9 @@
 </head>
 
 <body>
-	<div th:insert="~{sidebar :: sidebar}"></div>
+	<div th:insert="~{common/sidebar :: sidebar}"></div>
 	<div class="main-content">
-		<div th:insert="~{header :: header}"></div>
+		<div th:insert="~{common/header :: header}"></div>
 		<form id="productForm" method="POST" action="/api/items" enctype="multipart/form-data"
 			onsubmit="submitProduct(event)">
 			<div id="row1">

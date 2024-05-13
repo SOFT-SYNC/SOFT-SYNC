@@ -1,59 +1,86 @@
 package com.softsync.zerock.DTO;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
-
-
-@Data
-@Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@Table(name = "item")
 public class ItemDto {
+    private Long id;
+    private String itemCode;
+    private Long childcategoryId; // 추가된 필드
+    private String itemName;
+    private String dimensions;
+    private String material;
+    private MultipartFile blueprintPath;
 
-	    @Id	
-	    @Column(name = "item_code") 
-	    private String item_code;
-	    
-	    @Column(name = "item_name")
-	    private String item_name;
-	    
-	    @Column(name = "width")  //가로
-	    private int width;
-	    
-	    @Column(name = "length") //세로
-	    private int length;
-	    
-	    @Column(name = "height") //높이
-	    private int height;
-	    
-	    @Column(name = "material") //재질
-	    private String material;
-	    
-	    @Column(name = "blueprint_org_name")//원래이름
-	    private String blueprint_org_name;
-	    
-	    @Column(name = "blueprint_save_name")//저장된 이름
-	    private String blueprint_save_name;
-	    
-	    @Column(name = "unit")
-	    private String unit;
-	    
-	    @Column(name = "unit_code") //대분류
-	    private String unit_code;
-	    
-	    @Column(name = "part_code") //중분류
-	    private String part_code;
-	    
-	    @Column(name = "sub_code")
-	    private String sub_code;
-	    
-	    // getters and setters
+    // 생성자
+    public ItemDto() {
+    }
 
+    public ItemDto(Long id, String itemCode, Long childcategoryId, String itemName, String dimensions, String material, MultipartFile blueprintPath) {
+        this.id = id;
+        this.itemCode = itemCode;
+        this.childcategoryId = childcategoryId;
+        this.itemName = itemName;
+        this.dimensions = dimensions;
+        this.material = material;
+        this.blueprintPath = blueprintPath;
+    }
+
+    // Getter 및 Setter
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getItemCode() {
+        return itemCode;
+    }
+
+    public void setItemCode(String itemCode) {
+        this.itemCode = itemCode;
+    }
+
+
+    public Long getChildcategoryId() {
+		return childcategoryId;
+	}
+
+	public void setChildcategoryId(Long subcategoryId) {
+		this.childcategoryId = subcategoryId;
+	}
+
+	public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public String getDimensions() {
+        return dimensions;
+    }
+
+    public void setDimensions(String dimensions) {
+		this.dimensions = dimensions;
+	}
+
+
+    public String getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(String material) {
+        this.material = material;
+    }
+
+    public MultipartFile getBlueprintPath() {
+        return blueprintPath;
+    }
+
+    public void setBlueprintPath(MultipartFile blueprintPath) {
+        this.blueprintPath = blueprintPath;
+    }
 }

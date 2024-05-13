@@ -1,18 +1,13 @@
 package com.softsync.zerock.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.softsync.zerock.User;
-import com.softsync.zerock.DTO.ItemDto;
+import com.softsync.zerock.entity.User;
 import com.softsync.zerock.service.ItemService;
 import com.softsync.zerock.service.UploadFileService;
 import com.softsync.zerock.service.UserService;
@@ -58,46 +53,12 @@ public class BasicController {
 	@GetMapping("/potal")
 	public String mainview() {
 		return "/common/potal";
-	}
+	}	
 	
-	//품목 등록,조회
 	@GetMapping("/add_prod")
-	public String addprodview(Model model, ItemDto itemDto) {
-		System.out.println("[아이템 컨트롤러]품목 조회,등록창");
-		
-		  model.addAttribute("item", itemDto);
-		  
-		  //하단 품목 리스트 출력용
-		  List<ItemDto> itemList = itemService.getAllItems();
-	        model.addAttribute("itemList", itemList);
+	public String prodview() {
 		return"/procurement/add_prod";
 	}
-	
-	//품목 등록 조회 확인
-	@PostMapping("/additem")
-	public String additem(@RequestParam("file") MultipartFile file, @ModelAttribute("item") ItemDto item) {
-		System.out.println("[아이템 컨트롤러]품목 신규등록 확인" + item);
-		
-		String nextPage = "redirect:/procurement/add_prod";
-
-
-		
-		if(file !=null) item.setBlueprint_org_name(file.getOriginalFilename()); //원래 파일명 저장
-		String savedFileName = uploadFileService.upload(file);
-		if(savedFileName != null) {
-			item.setBlueprint_save_name(savedFileName); //저장 파일명 저장
-			String item_code = item.getUnit_code() + item.getSub_code() + item.getPart_code() + 1; //코드생성(가라)
-			item.setItem_code(item_code); //코드 주입
-			 itemService.addItem(item);
-		}
-		
-		return "redirect:/procurement/add_prod";
-	}
-	
-	
-	
-	
-	
 	
 	@GetMapping("/add_LTplan")
 	public String addLTplanview() {
