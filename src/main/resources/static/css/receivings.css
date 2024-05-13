@@ -32,7 +32,28 @@
    padding: 20px;
    margin: 10px 40px;
  }
- .blueBtn {
+
+input[type="date"],
+input[type="text"],
+select {
+  padding: 8px;
+  margin-right: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 180px;
+
+}
+input[type="checkbox"] {
+  margin-right: 5px;
+}
+input[type="number"] {
+	  padding: 8px;
+  margin-right: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100px;
+}
+.blueBtn {
   padding: 10px 20px;
   color: white;
   background-color: #007BFF;
