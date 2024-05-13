@@ -1,238 +1,208 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<title>품목등록</title>
-<link type="text/css" rel="stylesheet" href="css/header.css">
-<link type="text/css" rel="stylesheet" href="css/common.css">
-<link type="text/css" rel="stylesheet" href="css/sidebar.css">
-<link type="text/css" rel="stylesheet" href="css/invoice.css">
-  <script type="text/javascript" src="../js/sidebar.js"></script>
+	<meta charset="UTF-8">
+	<title>품목등록</title>
+	<link type="text/css" rel="stylesheet" href="css/header.css">
+	<link type="text/css" rel="stylesheet" href="css/common.css">
+	<link type="text/css" rel="stylesheet" href="css/sidebar.css">
+	<link type="text/css" rel="stylesheet" href="css/invoice.css">
+	    <script type="text/javascript" src="../js/sidebar.js"></script>
 </head>
+
 <body>
-	<div th:insert="~{common/sidebar :: sidebar}"></div>
+	<div th:insert="~{sidebar :: sidebar}"></div>
 	<div class="main-content">
-		<div th:insert="~{common/header :: header}"></div>
-		<div id="row1">
-    <h2 class="visual-title">품목정보등록</h2>
-    <form th:action="@{/additem}" method="post" th:object="${item}" enctype="multipart/form-data">
-    <table>
-      <tr>
-        <th rowspan="3">품목코드</th> 
-        <td><label for="대분류">대분류</label></td>  
-        <td>
-        <select id="대분류" onchange="populateSubcategories()" name="unit_code" th:field="*{unit_code}">
-		    <option value="">대분류 선택</option>
-		    <option value="대분류1">대분류1</option>
-		    <option value="대분류2">대분류2</option>
-		    <option value="대분류3">대분류3</option>
-		    <option value="대분류4">대분류4</option>
-		    <option value="대분류5">대분류5</option>
-			</select>
-		<!-- 	<input type="text" th:field="*{unit_code}" > -->
-		</td>  
-      </tr>
-      <tr>
-        <td><label for="중분류">중분류</label></td>
-        <td>
-         <select id="중분류" onchange="selectSubcategory()" name="sub_code" th:field="*{sub_code}">
-           <option value="">중분류 선택</option>
-     	 </select>
-<!--      	 <input type="text" th:field="*{sub_code}" > -->
-       </td>
-      </tr>
-      <tr>
-        <td><label for="소분류">소분류</label></td>
-        <td> 
-       	 	<select id="소분류" name="part_code" th:field="*{part_code}">
-          		<option value="">소분류 선택</option>
-       	 	</select>
-<!--        	 	 <input type="text" th:field="*{part_code}" > -->
-       	 </td>
-      </tr>
-      <tr>
-        <th>품목명</th>
-        <td colspan="2"><input type="text"  th:field="*{item_name}"></td>
-      </tr>
-      <tr>
-        <th rowspan="3">규격</th>
-        <td>가로</td>
-        <td><input type="text" th:field="*{width}"></td>
-      </tr>
-      <tr>
-        <td>세로</td>
-        <td><input type="text" th:field="*{length}"></td>
-      </tr>
-      <tr>
-        <td>높이</td>
-        <td><input type="text" th:field="*{height}"></td>
-      </tr>
-      <tr>
-        <th>재질</th>
-        <td colspan="2"> <input type="text" th:field="*{material}"> </td> <!-- colspan="2" 추가 -->
-      </tr>
-      <tr>
-        <th>도면</th>
-        <td colspan="2">
-        	  <label for="file" class="custom-file-upload"></label>
-			  <input id="file" name="file" type="file"/>
-        </td> <!-- colspan="2" 추가 -->
-      </tr>
-          <button type="submit" class="blueBtn regiBtn">등록</button>
-    </table> 
-    </form>
-    
-  </div> 
-  <div id="row2">
-    <div id="productList">
-      <div>
-        <!-- 드롭다운 메뉴로 필터 선택 -->
-        <select id="filterSelect">
-            <option value="itemCode">품목코드</option>
-            <option value="itemName">품목명</option>
-        </select>
-      
-        <!-- 검색 입력 필드 -->
-        <input type="text" id="searchInput" placeholder="검색...">
-      
-        <!-- 검색 버튼 -->
-        <button onclick="performSearch()" class="blueBtn">검색</button>
-        <table>
-          <tr>
-            <th>품목코드</th>
-            <th>품목명</th>
-            <th>규격</th>
-            <th>재질</th>
-            <th>도면</th>
-          </tr>
-    	  <tr th:each="item : ${itemList}">
-            <td th:text="${item.item_code}"></td>
-            <td th:text="${item.item_name}"></td>
-            <td th:text="${item.width} + ' * ' + ${item.length} + ' * ' + ${item.height}"></td>
-            <td th:text="${item.material}"></td>
-            <td th:text="${item.blueprint_org_name}"></td>
-          </tr>
-        </table>
-    </div>  
-  </div>
-  </div>
+		<div th:insert="~{header :: header}"></div>
+		<form id="productForm" method="POST" action="/api/items" enctype="multipart/form-data"
+			onsubmit="submitProduct(event)">
+			<div id="row1">
+				<h2 class="visual-title">품목정보등록</h2>
+				<table>
+					<tr>
+						<th rowspan="3">품목코드</th>
+						<td>대분류</td>
+						<td><select id="categorySelect" onchange="fetchSubcategories(this.value, 'subcategorySelect')">
+								<option></option>
+							</select></td>
+					</tr>
+					<tr>
+						<td>중분류</td>
+						<td><select id="subcategorySelect"
+								onchange="fetchSubcategories(this.value, 'childcategorySelect')" disabled>
+								<option></option>
+							</select></td>
+					</tr>
+					<tr>
+						<td>소분류</td>
+						<td><select id="childcategorySelect" name="childcategoryId" disabled>
+								<option></option>
+							</select></td>
+					</tr>
+					<tr>
+						<th>품목명</th>
+						<td colspan="2"><input type="text" id="itemName" name="itemName"></td>
+					</tr>
+					<tr>
+						<th rowspan="3">규격</th>
+						<td>가로(W)</td>
+						<td><input type="text" id="width" onchange="setDimensions()"></td>
+					</tr>
+					<tr>
+						<td>세로(D)</td>
+						<td><input type="text" id="depth" onchange="setDimensions()"></td>
+					</tr>
+					<tr>
+						<td>높이(H)</td>
+						<td><input type="text" id="height" onchange="setDimensions()"></td>
+						<input type="hidden" id="dimensions" name="dimensions">
+					</tr>
+					<tr>
+						<th>재질</th>
+						<td colspan="2"><input type="text" id="material" name="material"></td>
+					</tr>
+					<tr>
+						<th>도면</th>
+						<td colspan="2"><input type="file" id="blueprintPath" name="blueprintPath"></td>
+					</tr>
+				</table>
+				<button type="submit" class="blueBtn">등록</button>
+			</div>
+		</form>
+		<div id="row2">
+			<div id="productList">
+				<div>
+					<select id="filterSelect">
+						<option value="itemCode">품목코드</option>
+						<option value="itemName">품목명</option>
+					</select>
+					<input type="text" id="searchInput" placeholder="검색...">
+					<button onclick="performSearch()" class="blueBtn">검색</button>
+					<table>
+						<tr>
+							<th>품목코드</th>
+							<th>품목명</th>
+							<th>규격</th>
+							<th>재질</th>
+							<th>도면</th>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
 	</div>
 
+	<script>
+		function performSearch() {
+			var filter = document.getElementById('filterSelect').value;
+			var searchText = document.getElementById('searchInput').value
+				.trim();
+			alert("검색 필터: " + filter + "\n검색어: " + searchText);
+			// 실제 검색 로직 구현 필요
+		}
+	</script>
 
-	 <script>
-  
-  //분류
-  function populateSubcategories() {
-	    var 대분류Dropdown = document.getElementById("대분류");
-	    var 중분류Dropdown = document.getElementById("중분류");
-	    var 소분류Dropdown = document.getElementById("소분류");
-	    
-	    // 중분류 초기화
-	    중분류Dropdown.innerHTML = '<option value="">중분류 선택</option>';
-	    
-	    // 소분류 초기화
-	    소분류Dropdown.innerHTML = '<option value="">소분류 선택</option>';
-	    
-	    // 선택된 대분류 가져오기
-	    var 대분류 = 대분류Dropdown.value;
-	    
-	    // 대분류에 따라 중분류 옵션 설정
-	    switch (대분류) {
-	        case '대분류1':
-	            중분류Dropdown.innerHTML += '<option value="중분류1-1">중분류1-1</option>';
-	            중분류Dropdown.innerHTML += '<option value="중분류1-2">중분류1-2</option>';
-	            break;
-	        case '대분류2':
-	            중분류Dropdown.innerHTML += '<option value="중분류2-1">중분류2-1</option>';
-	            중분류Dropdown.innerHTML += '<option value="중분류2-2">중분류2-2</option>';
-	            break;
-	        case '대분류3':
-	            중분류Dropdown.innerHTML += '<option value="중분류3-1">중분류3-1</option>';
-	            중분류Dropdown.innerHTML += '<option value="중분류3-2">중분류3-2</option>';
-	            break;
-	        case '대분류4':
-	            중분류Dropdown.innerHTML += '<option value="중분류4-1">중분류4-1</option>';
-	            중분류Dropdown.innerHTML += '<option value="중분류4-2">중분류4-2</option>';
-	            break;
-	        case '대분류5':
-	            중분류Dropdown.innerHTML += '<option value="중분류5-1">중분류5-1</option>';
-	            중분류Dropdown.innerHTML += '<option value="중분류5-2">중분류5-2</option>';
-	            break;
-	        default:
-	            break;
-	    }
-	} //분류 끝
-	
-	//중분류
-	var selectedSubcategory = ""; // 선택된 중분류 값을 저장할 변수
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			fetchCategories();
+		});
 
-	function selectSubcategory() {
-	    var 중분류Dropdown = document.getElementById("중분류");
-	    var 선택된중분류 = 중분류Dropdown.value;
-	    
-	    if (선택된중분류 !== "") {
-	        selectedSubcategory = 선택된중분류; // 선택된 중분류 값을 변수에 할당
-	        console.log("선택된 중분류:", selectedSubcategory);
-	    } else {
-	        console.log("중분류를 선택하세요.");
-	    }
-	}
-	
-	
-	
-	//소분류
-	
-	function selectSubcategory() {
-    var 중분류Dropdown = document.getElementById("중분류");
-    var 소분류Dropdown = document.getElementById("소분류");
-    
-    // 중분류에 따라 소분류 옵션 설정
-    var 선택된중분류 = 중분류Dropdown.value;
-    
-    switch (선택된중분류) {
-    case '중분류1-1':
-        소분류Dropdown.innerHTML = '<option value="소분류1-1-1">소분류1-1-1</option>';
-        소분류Dropdown.innerHTML += '<option value="소분류1-1-2">소분류1-1-2</option>';
-        break;
-    case '중분류1-2':
-        소분류Dropdown.innerHTML = '<option value="소분류1-2-1">소분류1-2-1</option>';
-        소분류Dropdown.innerHTML += '<option value="소분류1-2-2">소분류1-2-2</option>';
-        break;
-    case '중분류2-1':
-        소분류Dropdown.innerHTML = '<option value="소분류2-1-1">소분류2-1-1</option>';
-        소분류Dropdown.innerHTML += '<option value="소분류2-1-2">소분류2-1-2</option>';
-        break;
-    case '중분류2-2':
-        소분류Dropdown.innerHTML = '<option value="소분류2-2-1">소분류2-2-1</option>';
-        소분류Dropdown.innerHTML += '<option value="소분류2-2-2">소분류2-2-2</option>';
-        break;
-    case '중분류3-1':
-        소분류Dropdown.innerHTML = '<option value="소분류3-1-1">소분류3-1-1</option>';
-        소분류Dropdown.innerHTML += '<option value="소분류3-1-2">소분류3-1-2</option>';
-        break;
-    case '중분류3-2':
-        소분류Dropdown.innerHTML = '<option value="소분류3-2-1">소분류3-2-1</option>';
-        소분류Dropdown.innerHTML += '<option value="소분류3-2-2">소분류3-2-2</option>';
-        break;
-    case '중분류4-1':
-        소분류Dropdown.innerHTML = '<option value="소분류4-1-1">소분류4-1-1</option>';
-        소분류Dropdown.innerHTML += '<option value="소분류4-1-2">소분류4-1-2</option>';
-        break;
-    case '중분류4-2':
-        소분류Dropdown.innerHTML = '<option value="소분류4-2-1">소분류4-2-1</option>';
-        소분류Dropdown.innerHTML += '<option value="소분류4-2-2">소분류4-2-2</option>';
-        break;
-        // 중분류에 따른 다른 소분류 설정 추가
-        default:
-            break;
-    }
-}
+		function fetchCategories() {
+			fetch('/api/categories/root')
+				.then(response => response.json())
+				.then(data => {
+					const categorySelect = document.getElementById('categorySelect');
+					data.forEach(category => {
+						const option = document.createElement('option');
+						option.value = category.id;
+						option.textContent = category.name;
+						categorySelect.appendChild(option);
+					});
+				})
+				.catch(error => console.error('Error loading categories:', error));
+		}
 
-    function performSearch() {
-        var filter = document.getElementById('filterSelect').value;
-        var searchText = document.getElementById('searchInput').value.trim();
-        alert("검색 필터: " + filter + "\n검색어: " + searchText);
-        // 실제 검색 로직 구현 필요
-    }
-    </script>
+		function fetchSubcategories(parentId, selectId) {
+			const selectElement = document.getElementById(selectId);
+			selectElement.innerHTML = ''; // 기존 옵션 초기화
+			selectElement.disabled = false; // 초기에 비활성화
+
+			if (!parentId) {
+				return; // parentId가 없으면 중단
+			}
+
+			fetch(`/api/categories/${parentId}/subcategories`)
+				.then(response => response.json())
+				.then(data => {
+					if (data.length > 0) {
+						data.forEach(subcategory => {
+							const option = document.createElement('option');
+							option.value = subcategory.id;
+							option.textContent = subcategory.name;
+							selectElement.appendChild(option);
+						});
+						selectElement.disabled = false; // 데이터 로드 후 활성화
+					} else {
+						selectElement.disabled = true; // 데이터가 없으면 비활성화 유지
+					}
+				})
+				.catch(error => {
+					console.error(`Error loading subcategories for parent ${parentId}:`, error);
+					selectElement.disabled = true; // 오류 발생 시 비활성화 유지
+				});
+		}
+		// 대분류 선택 시 중분류 선택 가능하도록 초기화
+		document.addEventListener('DOMContentLoaded', function () {
+			const categorySelect = document.getElementById('categorySelect');
+			const subcategorySelect = document.getElementById('subcategorySelect');
+			categorySelect.addEventListener('change', function () {
+				const selectedCategoryId = this.value;
+				fetchSubcategories(selectedCategoryId, 'subcategorySelect');
+				subcategorySelect.disabled = selectedCategoryId ? false : true; // 대분류가 선택되면 중분류 활성화
+			});
+		});
+	</script>
+	<script>
+		function submitProduct(event) {
+			event.preventDefault(); // 기본 이벤트 중지
+
+			const form = document.getElementById('productForm');
+			const formData = new FormData(form); // 폼 데이터 생성
+
+			fetch('/api/items', {
+			        method: 'POST',
+			        body: formData
+			    })
+			    .then(response => response.json())  // 응답을 JSON으로 변환
+			    .then(data => {
+			        if (data.message) {
+			            alert(data.message); // 서버에서 보낸 메시지를 사용자에게 표시
+						window.location.href = "/add_prod";
+			        }
+			    })
+			    .catch(error => {
+			        console.error('Error uploading file:', error); // 오류 메시지 표시
+			        alert('There was a problem with your submission.'); // 일반 오류 메시지 표시
+					window.location.href = "/add_prod";
+			    });
+		}
+	</script>
+	<script>
+		// 가로, 세로, 높이 값을 가져와서 dimensions에 설정하는 함수
+		function setDimensions() {
+		    // 가로, 세로, 높이 값을 가져옴
+		    var width = document.getElementById('width').value;
+		    var depth = document.getElementById('depth').value;
+		    var height = document.getElementById('height').value;
+		    
+		    // dimensions에 "가로x세로x높이" 형태로 설정
+		    var dimensions = width + " (W) X " + depth + " (D) X " + height + " (H)";
+		
+		    
+		    document.getElementById('dimensions').value = dimensions;
+		}
+	</script>
 </body>
+
 </html>
