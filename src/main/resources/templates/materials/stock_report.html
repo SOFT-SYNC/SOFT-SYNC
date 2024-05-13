@@ -1,0 +1,84 @@
+  <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link type="text/css" rel="stylesheet" href="../CSS/header.css">
+<link type="text/css" rel="stylesheet" href="../CSS/common.css">
+<link type="text/css" rel="stylesheet" href="../CSS/sidebar.css">
+  <link type="text/css" rel="stylesheet" href="../css/orderTracking.css">
+  <script type="text/javascript" src="../js/sidebar.js"></script>
+
+</head>
+<body>
+	<div th:insert="~{common/sidebar :: sidebar}"></div>
+	<div class="main-content">
+		<div th:insert="~{common/header :: header}"></div>
+		<div id="row1">
+		<h1 class="visual-title">재고관리 리포트</h1>
+		<div class="content-card">
+	  <!-- 이거 백엔드 구현할 때는 프론트 코드 고쳐야함 svg text -->
+	    <div class="b-graph-wrap">
+	      <div class="b-graph">
+	        <p class="home-title"> REPORT </p>
+	        <div class="b-graph-body">
+	          <div class="bar bar1"></div>
+	          <div class="bar bar2"></div>
+	          <div class="bar bar3"></div>
+	          <div class="bar bar4"></div>
+	        </div>
+	      </div>
+	    </div>
+	    <div class="card-wrap">
+	    <form id="searchForm">
+			<!-- 날짜 선택 영역 -->
+			<div class="date-range">
+				<label for="startDate"></label> <input type="date" id="startDate">
+				<label for="endDate">~</label> <input type="date" id="endDate">
+			</div>
+		</form>
+	      <div class="col1">
+	        <div class="card">
+	          <div class="card-body">
+	            <p class="card-title">입고 수량</p>
+	            <h2 class="card-content">37,845</h2>
+	          </div>
+	        </div>
+	        <div class="card">
+	          <div class="card-body">
+	            <p class="card-title">출고 수량</p>
+	            <h2 class="card-content">25,845</h2>
+	          </div>
+	        </div>
+	        <div class="card">
+	          <div class="card-body">
+	            <p class="card-title">금액 (\)</p>
+	            <h2 class="card-content">3,571,000</h2>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+		</div>
+		</div>
+</div>
+	  
+
+
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // 각 막대에 대해 높이를 지정하는 값을 변경
+      var bars = document.querySelectorAll(".bar");
+      var gap = 100; // 막대 간격
+      var width = 20; // 막대 너비
+      var start
+      bars.forEach(function(bar, index) {
+        var leftValue = index * (gap + width) + 30; // 좌표 계산
+        bar.style.left = leftValue + "px"; // 각 막대에 좌표를 지정
+
+        var height = Math.random() * 90; // 0부터 100까지 무작위 높이 생성
+        bar.style.height = height + "%"; // 각 막대에 높이를 지정
+      });
+    });
+  </script>
+
+</body>
+</html>
