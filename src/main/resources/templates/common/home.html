@@ -50,18 +50,22 @@
 	      <div class="b-graph">
 	        <p class="home-title"> MONTHLY </p>
 	        <div class="b-graph-body">
-	          <div class="bar bar1"></div>
-	          <div class="bar bar2"></div>
-	          <div class="bar bar3"></div>
-	          <div class="bar bar4"></div>
-	          <div class="bar bar5"></div>
-	          <div class="bar bar6"></div>
-	          <div class="bar bar7"></div>
-	          <div class="bar bar8"></div>
-	          <div class="bar bar9"></div>
-	          <div class="bar bar10"></div>
-	          <div class="bar bar11"></div>
-	          <div class="bar bar12"></div>
+	          <svg id="barChart" th:attr="data-values=${dataValues}">
+				  <!-- 세로 축 레이블 -->
+				  <text x="20" y="30">5000</text>
+				  <text x="20" y="130">4000</text>
+				  <text x="20" y="230">3000</text>
+				  <text x="20" y="330">2000</text>
+				  <text x="20" y="430">1000</text>
+  
+				  <!-- SVG 내용은 타임리프에서 동적으로 생성됩니다 -->
+				  <th:block th:each="value, index : ${dataValues}">
+				    <!-- 막대 그래프 -->
+				    <rect th:attr="x=${index.index * 40 + 50}, y=${250 - ((value - 500) / 10)}, width='30', height=${((value - 500) / 10)}, fill='#2b80c5'" />
+				    <!-- 막대 그래프 레이블 -->
+				    <text th:attr="x=${index.index * 40 + 65}, y=${270}, text-anchor='middle'" th:text="${index.index + 1 + '월'}" />
+				  </th:block>
+				</svg>
 	        </div>
 	      </div>
 	    </div>
