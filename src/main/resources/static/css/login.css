@@ -30,13 +30,10 @@
     align-items: center;
 }
 .side_logo {
-    /*margin: 20px 20px 40px 20px;*/
-    /*border: #d08321 1px solid;*/
-/*    이건 나중에 지울 거 */
-    width: 100px;
+/*     width: 100px;
     height: 100px;
     border-radius: 50%;
-    background-color: #152e45;
+    background-color: #152e45; */
     margin: 0 auto;
 }
 
