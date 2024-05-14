@@ -6,43 +6,32 @@
 <link type="text/css" rel="stylesheet" href="../CSS/sidebar.css">
 <link type="text/css" rel="stylesheet" href="../CSS/invoice.css">
   <script type="text/javascript" src="../js/sidebar.js"></script>
+  <script type="text/javascript" src="../js/orderList.js}"></script>
 </head>
 <body>
-	<div th:insert="~{common/sidebar :: sidebar}"></div>
-	<div class="main-content">
-		<div th:insert="~{common/header :: header}"></div>
-			<div id="row1">
-			<h2 class="visual-title">발주 리스트</h2>
-
-			<!-- (하단)발주 품목 조회 리스트 scope -->
-			<div class="head">
-				<div class="left">
-					품목코드 <input id="searchInput" type="text" placeholder="품목코드 입력">
-					<button onclick="search()" class="blueBtn">검색</button>
-				</div>
-				<div class="right">
-					<input type="date" id="date-start"> ~ <input type="date"
-						id="date-end">
-				</div>
+<div th:insert="~{common/sidebar :: sidebar}"></div>
+<div class="main-content">
+	<div th:insert="~{common/header :: header}"></div>
+		<div id="row1">
+		<div class="head">
+			<div class="left">
+				품목코드 <input id="searchInput" type="text" placeholder="품목코드 입력">
+				<button onclick="search()" class="blueBtn">검색</button>
 			</div>
-			<table>
-				<thead>
-					<tr>
-						<th>품목코드</th>
-						<th>발주일자</th>
-						<th>납기일</th>
-						<th>품명</th>
-						<th>발주수량</th>
-						<th>공급가액</th>
-						<th>검수현황</th>
-					</tr>
-				</thead>
-				<tbody id="order-list">
-					<!-- 여기에 발주 리스트가 동적으로 추가될 것입니다. -->
-				</tbody>
-			</table>
+			<div class="right">
+				<input type="date" id="date-start"> ~ <input type="date"
+					id="date-end">
+			</div>
 		</div>
+		<form id = "form1">
+			<input type="hidden" id="page" name="page" value="1"> <!--page 값 넘기기-->
+			<h1 class="visual-title">발주 리스트</h1>
+			<div id="purchaseOderListForm">
+			</div>
+		</form>
 	</div>
+</div>
+
 	<script>
   // 더미 데이터로 발주 리스트 생성
   const orderData = [

@@ -1,13 +1,18 @@
 package com.softsync.zerock.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.softsync.zerock.entity.Item;
 import com.softsync.zerock.entity.User;
+import com.softsync.zerock.repository.ItemRepository;
 import com.softsync.zerock.service.ItemService;
 import com.softsync.zerock.service.UploadFileService;
 import com.softsync.zerock.service.UserService;
@@ -20,6 +25,9 @@ public class BasicController {
 	
 	@Autowired
 	ItemService itemService;
+	
+	@Autowired
+	ItemRepository itemRepository;
 	
 	@Autowired
 	UploadFileService uploadFileService;
@@ -60,9 +68,11 @@ public class BasicController {
 	}	
 	
 	@GetMapping("/add_prod")
-	public String prodview() {
-		return"/procurement/add_prod";
-	}
+	   public String getItems(Model model, @PageableDefault(size = 10) Pageable pageable) {
+	       Page<Item> items = itemRepository.findAll(pageable);
+	       model.addAttribute("items", items);
+	       return "procurement/add_prod";
+	   }
 	
 	@GetMapping("/add_LTplan")
 	public String addLTplanview() {
@@ -120,7 +130,7 @@ public class BasicController {
 	}
 	@GetMapping("/notice")
 	public String notice() {
-		return"/common/notice";
+		return"/common/noticeList";
 	}
 	
 }

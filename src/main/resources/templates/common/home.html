@@ -50,22 +50,7 @@
 	      <div class="b-graph">
 	        <p class="home-title"> MONTHLY </p>
 	        <div class="b-graph-body">
-	          <svg id="barChart" th:attr="data-values=${dataValues}">
-				  <!-- 세로 축 레이블 -->
-				  <text x="20" y="30">5000</text>
-				  <text x="20" y="130">4000</text>
-				  <text x="20" y="230">3000</text>
-				  <text x="20" y="330">2000</text>
-				  <text x="20" y="430">1000</text>
-  
-				  <!-- SVG 내용은 타임리프에서 동적으로 생성됩니다 -->
-				  <th:block th:each="value, index : ${dataValues}">
-				    <!-- 막대 그래프 -->
-				    <rect th:attr="x=${index.index * 40 + 50}, y=${250 - ((value - 500) / 10)}, width='30', height=${((value - 500) / 10)}, fill='#2b80c5'" />
-				    <!-- 막대 그래프 레이블 -->
-				    <text th:attr="x=${index.index * 40 + 65}, y=${270}, text-anchor='middle'" th:text="${index.index + 1 + '월'}" />
-				  </th:block>
-				</svg>
+	         
 	        </div>
 	      </div>
 	    </div>
@@ -75,44 +60,25 @@
 	      <div class="recentList">
 	        <p class="home-title"> RECENT LIST </p>
 	        <div class="recent-content">
-	        <table>
-	          <colgroup>
-	          <col width="30%">
-	          <col width="20%">
-	          <col width="20%">
-	          <col width="30%">
-	        </colgroup>
-	          <tr class="recent-item">
-	            <td><h3>발주내역출력</h3><h5>2024 MAY 25</h5></td>
-	            <td><h3>단가출력</h3><h5>Price</h5></td>
-	            <td><h3>수량출력</h3><h5>Quantity</h5></td>
-	            <td><h3>총 발주금액</h3><h5>Amount</h5></td>
-	          </tr>
-	          <tr class="recent-item">
-	            <td><h3>너트</h3><h5>2024 MAY 25</h5></td>
-	            <td><h3>\ 200</h3><h5>Price</h5></td>
-	            <td><h3>3500</h3><h5>Quantity</h5></td>
-	            <td><h3>\ 700,000</h3><h5>Amount </h5></td>
-	          </tr>
-	          <tr class="recent-item">
-	            <td><h3>볼트</h3><h5>2024 MAY 25</h5></td>
-	            <td><h3>\ 100</h3><h5>Price </h5></td>
-	            <td><h3>3500</h3><h5>Quantity</h5></td>
-	            <td><h3>\ 350,000</h3><h5>Amount </h5></td>
-	          </tr>
-	          <tr class="recent-item">
-	            <td><h3>aaa건전지</h3><h5>2024 MAY 25</h5></td>
-	            <td><h3>\ 560</h3><h5>Price </h5></td>
-	            <td><h3>1,000</h3><h5>Quantity</h5></td>
-	            <td><h3>\ 5,600,000</h3><h5>Amount </h5></td>
-	          </tr>
-	          <tr class="recent-item">
-	            <td><h3>단자리드줄</h3><h5>2024 MAY 25</h5></td>
-	            <td><h3>\ 200</h3><h5>Price </h5></td>
-	            <td><h3>1,500</h3><h5>Quantity</h5></td>
-	            <td><h3>\ 300,000</h3><h5>Amount </h5></td>
-	          </tr>
-	        </table>
+	        	<div th:if="${orderList == null or #lists.isEmpty(orderList)}" class="no_result">
+                    <p>최근 발주 내역이 없습니다.</p>
+              	</div>
+              	<div th:if="${orderList != null and not #lists.isEmpty(orderList)}">
+		        <table>
+		          <colgroup>
+		          <col width="30%">
+		          <col width="20%">
+		          <col width="20%">
+		          <col width="30%">
+		        </colgroup>
+		          <tr th:each="order : ${purchase_order}" class="recent-item">
+		            <td><h3 th:text="${order.orderDate}">발주내역출력</h3><h5 th:text="${order.orderDate}">발주일</h5></td>
+		            <td><h3>단가출력</h3><h5>Price</h5></td>
+		            <td><h3 th:text="{order.orderQuantity">수량출력</h3><h5>Quantity</h5></td>
+		            <td><h3>총 발주금액</h3><h5>Amount</h5></td>
+		          </tr>
+		        </table>
+		        </div>
 	        </div>
 	      </div>
 	    </div>
@@ -131,33 +97,13 @@
 	    </div>
 	    <div class="notice-wrap">
 	      <div class="noticeList">
-	        <a href="notice"><p class="home-title"> NOTICE LIST </p></a>
+	        <a href="notice"><span class="home-title"> NOTICE LIST </span></a>
 	        <div class="notice-content">
 	        <table>
 	          <tr class="notice-item">
 	            <td>공지사항입니다</td>
 	          </tr>
-	          <tr class="notice-item">
-	            <td>공지사항입니다</td>
-	          </tr>
-	          <tr class="notice-item">
-	            <td>공지사항입니다</td>
-	          </tr>
-	          <tr class="notice-item">
-	            <td>공지사항입니다</td>
-	          </tr>
-	          <tr class="notice-item">
-	            <td>공지사항입니다</td>
-	          </tr>
-	          <tr class="notice-item">
-	            <td>공지사항입니다</td>
-	          </tr>
-	          <tr class="notice-item">
-	            <td>공지사항입니다</td>
-	          </tr>
-	          <tr class="notice-item">
-	            <td>공지사항입니다</td>
-	          </tr>
+	          
 	        </table>
 	        </div>
 	      </div>

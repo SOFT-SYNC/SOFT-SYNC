@@ -1,0 +1,94 @@
+<!--아작스를 통해 보여줄 화면 -->
+<table>
+    <colgroup>
+        <col width="10%">
+        <col width="12%">
+        <col width="12%">
+        <col width="15%">
+        <col width="20%">
+        <col width="20%">
+        <col width="5%">
+    </colgroup>
+    <thead>
+    <tr>
+       	<th>품목코드</th>
+		<th>발주일자</th>
+		<th>납기일</th>
+		<th>품명</th>
+		<th>발주수량</th>
+		<th>공급가액</th>
+		<th>검수현황</th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:if="${order.totalElements != 0}">
+        <tr th:each="order: ${Orders}">
+            <td th:text="${order.item.itemCode}"></td>
+            <td th:text="${order.발주일}"></td>
+            <td th:text="${order.납기일}"></td>
+            <td th:text="${order.item.품명}"></td>
+            <td th:text="${order.발주수량}"></td>
+            <td th:text="${order.단가}"></td>
+            <th:block th:if="${order.purchClosingYn === 'N'}">
+                <td>
+                    <button type="button" class="option_button">검수중</button>
+                </td>
+            </th:block>
+            <th:block th:if="${order.purchClosingYn != 'N'}">
+                <td>
+                    <button type="button" class="option_button" disabled>검수 완료</button>
+                </td>
+            </th:block>
+        </tr>
+    </th:block>
+    <th:block th:if="${orders.totalElements == 0}">
+        <tr style="text-align: center">
+            <td colspan="7">발주 내역이 없습니다.</td>
+        </tr>
+    </th:block>
+    </tbody>
+</table>
+
+<div class="buttons_wrap">
+    <tr class="pagination"
+        th:with="start=${(orders.number div 10)*10 + 1},
+           last=${(start + 9 < orders.totalPages ? start + 9 : orders.totalPages)}">
+        <td>
+            <a th:onclick="|javascript:orderListAjax(1)|" aria-label="First">
+                <span aria-hidden="true">첫 페이지</span>
+            </a>
+        </td>
+
+        <td th:class="${orders.first} ? 'disabled'">
+            <a th:onclick="${orders.first} ? '' : 'javascript:orderListAjax('+${orders.number}+')'"
+               aria-label="Previous">
+                <span aria-hidden="true">&lt;</span>
+            </a>
+        </td>
+
+        <th:block th:if="${last != 0}">
+            <td th:each="page: ${#numbers.sequence(start, last)}"
+                th:class="${page == orders.number + 1} ? 'active'">
+                <a th:text="${page}" th:onclick="|javascript:orderListAjax(${page})|"></a>
+            </td>
+        </th:block>
+        <th:block th:if="${last == 0}">
+            <td class="active">
+                <a th:text="1" th:onclick="|javascript:orderListAjax(1)|"></a>
+            </td>
+        </th:block>
+
+        <td th:class="${orders.last} ? 'disabled'">
+            <a th:onclick="${orders.last} ? '' : 'javascript:orderListAjax('+${orders.number+2}+')'"
+               aria-label="Next">
+                <span aria-hidden="true">&gt;</span>
+            </a>
+        </td>
+
+        <td>
+            <a th:onclick="|javascript:orderListAjax(${orders.totalPages})|" aria-label="Last">
+                <span aria-hidden="true">마지막 페이지</span>
+            </a>
+        </td>
+    </tr>
+</div>

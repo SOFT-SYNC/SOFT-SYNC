@@ -3,6 +3,7 @@ package com.softsync.zerock.entity;
 import java.util.Date;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicUpdate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,7 +15,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "softsync_employee") // 데이터베이스 테이블 이름이 "petfit_users"
+@Table(name = "employee") // 데이터베이스 테이블 이름이 "petfit_users"
+@DynamicUpdate
 public class User {
 
 	@Id
@@ -45,6 +47,21 @@ public class User {
 	@Column(nullable = false, updatable = false)
 	@CreationTimestamp
 	private Date u_registerDate; //가입일
+	
+	
+	
+	/*
+	 * @LastModifiedDate
+	 * 
+	 * @Column private LocalDateTime modDate;
+	 */
+	
+	/*
+	 * @Column private Integer approval;
+	 * 
+	 * @Column(nullable = true) private String position;
+	 */
+	
 
 	// 기본 생성자
 	public User() {
