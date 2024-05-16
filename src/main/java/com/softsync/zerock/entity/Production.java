@@ -14,9 +14,9 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "production_plan")
+@Table(name = "production")
 @DynamicUpdate
-public class ProductionPlan {
+public class Production {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,18 +26,18 @@ public class ProductionPlan {
 	@JoinColumn(name = "itemCode", nullable = true)
 	private Item itemCode;*/
 	
-	@Column(nullable = true)
+	@Column(nullable = false,name = "prod_code")
 	private String prodCode;
 	
-	@Column(nullable = true)
+	@Column(nullable = true,name = "prod_startdate")
 	private String prodStartdate;
 	
-	@Column(nullable = true)
+	@Column(nullable = true,name = "prod_enddate")
 	private String prodEnddate;
 	
-	@Column(nullable = true)
+	@Column(nullable = true,name = "prod_quantity")
 	private String prodQuantity;
 	
-	@Column(nullable = true)
+	@Column(nullable = true,name = "prod_name")
 	private String prodName;
 }

@@ -20,7 +20,7 @@ import lombok.Setter;
 public class User {
 
 	@Id
-	@Column(nullable = false, name = "id")
+	@Column(nullable = false)
 	private String employeeId; // 아이디
 
 	@Column(nullable = false)
@@ -39,14 +39,14 @@ public class User {
 	private String phone; // 전화번호
 
 	@Column(nullable = false)
-	private Integer EMP_num; // 사번
+	private Integer EMPNum; // 사번
 	
 	@Column(nullable = false)
 	private String department; // 부서
 
 	@Column(nullable = false, updatable = false)
 	@CreationTimestamp
-	private Date u_registerDate; //가입일
+	private Date regDate; //가입일
 	
 	
 	
@@ -117,11 +117,11 @@ public class User {
 	}
 
 	public Integer getEMP_num() {
-		return EMP_num;
+		return EMPNum;
 	}
 
 	public void setEMP_num(Integer eMP_num) {
-		EMP_num = eMP_num;
+		EMPNum = eMP_num;
 	}
 
 	public String getDepartment() {
@@ -132,12 +132,12 @@ public class User {
 		this.department = department;
 	}
 
-	public Date getU_registerDate() {
-		return u_registerDate;
+	public Date getRegDate() {
+		return regDate;
 	}
 
-	public void setU_registerDate(Date u_registerDate) {
-		this.u_registerDate = u_registerDate;
+	public void setRegDate(Date regDate) {
+		this.regDate = regDate;
 	}
 	
 	

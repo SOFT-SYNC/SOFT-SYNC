@@ -94,15 +94,7 @@ public class BasicController {
 		return"/materials/invoice";
 	}
 	
-	@GetMapping("/purchase_order")
-	public String purchaseorderview() {
-		return"/orders/purchase_order";
-	}
-	
-	@GetMapping("/purchase_order_tracking")
-	public String orderTracking() {
-		return"/orders/purchase_order_tracking";
-	}
+
 	@GetMapping("/receivings")
 	public String receivingview() {
 		return"/materials/receivings";
@@ -116,10 +108,7 @@ public class BasicController {
 	public String shippinglistview() {
 		return"/materials/shipping_list";
 	}
-	@GetMapping("/purchase_order_list")
-	public String purchaseorederlistview() {
-		return"/orders/purchase_order_list";
-	}
+	
 	@GetMapping("/purchase_schedule")
 	public String purchaseview() {
 		return"/orders/purchase_schedule";
@@ -128,9 +117,5 @@ public class BasicController {
 	public String dashBoard() {
 		return"/common/home";
 	}
-	@GetMapping("/notice")
-	public String notice() {
-		return"/common/noticeList";
-	}
-	
+
 }
