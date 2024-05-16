@@ -2,6 +2,9 @@ package com.softsync.zerock.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -20,51 +23,53 @@ import lombok.Setter;
 @Setter
 @Table(name = "categories")
 public class Category {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	
+   @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   private Long id;
 
-    @Column(nullable = false)
-    private String name;
+   @Column(nullable = false)
+   private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id")
-    private Category parent;
+   @ManyToOne(fetch = FetchType.LAZY)
+   @JoinColumn(name = "parent_id")
+   @JsonBackReference // 부모 엔티티 참조에서 순환 참조 방지
+   private Category parent;
 
-    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
-    private List<Category> childcategories;
+   @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
+   @JsonManagedReference // 자식 엔티티 참조에서 순환 참조 방지
+   private List<Category> childcategories;
 
-	public Long getId() {
-		return id;
-	}
+   public Long getId() {
+      return id;
+   }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+   public void setId(Long id) {
+      this.id = id;
+   }
 
-	public String getName() {
-		return name;
-	}
+   public String getName() {
+      return name;
+   }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+   public void setName(String name) {
+      this.name = name;
+   }
 
-	public Category getParent() {
-		return parent;
-	}
+   public Category getParent() {
+      return parent;
+   }
 
-	public void setParent(Category parent) {
-		this.parent = parent;
-	}
+   public void setParent(Category parent) {
+      this.parent = parent;
+   }
 
-	public List<Category> getChildcategories() {
-		return childcategories;
-	}
+   public List<Category> getChildcategories() {
+      return childcategories;
+   }
 
-	public void setChildcategories(List<Category> childcategories) {
-		this.childcategories = childcategories;
-	}
-    
-    
+   public void setChildcategories(List<Category> childcategories) {
+      this.childcategories = childcategories;
+   }
+
 }

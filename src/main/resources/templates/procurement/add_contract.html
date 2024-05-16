@@ -13,37 +13,36 @@
 	<div class="main-content">
 		<div th:insert="~{common/header :: header}"></div>
 		<div id="row1">
-			<h2 class="visual-title">계약등록</h2>
-			<table class="regi-table">
+		<h2 class="visual-title">계약등록</h2>
+		<form th:action="@{/saveContract}" method="post" enctype="multipart/form-data">
+			<table class="regi-table" id ="1">
 				<colgroup>
 					<col width="20%">
 					<col width="70%">
 				</colgroup>
 				<tr>
 					<th>계약서</th>
-					<td><input id="addfile" name="contract" type="file"></td>
+					<td><input type="file" name="contract_path"></td>
 				</tr>
 				<tr>
 					<th>사업자번호</th>
-					<td><input id="BRN" name="BRN" type="text"></td>
+
+					<td id="brn"><input type="text" name="brn"></td>
 				</tr>
 				<tr>
 					<th>업체명</th>
-
-					<td></td>
+					<td><input type="text" name="company_name" readonly></td>
 				</tr>
 				<tr>
 					<th>계좌정보</th>
-					<td></td>
+					<td><input type="text" name="company_account" readonly></td>
 				</tr>
 				<tr>
 					<th>비고</th>
-					<td></td>
+					<td><input type="text" name="company_note" readonly></td>
 				</tr>
 			</table>
-			<button type="submit" class="blueBtn">저장</button>
-			<button type="reset" class="blueBtn">초기화</button>
-			<table>
+			<table id ="2">
 				<colgroup>
 					<col width="20%">
 					<col width="20%">
@@ -56,16 +55,21 @@
 					<th>품목명</th>
 					<th>단가</th>
 					<th>L/T일</th>
-					<th>세부사항</th>
+					<th>특이사항</th>
 				</tr>
 				<tr>
-					<td></td>
-					<td></td>
-					<td><input type="number"></td>
-					<td><input type="date"></td>
-					<td></td>
+					<td id="itemCodeCell"><input type="text" name="itemCode" readonly></td>  <!-- item 테이블의 외래키 : 계약 품목에 저장  값 보내는거 생성-->
+				    <td id="itemNameCell"><input type="text" name="itemName" readonly></td>
+					<td id="unitPriceCell"><input type="text" name ="price"></td>
+					<td id="leadTimeCell"><input type="date" name="leadTime"></td> 
+					<td id="contractNote"><input type="text" name="contractNote"></td>
 				</tr>
 			</table>
+		<div id="buttonContainer">
+			<button type="submit" class="blueBtn">저장</button>
+			<button type="reset" class="blueBtn">초기화</button>
+		</div>
+		</form>
 		</div>
 		<div id="row2">
 			<div id="contractList">
@@ -83,90 +87,121 @@
 					<!-- 검색 버튼 -->
 					<button onclick="performSearch()" id="searchInput" class="blueBtn">검색</button>
 				</div>
-				<table>
-					<tr>
-						<th>계약번호</th>
-						<th>품목코드</th>
-						<th>품목명</th>
-						<th>업체명</th>
-						<th>사업자번호</th>
-						<th>단가(원)</th>
-						<th>L/T일</th>
-						<th>계약여부</th>
-						<th>삭제</th>
-						<th>계약서</th>
-					</tr>
-					<tr>
-						<td>123456</td>
-						<td>ABC-0000</td>
-						<td>너트</td>
-						<td>SOFTSNYC</td>
-						<td>1234567</td>
-						<td>-</td>
-						<td>-</td>
-						<td><input type="button" id="contractYn" class="blueBtn"
-							value="계약하기"></td>
-						<td><input type="button" id="deleteBtn" class="blueBtn"
-							value="삭제"></td>
-						<td><input type="button" id="popupBtn" value="계약서보기"></td>
-					</tr>
+				<table id ="3">
+    <tr>
+        <th>계약번호</th>
+        <th>품목코드</th>
+        <th>품목명</th>
+        <th>업체명</th>
+        <th>사업자번호</th>
+        <th>단가(원)</th>
+        <th>L/T일</th>
+        <th>계약진행</th>
+        <th>계약여부</th>
+        <th>삭제</th>
+        <th>계약서</th>
+    </tr>
+
+    <th:block th:each="item, itemIndex: ${items}">
+        <tr id="item">
+            <td></td>
+            <td th:text="${item.itemCode}"></td>
+            <td th:text="${item.itemName}"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr id="contract" th:if="${item.contracts != null}" th:each="contract : ${item.contracts}">
+            <td th:text="${contract.contract_number}"></td>
+            <td th:text="${item.itemCode}"></td>
+            <td th:text="${item.itemName}"></td>
+            <td th:text="${contract.company.company_name}"></td>
+            <td th:text="${contract.company.brn}"></td>
+            <td th:text="${contract.unit_price}"></td>
+            <td th:text="${contract.lead_time}"></td>
+            <td>
+                <input type="button" id="contractYn" th:if="${contract.contract_yn == 'y'}" value="계약상세">
+                <input type="button" class="blueBtn" th:unless="${contract.contract_yn == 'n'}" value="계약하기" th:onclick="'confirmContract(' + ${contract.contract_number} + ')'">
+            </td>
+            <td th:text="${contract.contract_yn}"></td>
+            <td><input type="button" id="deleteBtn" class="blueBtn" value="삭제"></td>
+         <td>  <input type="button" id="popupBtn"value="계약서보기">
+         		<input type="hidden" id="contractPath" th:value="${contract.contract_path}">
+         	</td>
+        </tr>
+    </th:block>
+</th:block>					
 				</table>
 			</div>
 		</div>
 	</div>
-	<div id="modalWrap">
-		<div id="modalBody">
-			<button type="button" class="closeBtn">&times;</button>
-			<img id="modalImage" src="images/contract.jpg">
-			<button type="button" class="blueBtn modalBtn">인쇄</button>
-		</div>
-	</div>
+	   
+	<!-- 모달 오픈화면 -->
+	<!-- 모달 오픈화면 -->
+<div id="modalWrap">
+    <div id="modalBody">
+      <button type="button" id="closeBtn" class="closeBtn">&times;</button>
+        <img id="modalImage" alt="계약서 이미지">
+        <button type="button" class="blueBtn modalBtn">인쇄</button>
+    </div>
+</div>
+	
 
-	<script>
-const popupBtn = document.getElementById("popupBtn"); // 팝업 버튼 요소 가져오기
-const modalWrap = document.getElementById("modalWrap"); // 모달 요소 가져오기
-const closeBtn = document.querySelector(".closeBtn"); // 모달 닫기 버튼 요소 가져오기
-const modalImage = document.getElementById("modalImage");
-
-// 팝업 버튼 클릭 시 모달 열기
-popupBtn.addEventListener("click", function() {
-  modalWrap.style.display = "block";
-});
-
-// 모달 닫기 버튼 클릭 시 모달 닫기
-closeBtn.addEventListener("click", function() {
-  modalWrap.style.display = "none";
-});
-
-// 모달 외부 클릭 시 모달 닫기
-window.addEventListener("click", function(event) {
-  if (event.target === modalWrap) {
-    modalWrap.style.display = "none";
-  }
-});
-
-// 이미지 로드 후 모달 크기 조절
-modalImage.onload = function() {
-  const imageWidth = modalImage.naturalWidth;
-  const imageHeight = modalImage.naturalHeight;
-  const maxWidth = window.innerWidth * 0.8; // 창 너비의 80%
-  const maxHeight = window.innerHeight * 0.8; // 창 높이의 80%
-  
-  // 이미지 크기에 따라 모달 바디 크기 조절
-  if (imageWidth > maxWidth || imageHeight > maxHeight) {
-    if (imageWidth / maxWidth > imageHeight / maxHeight) {
-      modalBody.style.width = maxWidth + "px";
-      modalBody.style.height = "auto";
-    } else {
-      modalBody.style.width = "auto";
-      modalBody.style.height = maxHeight + "px";
-    }
-  }
-  
-  openModal(); // 이미지 로드 후 모달 열기
-};
-
+<script th:inline="javascript">
+    /* JavaScript 코드 시작 */
+    /* 각 계약서 보기 버튼에 대한 이벤트 리스너 추가 */
+    document.querySelectorAll('#contractList input[type="button"]').forEach(button => {
+        button.addEventListener('click', function() {
+            const imagePath = document.getElementById("contractPath").value; // 숨겨진 input 요소의 값을 가져옴
+            console.log("이미지 경로:", imagePath); // 콘솔에 이미지 경로 출력
+            modalImage.src = imagePath; // 모달 이미지의 src 속성에 이미지 경로 설정
+            modalWrap.style.display = 'block'; // 모달 열기
+        });
+    });
 </script>
+<script>
+    //모달 닫기 버튼 클릭 시 모달 닫기
+    document.getElementById("closeBtn").addEventListener("click", function() {
+        modalWrap.style.display = "none";
+    });
+
+    // 모달 외부 클릭 시 모달 닫기
+    window.addEventListener("click", function(event) {
+        if (event.target === modalWrap) {
+            modalWrap.style.display = "none";
+        }
+    });
+
+    // 이미지 로드 후 모달 크기 조절
+    modalImage.onload = function() {
+        const imageWidth = modalImage.naturalWidth;
+        const imageHeight = modalImage.naturalHeight;
+        const maxWidth = window.innerWidth * 0.8; // 창 너비의 80%
+        const maxHeight = window.innerHeight * 0.8; // 창 높이의 80%
+        
+        // 이미지 크기에 따라 모달 바디 크기 조절
+        if (imageWidth > maxWidth || imageHeight > maxHeight) {
+            if (imageWidth / maxWidth > imageHeight / maxHeight) {
+                modalBody.style.width = maxWidth + "px";
+                modalBody.style.height = "auto";
+            } else {
+                modalBody.style.width = "auto";
+                modalBody.style.height = maxHeight + "px";
+            }
+        }
+        
+        openModal(); // 이미지 로드 후 모달 열기
+    };
+</script>
+
+
+
 	<script>
     function performSearch() {
         var filter = document.getElementById('filterSelect').value;
@@ -175,5 +210,160 @@ modalImage.onload = function() {
         // 실제 검색 로직 구현 필요
     }
     </script>
+    
+    
+    <script>
+
+
+
+  function toggleSidenav() {
+      const sidenav = document.querySelector('.sidenav');
+      const mainContent = document.querySelector('.main-content');
+      const sidenavToggle = document.querySelector('.sidenav-toggle');
+  
+      if (sidenav.style.left === '0px') {
+          sidenav.style.left = '-200px'; // 사이드바 숨기기
+          mainContent.style.marginLeft = '0'; // 메인 콘텐츠 원래 위치로
+          sidenavToggle.style.left = '5px'; // 토글 버튼 원래 위치로
+      } else {
+          sidenav.style.left = '0'; // 사이드바 보이기
+          mainContent.style.marginLeft = '200px'; // 메인 콘텐츠를 오른쪽으로 밀어냄
+          sidenavToggle.style.left = '205px'; // 토글 버튼 오른쪽으로 이동
+      }
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+      // 드롭다운 버튼을 모두 선택합니다.
+      var dropdowns = document.querySelectorAll('.dropdown-btn');
+  
+      // 각 버튼에 클릭 이벤트 리스너를 추가합니다.
+      dropdowns.forEach(function(btn) {
+          btn.addEventListener('click', function() {
+              // 모든 드롭다운 컨테이너를 닫습니다.
+              closeAllDropdowns();
+  
+              // 현재 클릭된 버튼의 다음 요소(드롭다운 컨테이너)의 표시 상태를 토글합니다.
+              var dropdownContainer = this.nextElementSibling;
+              dropdownContainer.style.display = dropdownContainer.style.display === 'block' ? 'none' : 'block';
+              
+              // 클릭된 버튼에 'active' 클래스를 추가합니다.
+              this.classList.toggle('active');
+          });
+      });
+  
+      // 모든 드롭다운을 닫는 함수
+      function closeAllDropdowns() {
+          var dropdownContainers = document.querySelectorAll('.dropdown-container');
+          dropdownContainers.forEach(function(container) { 
+              container.style.display = 'none';
+          });
+          
+          // 모든 드롭다운 버튼에서 'active' 클래스를 제거합니다.
+          dropdowns.forEach(function(btn) {
+              btn.classList.remove('active');
+          });
+      }
+  });
+  </script>
+  
+  
+  <!-- 하단 품목 클릭으로 값을 가져옴(제이쿼리) -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // 하단 테이블의 품목행 대한 클릭 이벤트 처리 
+        $('#contractList table tr#item').click(function() {
+            // 클릭한 행에서 품목코드와 품목명 가져오기
+            var itemCode = $(this).find('td:eq(1)').text().trim(); // 품목코드 (두 번째 열)
+            var itemName = $(this).find('td:eq(2)').text().trim(); // 품목명 (세 번째 열)
+            
+            // 상단 테이블의 품목코드와 품목명 위치에 정보 넣기
+            $('#itemCodeCell input[name="itemCode"]').val(itemCode);
+            $('#itemNameCell input[name="itemName"]').val(itemName);
+        });
+        
+        // 상단 테이블의 계약 행 대한 클릭 이벤트 처리 
+        $('#contractList table tr#contract').click(function() {
+            // 클릭한 행에서 계약정보 가져오기
+            var itemCode = $(this).find('td:eq(1)').text().trim();
+            var itemName = $(this).find('td:eq(2)').text().trim();
+            var brn = $(this).find("td:eq(4)").text().trim();
+            
+            // 상단 테이블의 정보 넣기
+            $('#itemCodeCell input[name="itemCode"]').val(itemCode);
+            $('#itemNameCell input[name="itemName"]').val(itemName);
+            $('#brn input[name="brn"]').val(brn);    
+        });
+        
+        // 상단 테이블의 계약 행 대한 클릭 이벤트 처리 
+        $('#contractList table#3 tr').click(function() {
+            // 클릭한 행에서 계약정보 가져오기
+            var contractNumber = $(this).find('td:eq(0)').text().trim();
+            var itemCode = $(this).find('td:eq(1)').text().trim();
+            var itemName = $(this).find('td:eq(2)').text().trim();
+            var companyName = $(this).find('td:eq(3)').text().trim();
+            var brn = $(this).find('td:eq(4)').text().trim();
+            var unitPrice = $(this).find('td:eq(5)').text().trim();
+            var leadTime = $(this).find('td:eq(6)').text().trim();
+            var contractNote = $(this).find('td:eq(7)').text().trim();
+            var conYn = $(this).find('td:eq(8)').text().trim();
+            
+            //계약 완료시 조회만 되게함 .prop
+            var ConBool = false;
+            if (conYn === 'y'){
+            	ConBool = true;
+            	  $('#buttonContainer').hide();  //계약완료시  저장, 초기화버튼 감추기
+            }
+            else{
+            	 $('#buttonContainer').show();
+            }
+            
+            // 해당 정보를 상단의 입력 필드에 넣기
+            $('#itemCodeCell input[name="itemCode"]').val(itemCode).prop('readonly', ConBool);
+            $('#itemNameCell input[name="itemName"]').val(itemName).prop('readonly', ConBool);
+            $('#brn input[name="brn"]').val(brn).trigger('change').prop('readonly', ConBool);
+            $('#unitPriceCell input[name="price"]').val(unitPrice).prop('readonly', ConBool);
+            $('#leadTimeCell input[name="leadTime"]').val(leadTime).prop('readonly', ConBool);
+            $('#contractNote input[name="contractNote"]').val(contractNote).prop('readonly', ConBool);
+            
+            
+        });
+    });
+</script>
+	
+	<!-- 사업자 정보를 통해 업체명/계좌/비고를 불러옴(제이쿼리) -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+		    $('input[name="brn"]').on('change', function(event) { 
+		        var brn = $(this).val(); 
+		        if (brn !== '') { 
+		            $.ajax({
+		                url: '/getCompanyInfo', // 서버의 컨트롤러 경로
+		                type: 'POST',
+		                contentType: 'application/json',
+		                data: JSON.stringify({ brn: brn }), // 사업자번호를 JSON 형식으로 전송
+		                success: function(response) {
+		                    // 서버로부터 받은 데이터를 화면에 표시
+		                    $('input[name="company_name"]').val(response.company_name);
+		                    $('input[name="company_account"]').val(response.company_account);
+		                    $('input[name="company_note"]').val(response.company_note);
+		                }
+		            });
+		        }
+		    });
+		});
+	</script>
+<script>
+	// 확인창 띄우고 확인 시 해당 계약을 확정하는 함수
+function confirmContract(contract_number) {
+    var result = confirm("계약을 확정하시겠습니까?");
+    if (result) {
+        // 확인 버튼을 눌렀을 때 컨트롤러에 계약 ID를 전달하여 요청을 보냄
+        window.location.href = "/contractOn?contract_number=" + contract_number;
+    } else {
+        // 취소 버튼을 눌렀을 때 아무 동작도 하지 않음
+    }
+}
+</script>
 </body>
 </html>
