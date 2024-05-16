@@ -24,18 +24,15 @@ public class Orders {
 
 	@Id
 	private String orderNo;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "itemCode", nullable=false)
-	private Item itemCode;
+
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "employeeId", nullable = false)
 	private User employeeId;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "BRN", nullable = false)
-	private Company BRN;
+	@JoinColumn(nullable = false)
+	private Contract contract_number;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "procNo", nullable = false)

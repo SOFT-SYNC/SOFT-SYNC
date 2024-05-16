@@ -13,13 +13,15 @@
 	<div class="main-content">
 		<div th:insert="~{common/header :: header}"></div>
 		<div id="row1">
+		<input type="hidden" id="orderNo" name="orderNo">
+		<input type="hidden" id="brn" name="brn">
 			<h2 class="visual-title">구매 발주서</h2>
 			<div>
 			<button type="submit" id="popupBtn" onclick="openNewWindow()" class="blueBtn">발주서 발행</button>
 			</div>
 			<!-- (상단)구매발주서  테이블-->
 			
-			<table class="table">
+			<table class="table" id="1">
 			<colgroup>
 			<col width="10%">
 			<col width="40%">
@@ -29,45 +31,46 @@
 			<tbody>
                   <tr>
                      <th>발주번호</th>
-                     <td th:text="${orders.orderNo}">발주번호출력</td>
-                     <th>등록번호</th>
-                     <td th:text="${orders.orderNo">등록번호 출력</td>
+                     <td><input type="text" name="orderNo" readonly></td>
+                     <th>사업자등록번호</th>
+                     <td><input type="text" name="brn" readonly></td>
                   </tr>
                   <tr>
                      <th>발신처</th>
                      <td><b>(주) SOFT-SYNC</b></td>
                      <th>수신처</th>
-                     <td th:text="${company.BRN}">수신처 출력</td>
+                     <td><input type="text" name="company_name" readonly></td>
                   </tr>
                   <tr>
                      <th>연락처</th>
                      <td>031-5555-5555</td>
                      <th>대표자명</th>
-                     <td th:text="${company.companyCeo}">대표자명 출력</td>
+                     <td></td>
                   </tr>
                   <tr>
                      <th>발주일</th>
-                     <td>[[${#temporals.format(orders.regDate, 'yyyy/MM/dd')}]]</td>
+                     <td><input type="date" name="orderDate"></td>
                      <th>주소</th>
-                     <td th:text="${company.address}">주소 출력</td>
+                     <td><input type="text" name="companyAddress"></td>
+<!--                      <td th:text="${company.address}">주소 출력</td> -->
                   </tr>
                   <tr>
                      <th>납기일</th>
-                     <td th:text="${orders.receiveDuedate}">납기일 출력</td>
+                     <td></td>
                      <th>담당자</th>
-                     <td th:text="${company.manager}">담당자 출력</td>
+                     <td></td>
                   </tr>
                   <tr>
                      <th>지불조건</th>
-                     <td>지불조건 출력</td>
+                     <td> 내규에 따름</td>
                      <th>연락처</th>
-                     <td th:text="${company.phone}">연락처 출력</td>
+                     <td></td>
                   </tr>
                   </tbody>
 			</table>
 
 			<div id="centertb">
-				<table class="listTable">
+				<table class="listTable" id="2">
 					<thead>
 						<tr>
 							<th>번호</th>
@@ -81,22 +84,21 @@
 						</tr>
 						<tr>
 							<td></td>
-							<td th:text ="${items.name}"></td>
-							<td th:text ="${items.dimensions}"></td>
+							<td></td>
+							<td></td>
 							<td>EA</td>
 							<td> <input type="number" ></td>
-							<td th:text= "${contract.price}"></td>
+							<td></td>
 							<td>총금액</td>
-							<td th:text="${orders.orderNote}"></td>
+							<td></td>
 						</tr>
 					</thead>
 				</table>
 			</div>
 		</div>
 		<div id="row2">
-			<h2 class="visual-title">
-				발주 품목 조회
-				</h2>
+		<div id="ordersList">
+			<h2 class="visual-title">발주 품목 조회</h2>
 				<!-- (하단)발주 품목 조회 리스트 scope -->
 				<div id="bottomtb">
 					<input type="date"> ~ <input type="date">
@@ -104,35 +106,51 @@
 					<a href="purchase_order_list">
 						<button type="button" class="blueBtn">목록</button>
 					</a>
-					<!-- list가 null이거나 비어있는 경우 -->
-					<div th:if ="${orderList == null}">
-					
-					</div>
-					<table class="listTable">
-						<thead>
-							<tr>
-								<th>품목코드</th>
-								<th>품목명</th>
-								<th>재질</th>
-								<th>발주수량</th>
-								<th>발주일</th>
-								<th>납기일</th>
-							</tr>
-						</thead>
-						<tbody>
-						    <tr th:each="item : ${orderList}">
-				              <td th:text="${item.code}">품목코드</td>
-				              <td th:text="${item.name}">품목명</td>
-				              <td th:text="${item.material}">재질</td>
-				              <td th:text="${item.quantity}">발주수량</td>
-				              <td th:text="${item.orderDate}">발주일</td>
-				              <td th:text="${item.deliveryDate}">납기일</td>
-				          	</tr>
-						</tbody>
-					</table>
+				
+						<table class="listTable">
+						<colgroup>
+						<col width="20%">
+						<col width="15%">
+						<col width="15%">
+						<col width="12%">
+						<col width="15%">
+						<col width="15%">
+						<col width="8%">
+						</colgroup>
+							<thead>
+								<tr id="item">
+									<th>품목코드</th>
+									<th>품목명</th>
+									<th>재질</th>
+									<th>발주수량</th>
+									<th>발주일</th>
+									<th colspan ="2">납기일</th>
+								</tr>
+							</thead>
+							<th:block th:each="item, itemIndex: ${items}">
+							    <tr>
+					              <td th:text="${item.itemCode}">품목코드</td>
+					              <td th:text="${item.itemName}">품목명</td>
+					              <td th:text="${item.material}">재질</td>
+					              <td>-</td>
+					              <td>-</td>
+					              <td>-</td>
+					              <td><button class="blueBtn" onclick=>추가</button></td>
+					          	</tr>
+							    <tr id="order" th:if ="${orders !=null}" th:each="order : ${orderList}">
+					              <td th:text="${item.itemCode}">품목코드</td>
+					              <td th:text="${item.itemName}">품목명</td>
+					              <td th:text="${item.material}">재질</td>
+					               <td th:text=${order.orderQuantity}>발주수량</td>
+					              <td th:text="${order.orderDate}">발주일</td>
+					              <td th:text="${order.contracts.procDuedate}">납기일</td>
+					              <td><button class="blueBtn">완료</button></td>
+					          	</tr>
+							</th:block>	
+						</table>
+						</div>
 					<div id="newTableContainer"></div>
 					<!-- 새로운 테이블이 표시될 컨테이너 -->
-					
 				</div>
 		</div>
 	</div>
@@ -142,126 +160,162 @@
 			<div>
 				<table>
 					<colgroup>
+					<col width="10%">
+					<col width="40%">
+					<col width="10%">
+					<col width="40%">
 					</colgroup>
 					<tbody>
-						<tr></tr>
+						<tr>
+							<td colspan="2" style="text-align:center;"><h1>발주서</h1></td>
+							<th>결재란</th>
+							<td></td>
+						</tr>
+						<tr>
+							<td colspan="4"> 
+								<pre>
+		   				      년      월      일
+	     				    	아래와 같이 발주합니다.
+								</pre>
+							</td>
+						</tr>
+						<tr>
+							<th>사업자번호</th>
+							<td></td>
+							<th>발주번호</th>
+							<td></td>
+						</tr>
+						<tr>
+							<th>상호</th>
+							<td></td>
+							<th>대표자성명</th>
+							<td></td>
+						</tr>
+						<tr>
+							<th>주소</th>
+							<td colspan="3"></td>
+						</tr>
+						<tr>
+							<th>전화번호</th>
+							<td></td>
+							<th>이메일</th>
+							<td></td>
+						</tr>
 					</tbody>
 				</table>
+				
+				<table>
+				<colgroup>
+					<col width="5%">
+					<col width="30%">
+					<col width="15%">
+					<col width="25%">
+					<col width="25%">
+				</colgroup>
+				<tbody>
+					<tr>
+						<th>No</th>
+						<th>품명</th>
+						<th>수량</th>
+						<th>단가</th>
+						<th>기타</th>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>3</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>4</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>5</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>6</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>7</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>8</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>비고</td>
+						<td colspan="4"></td>
+					</tr>
+				</tbody>
+			</table>
 			</div>
-<button type="submit" class="blueBtn">인쇄</button>
-		</div>
+		<button type="submit" class="blueBtn">인쇄</button>
+		<button type="submit" class="blueBtn">발주</button>
 	</div>
+</div>
 
 <script>
-const popupBtn = document.getElementById("popupBtn"); // 팝업 버튼 요소 가져오기
-const modalWrap = document.getElementById("modalWrap"); // 모달 요소 가져오기
-const closeBtn = document.querySelector(".closeBtn"); // 모달 닫기 버튼 요소 가져오기
-const modalImage = document.getElementById("modalImage");
-
-// 팝업 버튼 클릭 시 모달 열기
-popupBtn.addEventListener("click", function() {
-  modalWrap.style.display = "block";
-});
-
-// 모달 닫기 버튼 클릭 시 모달 닫기
-closeBtn.addEventListener("click", function() {
-  modalWrap.style.display = "none";
-});
-
-// 모달 외부 클릭 시 모달 닫기
-window.addEventListener("click", function(event) {
-  if (event.target === modalWrap) {
-    modalWrap.style.display = "none";
-  }
-});
-
-
-};
-
-
-    // 더미 데이터 정의
-    var dummyData = [
-        { key: "발주번호", value: "123456" },
-        { key: "등록번호", value: "789012" },
-        { key: "발신처", value: "ABC 회사" },
-        { key: "수신처", value: "XYZ 회사" },
-        { key: "연락처", value: "010-1234-5678" },
-        { key: "대표자명", value: "홍길동" },
-        { key: "발주일", value: "2024-05-20" },
-        { key: "주소", value: "서울시 강남구" },
-        { key: "납기일", value: "2024-06-10" },
-        { key: "담당자", value: "이몽룡" },
-        { key: "지불조건", value: "카드 결제" },
-        { key: "연락처", value: "010-5678-1234" }
-    ];
-    
-    // 새 창을 열어 발주서 출력하는 함수
-    function openNewWindow() {
-        var width = 900;
-        var height = 700;
-        var left = (window.screen.width - width) / 2;
-        var top = (window.screen.height - height) / 2;
-    
-        var newWindow = window.open("", "_blank", "width=" + width + ", height=" + height + ", left=" + left + ", top=" + top);
-        
-        // 제목 중앙 정렬
-        newWindow.document.write("<h4 style='text-align: center;'>발주서</h4>");
-    
-        // 첫 번째 테이블 생성
-        var table1 = document.createElement("table");
-        table1.style.border = "1px solid #ddd"; // 테두리 스타일 추가
-        table1.style.margin = "0 auto"; // 가운데 정렬
-        table1.style.width = "70%"; // 너비 설정
-        var tbody1 = document.createElement("tbody");
-    
-        for (var i = 0; i < dummyData.length; i += 2) {
-            var row = document.createElement("tr");
-            row.innerHTML = `
-                <th style='border: 1px solid #ddd; padding: 8px;'>${dummyData[i].key}</th>
-                <td style='border: 1px solid #ddd; padding: 8px;'>${dummyData[i].value}</td>
-                <th style='border: 1px solid #ddd; padding: 8px;'>${dummyData[i + 1].key}</th>
-                <td style='border: 1px solid #ddd; padding: 8px;'>${dummyData[i + 1].value}</td>
-            `;
-            tbody1.appendChild(row);
-        }
-    
-        table1.appendChild(tbody1);
-    
-        // 새 창에 첫 번째 테이블 추가
-        newWindow.document.body.appendChild(table1);
-
-        // 두 번째 테이블 생성
-        var table2 = document.createElement("table");
-        table2.style.border = "1px solid #ddd"; // 테두리 스타일 추가
-        table2.style.margin = "0 auto"; // 가운데 정렬
-        table2.style.width = "70%"; // 너비 설정
-        table2.innerHTML = `
-            <thead>
-                <tr>
-                    <th style='border: 1px solid #ddd; padding: 8px;'>번호</th>
-                    <th style='border: 1px solid #ddd; padding: 8px;'>품명</th>
-                    <th style='border: 1px solid #ddd; padding: 8px;'>규격</th>
-                    <th style='border: 1px solid #ddd; padding: 8px;'>단위</th>
-                    <th style='border: 1px solid #ddd; padding: 8px;'>수량</th>
-                    <th style='border: 1px solid #ddd; padding: 8px;'>단가</th>
-                    <th style='border: 1px solid #ddd; padding: 8px;'>공급가액</th>
-                    <th style='border: 1px solid #ddd; padding: 8px;'>비고</th>
-                </tr>
-                <tr>  
-                    <td style='border: 1px solid #ddd; padding: 8px;'>1</td>
-                    <td style='border: 1px solid #ddd; padding: 8px;'>상품A</td>
-                    <td style='border: 1px solid #ddd; padding: 8px;'>규격A</td>
-                    <td style='border: 1px solid #ddd; padding: 8px;'>개</td>
-                    <td style='border: 1px solid #ddd; padding: 8px;'>10</td>
-                    <td style='border: 1px solid #ddd; padding: 8px;'>10000</td>
-                    <td style='border: 1px solid #ddd; padding: 8px;'>100000</td>
-                    <td style='border: 1px solid #ddd; padding: 8px;'>비고</td>
-                </tr>
-            </thead>
-        `;
-        newWindow.document.body.appendChild(table2);
-    }
+	const popupBtn = document.getElementById("popupBtn"); // 팝업 버튼 요소 가져오기
+	const modalWrap = document.getElementById("modalWrap"); // 모달 요소 가져오기
+	const closeBtn = document.querySelector(".closeBtn"); // 모달 닫기 버튼 요소 가져오기
+	const modalImage = document.getElementById("modalImage");
+	
+	// 팝업 버튼 클릭 시 모달 열기
+	popupBtn.addEventListener("click", function() {
+	  modalWrap.style.display = "block";
+	});
+	
+	// 모달 닫기 버튼 클릭 시 모달 닫기
+	closeBtn.addEventListener("click", function() {
+	  modalWrap.style.display = "none";
+	});
+	
+	// 모달 외부 클릭 시 모달 닫기
+	window.addEventListener("click", function(event) {
+	  if (event.target === modalWrap) {
+	    modalWrap.style.display = "none";
+	  }
+	});
+	
+	
+	
 </script>
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+ 
 </body>
 </html>
