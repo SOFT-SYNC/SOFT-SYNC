@@ -4,6 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <title>품목등록</title>
+
 <link type="text/css" rel="stylesheet" href="css/header.css">
 <link type="text/css" rel="stylesheet" href="css/common.css">
 <link type="text/css" rel="stylesheet" href="css/sidebar.css">
@@ -15,6 +16,7 @@
    <div th:insert="~{/common/sidebar :: sidebar}"></div>
    <div class="main-content">
       <div th:insert="~{/common/header :: header}"></div>
+
       <form id="productForm" method="POST" action="/api/items"
          enctype="multipart/form-data" onsubmit="submitProduct(event)">
          <div id="row1">
@@ -25,6 +27,7 @@
             <col width="14%">
             <col width="50%">
             </colgroup>
+
                <tr>
                   <th rowspan="3">품목코드</th>
                   <td>대분류</td>
@@ -54,6 +57,7 @@
                      name="itemName"></td>
                </tr>
                <tr>
+
                   <th rowspan="3">규격<small>(mm)</small></th>
                   <td>가로 <small>(W)</small></td>
                   <td><input type="text" id="width" onchange="setDimensions()"></td>
@@ -90,6 +94,7 @@
                </select> <input type="text" id="searchInput" placeholder="검색...">
                <button onclick="performSearch()" class="blueBtn">검색</button>
                <table class="listTable">
+
                   <thead>
                      <tr>
                         <th>품목코드</th>
@@ -109,6 +114,7 @@
                       </tr>
                   </tbody>
                </table>
+
                <div class="paging-wrap">
                    <ul class="pagination">
                    
@@ -124,7 +130,7 @@
                        
                        <!-- 다음 페이지 링크 -->
                        <li>
-                           <a th:href="@{/add_prod(page=${items.number + 1})}">다음</a>
+                         <a th:href="@{/add_prod(page=${items.number + 1})}">다음</a>
                        </li>
                    </ul>
                </div>

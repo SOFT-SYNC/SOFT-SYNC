@@ -1,8 +1,9 @@
 package com.softsync.zerock.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
+
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -72,6 +73,7 @@ public class BasicController {
 	       Page<Item> items = itemRepository.findAll(pageable);
 	       model.addAttribute("items", items);
 	       return "procurement/add_prod";
+
 	   }
 	
 	@GetMapping("/add_LTplan")
@@ -79,10 +81,18 @@ public class BasicController {
 		return"/procurement/add_LTplan";
 	}
 	
-	@GetMapping("/add_contract")
-	public String addcontractview() {
-		return"/procurement/add_contract";
-	}
+	
+	//계약 
+//	@GetMapping("/add_contract")   
+//	public String addcontractview(Model model) {
+//		
+////		  List<Item> items = itemRepository.findAll();
+////	       model.addAttribute("items", items);
+//		
+//		return"/procurement/add_contract";
+//	}
+//	
+	
 	
 	@GetMapping("/inventory_period")
 	public String inventoryview() {

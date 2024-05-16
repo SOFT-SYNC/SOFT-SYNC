@@ -76,7 +76,7 @@ public class ItemService {
 	// 파일 저장 로직
 	private String saveFile(MultipartFile file) {
 		// 저장할 디렉토리 경로
-		String uploadDir = "C:/Users/tiqkd/Documents/workspace-spring-tool-suite-4-4.22.0.RELEASE/softsync/src/main/resources/static/images";
+		String uploadDir = "C:\\springMVC\\sscFile";
 
 		// 파일이 비어있는지 검사
 		if (file.isEmpty()) {
