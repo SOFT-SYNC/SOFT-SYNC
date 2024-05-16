@@ -1,0 +1,144 @@
+body {
+  background-color: #fafbfe;
+}
+
+#row1 {
+ border: solid 1px #999;
+ box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
+ background-color: white;
+ border-radius: 5px;
+ padding: 20px;
+ margin: 10px 40px;
+}
+#row1 .content-card{
+ display : flex;
+ }
+ .home-title {
+  font-weight: bold;
+  color: #747474;
+  margin-bottom: 10px;
+  height:  30px;
+}
+.visual-title {
+  margin-bottom: 15px;
+  border-left: 3px solid black;
+  padding-left: 10px;
+}
+
+.page-title-box .page-title {
+  font-size: 18px;
+  margin-left: 40px;
+  line-height: 75px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/************************************************************************/
+/***************************** 정보 카드섹션*****************************/
+/************************************************************************/
+.search-container {
+  width: 90%;
+  margin: 20px auto;
+  padding: 20px;
+  background: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  border-radius: 5px;
+}
+input[type="date"],
+input[type="text"],
+select {
+  padding: 8px;
+  margin-right: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 180px;
+
+}
+input[type="checkbox"] {
+  margin-right: 5px;
+}
+input[type="number"] {
+	  padding: 8px;
+  margin-right: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100px;
+}
+.blueBtn {
+  padding: 10px 20px;
+  color: white;
+  background-color: #007BFF;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.blueBtn:hover {
+  background-color: #0056b3;
+}
+.card-wrap {
+  margin-left: 40px;
+  display: flex;
+  /* width: 50%; */
+  /* background-color: #2b80c5; */
+  flex-direction: column;
+}
+.card {
+  box-shadow: 0px 0px 35px 0px rgba(154, 161, 171, 0.15);
+  margin : 30px;
+  background-color: white;
+  border: none;
+  padding: 1.5rem;
+  border-radius: 5px;
+  width: 300px;
+  height: 100px;
+  display :flex;
+  justify-content: space-between;
+
+}
+.card-title {
+  font-weight: 100;
+  font-size: 15px;
+  color: #999;
+}
+/* .card-content {
+  margin: 1.5em auto !important;
+} */
+
+/************************************************************************/
+/***************************** 막대그래프 *****************************/
+/************************************************************************/
+.b-graph-wrap {
+  margin-left: 40px;
+  display: flex;
+/*   width: 80%; */
+/*   background-color: #ffff80; */
+}
+.b-graph {
+  box-shadow: 0px 0px 35px 0px rgba(154, 161, 171, 0.15);
+  margin : 30px;
+  background-color: white;
+  border: none;
+  padding: 2.0rem;
+  width: 1100px;
+  margin-right: 40px;
+  height : 600px
+}
+.b-graph-body {
+  height: 480px; /* 그래프 전체의 높이 */
+  position: relative;
+  /* border: 1px solid #ccc;  */
+  /* background-color: #2196F3; */
+  
+}
+
+.bar {
+  position: absolute;
+  bottom: 0; /* 그래프의 아래쪽에 막대가 정렬되도록 설정 */
+  width: 50px; /* 막대의 너비 */
+  background-color: #2b80c5;
+  height: 0%;
+  transition: height 1s ease-in-out;
+}

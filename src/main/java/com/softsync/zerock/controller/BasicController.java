@@ -107,11 +107,19 @@ public class BasicController {
 		return"/orders/purchase_order";
 	}
 	
+	@GetMapping("/purchase_order_tracking")
+	public String orderTracking() {
+		return"/orders/purchase_order_tracking";
+	}
 	@GetMapping("/receivings")
 	public String receivingview() {
 		return"/materials/receivings";
 	}
 	
+	@GetMapping("/stock_report")
+	public String stockReport() {
+		return"/materials/stock_report";
+	}
 	@GetMapping("/shipping_list")
 	public String shippinglistview() {
 		return"/materials/shipping_list";
