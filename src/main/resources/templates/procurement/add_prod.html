@@ -4,44 +4,30 @@
 <head>
 <meta charset="UTF-8">
 <title>품목등록</title>
-<style>
-   .pagination {
-       display: inline-block;
-       padding-left: 0;
-       margin: 20px 0;
-       border-radius: 4px;
-   }
-   .pagination li {
-       display: inline;
-   }
-   .pagination li a {
-       color: black;
-       float: left;
-       padding: 8px 16px;
-       text-decoration: none;
-       transition: background-color .3s;
-       border: 1px solid #ddd;
-   }
-   .pagination li a.active {
-       background-color: #4CAF50;
-       color: white;
-       border: 1px solid #4CAF50;
-   }
-</style>
+
 <link type="text/css" rel="stylesheet" href="css/header.css">
 <link type="text/css" rel="stylesheet" href="css/common.css">
 <link type="text/css" rel="stylesheet" href="css/sidebar.css">
-<link type="text/css" rel="stylesheet" href="css/invoice.css">
+<link type="text/css" rel="stylesheet" href="css/addProd.css">
+  <script type="text/javascript" src="../js/sidebar.js"></script>
+
 </head>
 <body>
-   <div th:insert="~{common/sidebar :: sidebar}"></div>
+   <div th:insert="~{/common/sidebar :: sidebar}"></div>
    <div class="main-content">
-      <div th:insert="~{common/header :: header}"></div>
+      <div th:insert="~{/common/header :: header}"></div>
+
       <form id="productForm" method="POST" action="/api/items"
          enctype="multipart/form-data" onsubmit="submitProduct(event)">
          <div id="row1">
             <h2 class="visual-title">품목정보등록</h2>
-            <table>
+            <table class="table">
+            <colgroup>
+            <col width="10%">
+            <col width="14%">
+            <col width="50%">
+            </colgroup>
+
                <tr>
                   <th rowspan="3">품목코드</th>
                   <td>대분류</td>
@@ -71,16 +57,17 @@
                      name="itemName"></td>
                </tr>
                <tr>
-                  <th rowspan="3">규격</th>
-                  <td>가로(W)</td>
+
+                  <th rowspan="3">규격<small>(mm)</small></th>
+                  <td>가로 <small>(W)</small></td>
                   <td><input type="text" id="width" onchange="setDimensions()"></td>
                </tr>
                <tr>
-                  <td>세로(D)</td>
+                  <td>세로 <small>(D)</small></td>
                   <td><input type="text" id="depth" onchange="setDimensions()"></td>
                </tr>
                <tr>
-                  <td>높이(H)</td>
+                  <td>높이 <small>(H)</small></td>
                   <td><input type="text" id="height" onchange="setDimensions()"></td>
                   <input type="hidden" id="dimensions" name="dimensions">
                </tr>
@@ -106,7 +93,8 @@
                   <option value="itemName">품목명</option>
                </select> <input type="text" id="searchInput" placeholder="검색...">
                <button onclick="performSearch()" class="blueBtn">검색</button>
-               <table>
+               <table class="listTable">
+
                   <thead>
                      <tr>
                         <th>품목코드</th>
@@ -126,21 +114,23 @@
                       </tr>
                   </tbody>
                </table>
-               <div>
+
+               <div class="paging-wrap">
                    <ul class="pagination">
+                   
                        <!-- 이전 페이지 링크 -->
-                       <li th:if="${!items.isFirst()}">
-                           <a th:href="@{/add_prod(page=${items.number - 1})}">Previous</a>
+                       <li>
+                           <a th:href="@{/add_prod(page=${items.number - 1})}">이전</a>
                        </li>
                        
                        <!-- 페이지 번호 링크 -->
-                       <li th:each="i : ${#numbers.sequence(0, items.totalPages - 1)}">
+                       <li th:each="i : ${#numbers.sequence(0, items.totalPages + 1)}">
                            <a th:href="@{/add_prod(page=${i})}" th:classappend="${i == items.number} ? 'active'" th:text="${i + 1}">Page number</a>
                        </li>
                        
                        <!-- 다음 페이지 링크 -->
-                       <li th:if="${!items.isLast()}">
-                           <a th:href="@{/add_prod(page=${items.number + 1})}">Next</a>
+                       <li>
+                         <a th:href="@{/add_prod(page=${items.number + 1})}">다음</a>
                        </li>
                    </ul>
                </div>
@@ -149,71 +139,6 @@
       </div>
    </div>
 
-
-   <script>
-      function toggleSidenav() {
-         const sidenav = document.querySelector('.sidenav');
-         const mainContent = document.querySelector('.main-content');
-         const sidenavToggle = document.querySelector('.sidenav-toggle');
-
-         if (sidenav.style.left === '0px') {
-            sidenav.style.left = '-200px'; // 사이드바 숨기기
-            mainContent.style.marginLeft = '0'; // 메인 콘텐츠 원래 위치로
-            sidenavToggle.style.left = '5px'; // 토글 버튼 원래 위치로
-         } else {
-            sidenav.style.left = '0'; // 사이드바 보이기
-            mainContent.style.marginLeft = '200px'; // 메인 콘텐츠를 오른쪽으로 밀어냄
-            sidenavToggle.style.left = '205px'; // 토글 버튼 오른쪽으로 이동
-         }
-      }
-
-      // document.addEventListener('DOMContentLoaded', function() {
-      //     loadDummyData();
-      // });
-      document
-         .addEventListener(
-            'DOMContentLoaded',
-            function () {
-               // 드롭다운 버튼을 모두 선택합니다.
-               var dropdowns = document
-                  .querySelectorAll('.dropdown-btn');
-
-               // 각 버튼에 클릭 이벤트 리스너를 추가합니다.
-               dropdowns
-                  .forEach(function (btn) {
-                     btn
-                        .addEventListener(
-                           'click',
-                           function () {
-                              // 모든 드롭다운 컨테이너를 닫습니다.
-                              closeAllDropdowns();
-
-                              // 현재 클릭된 버튼의 다음 요소(드롭다운 컨테이너)의 표시 상태를 토글합니다.
-                              var dropdownContainer = this.nextElementSibling;
-                              dropdownContainer.style.display = dropdownContainer.style.display === 'block' ? 'none'
-                                 : 'block';
-
-                              // 클릭된 버튼에 'active' 클래스를 추가합니다.
-                              this.classList
-                                 .toggle('active');
-                           });
-                  });
-
-               // 모든 드롭다운을 닫는 함수
-               function closeAllDropdowns() {
-                  var dropdownContainers = document
-                     .querySelectorAll('.dropdown-container');
-                  dropdownContainers.forEach(function (container) {
-                     container.style.display = 'none';
-                  });
-
-                  // 모든 드롭다운 버튼에서 'active' 클래스를 제거합니다.
-                  dropdowns.forEach(function (btn) {
-                     btn.classList.remove('active');
-                  });
-               }
-            });
-   </script>
    <script>
       function performSearch() {
          var filter = document.getElementById('filterSelect').value;

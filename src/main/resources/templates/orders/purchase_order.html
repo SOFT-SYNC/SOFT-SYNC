@@ -4,7 +4,7 @@
 <link type="text/css" rel="stylesheet" href="../CSS/header.css">
 <link type="text/css" rel="stylesheet" href="../CSS/common.css">
 <link type="text/css" rel="stylesheet" href="../CSS/sidebar.css">
-<link type="text/css" rel="stylesheet" href="../CSS/invoice.css">
+<link type="text/css" rel="stylesheet" href="../CSS/order.css">
   <script type="text/javascript" src="../js/sidebar.js"></script>
 
 </head>
@@ -14,52 +14,60 @@
 		<div th:insert="~{common/header :: header}"></div>
 		<div id="row1">
 			<h2 class="visual-title">구매 발주서</h2>
-
+			<div>
+			<button type="submit" id="popupBtn" onclick="openNewWindow()" class="blueBtn">발주서 발행</button>
+			</div>
 			<!-- (상단)구매발주서  테이블-->
-			<button type="submit" class="sub blueBtn">발행</button>
-			<table>
-				<thead>
-					<tr>
-						<th>발주번호</th>
-						<td>발주번호 출력</td>
-						<th>등록번호</th>
-						<td>등록번호 출력</td>
-					</tr>
-					<tr>
-						<th>발신처</th>
-						<td>발신처 출력</td>
-						<th>수신처</th>
-						<td>수신처 출력</td>
-					</tr>
-					<tr>
-						<th>연락처</th>
-						<td>연락처 출력</td>
-						<th>대표자명</th>
-						<td>대표자명 출력</td>
-					</tr>
-					<tr>
-						<th>발주일</th>
-						<td>발주일 출력</td>
-						<th>주소</th>
-						<td>주소 출력</td>
-					</tr>
-					<tr>
-						<th>납기일</th>
-						<td>납기일 출력</td>
-						<th>담당자</th>
-						<td>담당자 출력</td>
-					</tr>
-					<tr>
-						<th>지불조건</th>
-						<td>지불조건 출력</td>
-						<th>연락처</th>
-						<td>연락처 출력</td>
-					</tr>
-				</thead>
+			
+			<table class="table">
+			<colgroup>
+			<col width="10%">
+			<col width="40%">
+			<col width="10%">
+			<col width="40%">
+			</colgroup>
+			<tbody>
+                  <tr>
+                     <th>발주번호</th>
+                     <td th:text="${orders.orderNo}">발주번호출력</td>
+                     <th>등록번호</th>
+                     <td th:text="${orders.orderNo">등록번호 출력</td>
+                  </tr>
+                  <tr>
+                     <th>발신처</th>
+                     <td><b>(주) SOFT-SYNC</b></td>
+                     <th>수신처</th>
+                     <td th:text="${company.BRN}">수신처 출력</td>
+                  </tr>
+                  <tr>
+                     <th>연락처</th>
+                     <td>031-5555-5555</td>
+                     <th>대표자명</th>
+                     <td th:text="${company.companyCeo}">대표자명 출력</td>
+                  </tr>
+                  <tr>
+                     <th>발주일</th>
+                     <td>[[${#temporals.format(orders.regDate, 'yyyy/MM/dd')}]]</td>
+                     <th>주소</th>
+                     <td th:text="${company.address}">주소 출력</td>
+                  </tr>
+                  <tr>
+                     <th>납기일</th>
+                     <td th:text="${orders.receiveDuedate}">납기일 출력</td>
+                     <th>담당자</th>
+                     <td th:text="${company.manager}">담당자 출력</td>
+                  </tr>
+                  <tr>
+                     <th>지불조건</th>
+                     <td>지불조건 출력</td>
+                     <th>연락처</th>
+                     <td th:text="${company.phone}">연락처 출력</td>
+                  </tr>
+                  </tbody>
 			</table>
 
 			<div id="centertb">
-				<table>
+				<table class="listTable">
 					<thead>
 						<tr>
 							<th>번호</th>
@@ -73,13 +81,13 @@
 						</tr>
 						<tr>
 							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
+							<td th:text ="${items.name}"></td>
+							<td th:text ="${items.dimensions}"></td>
+							<td>EA</td>
+							<td> <input type="number" ></td>
+							<td th:text= "${contract.price}"></td>
+							<td>총금액</td>
+							<td th:text="${orders.orderNote}"></td>
 						</tr>
 					</thead>
 				</table>
@@ -88,7 +96,7 @@
 		<div id="row2">
 			<h2 class="visual-title">
 				발주 품목 조회
-				</h4>
+				</h2>
 				<!-- (하단)발주 품목 조회 리스트 scope -->
 				<div id="bottomtb">
 					<input type="date"> ~ <input type="date">
@@ -96,7 +104,11 @@
 					<a href="purchase_order_list">
 						<button type="button" class="blueBtn">목록</button>
 					</a>
-					<table>
+					<!-- list가 null이거나 비어있는 경우 -->
+					<div th:if ="${orderList == null}">
+					
+					</div>
+					<table class="listTable">
 						<thead>
 							<tr>
 								<th>품목코드</th>
@@ -106,27 +118,66 @@
 								<th>발주일</th>
 								<th>납기일</th>
 							</tr>
-
-							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
+						</thead>
+						<tbody>
+						    <tr th:each="item : ${orderList}">
+				              <td th:text="${item.code}">품목코드</td>
+				              <td th:text="${item.name}">품목명</td>
+				              <td th:text="${item.material}">재질</td>
+				              <td th:text="${item.quantity}">발주수량</td>
+				              <td th:text="${item.orderDate}">발주일</td>
+				              <td th:text="${item.deliveryDate}">납기일</td>
+				          	</tr>
+						</tbody>
 					</table>
-					<div class="button-container">
-						<button type="submit" onclick="openNewWindow()" class="blueBtn">발행</button>
-						<button type="submit" class="blueBtn">인쇄</button>
-					</div>
 					<div id="newTableContainer"></div>
 					<!-- 새로운 테이블이 표시될 컨테이너 -->
+					
 				</div>
 		</div>
 	</div>
+	<div id="modalWrap">
+		<div id="modalBody">
+			<button type="button" class="closeBtn">&times;</button>
+			<div>
+				<table>
+					<colgroup>
+					</colgroup>
+					<tbody>
+						<tr></tr>
+					</tbody>
+				</table>
+			</div>
+<button type="submit" class="blueBtn">인쇄</button>
+		</div>
+	</div>
 
-	<script>
+<script>
+const popupBtn = document.getElementById("popupBtn"); // 팝업 버튼 요소 가져오기
+const modalWrap = document.getElementById("modalWrap"); // 모달 요소 가져오기
+const closeBtn = document.querySelector(".closeBtn"); // 모달 닫기 버튼 요소 가져오기
+const modalImage = document.getElementById("modalImage");
+
+// 팝업 버튼 클릭 시 모달 열기
+popupBtn.addEventListener("click", function() {
+  modalWrap.style.display = "block";
+});
+
+// 모달 닫기 버튼 클릭 시 모달 닫기
+closeBtn.addEventListener("click", function() {
+  modalWrap.style.display = "none";
+});
+
+// 모달 외부 클릭 시 모달 닫기
+window.addEventListener("click", function(event) {
+  if (event.target === modalWrap) {
+    modalWrap.style.display = "none";
+  }
+});
+
+
+};
+
 
     // 더미 데이터 정의
     var dummyData = [

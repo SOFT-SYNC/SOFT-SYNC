@@ -71,14 +71,13 @@ body {
 
 /* 테이블 기본 세팅 */
 table {
-  width: 100%;
-  margin-top: 20px;
   border-collapse: collapse;
 }
 table, th, td {
-  border: 1px solid #ddd;
+  border: 1px solid #b6b6b6;
 }
+
 th, td {
-  padding: 8px;
+  padding: 10px;
   text-align: left;
 }

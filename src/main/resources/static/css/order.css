@@ -1,0 +1,182 @@
+body {
+  background-color: #f1f1f1;
+}
+#row1 {
+/* border: solid 1px #999; */
+box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); 
+background-color: white;
+border-radius: 5px;
+padding: 20px;
+margin: 10px 40px;
+}
+
+#row2 {
+  /* border: solid 1px #999; */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); 
+  background-color: white;
+  border-radius: 5px;
+  padding: 20px;
+  margin: 10px 40px;
+}
+.visual-title {
+  margin-bottom: 15px;
+  border-left: 3px solid black;
+  padding-left: 10px;
+}
+
+.search-container {
+  width: 90%;
+  margin: 20px auto;
+  padding: 20px;
+  background: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  border-radius: 5px;
+}
+form div {
+  margin-bottom: 20px;
+}
+label {
+  margin-right: 10px;
+}
+input[type="date"],
+input[type="text"],
+select {
+  padding: 8px;
+  margin-right: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 180px;
+}
+input[type="checkbox"] {
+  margin-right: 5px;
+}
+input[type="number"] {
+	  padding: 8px;
+  margin-right: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100px;
+}
+.blueBtn {
+  padding: 10px 20px;
+  color: white;
+  background-color: #007BFF;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.blueBtn:hover {
+  background-color: #0056b3;
+}
+
+.search-container form {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.actions {
+  text-align: right;
+  margin-top: 10px;
+}
+
+/* 반응형 웹 */
+@media (max-width: 768px) {
+  .search-bar, .date-range {
+      display: block;
+      margin-right: 0;
+      width: 100%;
+  }
+  select, input[type="date"], input[type="text"], button {
+      width: calc(100% - 16px);
+  }
+}
+
+.sort-button {
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: #007BFF;
+  padding: 0;
+  margin-left: 5px;
+}
+.regiBtn {
+	float: right; 
+	margin-bottom : 10px
+}
+
+.table {
+	width : 80%;
+	margin : 20px auto;
+}
+.table th {
+	text-align : center;
+}
+.listTable {
+	width : 80%;
+	margin : 20px auto;
+}
+
+/* 모달 */
+#popupBtn {
+  width: 120px;
+  height: 40px;
+  padding: 10px 5px;
+  background-color: #c8e3ff;
+  color: black;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  float :right;
+}
+#popupBtn:hover {
+  background-color: #004080;
+  color: white;
+}
+#modalWrap {
+  position: fixed; /* 화면에 고정 */
+  z-index: 9999; /* 상위에 위치 */
+  padding-top: 50px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.7); /* 반투명한 배경색 */
+  display: none; /* 초기에는 숨김 */
+}
+#modalBody {
+  max-width: 70%; /* 최대 너비 */
+  max-height: 70%; /* 최대 높이 */
+  padding: 30px 30px;
+  margin: 0 auto;
+  overflow: auto;
+  position: relative;
+  border: 1px solid #777;
+  background-color: #fff;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 30px;
+  color: #fff;
+  background: #0056b3;
+  border: none;
+  border-radius: 15px;
+  padding: 0 10px ;
+  cursor: pointer;
+}
+
+.modalBtn {
+  margin-top: 10px;
+  width: 80px;
+  float: right;
+}
