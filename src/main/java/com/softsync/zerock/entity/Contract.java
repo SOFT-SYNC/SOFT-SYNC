@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -22,7 +24,9 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "contract") //계약
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Contract {
+	
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE) // 자동 증가
     @Column(length = 30)  //계약번호
@@ -35,7 +39,8 @@ public class Contract {
     @ManyToOne(fetch = FetchType.LAZY)
     private Item item;
     
-    @OneToMany(fetch = FetchType.LAZY)
+//    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "contract_number", fetch = FetchType.LAZY)
     private List<Orders> orders;
 
     @Column(name = "contract_date")//계약일 
