@@ -31,8 +31,13 @@ public class Orders {
 	private User employeeId;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(nullable = false)
-	private Contract contract_number;
+	private Contract contract;
+	
+	   @ManyToOne(fetch = FetchType.LAZY)
+	    private Item item;
+	   
+	@ManyToOne(fetch = FetchType.LAZY)
+    private Company company;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "procNo", nullable = false)
@@ -55,4 +60,6 @@ public class Orders {
 	
 	@Column (nullable = true)
 	private String orderNote;
+
+
 }

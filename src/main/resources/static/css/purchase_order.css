@@ -26,13 +26,13 @@ margin: 10px 40px;
 
 .search-container {
   width: 90%;
-  margin: 20px auto;
+/*   margin: 20px auto; */
   padding: 20px;
   background: white;
-  border: 1px solid #ccc;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  border-radius: 5px;
-}
+/*   border: 1px solid #ccc; */
+ /*  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  border-radius: 5px;*/
+} 
 form div {
   margin-bottom: 20px;
 }
@@ -118,7 +118,9 @@ input[type="number"] {
 	width : 80%;
 	margin : 20px auto;
 }
-
+#buttonContainer {
+	fload: right;
+}
 /* 모달 */
 #popupBtn {
   width: 120px;
@@ -129,7 +131,6 @@ input[type="number"] {
   border-radius: 5px;
   border: none;
   cursor: pointer;
-  float :right;
 }
 #popupBtn:hover {
   background-color: #004080;

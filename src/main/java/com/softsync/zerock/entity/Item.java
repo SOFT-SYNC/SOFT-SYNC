@@ -29,6 +29,9 @@ public class Item {
     @OneToMany( fetch = FetchType.LAZY)
     private List<Contract> contracts;
     
+    @OneToMany (fetch = FetchType.LAZY)
+    private List<Orders> orders;
+    
     @Column(nullable = true, unique = true)
     private String itemCode;
 
@@ -105,6 +108,15 @@ public class Item {
 	public void setBlueprintPath(String blueprintPath) {
 		this.blueprintPath = blueprintPath;
 	}
+	
+	
+	 public Company getCompany() {
+	        if (contracts != null && !contracts.isEmpty()) {
+	            Contract firstContract = contracts.get(0);
+	            return firstContract.getCompany();
+	        }
+	        return null;
+	    }
     
     
     

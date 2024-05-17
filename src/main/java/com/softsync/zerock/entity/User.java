@@ -30,7 +30,7 @@ public class User {
    
    @Column(nullable = false)
    @OneToMany(fetch = FetchType.LAZY)
-   private List<Orders> ordes;
+   private List<Orders> orders;
 
    @Column(nullable = false)
    private String password; // 비밀번호
