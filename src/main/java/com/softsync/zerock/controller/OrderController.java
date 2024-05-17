@@ -64,51 +64,41 @@ public class OrderController {
         return ResponseEntity.ok(response);
     }
 	
-    @GetMapping("/companies")
-    public List<Company> getAllCompaniesForItemByItemCode(@RequestParam String itemCode) {
-        return itemService.getAllCompaniesForItemByItemCode(itemCode);
-    }
-
-
-	
-	 @PostMapping("/saveOrders")
-	    public String saveOrders( @RequestParam("brn") String brn,
-	                               @RequestParam("company_name") String companyName,
-	                               @RequestParam("itemCode") String itemCode,
-	                               @RequestParam("itemName") String itemName,
-	                               @RequestParam("price") int price,
-	                               Model model) {
-			System.out.println("[OrderController] saveOrders()");
-			
-	        Orders order = new Orders();
-	        Company company = orderService.getorderByBrn(brn);
-	        Item item = orderService.getItemByItemCode(itemCode);
-	    
-	        
-			  order.setCompany(company); 
-			  order.setOrderDate(LocalDateTime.now());
-			  order.setItem(item); 
-			  order.setReceiveDuedate(null);
-			  order.setContract(null); 
-			  order.setOrderYn(null);//발주여부
-			  
-			  
-			  List<Orders> orders = item.getOrders();
-			  if (orders == null) { 
-				  orders = new ArrayList<>(); 
-				  }
-			  orders.add(order); // new 발주정보 
-			  item.setOrders(orders);
-			  
-			  // 아이템 정보 저장 
-			  orderService.saveItem(item);
-			 
-	
-	        List<Item> items = orderService.getAllItems();
-		       model.addAttribute("items", items);
-	
-	        return "redirect:add_contract"; 
-	    } 
+  
+	/*
+	 * @PostMapping("/saveOrders") public String saveOrders( @RequestParam("brn")
+	 * String brn,
+	 * 
+	 * @RequestParam("company_name") String companyName,
+	 * 
+	 * @RequestParam("itemCode") String itemCode,
+	 * 
+	 * @RequestParam("itemName") String itemName,
+	 * 
+	 * @RequestParam("price") int price, Model model) {
+	 * System.out.println("[OrderController] saveOrders()");
+	 * 
+	 * Orders order = new Orders(); Company company =
+	 * orderService.getorderByBrn(brn); Item item =
+	 * orderService.getItemByItemCode(itemCode);
+	 * 
+	 * 
+	 * order.setCompany(company); order.setOrderDate(LocalDateTime.now());
+	 * order.setItem(item); order.setReceiveDuedate(null); order.setContract(null);
+	 * order.setOrderYn(null);//발주여부
+	 * 
+	 * 
+	 * List<Orders> orders = item.getOrders(); if (orders == null) { orders = new
+	 * ArrayList<>(); } orders.add(order); // new 발주정보 item.setOrders(orders);
+	 * 
+	 * // 아이템 정보 저장 orderService.saveItem(item);
+	 * 
+	 * 
+	 * List<Item> items = orderService.getAllItems(); model.addAttribute("items",
+	 * items);
+	 * 
+	 * return "redirect:add_contract"; }
+	 */
 		
 	
 	@GetMapping("/purchase_order_list")
