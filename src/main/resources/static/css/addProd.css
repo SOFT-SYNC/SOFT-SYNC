@@ -96,35 +96,31 @@ input[type="number"] {
 	margin-bottom : 10px
 }
 
-.paging-wrap {
-	display :flex;
+.pagination {
+	display: inline-block;
+	padding-left: 0;
+	margin: 20px 0;
+	border-radius: 4px;
 }
-  .pagination {
-       display: inline-block;
-       padding-left: 0;
-       margin: 20px auto;
-       border-radius: 4px;
-   }
-   .pagination li {
-       display: inline;
-   }
-   .pagination li a {
-       color: black;
-       float: left;
-       padding: 8px 16px;
-       text-decoration: none;
-       border: 1px solid #ddd;
-   }
-   .pagination li a.active {
-       background-color: #aebdf2;
-       color: white;
-       border: 1px solid #aebdf2;
-   }
-      .pagination li a:hover {
-       background-color: #004080;
-       color: white;
-       border: 1px solid #004080;
-   }
+
+.pagination li {
+	display: inline;
+}
+
+.pagination li a {
+	color: black;
+	float: left;
+	padding: 8px 16px;
+	text-decoration: none;
+	transition: background-color .3s;
+	border: 1px solid #ddd;
+}
+
+.pagination li a.active {
+	background-color: #4CAF50;
+	color: white;
+	border: 1px solid #4CAF50;
+}
    .table, td, th {
    width : 1200px;
    margin : 20px auto;

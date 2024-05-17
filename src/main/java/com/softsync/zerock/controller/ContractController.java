@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,10 +29,10 @@ public class ContractController {
 
 	//계약서 리스트 조회 + 저장페이지(베이직컨트롤러에서 옮김)
 	@GetMapping("/add_contract")   
-	public String addcontractview(Model model) {
+	public String addcontractview(Model model, @PageableDefault(size = 10) Pageable pageable) {
 		System.out.println("[계약컨트롤러] 계약서 리스트");
 		
-		  List<Item> items = contractService.getAllItems();
+		Page<Item> items = contractService.getAllItems(pageable);
 	       model.addAttribute("items", items);
 		
 		return"procurement/add_contract";
@@ -48,7 +51,8 @@ public class ContractController {
 	                               @RequestParam("price") int price,
 	                               @RequestParam("leadTime") LocalDate leadTime,
 	                               @RequestParam("contractNote") String contractNote,
-	                               Model model) {
+	                               Model model,
+	                               @PageableDefault(size = 10) Pageable pageable) {
 			System.out.println("[계약컨트롤러] 계약서 저장");
 			
 	        Contract contract = new Contract();
@@ -81,18 +85,19 @@ public class ContractController {
 	        // 아이템 정보 저장
 	        contractService.saveItem(item);
 
-	        List<Item> items = contractService.getAllItems();//리다이렉트용 품목리스트
+	        Page<Item> items = contractService.getAllItems(pageable);//리다이렉트용 품목리스트
 		       model.addAttribute("items", items);
 
 	        return "redirect:add_contract"; // 저장 후 홈페이지로 리다이렉트
 	    } 
 	
 	    @GetMapping("/contractOn")
-	    public String confirmContract(@RequestParam("contract_number") int contract_number,Model model) {
+	    public String confirmContract(@RequestParam("contract_number") int contract_number,Model model,
+	    								@PageableDefault(size = 10) Pageable pageable) {
 	        // 컨트롤러에서 서비스를 호출하여 계약을 확정시킴
 	        contractService.contractOn(contract_number);
-	        
-	        List<Item> items = contractService.getAllItems();//리다이렉트용 품목리스트
+	         
+	        Page<Item> items = contractService.getAllItems(pageable);//리다이렉트용 품목리스트
 		     model.addAttribute("items", items);
 	        return "redirect:add_contract"; // 확정 후 계약 리스트 페이지로 리다이렉트
 	    }

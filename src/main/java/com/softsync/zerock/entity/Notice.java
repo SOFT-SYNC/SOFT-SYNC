@@ -2,6 +2,8 @@ package com.softsync.zerock.entity;
 
 import org.hibernate.annotations.DynamicUpdate;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -19,6 +21,7 @@ import lombok.Setter;
 @Setter
 @Table(name="notice")
 @DynamicUpdate
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Notice {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
