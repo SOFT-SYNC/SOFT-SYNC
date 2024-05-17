@@ -150,7 +150,7 @@ public class BasicController {
 	}
 	
 	
-	//계약 
+//	//계약 
 //	@GetMapping("/add_contract")   
 //	public String addcontractview(Model model) {
 //		
@@ -159,7 +159,7 @@ public class BasicController {
 //		
 //		return"/procurement/add_contract";
 //	}
-//	
+	
 	
 	
 	@GetMapping("/inventory_period")

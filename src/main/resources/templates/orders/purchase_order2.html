@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link type="text/css" rel="stylesheet" href="../CSS/header.css">
+<link type="text/css" rel="stylesheet" href="../CSS/common.css">
+<link type="text/css" rel="stylesheet" href="../CSS/sidebar.css">
+<link type="text/css" rel="stylesheet" href="../CSS/order.css">
+  <script type="text/javascript" src="../js/sidebar.js"></script>
+
+</head>
+<body>
+	<div th:insert="~{common/sidebar :: sidebar}"></div>
+	<div class="main-content">
+		<div th:insert="~{common/header :: header}"></div>
+		<div id="row1">
+		<input type="hidden" id="orderNo" name="orderNo">
+		<input type="hidden" id="brn" name="brn">
+			<h2 class="visual-title">구매 발주서</h2>
+			<div>
+			<button type="submit" id="popupBtn" class="blueBtn">발주서 발행</button>
+			</div>
+			<!-- (상단)구매발주서  테이블-->
+			<table class="table" id="1">
+			<colgroup>
+			<col width="10%">
+			<col width="40%">
+			<col width="10%">
+			<col width="40%">
+			</colgroup>
+			<tbody>
+                  <tr>
+                     <th>발주번호</th>
+                     <td><input type="text" name="orderNo" readonly></td>
+                     <th>사업자등록번호</th>
+                     <td><input type="text" name="brn" readonly></td>
+                  </tr>
+                  <tr>
+                     <th>발신처</th>
+                     <td><b>(주) SOFT-SYNC</b></td>
+                     <th>수신처</th>
+                     <td><input type="text" name="company_name" readonly></td>
+                  </tr>
+                  <tr>
+                     <th>연락처</th>
+                     <td>031-5555-5555</td>
+                     <th>대표자명</th>
+                     <td><input type="text" name="company_ceo" readonly></td>
+                  </tr>
+                  <tr>
+                     <th>발주일</th>
+                     <td><input type="date" name="orderDate" readonly></td>
+                     <th>주소</th>
+                     <td><input type="text" name="companyAddress" readonly></td>
+                  </tr>
+                  <tr>
+                     <th>납기일</th>
+                     <td><input type="date" name="receiveDuedate" readonly></td>
+                     <th>담당자</th>
+                     <td><input type="text" name="manager" readonly></td>
+                  </tr>
+                  <tr>
+                     <th>지불조건</th>
+                     <td> 내규에 따름</td>
+                     <th>연락처</th>
+                     <td><input type="text" name="manager_tel" readonly></td>
+                  </tr>
+                  </tbody>
+			</table>
+
+			<div id="centertb">
+				<table class="listTable" id="2">
+						<tr>
+							<th>번호</th>
+							<th>품명</th>
+							<th>재질</th>
+							<th>규격</th>
+							<th>단위</th>
+							<th>수량</th>
+							<th>단가</th>
+							<th>공급가액</th>
+							<th>비고</th>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>EA</td>
+							<td> <input type="number" ></td>
+							<td></td>
+							<td>총금액</td>
+							<td></td>
+						</tr>
+				</table>
+			</div>
+		</div>
+		<div id="row2">
+		<div id="ordersList">
+			<h2 class="visual-title">발주 품목 조회</h2>
+				<!-- (하단)발주 품목 조회 리스트 scope -->
+				<div id="bottomtb">
+					<input type="date"> ~ <input type="date">
+					<button type="submit" class="blueBtn">검색</button>
+					<a href="purchase_order_list">
+						<button type="button" class="blueBtn">목록</button>
+					</a>
+						<table class="listTable" id="3">
+						<colgroup>
+						<col width="15%">
+						<col width="15%">
+						<col width="12%">
+						<col width="12%">
+						<col width="12%">
+						<col width="13%">
+						<col width="13%">
+						<col width="8%">
+						</colgroup>
+							<thead>
+								<tr id="item">
+									<th>품목코드</th>
+									<th>품목명</th>
+									<th>재질</th>
+									<th>규격</th>
+									<th>발주수량</th>
+									<th>발주일</th>
+									<th colspan ="2">납기일</th>
+								</tr>
+							</thead>
+							<th:block th:each="item, itemIndex: ${items}">
+							    <tr>
+					              <td th:text="${item.itemCode}">품목코드</td>
+					              <td th:text="${item.itemName}">품목명</td>
+					              <td th:text="${item.material}">재질</td>
+					              <td th:text="${item.dimensions}">규격</td>
+					              <td>N/A</td>
+					              <td>N/A</td>
+					              <td>N/A</td>
+					              <td><button id="addBtn" class="blueBtn">추가</button></td>
+					          	</tr>
+							    <tr id="order" th:if ="${item.contracts !=null}" th:each="orders : ${item.orders}">
+					              <td th:text="${contract.item.itemCode}">품목코드</td>
+					              <td th:text="${contract.item.itemName}">품목명</td>
+					              <td th:text="${contract.item.material}">재질</td>
+					              <td th:text="${contract.item.dimensions}">규격</td>
+				               	  <td th:text=${contract.order.orderQuantity}>발주수량</td>
+					              <td th:text="${order.orderDate}">발주일</td>
+					              <td th:text="${order.contracts.procDuedate}">납기일</td>
+					              <td><button class="blueBtn">완료</button></td>
+					          	</tr>
+							</th:block>	
+						</table>
+					</div>
+			</div>
+		</div>
+	</div>
+	<div id="modalWrap">
+		<div id="modalBody">
+			<button type="button" class="closeBtn">&times;</button>
+			<div>
+				<table>
+					<colgroup>
+					<col width="10%">
+					<col width="40%">
+					<col width="10%">
+					<col width="40%">
+					</colgroup>
+					<tbody>
+						<tr>
+							<td colspan="2" style="text-align:center;"><h1>발주서</h1></td>
+							<th>결재란</th>
+							<td></td>
+						</tr>
+						<tr>
+							<td colspan="4"> 
+								<pre>
+		   				      년      월      일
+	     				    	아래와 같이 발주합니다.
+								</pre>
+							</td>
+						</tr>
+						<tr>
+							<th>사업자번호</th>
+							<td></td>
+							<th>발주번호</th>
+							<td></td>
+						</tr>
+						<tr>
+							<th>상호</th>
+							<td></td>
+							<th>대표자성명</th>
+							<td></td>
+						</tr>
+						<tr>
+							<th>주소</th>
+							<td colspan="3"></td>
+						</tr>
+						<tr>
+							<th>전화번호</th>
+							<td></td>
+							<th>이메일</th>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+				
+				<table>
+				<colgroup>
+					<col width="5%">
+					<col width="30%">
+					<col width="15%">
+					<col width="25%">
+					<col width="25%">
+				</colgroup>
+				<tbody>
+					<tr>
+						<th>No</th>
+						<th>품명</th>
+						<th>수량</th>
+						<th>단가</th>
+						<th>기타</th>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>3</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>4</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>5</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>6</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>7</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>8</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>비고</td>
+						<td colspan="4"></td>
+					</tr>
+				</tbody>
+			</table>
+			</div>
+		<button type="submit" class="blueBtn">인쇄</button>
+		<button type="submit" class="blueBtn">발주</button>
+	</div>
+</div>
+
+<script>
+	const popupBtn = document.getElementById("popupBtn"); // 팝업 버튼 요소 가져오기
+	const modalWrap = document.getElementById("modalWrap"); // 모달 요소 가져오기
+	const closeBtn = document.querySelector(".closeBtn"); // 모달 닫기 버튼 요소 가져오기
+	const modalImage = document.getElementById("modalImage");
+	
+	// 팝업 버튼 클릭 시 모달 열기
+	popupBtn.addEventListener("click", function() {
+	  modalWrap.style.display = "block";
+	});
+	
+	// 모달 닫기 버튼 클릭 시 모달 닫기
+	closeBtn.addEventListener("click", function() {
+	  modalWrap.style.display = "none";
+	});
+	
+	// 모달 외부 클릭 시 모달 닫기
+	window.addEventListener("click", function(event) {
+	  if (event.target === modalWrap) {
+	    modalWrap.style.display = "none";
+	  }
+	});
+</script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    // addBtn 버튼 클릭 이벤트 핸들링
+    $('#3').on('click', '#addBtn', function() {
+        // 클릭된 버튼의 부모 tr 요소를 찾음
+        var $row = $(this).closest('tr');
+        
+        // 해당 tr의 각 열 데이터를 가져옴
+        var itemCode = $row.find('td').eq(0).text();
+        var itemName = $row.find('td').eq(1).text();
+        var material = $row.find('td').eq(2).text();
+
+        // 상단 테이블의 2, 3, 4번째 칸에 값을 설정
+        var $topRow = $('#2 tbody tr').eq(1);
+        $topRow.find('td').eq(1).text(itemCode);
+        $topRow.find('td').eq(2).text(itemName);
+        $topRow.find('td').eq(3).text(material);
+    });
+});
+</script>
+ 
+</body>
+</html>

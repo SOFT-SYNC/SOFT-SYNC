@@ -101,6 +101,12 @@ public class ContractService {
 	    } else {
 	        // ID에 해당하는 계약을 찾을 수 없는 경우에 대한 처리
 	    }
+	}
+
+
+
+	public Contract getContractByItemCode(String itemCode) {
+	     return contractRepository.findByItemItemCode(itemCode);
 	}    
    
 }
