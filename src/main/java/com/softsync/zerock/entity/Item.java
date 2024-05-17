@@ -2,6 +2,8 @@ package com.softsync.zerock.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -19,16 +21,15 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "items")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Item {
-	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
 
-    @OneToMany( fetch = FetchType.LAZY)
+	@OneToMany( fetch = FetchType.LAZY)
     private List<Contract> contracts;
-    
+
     @Column(nullable = true, unique = true)
     private String itemCode;
 
@@ -48,7 +49,9 @@ public class Item {
     @Column(nullable = true)
     private String blueprintPath;
 
+    // Getter and Setter
 
+    
 
 	public Long getId() {
 		return id;

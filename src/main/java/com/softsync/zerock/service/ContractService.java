@@ -4,10 +4,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,14 +30,17 @@ public class ContractService {
 	@Autowired
 	CompanyRepository companyRepository;
 	
-	   @Autowired
-	    private ContractRepository contractRepository;
+   @Autowired
+    private ContractRepository contractRepository;
+   
+   @Value("${file.upload-dir}")
+    private String uploadDir;
 
 
 	    
 	    
-	 public List<Item> getAllItems() {
-	        return itemRepository.findAll();
+	 public Page<Item> getAllItems(@PageableDefault(size = 10) Pageable pageable) {
+	        return itemRepository.findAll(pageable);
 	    }
 	 
 
@@ -61,41 +67,28 @@ public class ContractService {
     }
     
     
-	public String saveFile(MultipartFile file) {
-		// 저장할 디렉토리 경로
-		String uploadDir = "C:/springMVC/sscFile";
+    	public String saveFile(MultipartFile file) {
+        if (file.isEmpty()) {
+            System.out.println("Failed to save file: File is empty.");
+            return null;
+        }
 
-		// 파일이 비어있는지 검사
-		if (file.isEmpty()) {
-			// 파일이 비어있으면 경고 로그를 남기고 null 반환
-			System.out.println("Failed to save file: File is empty.");
-			return null;
-		}
+        try {
+            Path dirPath = Paths.get(uploadDir);
+            if (!Files.exists(dirPath)) {
+                Files.createDirectories(dirPath);
+            }
+            String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+            Path filePath = Paths.get(uploadDir, fileName);
+            Files.write(filePath, file.getBytes());
 
-		try {
-			// 업로드 디렉토리가 존재하지 않으면 생성
-			Path dirPath = Paths.get(uploadDir);
-			if (!Files.exists(dirPath)) {
-				Files.createDirectories(dirPath);
-			}
-
-			// 파일명 중복을 피하기 위해 유니크한 파일명 생성
-			String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-
-			// 파일 경로 설정
-			Path filePath = Paths.get(uploadDir, fileName);
-
-			// 파일 저장
-			Files.write(filePath, file.getBytes());
-
-			// 파일 저장된 경로를 반환
-			return filePath.toString();
-		} catch (IOException e) {
-			// 파일 저장 중 오류 발생 시 예외 처리
-			e.printStackTrace();
-			return null;
-		}
-	}    
+            // 웹 접근 가능 경로 반환
+            return "/images/" + fileName;  // URL 경로로 수정
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    } 
 	
 	//계약 확정(계약하기)
 	public void contractOn(int contract_number) {

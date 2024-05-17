@@ -5,6 +5,8 @@ import java.util.Date;
 
 import org.hibernate.annotations.DynamicUpdate;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -20,42 +22,40 @@ import lombok.Setter;
 @Setter
 @Table(name="orders")
 @DynamicUpdate
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Orders {
 
-	@Id
-	private String orderNo;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "itemCode", nullable=false)
-	private Item itemCode;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "employeeId", nullable = false)
-	private User employeeId;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "BRN", nullable = false)
-	private Company BRN;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "procNo", nullable = false)
-	private Procurement procNo;
-	
-	@Column (nullable = false)
-	private Integer orderQuantity;
-	
-	@Column (nullable = false)
-	private LocalDateTime orderDate;
+   @Id
+   private String orderNo;
 
-	@Column (nullable = false)
-	private Date receiveDuedate;
-	
-	@Column (nullable = false, length = 1, columnDefinition = "CHAR(1) DEFAULT 'N'")
-	private String orderYn;
-	
-	@Column (nullable = false, length = 1, columnDefinition = "CHAR(1) DEFAULT 'N'")
-	private String receiptYn;
-	
-	@Column (nullable = true)
-	private String orderNote;
+   
+   @ManyToOne(fetch = FetchType.LAZY)
+   @JoinColumn(name = "employee_id", nullable = false)
+   private User employeeId;
+   
+   @ManyToOne(fetch = FetchType.LAZY)
+   @JoinColumn(name = "contract_number", nullable = false)
+   private Contract contract_number;
+   
+//   @ManyToOne(fetch = FetchType.LAZY) //조달계획 :입고예정일
+//   @JoinColumn(name = "procNo", nullable = false)
+//   private ProcurementPlan procNo;
+   
+   @Column (nullable = false)
+   private Integer orderQuantity;
+   
+   @Column (nullable = false)
+   private LocalDateTime orderDate;
+
+   @Column (nullable = false)
+   private Date receiveDuedate;
+   
+   @Column (nullable = false, length = 1, columnDefinition = "CHAR(1) DEFAULT 'N'")
+   private String orderYn;
+   
+   @Column (nullable = false, length = 1, columnDefinition = "CHAR(1) DEFAULT 'N'")
+   private String receiptYn;
+   
+   @Column (nullable = true)
+   private String orderNote;
 }
