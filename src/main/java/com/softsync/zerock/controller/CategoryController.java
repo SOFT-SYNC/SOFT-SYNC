@@ -19,13 +19,6 @@ public class CategoryController {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    // 모든 카테고리를 가져오는 기본 API
-    @GetMapping
-    public ResponseEntity<List<Category>> getAllCategories() {
-        List<Category> categories = categoryRepository.findAll();
-        return ResponseEntity.ok(categories);
-    }
-
     // 대분류 카테고리만 가져오는 API
     @GetMapping("/root")
     public ResponseEntity<List<Category>> getRootCategories() {

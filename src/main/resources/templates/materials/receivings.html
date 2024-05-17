@@ -34,8 +34,9 @@
         <colgroup>
           <col width="11%">
           <col width="11%">
-          <col width="5%">
-          <col width="20%">
+          <col width="10%">
+          <col width="7%">
+          <col width="7%">
           <col width="11%">
           <col width="11%">
           <col width="5%">
@@ -44,37 +45,22 @@
           <th> 품목코드</th>
           <th> 품목명</th>
           <th> 재질</th>
-          <th> 기입고수량 / 발주수량</th>
+          <th> 기입고수량</th>
+          <th> 발주수량</th>
           <th> 발주일</th>
           <th> 납기일</th>
           <th> 현황</th>
         </tr>
+        <th:block th:each="contract : ${contracts}">
         <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td th:text="${contract.item.itemCode}"></td>
+          <td th:text="${contract.item.itemName}"></td>
+          <td th:text="${contract.item.material}"></td>
+          <td></td> <!-- 초기 0 입고수량 저장 시 기존값 + 입고수량 -->
+          <td></td> <!-- 발주서 발행일 -->
+          <td></td> 
+          <td th:text="${contract.lead_time}"></td>  <!-- 계약 : 납기일 -->
           <td><input type="button" value="입고" class="blueBtn"></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td><input type="button" value="입고" class="blueBtn"></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>입고완료</td>
         </tr>
       </table>  
     </div>
@@ -83,20 +69,22 @@
       <h2 class="visual-title">자재입고</h2>
       <table class="regi-table">
         <colgroup>
-          <col width="15%">
-          <col width="30%">
-          <col width="35%">
+          <col width="20%">
+          <col width="25%">
+          <col width="20%">
+          <col width="20%">
           <col width="10%">
-          <col width="5%">
         </colgroup>
         <tr>
           <th> 품목코드</th>
           <th> 품목명</th>
-          <th> 기입고수량 / 발주수량</th>
+          <th> 기입고수량</th>
+          <th> 발주수량</th>
           <th> 입고수량</th>
           <th rowspan="2"> <button type="button" id="deleteBtn" class="blueBtn">삭제</button></th>
         </tr>
         <tr>
+          <td></td>
           <td></td>
           <td></td>
           <td></td>
