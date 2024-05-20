@@ -32,25 +32,28 @@ public class OrderService {
     @Autowired
     private CompanyRepository companyRepository;
 
-    public Map<String, Object> getContractInfo(String itemCode) {
-        Map<String, Object> response = new HashMap<>();
-        
-        Contract contract = contractRepository.findByItemItemCode(itemCode);
-        if (contract != null) {
-            response.put("contract", contract);
-            
-            // 회사 정보 가져오기
-            Company company = companyRepository.findByContracts(contract);
-            if (company != null) {
-                response.put("company", company);
-            }
-        }
-        
-        return response;
+    public List<Contract> getContractInfo(String itemCode) {
+        List<Contract> contracts = contractRepository.findAllByItemItemCode(itemCode);
+        return contracts;
     }
+	/*
+	 * public Map<String, Object> getContractInfo(String itemCode) { Map<String,
+	 * Object> response = new HashMap<>();
+	 * 
+	 * Contract contract = contractRepository.findByItemItemCode(itemCode); if
+	 * (contract != null) { response.put("contract", contract);
+	 * 
+	 * // 회사 정보 가져오기 Company company = companyRepository.findByContracts(contract);
+	 * if (company != null) { response.put("company", company); } }
+	 * 
+	 * return response; }
+	 */
 
 	public List<Item> getAllItems(){
 		return itemRepository.findAll();
+	}
+	public List<Contract> getAllContracts(){
+		return contractRepository.findAll();
 	}
 	
 
@@ -73,6 +76,14 @@ public class OrderService {
 	public void saveOrder(Orders order) {
         orderRepository.save(order);
     }
+
+	/*
+	 * public Contract getContractByContractNumber(int contractNumber) { Contract
+	 * contract = contractRepository.findByContractNumber(contractNumber); return
+	 * contract; }
+	 */
+	
+	
 
 }
  

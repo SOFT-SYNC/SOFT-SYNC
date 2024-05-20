@@ -20,6 +20,7 @@
 				<button type="reset" class="blueBtn">초기화</button>
 			</div>
 			<input type="hidden" id="itemCodeCell" name="itemCode">
+			<input type="hidden" id="contractNumCell" name="contractNumber">
 			<table class="table" id="1">
 			<colgroup>
 			<col width="10%">
@@ -124,6 +125,7 @@
 						<col width="8%">
 						</colgroup>
 						<tr id="item">
+						<th>계약번호</th>
 							<th>품목코드</th>
 							<th>품목명</th>
 							<th>재질</th>
@@ -134,21 +136,36 @@
 							<th colspan ="2">납기일</th>
 						</tr>
 
-				   <th:block th:each="item, itemIndex: ${items}">
+				   <th:block th:each="contractIndex: ${contracts}">
 					    <tr>
-					        <!-- 품목 정보를 표시합니다 -->
-					        <td th:text="${item.itemCode}">품목코드</td>
-					        <td th:text="${item.itemName}">품목명</td>
-					        <td th:text="${item.material}">재질</td>
-					        <td th:text="${item.dimensions}">규격</td>
+					        <td th:text="${contractIndex.contract_number}">계약번호</td>
+					        <td th:text="${contractIndex.item.itemCode}">품목코드</td>
+					        <td th:text="${contractIndex.item.itemName}">품목명</td>
+					        <td th:text="${contractIndex.item.material}">재질</td>
+					        <td th:text="${contractIndex.dimensions}">규격</td>
 					        <td>N/A</td>
-					        <!-- 품목에 대한 첫 번째 계약 정보를 표시합니다 -->
-					        <td th:text="${item.contracts.unit_price}">N/A</td>
+					        <td th:text="${item.contracts[0].unit_price}">N/A</td>
 					        <td>N/A</td>
-					        <td th:text="${item.contracts.lead_time}">N/A</td>
-					        <!-- 추가 버튼을 표시합니다 -->
+					        <td th:text="${item.contracts[0].lead_time}">N/A</td>
 					        <td><button id="addBtn" class="blueBtn">추가</button></td>
 					    </tr>
+					    <!-- 추가 계약 정보가 있는 경우 다른 행을 생성하여 표시합니다 -->
+					    <th:block th:if="${item.contracts.size() > 1}">
+					        <th:block th:each="additionalContract : ${item.contracts.subList(1, item.contracts.size())}">
+					            <tr>
+					            <td th:text="${contract.contract_number}">계약번호</td>
+					                <td th:text="${item.itemCode}">품목코드</td>
+							        <td th:text="${item.itemName}">품목명</td>
+							        <td th:text="${item.material}">재질</td>
+							        <td th:text="${item.dimensions}">규격</td>
+							        <td>N/A</td>
+					                <td th:text="${additionalContract.unit_price}">N/A</td>
+					                <td>N/A</td>
+					                <td th:text="${additionalContract.lead_time}">N/A</td>
+					                <td><button id="addBtn" class="blueBtn">추가</button></td>
+					            </tr>
+					        </th:block>
+					    </th:block>
 					</th:block>				
 				</table>
                
@@ -354,13 +371,15 @@
   $(document).ready(function() {
 	  $('#3').on('click', 'button#addBtn', function() {
 	    var $row = $(this).closest('tr');
-	    var itemCode = $row.find('td:nth-child(1)').text().trim();
-	    var itemName = $row.find('td:nth-child(2)').text().trim();
-	    var itemMaterial = $row.find('td:nth-child(3)').text().trim();
-	    var itemDimensions = $row.find('td:nth-child(4)').text().trim();
-	    var unitPrice = $row.find('td:nth-child(6)').text().trim();
-	    var leadTime = $row.find('td:nth-child(8)').text().trim();
+	    var contractNum = $row.find('td:nth-child(1)').text().trim();
+	    var itemCode = $row.find('td:nth-child(2)').text().trim();
+	    var itemName = $row.find('td:nth-child(3)').text().trim();
+	    var itemMaterial = $row.find('td:nth-child(4)').text().trim();
+	    var itemDimensions = $row.find('td:nth-child(5)').text().trim();
+	    var unitPrice = $row.find('td:nth-child(7)').text().trim();
+	    var leadTime = $row.find('td:nth-child(9)').text().trim();
 	    
+	    $('#contractNumCell').val(itemCode);
 	    $('#itemCodeCell').val(itemCode);
 	    $('#itemNameCell input').val(itemName);
 	    $('#itemMaterialCell input').val(itemMaterial);
