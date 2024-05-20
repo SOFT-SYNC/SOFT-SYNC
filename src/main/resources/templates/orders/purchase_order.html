@@ -169,22 +169,26 @@
 			<form th:action="@{/saveOrders}" method="post" enctype="multipart/form-data">
 				<table>
 					<colgroup>
-					<col width="10%">
-					<col width="40%">
-					<col width="10%">
-					<col width="40%">
+					<col width="12%">
+					<col width="38%">
+					<col width="12%">
+					<col width="38%">
 					</colgroup>
 					<tbody>
 						<tr>
-							<td colspan="2" style="text-align:center;"><h1>발주서</h1></td>
-							<th>결재란</th>
-							<td></td>
+							<td colspan="4" style="text-align:center;"><h1>발주서</h1></td>
+							
 						</tr>
 						<tr>
 							<td colspan="4" style="text-align:center;"> 
-							
-		   				      년      월      일<br>
+							<br><br>
+		   				      <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}"></span><span>년</span>
+		   				      <span th:text="${#dates.format(#dates.createNow(), 'MM')}"></span><span>월</span>
+		   				      <span th:text="${#dates.format(#dates.createNow(), 'dd')}"></span><span>일</span><br>
 	     				    	아래와 같이 발주합니다.
+	     				    	<br><br> (주) SOFT-SYNC (인)
+	     				    	<!-- <img id="signature" src="../images/dojang.png" alt="결재 이미지"> -->
+	     				    	<br><br>
 							</td>
 						</tr>
 						<tr>
@@ -292,7 +296,7 @@
 			</table>
 		<div>
 			<button type="submit"  class="blueBtn">발주서 발행</button>
-			<button type="reset" class="blueBtn">인쇄</button>
+			<button type="reset" class="blueBtn" id="printBtn" onClick="printModalContent()">저장 및 인쇄</button>
 		</div>
 			</form>
 
@@ -321,6 +325,35 @@
 	    modalWrap.style.display = "none";
 	  }
 	});
+</script>
+<script>
+ function printModalContent() {
+        // 모든 버튼과 모달 내 요소를 프린트하기 전에 임시로 숨깁니다.
+        var buttons = document.querySelectorAll('.closeBtn, .blueBtn');
+        buttons.forEach(function(button) {
+            button.style.display = 'none';
+        });
+
+        // 인쇄할 모달의 내용을 저장
+        var modalContent = document.getElementById('modalBody').innerHTML;
+
+        // 프린트합니다.
+        var originalContent = document.body.innerHTML; // 현재 문서의 내용을 저장
+        document.body.innerHTML = modalContent; // 모달의 내용으로 문서의 내용을 변경
+        window.print(); // 인쇄 
+        document.body.innerHTML = originalContent; // 원래의 내용으로 복원
+
+        // 프린트 후 다시 보이도록 스타일을 원래대로 복원합니다.
+        buttons.forEach(function(button) {
+            button.style.display = 'block';
+        });
+    }
+
+    // 버튼 클릭 이벤트에 함수 연결
+    document.getElementById('printBtn').addEventListener('click', function() {
+        printModalContent();
+    }); 
+    /*  인쇄 하고 나면 모달창 안닫히는 오류 있음*/
 </script>
 
 

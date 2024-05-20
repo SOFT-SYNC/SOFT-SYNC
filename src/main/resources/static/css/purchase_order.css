@@ -166,6 +166,24 @@ input[type="number"] {
 	width: 900px;
 	margin : 20px auto;
 }
+/* @media print {
+ #signature {
+        position: absolute;
+        top: 210px; 이미지의 위쪽 여백 조정
+        right: 550px; 이미지의 왼쪽 여백 조정
+        z-index: 1; 이미지가 테이블 위에 오도록 설정
+        width:60px;
+        height : 60px;
+    }
+}
+ #signature {
+        position: absolute;
+        top: 210px; 이미지의 위쪽 여백 조정
+        right: 550px; 이미지의 왼쪽 여백 조정
+        z-index: 1; 이미지가 테이블 위에 오도록 설정
+        width:60px;
+        height : 60px;
+    } */
 .closeBtn {
   position: absolute;
   top: 10px;
