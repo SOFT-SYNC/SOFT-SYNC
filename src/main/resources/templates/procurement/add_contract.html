@@ -123,14 +123,14 @@
             <td th:text="${contract.company.brn}"></td>
             <td th:text="${contract.unit_price}"></td>
             <td th:text="${contract.lead_time}"></td>
-<td>
-    <span th:if="${contract.contract_yn == 'n'}">
-        <input type="button" class="blueBtn" value="계약하기" th:onclick="'confirmContract(' + ${contract.contract_number} + ')'">
-    </span>
-    <span th:if="${contract.contract_yn == 'y'}">
-        <input type="button" id="redBtn" class="blueBtn" value="계약완료">
-    </span>
-</td>
+			<td th:switch="${contract.contract_yn}">
+			    <span th:case="'n'">
+			        <input type="button" class="blueBtn" value="계약하기" th:onclick="'confirmContract(' + ${contract.contract_number} + ')'">
+			    </span>
+			    <span th:case="'y'">
+			        <input type="button" id="blueBtn" class="blueBtn" value="계약완료">
+			    </span>
+			</td>
             <td th:text="${contract.contract_yn}"></td>
             <td><input type="button" id="deleteBtn" class="blueBtn" value="삭제"></td>
 			<td>

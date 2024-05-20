@@ -30,15 +30,16 @@
         <button onclick="performSearch()" class="blueBtn">검색</button>
       </div>
 
-      <table class="list-table">
+      <table class="list-table" id="res">
         <colgroup>
           <col width="11%">
           <col width="11%">
           <col width="10%">
           <col width="7%">
           <col width="7%">
-          <col width="11%">
-          <col width="11%">
+          <col width="7%">
+          <col width="7%">
+          <col width="7%">
           <col width="5%">
         </colgroup>
         <tr>
@@ -49,25 +50,27 @@
           <th> 발주수량</th>
           <th> 발주일</th>
           <th> 납기일</th>
+          <th> 최근납기일</th>
           <th> 현황</th>
         </tr>
-        <th:block th:each="contract : ${contracts}">
+        <th:block th:each="order : ${orders}">
         <tr>
-          <td th:text="${contract.item.itemCode}"></td>
-          <td th:text="${contract.item.itemName}"></td>
-          <td th:text="${contract.item.material}"></td>
-          <td></td> <!-- 초기 0 입고수량 저장 시 기존값 + 입고수량 -->
-          <td></td> <!-- 발주서 발행일 -->
-          <td></td> 
-          <td th:text="${contract.lead_time}"></td>  <!-- 계약 : 납기일 -->
-          <td><input type="button" value="입고" class="blueBtn"></td>
+          <td th:text="${order.contract_number.item.itemCode}"></td>
+          <td th:text="${order.contract_number.item.itemName}"></td>
+          <td th:text="${order.contract_number.item.material}"></td>
+          <td></td> <!-- 초기 0 입고수량 저장 시 기존값 + 입고수량 //컬럼을 새로 만들어야될듯 -->
+          <td>500</td> <!-- 발주서.발주수량 가져오기 // 수정필요! -->
+          <td>2024-05-20</td> <!-- 발주서.발주서발행일 // 수정필요! -->
+          <td th:text="${order.contract_number.lead_time}"></td>  <!-- 계약 : 납기일 -->
+          <td></td>
+          <td><input type="button" value="입고" class="blueBtn" onclick="receivingStrat(this)"></td>
         </tr>
       </table>  
     </div>
   </div>
     <div id="row1">
       <h2 class="visual-title">자재입고</h2>
-      <table class="regi-table">
+       <table class="regi-table" id="receivingTable">
         <colgroup>
           <col width="20%">
           <col width="25%">
@@ -81,14 +84,14 @@
           <th> 기입고수량</th>
           <th> 발주수량</th>
           <th> 입고수량</th>
-          <th rowspan="2"> <button type="button" id="deleteBtn" class="blueBtn">삭제</button></th>
+        
         </tr>
         <tr>
           <td></td>
           <td></td>
           <td></td>
           <td></td>
-          <td></td>
+          <td><input type="text"></td>
         </tr>
       </table>  
       <div class="button_wrap">
@@ -98,6 +101,28 @@
     </div>
  
 </div>
+  <script>
+  	function receivingStrat(button){
+  		var row = button.parentElement.parentElement;  //부모태그의 부모태그를 반환(td -> tr!)
+  		
+  		var itemCode = row.cells[0].innerText;
+  		var itemName = row.cells[1].innerText;
+  		var wQuantity = row.cells[3].innerText; //기입고수량
+  		var orderedQuantity = row.cells[4].innerText; //발주수량
+  	
+  		
+  		var receivingTable = document.getElementById("receivingTable"); //하단 테이블(자재입고) 찾음
+	  	  var firstRow = receivingTable.rows[1]; // 첫 번째 데이터 행을 참조
+	
+	      firstRow.cells[0].innerText = itemCode;
+	      firstRow.cells[1].innerText = itemName;
+	      firstRow.cells[2].innerText = wQuantity; // 기입고수량 초기값 설정
+	      firstRow.cells[3].innerText = orderedQuantity;
+	      firstRow.cells[4].innerHTML = '<input type="number" value="0">'; // 입고수량 입력 필드 추가
+	 }
+        
+  		
+  </script>
 
   <script>
     function performSearch() {
