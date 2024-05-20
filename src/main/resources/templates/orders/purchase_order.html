@@ -13,6 +13,7 @@
 		<div th:insert="~{common/header :: header}"></div>
 		<div id="row1">
 		<h2 class="visual-title">구매발주서</h2>
+		<!-- <input type="hidden" name="itemCode" th:value="${item.itemCode}"> -->
 		<div>
 			<button type="button" id="popupBtn" class="blueBtn">발주서 발행</button>
 			<button type="reset" class="blueBtn">초기화</button>
@@ -97,7 +98,6 @@
 					<td id = "orderNote"><input type="text" name="orderNote"></td>
 				</tr>
 			</table>
-		</form>
 		</div>
 		<div id="row2">
 			<div id="ordersList">
@@ -143,7 +143,7 @@
 			              	</td>
 			              <td><button id="addBtn" class="blueBtn">추가</button></td>
 			          	</tr>
-			          	<tr id="orders" th:each="orders : ${orders}">
+			          	<tr id="orders" th:if="${orders != null}" th:each="orders : ${orders}">
 			              <td th:text="${item.itemCode}">품목코드</td>
 			              <td th:text="${item.itemName}">품목명</td>
 			              <td th:text="${item.material}">재질</td>
@@ -155,6 +155,9 @@
 			          	</tr>
 					</th:block>				
 				</table>
+				
+			
+               
 			</div>
 		</div>
 	</div>

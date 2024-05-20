@@ -162,7 +162,10 @@ input[type="number"] {
   flex-direction: column;
   text-align: center;
 }
-
+#modalBody table { 
+	width: 900px;
+	margin : 20px auto;
+}
 .closeBtn {
   position: absolute;
   top: 10px;

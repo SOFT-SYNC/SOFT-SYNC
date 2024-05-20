@@ -34,6 +34,7 @@ body {
 .main-content {
   margin-left: 0; /* 사이드바가 숨겨져 있을 때 */
   transition: margin-left 0.3s; /* 사이드바가 나타날 때 오른쪽으로 밀림 */
+  margin-top : 50px;
 }
 
 #container {

@@ -4,6 +4,11 @@
 	margin-bottom: 30px;
 	box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 	color: white;
+	    position: fixed; /* 상단에 고정 */
+    top: 0; /* 위쪽으로부터 거리 */
+    width: 100%; /* 전체 너비 */
+    background-color: #fff; /* 배경색 지정 */
+    z-index: 900; /* 다른 요소 위에 표시 */
 }
 
 .topbar {

@@ -74,7 +74,7 @@ public class OrderController {
 	  public String saveOrders( @RequestParam("brn")String brn,
 					  			@RequestParam("company_name") String companyName,
 					  			@RequestParam("company_ceo") String companyCeo,
-					  			@RequestParam("compant_address") String compantAddress,
+					  			@RequestParam("company_address") String companyAddress,
 					  			@RequestParam("manager") String manager,
 					  			@RequestParam("manager_tel") String managerTel,
 					  			@RequestParam("itemCode") String itemCode,
@@ -96,7 +96,7 @@ public class OrderController {
       Company company = orderService.getorderByBrn(brn);
       Item item = orderService.getItemByItemCode(itemCode);
       Contract contract = contractService.getContractByItemCode(itemCode);
-      String orderNo = orderService.generateOrderNo();
+      String orderNo = orderService.generateOrderNo(); //발주번호 자동
 
       order.setContract(contract);
       order.setCompany(company); 

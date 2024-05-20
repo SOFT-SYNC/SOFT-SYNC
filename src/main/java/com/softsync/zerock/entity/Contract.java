@@ -40,7 +40,7 @@ public class Contract {
     private Item item;
     
 //    @OneToMany(fetch = FetchType.LAZY)
-    @OneToMany(mappedBy = "contract_number", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "contract", fetch = FetchType.LAZY)
     private List<Orders> orders;
 
     @Column(name = "contract_date")//계약일 
