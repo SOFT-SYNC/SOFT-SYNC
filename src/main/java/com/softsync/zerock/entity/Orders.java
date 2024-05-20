@@ -35,9 +35,17 @@ public class Orders {
    @JoinColumn(name = "employee_id", nullable = false)
    private User employeeId;
    
+   @ManyToOne
+   @JoinColumn(name = "brn")
+   private Company company;
+
+   @ManyToOne
+   @JoinColumn(name = "item_code")
+   private Item item;
+   
    @ManyToOne(fetch = FetchType.LAZY)
-   @JoinColumn(name = "contract_number", nullable = false)
-   private Contract contract_number;
+   @JoinColumn(name = "contract_number")
+   private Contract contract;
    
 //   @ManyToOne(fetch = FetchType.LAZY) //조달계획 :입고예정일
 //   @JoinColumn(name = "procNo", nullable = false)
