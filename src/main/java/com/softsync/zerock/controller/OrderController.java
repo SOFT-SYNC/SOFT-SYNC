@@ -1,12 +1,14 @@
 package com.softsync.zerock.controller;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -52,6 +54,7 @@ public class OrderController {
 	@PostMapping("/getContractInfo")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> getContractInfo(@RequestBody Map<String, String> request) {
+		 System.out.println("[OrderController] getContractInfo()");
         String itemCode = request.get("itemCode");
     
         Contract contract = contractService.getContractByItemCode(itemCode);
@@ -65,40 +68,54 @@ public class OrderController {
     }
 	
   
-	/*
-	 * @PostMapping("/saveOrders") public String saveOrders( @RequestParam("brn")
-	 * String brn,
-	 * 
-	 * @RequestParam("company_name") String companyName,
-	 * 
-	 * @RequestParam("itemCode") String itemCode,
-	 * 
-	 * @RequestParam("itemName") String itemName,
-	 * 
-	 * @RequestParam("price") int price, Model model) {
-	 * System.out.println("[OrderController] saveOrders()");
-	 * 
-	 * Orders order = new Orders(); Company company =
-	 * orderService.getorderByBrn(brn); Item item =
-	 * orderService.getItemByItemCode(itemCode);
-	 * 
-	 * 
-	 * order.setCompany(company); order.setOrderDate(LocalDateTime.now());
-	 * order.setItem(item); order.setReceiveDuedate(null); order.setContract(null);
-	 * order.setOrderYn(null);//발주여부
-	 * 
-	 * 
-	 * List<Orders> orders = item.getOrders(); if (orders == null) { orders = new
-	 * ArrayList<>(); } orders.add(order); // new 발주정보 item.setOrders(orders);
-	 * 
-	 * // 아이템 정보 저장 orderService.saveItem(item);
-	 * 
-	 * 
-	 * List<Item> items = orderService.getAllItems(); model.addAttribute("items",
-	 * items);
-	 * 
-	 * return "redirect:add_contract"; }
-	 */
+	
+	
+	  @PostMapping("/saveOrders") 
+	  public String saveOrders( @RequestParam("brn")String brn,
+					  			@RequestParam("company_name") String companyName,
+					  			@RequestParam("company_ceo") String companyCeo,
+					  			@RequestParam("compant_address") String compantAddress,
+					  			@RequestParam("manager") String manager,
+					  			@RequestParam("manager_tel") String managerTel,
+					  			@RequestParam("itemCode") String itemCode,
+					  			@RequestParam("itemName") String itemName,
+					  			@RequestParam("material") String material,
+					  			@RequestParam("dimensions") String demensions,
+					  			@RequestParam("orderQuantity") Integer orderQuantity,
+					  			@RequestParam("unit_price") int unitPrice, 
+					  			@RequestParam("orderNote") String orderNote,
+					  			@RequestParam("orderDate") LocalDateTime orderDate,
+					  			@RequestParam("receiveDuedate") Date receiveDuedate,
+					  			Model model,
+					  			@PageableDefault(size = 10) Pageable pageable) {
+		  
+	  System.out.println("[OrderController] saveOrders()");
+	  
+
+      Orders order = new Orders();
+      Company company = orderService.getorderByBrn(brn);
+      Item item = orderService.getItemByItemCode(itemCode);
+      Contract contract = contractService.getContractByItemCode(itemCode);
+      String orderNo = orderService.generateOrderNo();
+
+      order.setContract(contract);
+      order.setCompany(company); 
+      order.setItem(item);
+      order.setOrderNo(orderNo);
+      order.setOrderDate(orderDate);
+      order.setReceiveDuedate(receiveDuedate);
+      order.setOrderQuantity(orderQuantity);
+      order.setOrderNote(orderNote);
+
+      orderService.saveOrder(order);
+
+      List<Item> items = orderService.getAllItems();
+      model.addAttribute("items", items);
+
+      return "redirect:/add_contract";
+	  }
+	 
+	 
 		
 	
 	@GetMapping("/purchase_order_list")
