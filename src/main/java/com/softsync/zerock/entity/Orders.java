@@ -2,6 +2,7 @@ package com.softsync.zerock.entity;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -13,6 +14,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -48,6 +50,11 @@ public class Orders {
 //   @ManyToOne(fetch = FetchType.LAZY) //조달계획 :입고예정일
 //   @JoinColumn(name = "procNo", nullable = false)
 //   private ProcurementPlan procNo;
+   
+   
+   
+   @OneToMany(mappedBy = "orders", fetch = FetchType.LAZY)
+   private List<Reciving> Receivings;  //입고 1:n
    
    @Column (nullable = false)
    private Integer orderQuantity;

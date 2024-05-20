@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.softsync.zerock.entity.Contract;
-import com.softsync.zerock.repository.ContractRepository;
+import com.softsync.zerock.entity.Orders;
+import com.softsync.zerock.repository.OrderRepository;
 
 @Service
 public class ReceivingService {
@@ -15,10 +15,10 @@ public class ReceivingService {
 //	RecivingRepository recivingRepository;
 	
 	@Autowired
-	ContractRepository contractRepository;
+	OrderRepository orderRepository;
 	
-	public List<Contract> resiving(){
+	public List<Orders> resiving(){
 		
-		return contractRepository.findAll();
+		return orderRepository.findAll();
 	}
 }
