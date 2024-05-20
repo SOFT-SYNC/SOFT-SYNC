@@ -1,6 +1,7 @@
 package com.softsync.zerock.controller;
 
-import java.time.LocalDateTime;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +27,8 @@ import com.softsync.zerock.service.CompanyService;
 import com.softsync.zerock.service.ContractService;
 import com.softsync.zerock.service.ItemService;
 import com.softsync.zerock.service.OrderService;
+
+import jakarta.mail.internet.ParseException;
 
 @Controller
 public class OrderController {
@@ -71,50 +74,56 @@ public class OrderController {
   
 	
 	
-	  @PostMapping("/saveOrders") 
-	  public String saveOrders( @RequestParam("brn")String brn,
-					  			@RequestParam("company_name") String companyName,
-					  			@RequestParam("company_ceo") String companyCeo,
-					  			@RequestParam("company_address") String companyAddress,
-					  			@RequestParam("manager") String manager,
-					  			@RequestParam("manager_tel") String managerTel,
-					  			@RequestParam("itemCode") String itemCode,
-					  			@RequestParam("itemName") String itemName,
-					  			@RequestParam("material") String material,
-					  			@RequestParam("dimensions") String demensions,
-					  			@RequestParam("orderQuantity") Integer orderQuantity,
-					  			@RequestParam("unit_price") int unitPrice, 
-					  			@RequestParam("orderNote") String orderNote,
-					  			@RequestParam("orderDate") LocalDateTime orderDate,
-					  			@RequestParam("receiveDuedate") Date receiveDuedate,
-					  			Model model,
-					  			@PageableDefault(size = 10) Pageable pageable) {
-		  
-	  System.out.println("[OrderController] saveOrders()");
-	  
+	@PostMapping("/saveOrders")
+	public String saveOrders(@RequestParam("brn") String brn,
+	                         @RequestParam("company_name") String companyName,
+	                         @RequestParam("company_ceo") String companyCeo,
+	                         @RequestParam("company_address") String companyAddress,
+	                         @RequestParam("manager") String manager,
+	                         @RequestParam("manager_tel") String managerTel,
+	                         @RequestParam("itemCode") String itemCode,
+	                         @RequestParam("itemName") String itemName,
+	                         @RequestParam("material") String material,
+	                         @RequestParam("dimensions") String demensions,
+	                         @RequestParam("orderQuantity") int orderQuantity,
+	                         @RequestParam("unitPrice") int unitPrice,
+	                         @RequestParam("orderNote") String orderNote,
+	                         @RequestParam("orderDate") String orderDate,
+	                         @RequestParam("receiveDuedate") String receiveDuedate, // 변경된 부분
+	                         Model model,
+	                         @PageableDefault(size = 10) Pageable pageable) {
 
-      Orders order = new Orders();
-      Company company = orderService.getorderByBrn(brn);
-      Item item = orderService.getItemByItemCode(itemCode);
-      Contract contract = contractService.getContractByItemCode(itemCode);
-      String orderNo = orderService.generateOrderNo(); //발주번호 자동
+	    System.out.println("[OrderController] saveOrders()");
 
-      order.setContract(contract);
-      order.setCompany(company); 
-      order.setItem(item);
-      order.setOrderNo(orderNo);
-      order.setOrderDate(orderDate);
-      order.setReceiveDuedate(receiveDuedate);
-      order.setOrderQuantity(orderQuantity);
-      order.setOrderNote(orderNote);
+	    Orders order = new Orders();
+	    Company company = orderService.getorderByBrn(brn);
+	    Item item = orderService.getItemByItemCode(itemCode);
+	    Contract contract = contractService.getContractByItemCode(itemCode);
+	    String orderNo = orderService.generateOrderNo(); //발주번호 자동
 
-      orderService.saveOrder(order);
+	    order.setContract(contract);
+	    order.setCompany(company);
+	    order.setItem(item);
+	    order.setOrderNo(orderNo);
 
-      List<Item> items = orderService.getAllItems();
-      model.addAttribute("items", items);
+	    // orderDate 문자열을 LocalDate로 변환
+	    LocalDate parsedOrderDate = LocalDate.parse(orderDate);
+	    order.setOrderDate(parsedOrderDate);
 
-      return "redirect:/add_contract";
-	  }
+	    // receiveDuedate 문자열을 LocalDate로 변환
+	    LocalDate parsedReceiveDuedate = LocalDate.parse(receiveDuedate);
+	    order.setReceiveDuedate(parsedReceiveDuedate);
+
+	    order.setOrderQuantity(orderQuantity);
+	    order.setOrderNote(orderNote);
+
+	    orderService.saveOrder(order);
+
+	    List<Item> items = orderService.getAllItems();
+	    model.addAttribute("items", items);
+
+	    return "redirect:/purchase_order";
+	}
 	 
 	 
 		

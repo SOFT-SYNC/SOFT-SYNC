@@ -1,7 +1,6 @@
 package com.softsync.zerock.entity;
 
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.hibernate.annotations.DynamicUpdate;
@@ -32,7 +31,7 @@ public class Orders {
 
    
    @ManyToOne(fetch = FetchType.LAZY)
-   @JoinColumn(name = "employee_id", nullable = false)
+   @JoinColumn(name = "employee_id", nullable = true)
    private User employeeId;
    
    @ManyToOne
@@ -60,15 +59,15 @@ public class Orders {
    private Integer orderQuantity;
    
    @Column (nullable = false)
-   private LocalDateTime orderDate;
+   private LocalDate orderDate;
 
    @Column (nullable = false)
-   private Date receiveDuedate;
+   private LocalDate receiveDuedate;
    
-   @Column (nullable = false, length = 1, columnDefinition = "CHAR(1) DEFAULT 'N'")
+   @Column (nullable = true, length = 1, columnDefinition = "CHAR(1) DEFAULT 'N'")
    private String orderYn;
    
-   @Column (nullable = false, length = 1, columnDefinition = "CHAR(1) DEFAULT 'N'")
+   @Column (nullable = true, length = 1, columnDefinition = "CHAR(1) DEFAULT 'N'")
    private String receiptYn;
    
    @Column (nullable = true)
