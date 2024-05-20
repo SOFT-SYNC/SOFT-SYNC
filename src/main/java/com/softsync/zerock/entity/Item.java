@@ -27,7 +27,7 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-	@OneToMany( fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "item", fetch = FetchType.LAZY) //상대필드
     private List<Contract> contracts;
 
     @Column(nullable = true, unique = true)

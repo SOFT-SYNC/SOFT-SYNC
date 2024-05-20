@@ -2,19 +2,19 @@ package com.softsync.zerock.entity;
 
 import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.List;
 
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -53,8 +53,8 @@ public class Orders {
    
    
    
-   @OneToMany(mappedBy = "orders", fetch = FetchType.LAZY)
-   private List<Reciving> Receivings;  //입고 1:n
+   @OneToOne(mappedBy = "orders", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+   private Receiving Receivings;  //입고 1:n
    
    @Column (nullable = false)
    private Integer orderQuantity;

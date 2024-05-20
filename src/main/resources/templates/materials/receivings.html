@@ -53,15 +53,15 @@
           <th> 최근납기일</th>
           <th> 현황</th>
         </tr>
-        <th:block th:each="order : ${orders}">
+        <th:block th:each="receiving : ${receivings}">
         <tr>
-          <td th:text="${order.contract_number.item.itemCode}"></td>
-          <td th:text="${order.contract_number.item.itemName}"></td>
-          <td th:text="${order.contract_number.item.material}"></td>
-          <td></td> <!-- 초기 0 입고수량 저장 시 기존값 + 입고수량 //컬럼을 새로 만들어야될듯 -->
+          <td th:text="${receiving.orders.contract.item.itemCode}"></td>
+          <td th:text="${receiving.orders.contract.item.itemName}"></td>
+          <td th:text="${receiving.orders.contract.item.material}"></td>
+          <td th:text="${receiving.receiveQuantity}"></td> 
           <td>500</td> <!-- 발주서.발주수량 가져오기 // 수정필요! -->
           <td>2024-05-20</td> <!-- 발주서.발주서발행일 // 수정필요! -->
-          <td th:text="${order.contract_number.lead_time}"></td>  <!-- 계약 : 납기일 -->
+          <td th:text="${receiving.orders.contract.lead_time}"></td>  <!-- 계약 : 납기일 -->
           <td></td>
           <td><input type="button" value="입고" class="blueBtn" onclick="receivingStrat(this)"></td>
         </tr>
