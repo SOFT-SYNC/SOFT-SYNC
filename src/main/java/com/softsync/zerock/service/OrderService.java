@@ -1,10 +1,10 @@
 package com.softsync.zerock.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.softsync.zerock.entity.Company;
@@ -32,10 +32,11 @@ public class OrderService {
     @Autowired
     private CompanyRepository companyRepository;
 
-    public List<Contract> getContractInfo(String itemCode) {
-        List<Contract> contracts = contractRepository.findAllByItemItemCode(itemCode);
-        return contracts;
-    }
+	/*
+	 * public List<Contract> getContractInfo(String itemCode) { List<Contract>
+	 * contracts = contractRepository.findAllByItemItemCode(itemCode); return
+	 * contracts; }
+	 */
 	/*
 	 * public Map<String, Object> getContractInfo(String itemCode) { Map<String,
 	 * Object> response = new HashMap<>();
@@ -52,8 +53,11 @@ public class OrderService {
 	public List<Item> getAllItems(){
 		return itemRepository.findAll();
 	}
-	public List<Contract> getAllContracts(){
+	public List<Contract> getAllContracts(Pageable pageable){
 		return contractRepository.findAll();
+	}
+	public List<Orders> getAllOrders() {
+		return orderRepository.findAll();
 	}
 	
 
@@ -76,6 +80,13 @@ public class OrderService {
 	public void saveOrder(Orders order) {
         orderRepository.save(order);
     }
+
+	 public Page<Orders> getOrders(Pageable pageable) {
+	        return orderRepository.findAll(pageable);
+	    }
+	public List<Contract> getAllContracts() {
+		return contractRepository.findAll();
+		}
 
 	/*
 	 * public Contract getContractByContractNumber(int contractNumber) { Contract

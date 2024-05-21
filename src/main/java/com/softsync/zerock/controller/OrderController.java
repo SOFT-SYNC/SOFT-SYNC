@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -42,16 +44,21 @@ public class OrderController {
 
 	@GetMapping("/purchase_order")
 	public String purchaseOrder(Model model) {
-		System.out.println("[OrderContorller] getPurchaseOrder()");
+	    System.out.println("[OrderContorller] getPurchaseOrder()");
 
-		List<Contract> contracts = orderService.getAllContracts();
-		model.addAttribute("contracts", contracts);
+	    List<Contract> contracts = orderService.getAllContracts();
+	    model.addAttribute("contracts", contracts);
+	    
+	    List<Orders> orderList = orderService.getAllOrders();
+	    model.addAttribute("orders", orderList); // 수정된 부분
 
-		return "orders/purchase_order";
+	    return "orders/purchase_order";
 	}
 
-	@PostMapping("/getContractInfo")
 
+		
+
+	@PostMapping("/getContractInfo")
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> getContractInfo(@RequestBody Map<String, String> request) {
 		System.out.println("[OrderController] getContractInfo()");
@@ -68,41 +75,36 @@ public class OrderController {
 	}
 
 	@PostMapping("/saveOrders")
-	public String saveOrders(@RequestParam("brn") String brn, @RequestParam("contract_number") int contractNumber,
-			@RequestParam("company_name") String companyName, @RequestParam("company_ceo") String companyCeo,
-			@RequestParam("company_address") String companyAddress, @RequestParam("manager") String manager,
-			@RequestParam("manager_tel") String managerTel, @RequestParam("itemCode") String itemCode,
-			@RequestParam("itemName") String itemName, @RequestParam("material") String material,
-			@RequestParam("dimensions") String dimensions, @RequestParam("orderQuantity") int orderQuantity,
-			@RequestParam("unitPrice") int unitPrice, @RequestParam("orderNote") String orderNote,
-			@RequestParam("orderDate") String orderDate, @RequestParam("receiveDuedate") String receiveDuedate, // 변경된
-																												// 부분
+	public String saveOrders(@RequestParam("brn") String brn, 
+							@RequestParam("contract_number") int contractNumber,
+							@RequestParam("company_name") String companyName, 
+							@RequestParam("company_ceo") String companyCeo,
+							@RequestParam("company_address") String companyAddress, 
+							@RequestParam("manager") String manager,
+							@RequestParam("manager_tel") String managerTel, 
+							@RequestParam("itemCode") String itemCode,
+							@RequestParam("itemName") String itemName, 
+							@RequestParam("material") String material,
+							@RequestParam("dimensions") String dimensions, 
+							@RequestParam("orderQuantity") int orderQuantity,
+							@RequestParam("unitPrice") int unitPrice, 
+							@RequestParam("orderNote") String orderNote,
+							@RequestParam("orderDate") String orderDate,
+							@RequestParam("receiveDuedate") String receiveDuedate,
 			Model model, @PageableDefault(size = 10) Pageable pageable) {
 
 		System.out.println("[OrderController] saveOrders()");
-		 System.out.println("brn: " + brn);
-		    System.out.println("contract_number: " + contractNumber);
-		    System.out.println("company_name: " + companyName);
-		    System.out.println("company_ceo: " + companyCeo);
-		    System.out.println("company_address: " + companyAddress);
-		    System.out.println("manager: " + manager);
-		    System.out.println("manager_tel: " + managerTel);
-		    System.out.println("itemCode: " + itemCode);
-		    System.out.println("itemName: " + itemName);
-		    System.out.println("material: " + material);
-		    System.out.println("dimensions: " + dimensions);
-		    System.out.println("orderQuantity: " + orderQuantity);
-		    System.out.println("unitPrice: " + unitPrice);
-		    System.out.println("orderNote: " + orderNote);
-		    System.out.println("orderDate: " + orderDate);
-		    System.out.println("receiveDuedate: " + receiveDuedate);
-		Orders order = new Orders();
+		
+		 
+		Orders order = new Orders(); 
 		Company company = orderService.getorderByBrn(brn);
 		Item item = orderService.getItemByItemCode(itemCode);
+		Contract contract = contractService.getContractByItemCode(itemCode);
 		String orderNo = orderService.generateOrderNo(); // 발주번호 자동
 
+		order.setContract(contract);
 		order.setCompany(company);
-		order.setItem(item);
+		order.setItem(item); 
 		order.setOrderNo(orderNo);
 
 		// orderDate 문자열을 LocalDate로 변환
@@ -121,10 +123,20 @@ public class OrderController {
 		return "redirect:/purchase_order";
 	}
 
-	@GetMapping("/purchase_order_list")
-	public String purchaseorederlistview() {
-		return "/orders/purchase_order_list";
-	}
+	
+	 @GetMapping("/purchase_order_list")
+	    public String purchaseOrderListView(
+	            @RequestParam(name = "page", defaultValue = "0") int page,
+	            @RequestParam(name = "size", defaultValue = "10") int size,
+	            Model model) {
+	        Pageable pageable = PageRequest.of(page, size);
+	        Page<Orders> ordersPage = orderService.getOrders(pageable);
+
+	        model.addAttribute("orders", ordersPage);
+
+	        return "orders/purchase_order_list";
+	    }
+	 
 
 	@GetMapping("/purchase_order_tracking")
 	public String orderTracking() {

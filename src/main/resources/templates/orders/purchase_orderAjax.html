@@ -1,0 +1,50 @@
+<!--아작스를 통해 보여줄 화면 -->
+<table class="listTable" id="3">
+    <colgroup>
+        <col width="8%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="14%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="7%">
+    </colgroup>
+    <thead>
+	    <tr id="item">
+	        <th>계약번호</th>
+	        <th>품목코드</th>
+	        <th>품목명</th>
+	        <th>재질</th>
+	        <th>규격</th>
+	        <th>발주수량</th>
+	        <th>단가</th>
+	        <th>발주일</th>
+	        <th>납기일</th>
+	        <th>추가/확인</th>
+	    </tr>
+    </thead>
+    <tbody>
+	    <th:block th:if="${contracts.totalElements !=0}">
+		    <tr th:each="contract : ${contracts}">
+		        <td th:text="${contract.contract_number}">계약번호</td>
+		        <td th:text="${contract.item.itemCode}">품목코드</td>
+		        <td th:text="${contract.item.itemName}">품목명</td>
+		        <td th:text="${contract.item.material}">재질</td>
+		        <td th:text="${contract.item.dimensions}">규격</td>
+		        <th:block th:if="${contract.orders.orderQuantity > 0 }">
+		        	<td th:text="contract.orders.orderQuantity}">발주량</td>
+	        	</th:block>
+		        <td th:text="${contract.unit_price}">단가</td>
+				<th:block th:if="${contract.orders.orderDate != null }">
+					<td th:text="${contract.orders.orderDate}">발주일</td>
+				</th:block>
+				<td th:text="${contract.lead_time}">납기일</td>
+		        <td><button id="addBtn" class="blueBtn">추가</button></td>
+		    </tr>
+	    </th:block>
+    </tbody>
+</table>
+

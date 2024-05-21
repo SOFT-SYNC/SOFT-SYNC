@@ -13,15 +13,14 @@
 		<div th:insert="~{common/header :: header}"></div>
 		<div id="row1">
 			<h2 class="visual-title">구매발주서</h2>
-			<form th:action="@{/saveOrders}" method="post"
-				enctype="multipart/form-data">
+			<form th:action="@{/saveOrders}" method="post" enctype="multipart/form-data">
 				<div>
 					<button type="submit" class="blueBtn">저장</button>
 					<button type="button" id="popupBtn" class="blueBtn">발주서 발행</button>
 					<button type="reset" class="blueBtn">초기화</button>
 				</div>
+				<input type="number" id="contractNumCell" name="contract_number">
 				<input type="text" id="itemCodeCell" name="itemCode"> 
-				<input type="text" id="contractNumCell" name="contract_number">
 				<table class="table" id="1">
 					<colgroup>
 						<col width="10%">
@@ -42,8 +41,7 @@
 		                           th:value="${company.brn}"
 		                           th:text="${company.brn}">
 		                   </option>
-		               </select> -->
-		               </td>
+		               </select> --></td>
 						</tr>
 						<tr>
 							<th>발신처</th>
@@ -100,9 +98,11 @@
 						<td id="itemDimensionsCell"><input type="text"
 							name="dimensions" readonly></td>
 						<td>EA</td>
-						<td id="orderQuantityCell"><input type="number" name="orderQuantity"></td>
+						<td id="orderQuantityCell"><input type="number"
+							name="orderQuantity"></td>
 						<td id="unitPriceCell"><input type="text" name="unitPrice"></td>
-						<td id="totalPriceCell"><input type="text" name="totalPrice" readonly></td>
+						<td id="totalPriceCell"><input type="text" name="totalPrice"
+							readonly></td>
 						<td id="orderNote"><input type="text" name="orderNote"></td>
 					</tr>
 				</table>
@@ -118,10 +118,10 @@
 						<button type="button" class="blueBtn">목록</button>
 					</a>
 				</div>
-				<table class="listTable" id="3">
+			<table class="listTable" id="3">
 					<colgroup>
 						<col width="8%">
-						<col width="11%">
+						<col width="10%">
 						<col width="10%">
 						<col width="10%">
 						<col width="14%">
@@ -143,48 +143,24 @@
 						<th>납기일</th>
 						<th>추가/확인</th>
 					</tr>
-
-				<!-- 발주되지 않은 항목 -->
 					<tr th:each="contract : ${contracts}">
-					    <td th:text="${contract.contract_number}">계약번호</td>
-					    <td th:text="${contract.item.itemCode}">품목코드</td>
-					    <td th:text="${contract.item.itemName}">품목명</td>
-					    <td th:text="${contract.item.material}">재질</td>
-					    <td th:text="${contract.item.dimensions}">규격</td>
-					    <td>N/A</td>
-					    <td th:text="${contract.unit_price}">N/A</td>
-					    <td>N/A</td>
-					    <td th:text="${contract.lead_time}"></td>
-					    <td><button id="addBtn" class="blueBtn">추가</button></td>
+						<td th:text="${contract.contract_number}">계약번호</td>
+						<td th:text="${contract.item.itemCode}">품목코드</td>
+						<td th:text="${contract.item.itemName}">품목명</td>
+						<td th:text="${contract.item.material}">재질</td>
+						<td th:text="${contract.item.dimensions}">규격</td>
+						<td>N/A</td>
+						<td th:text="${contract.unit_price}">단가</td>
+						<td>N/A</td>
+						<td th:text="${contract.lead_time}">납기일</td>
+						<td><button id="addBtn" class="blueBtn">추가</button></td>
 					</tr>
-					
-					<!-- 발주된 항목 -->
-					<tr th:each="contract : ${contracts}">
-				        <td th:text="${contract.contract_number}">계약번호</td>
-				        <td th:text="${contract.item.itemCode}">품목코드</td>
-				        <td th:text="${contract.item.itemName}">품목명</td>
-				        <td th:text="${contract.item.material}">재질</td>
-				        <td th:text="${contract.item.dimensions}">규격</td>
-				        <td>
-				            <span th:each="order : ${contract.orders}">
-				                <span th:if="${order.orderYn == 'Y'}" th:text="${order.orderQuantity}">발주수량</span>
-				            </span>
-				        </td>
-				        <td th:text="${contract.unit_price}">N/A</td>
-				        <td>
-				            <span th:each="order : ${contract.orders}">
-				                <span th:if="${order.orderYn == 'Y'}" th:text="${order.orderDate}">발주일</span>
-				            </span>
-				        </td>
-				        <td th:text="${contract.lead_time}"></td>
-				        <td><button id="addBtn" class="blueBtn">추가</button></td>
-				    </tr>
 				</table>
 			</div>
 		</div>
 	</div>
 
-	<!-- 모달 오픈화면 -->
+	<!-- 모달화면 -->
 	<div id="modalWrap">
 		<div id="modalBody">
 			<button type="button" class="closeBtn">&times;</button>
@@ -255,8 +231,7 @@
 					<tr>
 						<td>1</td>
 						<td id="itemNameModal"><input type="text" name="itemName"></td>
-						<td id="orderQuantityModal"><input type="text"
-							name="orderQuantity"></td>
+						<td id="orderQuantityModal"><input type="text" name="orderQuantity"></td>
 						<td id="unitPriceModal"><input type="text" name="unitPrice"></td>
 						<td id="totalPriceModal"><input type="text" name="totalPrice"></td>
 					</tr>
@@ -323,6 +298,32 @@
 
 		</div>
 	</div>
+
+
+
+
+<script th:inline="javascript">
+    $(document).ready(function(){
+        // id가 "1"과 "2"인 테이블의 내용이 업데이트될 때마다 실행되는 함수
+        function updateTable3() {
+            $.ajax({
+                type: 'GET',
+                url: '/saveOrders', 
+                success: function(data) {
+                    $('#3 tbody').empty(); // 이전에 있던 내용 삭제
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        // id가 "1"과 "2"인 테이블의 내용이 업데이트될 때마다 updateTable3 함수 호출
+        $('#1, #2').on('change', function() {
+            updateTable3();
+        });
+    });
+</script>
 
 	<script>
 	const popupBtn = document.getElementById("popupBtn"); // 팝업 버튼 요소 가져오기
@@ -428,54 +429,6 @@
          
       });
 </script>
-	<script>
-        // 상단 테이블정보
-        $('#orderList table').on('click', '#orderedBtn', function(){
-            // 완료행에서 발주정보 가져오기
-            var itemName = $(this).find('td:eq(1)').text().trim();
-            var material = $(this).find('td:eq(2)').text().trim(); //재질
-            var dimensions = $(this).find('td:eq(3)').text().trim(); //규격
-            
-            // 상단 테이블의 정보 넣기
-            $('#itemNameCell input[name="itemName"]').val(itemName);
-            $('#itemMaterialCell input[name="material"]').val(material);
-            $('#itemDimensionsCell input[name="dimensions"]').val(dimensions);
-           
-        });
-       //  *****************************************************************
-        // 상단 테이블의 계약 행 대한 클릭 이벤트 처리 
-        $('#orderList table#3 tr').click(function() {
-            // 클릭한 행에서 계약정보 가져오기
-            var itemCode = $(this).find('td:eq(0)').text().trim();
-            var itemName = $(this).find('td:eq(1)').text().trim();
-            var material = $(this).find('td:eq(2)').text().trim(); //재질
-            var dimensions = $(this).find('td:eq(3)').text().trim(); //규격
-            var orderQuantity = $(this).find('td:eq(4)').text().trim();
-            var orderDate = $(this).find('td:eq(5)').text().trim();
-            var procDuedate = $(this).find('td:eq(6)').text().trim();
-/*             var conYn = $(this).find('td:eq(7)').text().trim(); */
-            
-         //계약 완료시 조회만 되게함 .prop
-            var ConBool = false;
-            if (conYn === 'y'){
-            	ConBool = true;
-            	  $('#buttonContainer').hide();  //계약완료시  저장, 초기화버튼 감추기
-            }
-            else{
-            	 $('#buttonContainer').show();
-            }
-            
-            // 해당 정보를 상단의 입력 필드에 넣기
-            $('#itemNameCell input[name="itemName"]').val(itemName).prop('readonly', ConBool);
-            $('#brn input[name="brn"]').val(brn).trigger('change').prop('readonly', ConBool);
-            $('#unitPriceCell input[name="price"]').val(unitPrice).prop('readonly', ConBool);
-            $('#leadTimeCell input[name="leadTime"]').val(leadTime).prop('readonly', ConBool);
-            
-            
-        });
-    });
-</script>
-
 	<!-- brn을 통해 업체명/계좌/비고를 불러옴(제이쿼리) -->
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -518,6 +471,7 @@
         // 현재 날짜를 가져와서 입력란에 설정
         orderDateInput.value = getCurrentDate();
     };
+    
 </script>
 
 	<script>
