@@ -30,7 +30,7 @@ public class Reciving {
 //    private Item item;
 	
 	   @ManyToOne(fetch = FetchType.LAZY)  //발주서
-	    @JoinColumn(name="Orders_orderNo", nullable = false)
+	    @JoinColumn(name="orderNo", nullable = false)
 	    private Orders orders;
 	
 	@Column(nullable = true)

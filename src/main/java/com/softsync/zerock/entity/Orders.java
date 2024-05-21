@@ -1,7 +1,6 @@
 package com.softsync.zerock.entity;
 
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.hibernate.annotations.DynamicUpdate;
@@ -22,55 +21,46 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name="orders")
+@Table(name = "orders")
 @DynamicUpdate
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Orders {
 
-   @Id
-   private String orderNo;
+	@Id
+	private String orderNo;
 
-   
-   @ManyToOne(fetch = FetchType.LAZY)
-   @JoinColumn(name = "employee_id", nullable = false)
-   private User employeeId;
-   
-   @ManyToOne
-   @JoinColumn(name = "brn")
-   private Company company;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "employee_id", nullable = true)
+	private User employeeId;
 
-   @ManyToOne
-   @JoinColumn(name = "item_code")
-   private Item item;
-   
-   @ManyToOne(fetch = FetchType.LAZY)
-   @JoinColumn(name = "contract_number")
-   private Contract contract;
-   
-//   @ManyToOne(fetch = FetchType.LAZY) //조달계획 :입고예정일
-//   @JoinColumn(name = "procNo", nullable = false)
-//   private ProcurementPlan procNo;
-   
-   
-   
-   @OneToMany(mappedBy = "orders", fetch = FetchType.LAZY)
-   private List<Reciving> Receivings;  //입고 1:n
-   
-   @Column (nullable = false)
-   private Integer orderQuantity;
-   
-   @Column (nullable = false)
-   private LocalDateTime orderDate;
+	@ManyToOne
+	@JoinColumn(name = "brn")
+	private Company company;
 
-   @Column (nullable = false)
-   private Date receiveDuedate;
-   
-   @Column (nullable = false, length = 1, columnDefinition = "CHAR(1) DEFAULT 'N'")
-   private String orderYn;
-   
-   @Column (nullable = false, length = 1, columnDefinition = "CHAR(1) DEFAULT 'N'")
-   private String receiptYn;
-   
-   @Column (nullable = true)
-   private String orderNote;
+	@ManyToOne
+	private Item item;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Contract contract;
+
+	@OneToMany(mappedBy = "orders", fetch = FetchType.LAZY)
+	private List<Reciving> Receivings; // 입고 1:n
+
+	@Column(nullable = false)
+	private Integer orderQuantity;
+
+	@Column(nullable = false)
+	private LocalDate orderDate;
+
+	@Column(nullable = false)
+	private LocalDate receiveDuedate;
+
+	@Column(nullable = true, length = 1, columnDefinition = "CHAR(1) DEFAULT 'N'")
+	private String orderYn;
+
+	@Column(nullable = true, length = 1, columnDefinition = "CHAR(1) DEFAULT 'N'")
+	private String receiptYn;
+
+	@Column(nullable = true)
+	private String orderNote;
 }
