@@ -11,364 +11,440 @@
 </head>
 
 <body>
-	<div th:insert="~{common/sidebar :: sidebar}"></div>
-	<div class="main-content">
-		<div th:insert="~{common/header :: header}"></div>
-		<div id="row1">
-			<h2 class="visual-title">조달계획등록</h2>
-			<form id="procurementPlanForm" onsubmit="submitForm(event)">
-				<table class="regi-table">
-					<button type="submit" style="float: right; margin-bottom: 20px;">조달계획등록</button>
-					<colgroup>
-						<col width="10%">
-						<col width="10%">
-						<col width="8%">
-						<col width="8%">
-						<col width="8%">
-						<col width="8%">
-						<col width="8%">
-						<col width="8%">
-						<col width="8%">
-						<col width="8%">
-						<col width="10%">
-						<col width="5%">
-					</colgroup>
-					<tr>
-						<th>생산시작일</th>
-						<th>생산종료일</th>
-						<th>생산제품코드</th>
-						<th>생산제품명</th>
-						<th>생산수량</th>
-						<th>품목코드</th>
-						<th>품목명</th>
-						<th>품목소요수량</th>
-						<th>조달간격(일)</th>
-						<th>조달수량</th>
-						<th>조달납기일</th>
-						<th rowspan="2">
-							<button type="button" id="deleteBtn">삭제</button>
-						</th>
-					</tr>
-					<tr>
-						<input type="hidden" id="regi_productionPlanId" name="productionPlanId">
-						<input type="hidden" id="regi_itemId" name="itemId">
-						<td><input type="text" class="text2"
-							id="regi_productionStartDate" name="productionStartDate" readonly></td>
-						<td><input type="text" class="text2"
-							id="regi_productionEndDate" name="productionEndDate" readonly></td>
-						<td><input type="text" class="text2" id="regi_productCode"
-							name="productCode" readonly></td>
-						<td><input type="text" class="text2" id="regi_productName"
-							name="productName" readonly></td>
-						<td><input type="text" class="text2"
-							id="regi_productionQuantity" name="productionQuantity" readonly></td>
-						<td><input type="text" class="text2" id="regi_itemCode"
-							name="itemCode" readonly></td>
-						<td><input type="text" class="text2" id="regi_itemName"
-							name="itemName" readonly></td>
-						<td><input type="text" class="text2" id="regi_itemQuantity"
-							name="itemQuantity" readonly></td>
-						<td><input type="text" class="text2"
-							id="regi_procurementInterval" name="procurementInterval">
-						</td>
-						<td><input type="number" id="regi_procurementQuantity"
-							name="procurementQuantity"></td>
-						<td><input type="date" class="date2"
-							id="regi_procurementDueDate" name="procurementDueDate"></td>
-					</tr>
-				</table>
-			</form>
-		</div>
-		<div id="row2">
-			<div id="planList">
-				<h2 class="visual-title">생산계획조회</h2>
-				<div class="search-container">
+   <div th:insert="~{common/sidebar :: sidebar}"></div>
+   <div class="main-content">
+      <div th:insert="~{common/header :: header}"></div>
+      <div id="row1">
+         <h2 class="visual-title">조달계획등록</h2>
+         <form id="procurementPlanForm" onsubmit="submitForm(event)">
+            <table class="regi-table">
+               <button type="submit" style="float: right; margin-bottom: 20px;">조달계획등록</button>
+               <colgroup>
+                  <col width="10%">
+                  <col width="10%">
+                  <col width="8%">
+                  <col width="8%">
+                  <col width="8%">
+                  <col width="8%">
+                  <col width="8%">
+                  <col width="8%">
+                  <col width="8%">
+                  <col width="8%">
+                  <col width="10%">
+                  
+               </colgroup>
+               <tr>
+                  <th>생산시작일</th>
+                  <th>생산종료일</th>
+                  <th>생산제품코드</th>
+                  <th>생산제품명</th>
+                  <th>생산수량</th>
+                  <th>품목코드</th>
+                  <th>품목명</th>
+                  <th>품목소요수량</th>
+                  <th>조달간격(일)</th>
+                  <th>조달수량</th>
+                  <th>조달납기일</th>
+                  
+               </tr>
+               <tr>
+                  <input type="hidden" id="regi_productionPlanId" name="productionPlanId">
+                  <input type="hidden" id="regi_itemId" name="itemId">
+                  <td><input type="text" class="text2"
+                     id="regi_productionStartDate" name="productionStartDate" readonly></td>
+                  <td><input type="text" class="text2"
+                     id="regi_productionEndDate" name="productionEndDate" readonly></td>
+                  <td><input type="text" class="text2" id="regi_productCode"
+                     name="productCode" readonly></td>
+                  <td><input type="text" class="text2" id="regi_productName"
+                     name="productName" readonly></td>
+                  <td><input type="text" class="text2"
+                     id="regi_productionQuantity" name="productionQuantity" readonly></td>
+                  <td><input type="text" class="text2" id="regi_itemCode"
+                     name="itemCode" readonly></td>
+                  <td><input type="text" class="text2" id="regi_itemName"
+                     name="itemName" readonly></td>
+                  <td><input type="text" class="text2" id="regi_itemQuantity"
+                     name="itemQuantity" readonly></td>
+                  <td><input type="text" class="text2"
+                     id="regi_procurementInterval" name="procurementInterval">
+                  </td>
+                  <td><input type="number" id="regi_procurementQuantity"
+                     name="procurementQuantity"></td>
+                  <td><input type="date" class="date2"
+                     id="regi_procurementDueDate" name="procurementDueDate"></td>
+               </tr>
+            </table>
+         </form>
+      </div>
+      <div id="row2">
+         <div id="planList">
+            <h2 class="visual-title">생산계획조회</h2>
+            <div class="search-container">
 
-					<select id="filterSelect">
-						<option value="itemCode" th:selected="${searchField == 'itemCode'}">품목코드</option>
-		                <option value="itemName" th:selected="${searchField == 'itemName'}">품목명</option>
-		                <option value="productionStartDate" th:selected="${searchField == 'productionStartDate'}">생산시작일</option>
-		                <option value="productionEndDate" th:selected="${searchField == 'productionEndDate'}">생산종료일</option>
-		                <option value="productCode" th:selected="${searchField == 'productCode'}">생산제품코드</option>
-		                <option value="productName" th:selected="${searchField == 'productName'}">생산제품명</option>
-		                <option value="productionQuantity" th:selected="${searchField == 'productionQuantity'}">생산수량</option>
-		                <option value="itemQuantity" th:selected="${searchField == 'itemQuantity'}">품목소요수량</option>
-					</select> <input type="text" id="searchInput" placeholder="검색어를 입력하세요">
-					<button class="blueBtn" onclick="performSearch()">검색</button>
-				</div>
-				<table class="list-table">
-					<colgroup>
-						<col width="10%">
-						<col width="10%">
-						<col width="8%">
-						<col width="8%">
-						<col width="8%">
-						<col width="8%">
-						<col width="8%">
-						<col width="8%">
-					</colgroup>
-					<tr>
-						<th>생산시작일</th>
-						<th>생산종료일</th>
-						<th>생산제품코드</th>
-						<th>생산제품명</th>
-						<th>생산수량</th>
-						<th>품목코드</th>
-						<th>품목명</th>
-						<th>품목소요수량</th>
-					</tr>
-					<tr th:each="production : ${productionPlans}"
-						th:data-production-plan-id="${production.id}"
-						th:data-production-start-date="${production.productionStartDate}"
-						th:data-production-end-date="${production.productionEndDate}"
-						th:data-product-code="${production.productCode}"
-						th:data-product-name="${production.productName}"
-						th:data-production-quantity="${production.productionQuantity}"
-						th:data-item-id="${production.item.id}"
-						th:data-item-code="${production.item.itemCode}"
-						th:data-item-name="${production.item.itemName}"
-						th:data-item-quantity="${production.itemQuantity}"
-						onclick="setRegistrationFields(event)">
-						<td th:text="${production.productionStartDate}"></td>
-						<td th:text="${production.productionEndDate}"></td>
-						<td th:text="${production.productCode}"></td>
-						<td th:text="${production.productName}"></td>
-						<td th:text="${production.productionQuantity}"></td>
-						<td th:text="${production.item.itemCode}"></td>
-						<td th:text="${production.item.itemName}"></td>
-						<td th:text="${production.itemQuantity}"></td>
-					</tr>
-				</table>
-				<div>
-					<ul class="pagination">
-						<!-- 처음 페이지로 이동 -->
-						<li th:if="${productionPlans.number >= 10}"><a
-							th:href="@{/add_LTplan(pageProduction=${0}, pageProcurement=${procurementPlans.number})}">&laquo;</a></li>
+               <select id="productionFilterSelect">
+                  <option value="itemCode" th:selected="${searchField == 'itemCode'}">품목코드</option>
+                      <option value="itemName" th:selected="${searchField == 'itemName'}">품목명</option>
+                      <option value="productionStartDate" th:selected="${searchField == 'productionStartDate'}">생산시작일</option>
+                      <option value="productionEndDate" th:selected="${searchField == 'productionEndDate'}">생산종료일</option>
+                      <option value="productCode" th:selected="${searchField == 'productCode'}">생산제품코드</option>
+                      <option value="productName" th:selected="${searchField == 'productName'}">생산제품명</option>
+                      <option value="productionQuantity" th:selected="${searchField == 'productionQuantity'}">생산수량</option>
+                      <option value="itemQuantity" th:selected="${searchField == 'itemQuantity'}">품목소요수량</option>
+               </select> <input type="text" id="productionSearchInput" placeholder="검색어를 입력하세요">
+               <button class="blueBtn" onclick="performProductionSearch()">검색</button>
+            </div>
+            <table class="list-table">
+               <colgroup>
+                  <col width="10%">
+                  <col width="10%">
+                  <col width="8%">
+                  <col width="8%">
+                  <col width="8%">
+                  <col width="8%">
+                  <col width="8%">
+                  <col width="8%">
+               </colgroup>
+               <tr>
+                  <th>생산시작일</th>
+                  <th>생산종료일</th>
+                  <th>생산제품코드</th>
+                  <th>생산제품명</th>
+                  <th>생산수량</th>
+                  <th>품목코드</th>
+                  <th>품목명</th>
+                  <th>품목소요수량</th>
+               </tr>
+               <tr th:each="production : ${productionPlans}"
+                  th:data-production-plan-id="${production.id}"
+                  th:data-production-start-date="${production.productionStartDate}"
+                  th:data-production-end-date="${production.productionEndDate}"
+                  th:data-product-code="${production.productCode}"
+                  th:data-product-name="${production.productName}"
+                  th:data-production-quantity="${production.productionQuantity}"
+                  th:data-item-id="${production.item.id}"
+                  th:data-item-code="${production.item.itemCode}"
+                  th:data-item-name="${production.item.itemName}"
+                  th:data-item-quantity="${production.itemQuantity}"
+                  onclick="setRegistrationFields(event)">
+                  <td th:text="${production.productionStartDate}"></td>
+                  <td th:text="${production.productionEndDate}"></td>
+                  <td th:text="${production.productCode}"></td>
+                  <td th:text="${production.productName}"></td>
+                  <td th:text="${production.productionQuantity}"></td>
+                  <td th:text="${production.item.itemCode}"></td>
+                  <td th:text="${production.item.itemName}"></td>
+                  <td th:text="${production.itemQuantity}"></td>
+               </tr>
+            </table>
+            <div>
+               <ul class="pagination">
+                  <!-- 처음 페이지로 이동 -->
+                  <li th:if="${productionPlans.number >= 10}"><a
+                     th:href="@{/add_LTplan(pageProduction=${0}, pageProcurement=${procurementPlans.number})}">&laquo;</a></li>
 
-						<!-- 이전 페이지 링크 -->
-						<li th:if="${!productionPlans.isFirst()}"><a
-							th:href="@{/add_LTplan(pageProduction=${productionPlans.number - 1}, pageProcurement=${procurementPlans.number})}">&lt;</a></li>
+                  <!-- 이전 페이지 링크 -->
+                  <li th:if="${!productionPlans.isFirst()}"><a
+                     th:href="@{/add_LTplan(pageProduction=${productionPlans.number - 1}, pageProcurement=${procurementPlans.number})}">&lt;</a></li>
 
-						<!-- 페이지 번호 링크 -->
-						<th:block
-							th:with="startPage=${(productionPlans.number / 10) * 10}, endPage=${(startPage + 9) < productionPlans.totalPages ? (startPage + 9) : productionPlans.totalPages - 1}">
-							<li th:each="i : ${#numbers.sequence(startPage, endPage)}">
-								<!-- 현재 페이지일 경우 active 클래스 추가 --> <a
-								th:href="@{/add_LTplan(pageProduction=${i}, pageProcurement=${procurementPlans.number})}"
-								th:classappend="${i == productionPlans.number} ? 'active'"
-								th:text="${i + 1}">Page number</a>
-							</li>
-						</th:block>
+                  <!-- 페이지 번호 링크 -->
+                  <th:block
+                     th:with="startPage=${(productionPlans.number / 10) * 10}, endPage=${(startPage + 9) < productionPlans.totalPages ? (startPage + 9) : productionPlans.totalPages - 1}">
+                     <li th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                        <!-- 현재 페이지일 경우 active 클래스 추가 --> <a
+                        th:href="@{/add_LTplan(pageProduction=${i}, pageProcurement=${procurementPlans.number})}"
+                        th:classappend="${i == productionPlans.number} ? 'active'"
+                        th:text="${i + 1}">Page number</a>
+                     </li>
+                  </th:block>
 
-						<!-- 다음 페이지 링크 -->
-						<li th:if="${!productionPlans.isLast()}"><a
-							th:href="@{/add_LTplan(pageProduction=${productionPlans.number + 1}, pageProcurement=${procurementPlans.number})}">&gt;</a></li>
+                  <!-- 다음 페이지 링크 -->
+                  <li th:if="${!productionPlans.isLast()}"><a
+                     th:href="@{/add_LTplan(pageProduction=${productionPlans.number + 1}, pageProcurement=${procurementPlans.number})}">&gt;</a></li>
 
-						<!-- 10 페이지 앞으로 이동 -->
-						<li
-							th:if="${(productionPlans.number + 10) < productionPlans.totalPages}"><a
-							th:href="@{/add_LTplan(pageProduction=${(productionPlans.number / 10 + 1) * 10}, pageProcurement=${procurementPlans.number})}">&raquo;</a></li>
+                  <!-- 10 페이지 앞으로 이동 -->
+                  <li
+                     th:if="${(productionPlans.number + 10) < productionPlans.totalPages}"><a
+                     th:href="@{/add_LTplan(pageProduction=${(productionPlans.number / 10 + 1) * 10}, pageProcurement=${procurementPlans.number})}">&raquo;</a></li>
 
-						<!-- 마지막 페이지로 이동 -->
-						<li
-							th:if="${(productionPlans.number + 10) >= productionPlans.totalPages && !productionPlans.isLast()}">
-							<a
-							th:href="@{/add_LTplan(pageProduction=${productionPlans.totalPages - 1}, pageProcurement=${procurementPlans.number})}">&raquo;</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<div id="row2">
-			<div id="planList">
-				<h2 class="visual-title">조달계획조회</h2>
-				<div class="search-container">
-					<select id="filterSelect">
-						<option value="itemCode" th:selected="${searchField == 'itemCode'}">품목코드</option>
-                		<option value="itemName" th:selected="${searchField == 'itemName'}">품목명</option>
-					</select> <input type="text" id="searchInput" placeholder="검색어를 입력하세요">
-					<button class="blueBtn" onclick="performSearch()">검색</button>
-				</div>
-				<table class="list-table">
-					<colgroup>
-						<col width="10%">
-						<col width="10%">
-						<col width="8%">
-						<col width="8%">
-						<col width="8%">
-						<col width="8%">
-						<col width="8%">
-						<col width="8%">
-					</colgroup>
-					<tr>
-						<th>생산시작일</th>
-						<th>생산종료일</th>
-						<th>생산제품코드</th>
-						<th>생산제품명</th>
-						<th>생산수량</th>
-						<th>품목코드</th>
-						<th>품목명</th>
-						<th>품목소요수량</th>
-						<th>조달간격(일)</th>
-						<th>조달수량</th>
-						<th>조달납기일</th>
-					</tr>
-					<tr th:each="procurement : ${procurementPlans}">
-						<td th:text="${procurement.productionPlan.productionStartDate}"></td>
-						<td th:text="${procurement.productionPlan.productionEndDate}"></td>
-						<td th:text="${procurement.productionPlan.productCode}"></td>
-						<td th:text="${procurement.productionPlan.productName}"></td>
-						<td th:text="${procurement.productionPlan.productionQuantity}"></td>
-						<td th:text="${procurement.item.itemCode}"></td>
-						<td th:text="${procurement.item.itemName}"></td>
-						<td th:text="${procurement.productionPlan.itemQuantity}"></td>
-						<td th:text="${procurement.procurementInterval}"></td>
-						<td th:text="${procurement.procurementQuantity}"></td>
-						<td th:text="${procurement.procurementDueDate}"></td>
-					</tr>
-				</table>
-				<div>
-					<ul class="pagination">
-						<!-- 처음 페이지로 이동 -->
-						<li th:if="${procurementPlans.number >= 10}"><a
-							th:href="@{/add_LTplan(pageProduction=${productionPlans.number}, pageProcurement=${0})}">&laquo;</a></li>
+                  <!-- 마지막 페이지로 이동 -->
+                  <li
+                     th:if="${(productionPlans.number + 10) >= productionPlans.totalPages && !productionPlans.isLast()}">
+                     <a
+                     th:href="@{/add_LTplan(pageProduction=${productionPlans.totalPages - 1}, pageProcurement=${procurementPlans.number})}">&raquo;</a>
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </div>
+      <div id="row2">
+         <div id="planList">
+            <h2 class="visual-title">조달계획조회</h2>
+            <div class="search-container">
+               <select id="procurementFilterSelect">
+                  <option value="itemCode" th:selected="${searchField == 'itemCode'}">품목코드</option>
+                    <option value="itemName" th:selected="${searchField == 'itemName'}">품목명</option>
+                    <option value="productionStartDate" th:selected="${searchField == 'productionStartDate'}">생산시작일</option>
+                    <option value="productionEndDate" th:selected="${searchField == 'productionEndDate'}">생산종료일</option>
+                    <option value="productCode" th:selected="${searchField == 'productCode'}">생산제품코드</option>
+                    <option value="productName" th:selected="${searchField == 'productName'}">생산제품명</option>
+                    <option value="productionQuantity" th:selected="${searchField == 'productionQuantity'}">생산수량</option>
+                    <option value="itemQuantity" th:selected="${searchField == 'itemQuantity'}">품목소요수량</option>
+                    <option value="procurementQuantity" th:selected="${searchField == 'procurementQuantity'}">조달수량</option>
+                    <option value="procurementInterval" th:selected="${searchField == 'procurementInterval'}">조달간격</option>
+                    <option value="procurementDueDate" th:selected="${searchField == 'procurementDueDate'}">조달납기일</option>
+               </select> <input type="text" id="procurementSearchInput" placeholder="검색어를 입력하세요">
+               <button class="blueBtn" onclick="performProcurementSearch()">검색</button>
+            </div>
+            <table class="list-table">
+               <colgroup>
+                  <col width="10%">
+                  <col width="10%">
+                  <col width="8%">
+                  <col width="8%">
+                  <col width="8%">
+                  <col width="8%">
+                  <col width="8%">
+                  <col width="8%">
+               </colgroup>
+               <tr>
+                  <th>생산시작일</th>
+                  <th>생산종료일</th>
+                  <th>생산제품코드</th>
+                  <th>생산제품명</th>
+                  <th>생산수량</th>
+                  <th>품목코드</th>
+                  <th>품목명</th>
+                  <th>품목소요수량</th>
+                  <th>조달간격(일)</th>
+                  <th>조달수량</th>
+                  <th>조달납기일</th>
+               </tr>
+               <tr th:each="procurement : ${procurementPlans}">
+                  <td th:text="${procurement.productionPlan.productionStartDate}"></td>
+                  <td th:text="${procurement.productionPlan.productionEndDate}"></td>
+                  <td th:text="${procurement.productionPlan.productCode}"></td>
+                  <td th:text="${procurement.productionPlan.productName}"></td>
+                  <td th:text="${procurement.productionPlan.productionQuantity}"></td>
+                  <td th:text="${procurement.item.itemCode}"></td>
+                  <td th:text="${procurement.item.itemName}"></td>
+                  <td th:text="${procurement.productionPlan.itemQuantity}"></td>
+                  <td th:text="${procurement.procurementInterval}"></td>
+                  <td th:text="${procurement.procurementQuantity}"></td>
+                  <td th:text="${procurement.procurementDueDate}"></td>
+               </tr>
+            </table>
+            <div>
+               <ul class="pagination">
+                  <!-- 처음 페이지로 이동 -->
+                  <li th:if="${procurementPlans.number >= 10}"><a
+                     th:href="@{/add_LTplan(pageProduction=${productionPlans.number}, pageProcurement=${0})}">&laquo;</a></li>
 
-						<!-- 이전 페이지 링크 -->
-						<li th:if="${!procurementPlans.isFirst()}"><a
-							th:href="@{/add_LTplan(pageProduction=${productionPlans.number}, pageProcurement=${procurementPlans.number - 1})}">&lt;</a></li>
+                  <!-- 이전 페이지 링크 -->
+                  <li th:if="${!procurementPlans.isFirst()}"><a
+                     th:href="@{/add_LTplan(pageProduction=${productionPlans.number}, pageProcurement=${procurementPlans.number - 1})}">&lt;</a></li>
 
-						<!-- 페이지 번호 링크 -->
-						<th:block
-							th:with="startPage=${(procurementPlans.number / 10) * 10}, endPage=${(startPage + 9) < procurementPlans.totalPages ? (startPage + 9) : procurementPlans.totalPages - 1}">
-							<li th:each="i : ${#numbers.sequence(startPage, endPage)}">
-								<!-- 현재 페이지일 경우 active 클래스 추가 --> <a
-								th:href="@{/add_LTplan(pageProduction=${productionPlans.number}, pageProcurement=${i})}"
-								th:classappend="${i == procurementPlans.number} ? 'active'"
-								th:text="${i + 1}">Page number</a>
-							</li>
-						</th:block>
+                  <!-- 페이지 번호 링크 -->
+                  <th:block
+                     th:with="startPage=${(procurementPlans.number / 10) * 10}, endPage=${(startPage + 9) < procurementPlans.totalPages ? (startPage + 9) : procurementPlans.totalPages - 1}">
+                     <li th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                        <!-- 현재 페이지일 경우 active 클래스 추가 --> <a
+                        th:href="@{/add_LTplan(pageProduction=${productionPlans.number}, pageProcurement=${i})}"
+                        th:classappend="${i == procurementPlans.number} ? 'active'"
+                        th:text="${i + 1}">Page number</a>
+                     </li>
+                  </th:block>
 
-						<!-- 다음 페이지 링크 -->
-						<li th:if="${!procurementPlans.isLast()}"><a
-							th:href="@{/add_LTplan(pageProduction=${productionPlans.number}, pageProcurement=${procurementPlans.number + 1})}">&gt;</a></li>
+                  <!-- 다음 페이지 링크 -->
+                  <li th:if="${!procurementPlans.isLast()}"><a
+                     th:href="@{/add_LTplan(pageProduction=${productionPlans.number}, pageProcurement=${procurementPlans.number + 1})}">&gt;</a></li>
 
-						<!-- 10 페이지 앞으로 이동 -->
-						<li
-							th:if="${(procurementPlans.number + 10) < procurementPlans.totalPages}"><a
-							th:href="@{/add_LTplan(pageProduction=${productionPlans.number}, pageProcurement=${(procurementPlans.number / 10 + 1) * 10})}">&raquo;</a></li>
+                  <!-- 10 페이지 앞으로 이동 -->
+                  <li
+                     th:if="${(procurementPlans.number + 10) < procurementPlans.totalPages}"><a
+                     th:href="@{/add_LTplan(pageProduction=${productionPlans.number}, pageProcurement=${(procurementPlans.number / 10 + 1) * 10})}">&raquo;</a></li>
 
-						<!-- 마지막 페이지로 이동 -->
-						<li
-							th:if="${(procurementPlans.number + 10) >= procurementPlans.totalPages && !procurementPlans.isLast()}">
-							<a
-							th:href="@{/add_LTplan(pageProduction=${productionPlans.number}, pageProcurement=${procurementPlans.totalPages - 1})}">&raquo;</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
+                  <!-- 마지막 페이지로 이동 -->
+                  <li
+                     th:if="${(procurementPlans.number + 10) >= procurementPlans.totalPages && !procurementPlans.isLast()}">
+                     <a
+                     th:href="@{/add_LTplan(pageProduction=${productionPlans.number}, pageProcurement=${procurementPlans.totalPages - 1})}">&raquo;</a>
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </div>
+   </div>
 
-	<script>
-		function toggleSidenav() {
-			const sidenav = document.querySelector('.sidenav');
-			const mainContent = document.querySelector('.main-content');
-			const sidenavToggle = document.querySelector('.sidenav-toggle');
+   <script>
+      function toggleSidenav() {
+         const sidenav = document.querySelector('.sidenav');
+         const mainContent = document.querySelector('.main-content');
+         const sidenavToggle = document.querySelector('.sidenav-toggle');
 
-			if (sidenav.style.left === '0px') {
-				sidenav.style.left = '-200px'; // 사이드바 숨기기
-				mainContent.style.marginLeft = '0'; // 메인 콘텐츠 원래 위치로
-				sidenavToggle.style.left = '5px'; // 토글 버튼 원래 위치로
-			} else {
-				sidenav.style.left = '0'; // 사이드바 보이기
-				mainContent.style.marginLeft = '200px'; // 메인 콘텐츠를 오른쪽으로 밀어냄
-				sidenavToggle.style.left = '205px'; // 토글 버튼 오른쪽으로 이동
-			}
-		}
+         if (sidenav.style.left === '0px') {
+            sidenav.style.left = '-200px'; // 사이드바 숨기기
+            mainContent.style.marginLeft = '0'; // 메인 콘텐츠 원래 위치로
+            sidenavToggle.style.left = '5px'; // 토글 버튼 원래 위치로
+         } else {
+            sidenav.style.left = '0'; // 사이드바 보이기
+            mainContent.style.marginLeft = '200px'; // 메인 콘텐츠를 오른쪽으로 밀어냄
+            sidenavToggle.style.left = '205px'; // 토글 버튼 오른쪽으로 이동
+         }
+      }
 
-		document.addEventListener('DOMContentLoaded', function () {
-			var dropdowns = document.querySelectorAll('.dropdown-btn');
-			dropdowns.forEach(function (btn) {
-				btn.addEventListener('click', function () {
-					closeAllDropdowns();
-					var dropdownContainer = this.nextElementSibling;
-					dropdownContainer.style.display = dropdownContainer.style.display === 'block' ? 'none' : 'block';
-					this.classList.toggle('active');
-				});
-			});
+      document.addEventListener('DOMContentLoaded', function () {
+         var dropdowns = document.querySelectorAll('.dropdown-btn');
+         dropdowns.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+               closeAllDropdowns();
+               var dropdownContainer = this.nextElementSibling;
+               dropdownContainer.style.display = dropdownContainer.style.display === 'block' ? 'none' : 'block';
+               this.classList.toggle('active');
+            });
+         });
 
-			function closeAllDropdowns() {
-				var dropdownContainers = document.querySelectorAll('.dropdown-container');
-				dropdownContainers.forEach(function (container) {
-					container.style.display = 'none';
-				});
-				dropdowns.forEach(function (btn) {
-					btn.classList.remove('active');
-				});
-			}
-		});
+         function closeAllDropdowns() {
+            var dropdownContainers = document.querySelectorAll('.dropdown-container');
+            dropdownContainers.forEach(function (container) {
+               container.style.display = 'none';
+            });
+            dropdowns.forEach(function (btn) {
+               btn.classList.remove('active');
+            });
+         }
+      });
 
-		function performSearch() {
-			var filter = document.getElementById('filterSelect').value;
-			var searchText = document.getElementById('searchInput').value.trim();
-			alert("검색 필터: " + filter + "\n검색어: " + searchText);
-			// 실제 검색 로직 구현 필요
-		}
+      function performProductionSearch() {
+          var filter = document.getElementById('productionFilterSelect').value;
+          var searchText = document.getElementById('productionSearchInput').value.trim();
 
-		function setRegistrationFields(event) {
-			var row = event.currentTarget;
+          if (searchText === '') {
+              alert("검색어를 입력하세요");
+              return;
+          }
 
-			document.getElementById('regi_productionStartDate').value = row.getAttribute('data-production-start-date');
-			document.getElementById('regi_productionEndDate').value = row.getAttribute('data-production-end-date');
-			document.getElementById('regi_productCode').value = row.getAttribute('data-product-code');
-			document.getElementById('regi_productName').value = row.getAttribute('data-product-name');
-			document.getElementById('regi_productionQuantity').value = row.getAttribute('data-production-quantity');
-			document.getElementById('regi_itemCode').value = row.getAttribute('data-item-code');
-			document.getElementById('regi_itemName').value = row.getAttribute('data-item-name');
-			document.getElementById('regi_itemQuantity').value = row.getAttribute('data-item-quantity');
-			document.getElementById('regi_productionPlanId').value = row.getAttribute('data-production-plan-id');
-			document.getElementById('regi_itemId').value = row.getAttribute('data-item-id');
-		}
+          // 검색어와 필터를 세션에 저장합니다.
+          sessionStorage.setItem('productionSearchField', filter);
+          sessionStorage.setItem('productionSearchKeyword', searchText);
+          sessionStorage.setItem('searchType', 'production');
 
-		async function submitForm(event) {
-			event.preventDefault();
+          var url = '/add_LTplan?searchField=' + encodeURIComponent(filter) + '&searchKeyword=' + encodeURIComponent(searchText) + '&searchType=production';
+          window.location.href = url;
+      }
 
-			const form = document.getElementById('procurementPlanForm');
-			const formData = new FormData(form);
-			const formObject = {};
-			formData.forEach((value, key) => {
-				formObject[key] = value;
-			});
+      function performProcurementSearch() {
+          var filter = document.getElementById('procurementFilterSelect').value;
+          var searchText = document.getElementById('procurementSearchInput').value.trim();
 
-			const response = await fetch('/api/procurement-plans', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(formObject),
-			});
+          if (searchText === '') {
+              alert("검색어를 입력하세요");
+              return;
+          }
 
-			if (response.ok) {
-				alert('조달계획이 성공적으로 등록되었습니다.');
-				window.location.href = '/add_LTplan'; // 리디렉션할 페이지
-			} else {
-				alert('조달계획 등록에 실패했습니다.');
-			}
-		}
-	</script>
-	<script>
-		function performSearch() {
-		    var filter = document.getElementById('filterSelect').value;
-		    var searchInput = document.getElementById('searchInput').value;
-		    window.location.href = `/add_LTplan?pageProduction=0&pageProcurement=0&searchField=${filter}&searchKeyword=${searchInput}`;
-		}
-		
-		document.getElementById('searchInput').addEventListener('keypress', function (e) {
-		    if (e.key === 'Enter') {
-		        performSearch();
-		    }
-		});
-	</script>
+          // 검색어와 필터를 세션에 저장합니다.
+          sessionStorage.setItem('procurementSearchField', filter);
+          sessionStorage.setItem('procurementSearchKeyword', searchText);
+          sessionStorage.setItem('searchType', 'procurement');
+
+          var url = '/add_LTplan?searchField=' + encodeURIComponent(filter) + '&searchKeyword=' + encodeURIComponent(searchText) + '&searchType=procurement';
+          window.location.href = url;
+      }
+
+      // 새로고침 시 세션 저장소를 확인하여 검색어와 필터를 초기화합니다.
+      document.addEventListener('DOMContentLoaded', function () {
+          var productionSearchField = sessionStorage.getItem('productionSearchField');
+          var productionSearchKeyword = sessionStorage.getItem('productionSearchKeyword');
+
+          if (productionSearchField && productionSearchKeyword) {
+              document.getElementById('productionFilterSelect').value = productionSearchField;
+              document.getElementById('productionSearchInput').value = productionSearchKeyword;
+              // URL에서 검색 조건 제거
+              window.history.replaceState({}, document.title, window.location.pathname);
+          }
+
+          var procurementSearchField = sessionStorage.getItem('procurementSearchField');
+          var procurementSearchKeyword = sessionStorage.getItem('procurementSearchKeyword');
+
+          if (procurementSearchField && procurementSearchKeyword) {
+              document.getElementById('procurementFilterSelect').value = procurementSearchField;
+              document.getElementById('procurementSearchInput').value = procurementSearchKeyword;
+              // URL에서 검색 조건 제거
+              window.history.replaceState({}, document.title, window.location.pathname);
+          }
+
+          // 검색 결과가 없는 경우 경고 메시지를 표시합니다.
+          var productionSearchEmpty = [[${productionSearchEmpty}]];
+          var procurementSearchEmpty = [[${procurementSearchEmpty}]];
+
+          if (productionSearchEmpty && sessionStorage.getItem('searchType') === 'production') {
+              alert("생산계획 검색 결과가 없습니다.");
+              sessionStorage.removeItem('productionSearchField');
+              sessionStorage.removeItem('productionSearchKeyword');
+          }
+
+          if (procurementSearchEmpty && sessionStorage.getItem('searchType') === 'procurement') {
+              alert("조달계획 검색 결과가 없습니다.");
+              sessionStorage.removeItem('procurementSearchField');
+              sessionStorage.removeItem('procurementSearchKeyword');
+          }
+
+          // 검색 후 세션 저장소를 비웁니다.
+          sessionStorage.removeItem('searchType');
+      });
+      document.getElementById('productionSearchInput').addEventListener('keypress', function (e) {
+          if (e.key === 'Enter') {
+              performProductionSearch();
+          }
+      });
+
+      document.getElementById('procurementSearchInput').addEventListener('keypress', function (e) {
+          if (e.key === 'Enter') {
+              performProcurementSearch();
+          }
+      });
+
+      function setRegistrationFields(event) {
+         var row = event.currentTarget;
+
+         document.getElementById('regi_productionStartDate').value = row.getAttribute('data-production-start-date');
+         document.getElementById('regi_productionEndDate').value = row.getAttribute('data-production-end-date');
+         document.getElementById('regi_productCode').value = row.getAttribute('data-product-code');
+         document.getElementById('regi_productName').value = row.getAttribute('data-product-name');
+         document.getElementById('regi_productionQuantity').value = row.getAttribute('data-production-quantity');
+         document.getElementById('regi_itemCode').value = row.getAttribute('data-item-code');
+         document.getElementById('regi_itemName').value = row.getAttribute('data-item-name');
+         document.getElementById('regi_itemQuantity').value = row.getAttribute('data-item-quantity');
+         document.getElementById('regi_productionPlanId').value = row.getAttribute('data-production-plan-id');
+         document.getElementById('regi_itemId').value = row.getAttribute('data-item-id');
+      }
+
+      async function submitForm(event) {
+         event.preventDefault();
+
+         const form = document.getElementById('procurementPlanForm');
+         const formData = new FormData(form);
+         const formObject = {};
+         formData.forEach((value, key) => {
+            formObject[key] = value;
+         });
+
+         const response = await fetch('/api/procurement-plans', {
+            method: 'POST',
+            headers: {
+               'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formObject),
+         });
+
+         if (response.ok) {
+            alert('조달계획이 성공적으로 등록되었습니다.');
+            window.location.href = '/add_LTplan'; // 리디렉션할 페이지
+         } else {
+            alert('조달계획 등록에 실패했습니다.');
+         }
+      }
+   </script>
 </body>
 
 </html>

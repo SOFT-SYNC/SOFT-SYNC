@@ -29,7 +29,7 @@
 						<select id="filterSelect">
 							<option value="itemCode">품목코드</option>
 							<option value="itemName">품목명</option>
-							<option value="ProcurementNum">조달번호</option>
+							<option value="ProcurementNum">발주번호</option>
 							<option value="OrderDate">발주일</option>
 							<option value="CompanyName">업체명</option>
 						</select> <input type="text" id="searchInput" placeholder="검색...">
@@ -39,94 +39,77 @@
 				<!-- 결과 표시 테이블 -->
 				<table id="resultsTable">
 					<colgroup>
-						<col width="5%">
+						<col width="10%">
 						<col width="15%">
 						<col width="15%">
 						<col width="15%">
-						<col width="15%">
+						<col width="10%">
 						<col width="20%">
 						<col width="20%">
 					</colgroup>
 					<thead>
 						<tr>
-							<th></th>
-							<th>조달번호</th>
+							<th>발주번호</th>
 							<th>업체명</th>
 							<th>품목코드</th>
 							<th>품목명</th>
+							<th>발주량</th>
 							<th>발주일</th>
 							<th>입고처리일</th>
+							<th>처리</th>
 						</tr>
 					</thead>
 					<tbody>
-						<!-- 동적 결과 -->
+					 <th:block  th:each = "receiving : ${receivings}">
+						<tr>
+							<td th:text="${receiving.orders.orderNo}">
+							<td th:text="${receiving.orders.company.company_name}">
+							<td th:text="${receiving.orders.item.itemCode}">
+							<td th:text="${receiving.orders.item.itemName}">
+							<td th:text="${receiving.orders.orderQuantity}">
+							<td th:text="${receiving.orders.orderDate}">
+							<td th:text="${receiving.receiveDate}">
+							<td><input type="button" value="발행" class="popupBtn blueBtn"></td>
+						</tr>
+					 </th:block>
 					</tbody>
 				</table>
-				<div class="actions">
-					<button type="button" onclick="publishSelected()" class="blueBtn">발행</button>
 				</div>
 			</div>
 		</div>
-	</div>
-	<script src="script.js"></script>
-	<script>
-    document.addEventListener('DOMContentLoaded', function() {
-    loadDummyData();
-});
-
-const dummyData = [
-    { id: 1, ProcurementNum: "1001", CompanyName: "Company A", itemCode: "IT001", itemName: "Item A", OrderDate: "2022-05-01", deliveryDate: "2022-05-05" },
-    { id: 2, ProcurementNum: "1002", CompanyName: "Company B", itemCode: "IT002", itemName: "Item B", OrderDate: "2022-05-02", deliveryDate: "2022-05-06" },
-    { id: 3, ProcurementNum: "1003", CompanyName: "Company C", itemCode: "IT003", itemName: "Item C", OrderDate: "2022-05-03", deliveryDate: "2022-05-07" }
-];
-
-function loadDummyData(filteredData = dummyData) {
-    const tbody = document.querySelector('#resultsTable tbody');
-    tbody.innerHTML = ''; // Clear previous rows
-    filteredData.forEach(data => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td><input type="checkbox" value="${data.id}"></td>
-            <td>${data.ProcurementNum}</td>
-            <td>${data.CompanyName}</td>
-            <td>${data.itemCode}</td>
-            <td>${data.itemName}</td>
-            <td>${data.OrderDate}</td>
-            <td>${data.deliveryDate}</td>
-        `;
-        tbody.appendChild(tr);
-    });
-}
-
-function performSearch() {
-    const startDate = document.getElementById('startDate').value;
-    const endDate = document.getElementById('endDate').value;
-    const filterSelect = document.getElementById('filterSelect').value;
-    const searchText = document.getElementById('searchInput').value.toLowerCase();
-
-    const filteredData = dummyData.filter(data => {
-        const orderDate = new Date(data.orderDate);
-        const start = new Date(startDate);
-        const end = new Date(endDate);
-        let textMatch = true;
-        if (searchText) {
-            textMatch = data[filterSelect].toString().toLowerCase().includes(searchText);
-        }
-        const dateMatch = (!startDate || orderDate >= start) && (!endDate || orderDate <= end);
-        return textMatch && dateMatch;
-    });
-
-    loadDummyData(filteredData);
-}
-
-function publishSelected() {
-    const selectedCheckbox = document.querySelector('#resultsTable tbody input[type="checkbox"]:checked');
-    if (selectedCheckbox) {
-        console.log("발행할 목록:", selectedCheckbox.value);
-    } else {
-        alert("선택된 항목이 없습니다.");
-    }
-}
-</script>
+		
+		
+	<div id="modalWrap">
+	    <div id="modalBody">
+	     <button type="button" id="closeBtn" class="closeBtn">&times;</button>
+	       <div class="container">
+        <h1>거래명세서</h1>
+        <form action="#" method="post">
+            <div class="form-group">
+                <label for="customer">고객명:</label>
+                <input type="text" id="customer" name="customer" required>
+            </div>
+            <div class="form-group">
+                <label for="date">거래일:</label>
+                <input type="date" id="date" name="date" required>
+            </div>
+            <div class="form-group">
+                <label for="amount">거래금액:</label>
+                <input type="text" id="amount" name="amount" required>
+            </div>
+            <div class="form-group">
+                <label for="description">거래내용:</label>
+                <textarea id="description" name="description" rows="4" required></textarea>
+            </div>
+            <input type="submit" value="제출">
+        </form>
+    </div>
+	     <button type="button" class="blueBtn modalBtn" id="printBtn">인쇄</button>
+	     <button type="button" class="blueBtn modalBtn" id="saveBtn">저장</button>
+    </div>
+</div>
+	
 </body>
+
+
 </html>

@@ -20,13 +20,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "procurement_plans")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class ProcurementPlan {
-	@Id
+   @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // 기본키
 
-	@ManyToOne(fetch = FetchType.LAZY)
+   @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "productionplan_id", nullable = false)
     private ProductionPlan productionPlan;
 
@@ -43,53 +43,53 @@ public class ProcurementPlan {
     @Column(nullable = false)
     private LocalDate procurementDueDate; // 조달 납기일
 
-	public Long getId() {
-		return id;
-	}
+   public Long getId() {
+      return id;
+   }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+   public void setId(Long id) {
+      this.id = id;
+   }
 
-	public ProductionPlan getProductionPlan() {
-		return productionPlan;
-	}
+   public ProductionPlan getProductionPlan() {
+      return productionPlan;
+   }
 
-	public void setProductionPlan(ProductionPlan productionPlan) {
-		this.productionPlan = productionPlan;
-	}
+   public void setProductionPlan(ProductionPlan productionPlan) {
+      this.productionPlan = productionPlan;
+   }
 
-	public Item getItem() {
-		return item;
-	}
+   public Item getItem() {
+      return item;
+   }
 
-	public void setItem(Item item) {
-		this.item = item;
-	}
+   public void setItem(Item item) {
+      this.item = item;
+   }
 
-	public int getProcurementInterval() {
-		return procurementInterval;
-	}
+   public int getProcurementInterval() {
+      return procurementInterval;
+   }
 
-	public void setProcurementInterval(int procurementInterval) {
-		this.procurementInterval = procurementInterval;
-	}
+   public void setProcurementInterval(int procurementInterval) {
+      this.procurementInterval = procurementInterval;
+   }
 
-	public int getProcurementQuantity() {
-		return procurementQuantity;
-	}
+   public int getProcurementQuantity() {
+      return procurementQuantity;
+   }
 
-	public void setProcurementQuantity(int procurementQuantity) {
-		this.procurementQuantity = procurementQuantity;
-	}
+   public void setProcurementQuantity(int procurementQuantity) {
+      this.procurementQuantity = procurementQuantity;
+   }
 
-	public LocalDate getProcurementDueDate() {
-		return procurementDueDate;
-	}
+   public LocalDate getProcurementDueDate() {
+      return procurementDueDate;
+   }
 
-	public void setProcurementDueDate(LocalDate procurementDueDate) {
-		this.procurementDueDate = procurementDueDate;
-	}
+   public void setProcurementDueDate(LocalDate procurementDueDate) {
+      this.procurementDueDate = procurementDueDate;
+   }
 
     // Getter and Setter
     

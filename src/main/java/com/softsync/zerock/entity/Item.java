@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,8 +27,11 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @OneToOne(mappedBy = "item", fetch = FetchType.LAZY)
+    private Inventory inventory;
 
-	@OneToMany( fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "item", fetch = FetchType.LAZY) //상대필드
     private List<Contract> contracts;
 
     @Column(nullable = true, unique = true)

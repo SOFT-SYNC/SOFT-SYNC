@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -18,14 +19,14 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "company")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","contracts"})
 public class Company {
     
     @Id
     @Column(name = "brn", length = 20)
-    private String brn;
+    private String brn;  
     
-    @OneToMany
+    @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
     private List<Contract> contracts;
     
     @Column(name = "company_name", length = 50, nullable = false)

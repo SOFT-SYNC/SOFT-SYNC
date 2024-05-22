@@ -30,17 +30,18 @@ import com.softsync.zerock.service.OrderService;
 
 @Controller
 public class OrderController {
-	@Autowired
-	OrderService orderService;
+   @Autowired
+   OrderService orderService;
 
-	@Autowired
-	ContractService contractService;
+   @Autowired
+   ContractService contractService;
 
-	@Autowired
-	CompanyService companyService;
+   @Autowired
+   CompanyService companyService;
 
-	@Autowired
-	ItemService itemService;
+   @Autowired
+   ItemService itemService;
+
 
 	@GetMapping("/purchase_order")
 	public String purchaseOrder(Model model) {

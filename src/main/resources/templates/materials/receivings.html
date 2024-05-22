@@ -15,20 +15,20 @@
 		<div id="row2">
     <div id="planList">
       <h2 class="visual-title">입고예정품목</h2>
-      <div class="search-container">
+<!--       <div class="search-container">
         <label for="dateInput"></label>
         <input type="date" id="dateInput">
 
-        <!-- 드롭다운 메뉴로 필터 선택 -->
+        드롭다운 메뉴로 필터 선택
         <select id="filterSelect">
             <option value="itemCode">품목코드</option>
             <option value="itemName">품목명</option>
         </select>
-        <!-- 검색 입력 필드 -->
+        검색 입력 필드
         <input type="text" id="searchInput" placeholder="검색어를 입력하세요">
-        <!-- 검색 버튼 -->
+        검색 버튼
         <button onclick="performSearch()" class="blueBtn">검색</button>
-      </div>
+      </div> -->
 
       <table class="list-table" id="res">
         <colgroup>
@@ -53,84 +53,244 @@
           <th> 최근납기일</th>
           <th> 현황</th>
         </tr>
-        <th:block th:each="order : ${orders}">
+        <th:block th:each="receiving : ${receivings}">
         <tr>
-          <td th:text="${order.contract_number.item.itemCode}"></td>
-          <td th:text="${order.contract_number.item.itemName}"></td>
-          <td th:text="${order.contract_number.item.material}"></td>
-          <td></td> <!-- 초기 0 입고수량 저장 시 기존값 + 입고수량 //컬럼을 새로 만들어야될듯 -->
-          <td>500</td> <!-- 발주서.발주수량 가져오기 // 수정필요! -->
-          <td>2024-05-20</td> <!-- 발주서.발주서발행일 // 수정필요! -->
-          <td th:text="${order.contract_number.lead_time}"></td>  <!-- 계약 : 납기일 -->
-          <td></td>
-          <td><input type="button" value="입고" class="blueBtn" onclick="receivingStrat(this)"></td>
+          <td>
+            <input type="hidden" class="receiving-number" th:value="${receiving.receiveNumber}">
+            <span th:text="${receiving.orders.contract.item.itemCode}"></span>
+          </td>
+          <td th:text="${receiving.orders.contract.item.itemName}"></td>
+          <td th:text="${receiving.orders.contract.item.material}"></td>
+          <td th:text="${receiving.receiveQuantity}"></td> 
+          <td th:text="${receiving.orders.orderQuantity}"></td> <!-- 발주서.발주수량 가져오기 // 수정필요! -->
+          <td th:text="${receiving.orders.orderDate}"></td>
+          <td th:text="${receiving.orders.contract.lead_time}"></td>  <!-- 계약 : 납기일 -->
+          <td th:text="${receiving.receiveDate}"></td>
+          <td th:if="${receiving.receiveClosingYn} == 'Y'">
+          
+          	<input type="button" value="마감" class="blueBtn">
+          </td>
+          <td th:if="${receiving.receiveClosingYn} == 'N'">
+
+     <input type="button" data-ono="${receiving.orders.orderNo}"  value="입고" class="blueBtn" th:onclick="receivingStrat(this)">
+          </td>
         </tr>
+        </th:block>
       </table>  
     </div>
   </div>
     <div id="row1">
-      <h2 class="visual-title">자재입고</h2>
-       <table class="regi-table" id="receivingTable">
-        <colgroup>
-          <col width="20%">
-          <col width="25%">
-          <col width="20%">
-          <col width="20%">
-          <col width="10%">
-        </colgroup>
-        <tr>
-          <th> 품목코드</th>
-          <th> 품목명</th>
-          <th> 기입고수량</th>
-          <th> 발주수량</th>
-          <th> 입고수량</th>
-        
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td><input type="text"></td>
-        </tr>
-      </table>  
-      <div class="button_wrap">
-        <button type="submit" class="blueBtn">저장</button>
-        <button type="button" class="blueBtn">마감</button>
-      </div>
+    <form action="saveReceiving" method="post" onsubmit="return confirmReceiving()">
+	      <h2 class="visual-title">자재입고</h2>
+	       <table class="regi-table" id="receivingTable">
+	        <colgroup>
+	          <col width="20%">
+	          <col width="25%">
+	          <col width="20%">
+	          <col width="20%">
+	          <col width="10%">
+	        </colgroup>
+	        <tr>
+	          <th> 품목코드</th>
+	          <th> 품목명</th>
+	          <th> 기입고수량</th>
+	          <th> 발주수량</th>
+	          <th> 입고수량</th>
+	        </tr>
+			<tr>
+			  <td></td>
+			  <td></td>  <!--히든인풋으로 발주번호저장  -->
+			  <td></td><!-- 기입고량 -->
+			  <td></td> <!-- 발주량 -->
+			  <td>
+			    <input type="hidden" id="receiveNumber" name="receiveNumber"> <!-- 입고번호 -->
+		
+			    <input type="number" id="quantity" name="quantity" ><!-- 입고량 -->
+			  </td>
+			</tr>		
+	      </table>  
+	      <div class="button_wrap">
+	        <button type="submit" class="blueBtn" id="save">저장</button>
+	        <button type="button" class="blueBtn" id="end" onclick='return endRecieving(this.form)'>마감</button>
+	      </div>
+      </form>
+    </div>
+    
+    
+     <div id="row2">
+	        <h2 class="visual-title">입고내역</h2>
+	        
+			<div class="search-container">
+				<!-- 드롭다운 메뉴로 필터 선택 -->
+				<select id="filterSelect">
+					<option value="0">발주번호</option>
+					<option value="1">품목코드</option>
+					<option value="2">품목명</option>
+					<option value="3">입고일</option>
+				</select>
+	
+				<!-- 검색 입력 필드 -->
+				<input type="text" id="searchInput2" placeholder="검색어를 입력하세요">
+				<button onclick="performSearch()" class="blueBtn">검색</button>
+			</div>
+			
+	       <table class="regi-table" id="receivingTable">
+	        <colgroup>
+	          <col width="20%">
+	          <col width="25%">
+	          <col width="20%">
+	          <col width="20%">
+	          <col width="10%">
+	        </colgroup>
+	        <tr>
+	          <th> 발주번호</th>
+	          <th> 품목코드</th>
+	          <th> 품목명</th>
+	          <th> 입고일</th>
+	          <th> 발주수량</th>
+	          <th> 입고수량</th>
+	        </tr>
+			<tr th:each="receiveList : ${receiveLists}" >
+				<td th:text="${receiveList.receiving.orders.orderNo}"></td>
+				<td th:text="${receiveList.receiving.orders.contract.item.itemCode}"></td>
+				<td th:text="${receiveList.receiving.orders.contract.item.itemName}"></td>
+				<td th:text="${receiveList.sysdate}"></td>
+				<td th:text="${receiveList.receiving.orders.orderQuantity}"></td>
+				<td th:text="${receiveList.quantity}"></td>
+			</tr>	
+	      </table>  
+					 <div class="paging-wrap">
+                   <ul class="pagination">
+                   
+                       <!-- 이전 페이지 링크 -->
+                       <li>
+                           <a th:href="@{/receivings(page=${receiveListsP.number - 1})}">이전</a>
+                       </li>
+                       
+                       <!-- 페이지 번호 링크 -->
+                       <li th:each="i : ${#numbers.sequence(0, receiveListsP.totalPages + 1)}">
+                           <a th:href="@{/receivings(page=${i})}" th:classappend="${i == receiveListsP.number} ? 'active'" th:text="${i + 1}">Page number</a>
+                       </li>
+                       
+                       <!-- 다음 페이지 링크 -->
+                       <li>
+                         <a th:href="@{/receivings(page=${receiveListsP.number + 1})}">다음</a>
+                       </li>
+                   </ul>
+               </div>
     </div>
  
 </div>
   <script>
+  
+  //입고창으로 값 가져옴
+  
   	function receivingStrat(button){
+  		 
+	  
   		var row = button.parentElement.parentElement;  //부모태그의 부모태그를 반환(td -> tr!)
-  		
-  		var itemCode = row.cells[0].innerText;
-  		var itemName = row.cells[1].innerText;
-  		var wQuantity = row.cells[3].innerText; //기입고수량
-  		var orderedQuantity = row.cells[4].innerText; //발주수량
-  	
-  		
-  		var receivingTable = document.getElementById("receivingTable"); //하단 테이블(자재입고) 찾음
-	  	  var firstRow = receivingTable.rows[1]; // 첫 번째 데이터 행을 참조
-	
-	      firstRow.cells[0].innerText = itemCode;
-	      firstRow.cells[1].innerText = itemName;
-	      firstRow.cells[2].innerText = wQuantity; // 기입고수량 초기값 설정
-	      firstRow.cells[3].innerText = orderedQuantity;
-	      firstRow.cells[4].innerHTML = '<input type="number" value="0">'; // 입고수량 입력 필드 추가
-	 }
+  		var receivingNumber = row.querySelector('.receiving-number').value; //입고번호(pk)
+        var itemCode = row.cells[0].children[1].innerText; //품목코드
+        var itemName = row.cells[1].innerText; //품목네임
+        var wQuantity = row.cells[3].innerText; //기발주수량
+        var orderedQuantity = row.cells[4].innerText; //발주수량
         
-  		
-  </script>
+  
+  		var receivingTable = document.getElementById("receivingTable"); //하단 테이블(자재입고) 찾음
+	  	var firstRow = receivingTable.rows[1]; // 첫 번째 데이터 행을 참조
+	  	
+	      var receivingNumbers = row.getElementsByClassName('receiving-number');
+	      var receiveNum  = receivingNumbers[0].value;
+	  	  //입고번호 가져오려고 발악함 [0]셀
+	  	  
+	  	  console.log(receiveNum);
+	  	  
+	  	   firstRow.cells[0].innerHTML = '<input type="hidden" name="receivingNumber" value="' + receivingNumber + '">' + itemCode;
+	      firstRow.cells[1].innerText =  itemName;
+	      firstRow.cells[2].innerHTML = '<input type="hidden" name="wQuantity"  id="wQuantity" value="' + wQuantity + '">' + wQuantity;
+	      firstRow.cells[3].innerHTML = '<input type="hidden" name="orderQuantity" id="orderQuantity" value="' + orderedQuantity + '">' + orderedQuantity;
+	     
+	      
+	 }
+   
+  	function confirmReceiving() {
+  		var Value1 = parseInt(document.getElementById("quantity").value);
+  		var Value2 = parseInt(document.getElementById("orderQuantity").value);
+  		var Value3 = parseInt(document.getElementById("wQuantity").value);
+  		console.log(typeof inputValue1); // inputValue1 변수의 타입을 출력합니다.
+  		console.log(typeof inputValue2); // inputValue2 변수의 타입을 출력합니다.
+  		console.log(typeof inputValue3); // inputValue3 변수의 타입을 출력합니다.
+  	    // 사용자에게 확인 메시지 표시
+  	    
+  	    //유요성 체크.. 
+  	    if(Value2 == Value3){
+  	    	alert('마감을 진행하세요.');
+  	    	return false;
+  	    }else if(Value2 >= Value1 + Value3 ){
+  			var confirmed = confirm('저장 하시겠습니까?');
+  			if(confirmed){
+  				return true;
+  			}else false;
+  		}else if(Value2 < Value1 + Value3){
+  			alert('입고량을 확인하세요.');
+
+  			document.getElementById("quantity").focus();
+  			document.getElementById("quantity").value = Value2 - Value3;
+  			return false;
+  		}  
+  	    
+
+  	    // 사용자가 확인을 선택했을 경우 true를 반환하여 폼이 제출되도록 함
+  	    return confirmed;
+  	}
+  	
+  	
+	//마감처리
+	function endRecieving(frm){
+		var Value2 = parseInt(document.getElementById("orderQuantity").value);
+  		var Value3 = parseInt(document.getElementById("wQuantity").value);
+  	    
+  	    
+		if(Value2 == Value3){
+			var confrmation = confirm("입고를 마감하시겠습니까?");
+			
+			if(confrmation){
+				frm.action='endRecieving';
+				frm.submit();
+				return true;
+			}else alert("취소하였습니다.");
+		}else{
+			alert("입고 완료 후 마감하세요");
+			document.getElementById("quantity").focus();
+			return false;
+		}
+		
+	}
+	     
+	  
+  </script>  
+
 
   <script>
-    function performSearch() {
-        var filter = document.getElementById('filterSelect').value;
-        var searchText = document.getElementById('searchInput').value.trim();
-        alert("검색 필터: " + filter + "\n검색어: " + searchText);
-        // 실제 검색 로직 구현 필요
-    }
+  function performSearch() {
+	    var filter = document.getElementById('filterSelect').value; // 필터 값을 가져옴
+	    var searchText = document.getElementById('searchInput2').value.trim(); // 검색어 값을 가져옴
+	    
+	    var tableRows = document.querySelectorAll('#row2 table tr'); // 수정된 부분
+	    
+	    tableRows.forEach(function(row) { // 각 행에 대해 반복
+	        if (!row.querySelector('th')) {  // th가 아닌 행만 처리
+	            // 검색 대상 열을 선택할 때 필터 값을 사용하여 수정
+	            var columnIndex = parseInt(filter) + 1;
+	            var searchTarget = row.querySelector('td:nth-child(' + columnIndex + ')').textContent;
+	            if (searchTarget.includes(searchText)) {
+	                row.style.display = 'table-row';
+	            } else {
+	                row.style.display = 'none';
+	            }
+	        }
+	    });
+	}
     </script>
 </body>
 </html>

@@ -24,11 +24,12 @@ import lombok.Setter;
 @Table(name = "receiving")
 public class Receiving {
 
+
    @Id
    @GeneratedValue(strategy = GenerationType.AUTO)
    private int receiveNumber;  //입고번호
    
-   
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_no", nullable = false)
     private Orders orders;
@@ -36,6 +37,7 @@ public class Receiving {
     
     @OneToMany(mappedBy = "receiving", fetch = FetchType.LAZY)
     private List<ReceiveList> receiveLists;
+
    
    @Column(nullable = true)
    private Date receiveDate;  //입고일

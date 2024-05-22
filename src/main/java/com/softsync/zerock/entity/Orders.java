@@ -51,6 +51,7 @@ public class Orders {
    @JoinColumn(name = "contract_number", nullable = true)
    private Contract contract;
    
+
 // @ManyToOne(fetch = FetchType.LAZY) //조달계획 :입고예정일
 // @JoinColumn(name = "procNo", nullable = false)
 // private ProcurementPlan procNo;
