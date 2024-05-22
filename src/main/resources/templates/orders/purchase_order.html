@@ -6,6 +6,7 @@
 <link type="text/css" rel="stylesheet" href="../css/common.css">
 <link type="text/css" rel="stylesheet" href="../css/sidebar.css">
 <script type="text/javascript" src="../js/sidebar.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 	<div th:insert="~{common/sidebar :: sidebar}"></div>
@@ -13,7 +14,7 @@
 		<div th:insert="~{common/header :: header}"></div>
 		<div id="row1">
 			<h2 class="visual-title">구매발주서</h2>
-			<form th:action="@{/saveOrders}" method="post" enctype="multipart/form-data">
+			<form th:action="@{/saveOrders}" method="POST" enctype="multipart/form-data">
 				<div>
 					<button type="submit" class="blueBtn">저장</button>
 					<button type="button" id="popupBtn" class="blueBtn">발주서 발행</button>
@@ -31,7 +32,8 @@
 					<tbody>
 						<tr>
 							<th>발주번호</th>
-							<td><input type="text" name="orderNo" readonly></td>
+							<td></td>
+							<!-- <td><input type="text" name="orderNo" readonly></td> -->
 							<th>사업자등록번호</th>
 							<td id="brn"><input type="text" name="brn"> 
 							<!--    
@@ -149,12 +151,18 @@
 						<td th:text="${contract.item.itemName}">품목명</td>
 						<td th:text="${contract.item.material}">재질</td>
 						<td th:text="${contract.item.dimensions}">규격</td>
-						<td>N/A</td>
+						<td th:text="${contract.orders.size() > 0 ? contract.orders[0].orderQuantity : 'N/A'}">N/A</td>
 						<td th:text="${contract.unit_price}">단가</td>
-						<td>N/A</td>
+						<td th:text="${contract.orders.size() > 0 ? contract.orders[0].orderDate : 'N/A'}">N/A</td>
 						<td th:text="${contract.lead_time}">납기일</td>
-						<td><button id="addBtn" class="blueBtn">추가</button></td>
+						<td th:if="${contract.orders.size() > 0 && contract.orders[0].orderYn == 'Y'}">
+							<button id="detailBtn" class="blueBtn">상세</button>
+						</td>
+						<td th:unless="${contract.orders.size() > 0 && contract.orders[0].orderYn == 'Y'}">
+							<button id="addBtn" class="blueBtn">추가</button>
+						</td>
 					</tr>
+					
 				</table>
 			</div>
 		</div>
@@ -186,28 +194,25 @@
 					</tr>
 					<tr>
 						<th>사업자번호</th>
-						<td id="brnModal"><input type="text" name="brn"></td>
+						<td id="brnModal"><input type="text" name="brn" readonly></td>
 						<th>발주번호</th>
-						<td id="orderNoModal"><input type="text" name="orderNo"></td>
+						<td id="orderNoModal"><input type="text" name="orderNo" readonly></td>
 					</tr>
 					<tr>
 						<th>상호</th>
-						<td id="companyNameModal"><input type="text"
-							name="companyName"></td>
+						<td id="companyNameModal"><input type="text" name="companyName" readonly></td>
 						<th>대표자성명</th>
-						<td id="companyCeoModal"><input type="text" name="companyCeo"></td>
+						<td id="companyCeoModal"><input type="text" name="companyCeo" readonly></td>
 					</tr>
 					<tr>
 						<th>주소</th>
-						<td colspan="3" id="companyAddressModal"><input type="text"
-							name="companyAddress"></td>
+						<td colspan="3" id="companyAddressModal"><input type="text" name="companyAddress" readonly></td>
 					</tr>
 					<tr>
 						<th>전화번호</th>
-						<td id="managerTelModal"><input type="text" name="managerTel"></td>
+						<td id="managerTelModal"><input type="text" name="managerTel" readonly></td>
 						<th>이메일</th>
-						<td id="managerEmailModal"><input type="text"
-							name="managerEmail"></td>
+						<td id="managerEmailModal"><input type="text" name="managerEmail" readonly></td>
 					</tr>
 				</tbody>
 			</table>
@@ -230,10 +235,10 @@
 					</tr>
 					<tr>
 						<td>1</td>
-						<td id="itemNameModal"><input type="text" name="itemName"></td>
-						<td id="orderQuantityModal"><input type="text" name="orderQuantity"></td>
-						<td id="unitPriceModal"><input type="text" name="unitPrice"></td>
-						<td id="totalPriceModal"><input type="text" name="totalPrice"></td>
+						<td id="itemNameModal"><input type="text" name="itemName" readonly></td>
+						<td id="orderQuantityModal"><input type="text" name="orderQuantity" readonly></td>
+						<td id="unitPriceModal"><input type="text" name="unitPrice" readonly></td>
+						<td id="totalPriceModal"><input type="text" name="totalPrice" readonly></td>
 					</tr>
 					<tr>
 						<td>2</td>
@@ -302,28 +307,7 @@
 
 
 
-<script th:inline="javascript">
-    $(document).ready(function(){
-        // id가 "1"과 "2"인 테이블의 내용이 업데이트될 때마다 실행되는 함수
-        function updateTable3() {
-            $.ajax({
-                type: 'GET',
-                url: '/saveOrders', 
-                success: function(data) {
-                    $('#3 tbody').empty(); // 이전에 있던 내용 삭제
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
-                }
-            });
-        }
 
-        // id가 "1"과 "2"인 테이블의 내용이 업데이트될 때마다 updateTable3 함수 호출
-        $('#1, #2').on('change', function() {
-            updateTable3();
-        });
-    });
-</script>
 
 	<script>
 	const popupBtn = document.getElementById("popupBtn"); // 팝업 버튼 요소 가져오기
@@ -347,8 +331,7 @@
 	    modalWrap.style.display = "none";
 	  }
 	});
-</script>
-	<script>
+
  function printModalContent() {
         // 모든 버튼과 모달 내 요소를 프린트하기 전에 임시로 숨깁니다.
         var buttons = document.querySelectorAll('.closeBtn, .blueBtn');
@@ -375,12 +358,10 @@
     document.getElementById('printBtn').addEventListener('click', function() {
         printModalContent();
     }); 
-    /******************** 인쇄 하고 나면 모달창 안닫히는 오류 있음*************/
+
 </script>
-
-
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script>
+	///////////////////////////////////하단 테이블 추가 버튼누르면 값입력
   $(document).ready(function() {
 	  $('#3').on('click', 'button#addBtn', function() {
 	    var $row = $(this).closest('tr');
@@ -402,32 +383,73 @@
 	    
 	  });
 	});
-	 $(document).ready(function() {
-          // 계약 및 회사 정보로폼 채우기
-          function populateForm(data) {
-              var order = data.order;
-              var company = data.company;
 
-              $('input[name="orderNo"]').val(contract.orderNo);
-              $('input[name="brn"]').val(company.brn);
-              $('input[name="company_name"]').val(company.companyName);
-              $('input[name="company_ceo"]').val(company.ceoName);
-              $('input[name="orderDate"]').val(contract.orderDate);
-              $('input[name="companyAddress"]').val(company.address);
-              $('input[name="receiveDuedate"]').val(contract.dueDate);
-              $('input[name="manager"]').val(company.manager);
-              $('input[name="manager_tel"]').val(company.managerTel);
-              $('input[name="itemName"]').val(contract.itemName);
-              $('input[name="material"]').val(contract.material);
-              $('input[name="dimensions"]').val(contract.dimensions);
-              $('input[name="orderQuantity"]').val(contract.orderQuantity);
-              $('input[name="unitPrice"]').val(contract.unitPrice);
-              $('input[name="totalPrice"]').val(contract.totalPrice);
-              $('input[name="orderNote"]').val(contract.note);
-          }
- 
-         
-      });
+
+/////////////////////////////////// 하단테이블 상세 버튼 누르면 값 입력
+    $(document).ready(function() {
+        // 하단 테이블의 품목행 대한 클릭 이벤트 처리 
+        $('#contractList table tr#item').click(function() {
+            // 클릭한 행에서 품목코드와 품목명 가져오기
+            var itemCode = $(this).find('td:eq(1)').text().trim(); // 품목코드 (두 번째 열)
+            var itemName = $(this).find('td:eq(2)').text().trim(); // 품목명 (세 번째 열)
+            var brnValue = $('#brn input[name="brn"]').val();
+            
+            // 상단 테이블의 품목코드와 품목명 위치에 정보 넣기
+            $('#itemCodeCell input[name="itemCode"]').val(itemCode).prop('readonly', true);
+            $('#itemNameCell input[name="itemName"]').val(itemName).prop('readonly', true);
+            $('#brn input[name="brn"]').val(brnValue);
+        });
+        
+        
+        // 상단 테이블의 계약 행 대한 클릭 이벤트 처리 
+        $('#contractList table tr#contract').click(function() {
+            // 클릭한 행에서 계약정보 가져오기
+            var itemCode = $(this).find('td:eq(1)').text().trim();
+            var itemName = $(this).find('td:eq(2)').text().trim();
+            var brn = $(this).find("td:eq(4)").text().trim();
+            
+            // 상단 테이블에 정보 넣기
+            $('#itemCodeCell input[name="itemCode"]').val(itemCode);
+            $('#itemNameCell input[name="itemName"]').val(itemName);
+            $('#brn input[name="brn"]').val(brn);    
+        });
+        
+        // 상단 테이블의 계약 행 대한 클릭 이벤트 처리 
+        $("#contractList table[id='3'] tr").click(function() {
+            // 클릭한 행에서 계약정보 가져오기
+            var contractNumber = $(this).find('td:eq(0)').text().trim();
+            var itemCode = $(this).find('td:eq(1)').text().trim();
+            var itemName = $(this).find('td:eq(2)').text().trim();
+            var companyName = $(this).find('td:eq(3)').text().trim();
+            var brn = $(this).find('td:eq(4)').text().trim();
+            var unitPrice = $(this).find('td:eq(5)').text().trim();
+            var leadTime = $(this).find('td:eq(6)').text().trim();
+            var contractNote = $(this).find('td:eq(7)').text().trim();
+            var conYn = $(this).find('td:eq(8)').text().trim();
+            
+            //계약 완료시 조회만 되게함 .prop
+            var ConBool = false;
+            if (conYn === 'y'){
+            	ConBool = true;
+            	  $('#buttonContainer').hide();  //계약완료시  저장, 초기화버튼 감추기
+            }
+            else{
+            	 $('#buttonContainer').show();
+            }
+            
+            // 해당 정보를 상단의 입력 필드에 넣기
+            $('#itemCodeCell input[name="itemCode"]').val(itemCode).prop('readonly', ConBool);
+            $('#itemCodeCell input[name="itemCode"]').val(itemCode).prop('readonly', ConBool);
+            $('#itemNameCell input[name="itemName"]').val(itemName).prop('readonly', ConBool);
+            $('#brn input[name="brn"]').val(brn).trigger('change').prop('readonly', ConBool);
+            $('#unitPriceCell input[name="price"]').val(unitPrice).prop('readonly', ConBool);
+            $('#leadTimeCell input[name="leadTime"]').val(leadTime).prop('readonly', ConBool);
+            $('#contractNote input[name="contractNote"]').val(contractNote).prop('readonly', ConBool);
+            
+            
+        });
+    });
+    
 </script>
 	<!-- brn을 통해 업체명/계좌/비고를 불러옴(제이쿼리) -->
 	<script type="text/javascript">
@@ -452,11 +474,9 @@
 		        }
 		    });
 		});
-	</script>
 
-
-	<script>
-    // 현재 날짜를 가져오는 함수
+		
+   /////////////////// 현재 날짜를 가져오는 함수
     function getCurrentDate() {
         const now = new Date();
         const year = now.getFullYear();
@@ -472,10 +492,8 @@
         orderDateInput.value = getCurrentDate();
     };
     
-</script>
 
-	<script>
-//공급가액 자동 계산
+////////////////공급가액 자동 계산
 document.addEventListener('DOMContentLoaded', function () {
     const unitPriceInput = document.querySelector('input[name="unitPrice"]');
     const orderQuantityInput = document.querySelector('input[name="orderQuantity"]');
@@ -487,6 +505,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const totalPrice = unitPrice * orderQuantity;
         // 공급가액에 콤마 없이 표시
         totalPriceInput.value = totalPrice.toString();
+        
+        //콤마 있게 표시
         /* totalPriceInput.value = totalPrice.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }); */
     }
 

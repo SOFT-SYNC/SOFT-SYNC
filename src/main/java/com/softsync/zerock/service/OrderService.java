@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.softsync.zerock.entity.Company;
@@ -87,12 +88,13 @@ public class OrderService {
 	public List<Contract> getAllContracts() {
 		return contractRepository.findAll();
 		}
+	
+	
+		/*
+		 * public List<Orders> getLatestOrders() { // 최신 주문 목록을 최신 순으로 정렬
+		 * return orderRepository.findAll(Sort.by(Sort.Direction.ASC, "orderDate")); }
+		 */
 
-	/*
-	 * public Contract getContractByContractNumber(int contractNumber) { Contract
-	 * contract = contractRepository.findByContractNumber(contractNumber); return
-	 * contract; }
-	 */
 	
 	
 

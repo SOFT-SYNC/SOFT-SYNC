@@ -86,60 +86,59 @@
 					<button onclick="performSearch()" class="blueBtn">검색</button>
 				</div>
 				<table class="regi-table" id ="3">
-    <tr>
-        <th>계약번호</th>
-        <th>품목코드</th>
-        <th>품목명</th>
-        <th>업체명</th>
-        <th>사업자번호</th>
-        <th>단가(원)</th>
-        <th>L/T일</th>
-        <th>계약진행</th>
-        <th>계약여부</th>
-        <th>삭제</th>
-        <th>계약서</th>
-    </tr>
+					<tr>
+						<th>계약번호</th>
+						<th>품목코드</th>
+						<th>품목명</th>
+						<th>업체명</th>
+						<th>사업자번호</th>
+						<th>단가(원)</th>
+						<th>L/T일</th>
+						<th>계약진행</th>
+						<th>계약여부</th>
+						<th>삭제</th>
+						<th>계약서</th>
+					</tr>
 
-    <th:block th:each="item, itemIndex: ${items}">
-        <tr id="item">
-            <td></td>
-            <td th:text="${item.itemCode}"></td>
-            <td th:text="${item.itemName}"></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
+					<th:block th:each="item, itemIndex: ${items}">
+						<tr id="item">
+							<td></td>
+							<td th:text="${item.itemCode}"></td>
+							<td th:text="${item.itemName}"></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
 
-        <tr id="contract" th:if="${item.contracts != null}" th:each="contract : ${item.contracts}">
-            <td th:text="${contract.contract_number}"></td>
-            <td th:text="${item.itemCode}"></td>
-            <td th:text="${item.itemName}"></td>
-            <td th:text="${contract.company.company_name}"></td>
-            <td th:text="${contract.company.brn}"></td>
-            <td th:text="${contract.unit_price}"></td>
-            <td th:text="${contract.lead_time}"></td>
-			<td th:switch="${contract.contract_yn}">
-			    <span th:case="'n'">
-			        <input type="button" class="blueBtn" value="계약하기" th:onclick="'confirmContract(' + ${contract.contract_number} + ')'">
-			    </span>
-			    <span th:case="'y'">
-			        <input type="button" id="blueBtn" class="blueBtn" value="계약완료">
-			    </span>
-			</td>
-            <td th:text="${contract.contract_yn}"></td>
-            <td><input type="button" id="deleteBtn" class="blueBtn" value="삭제"></td>
-			<td>
-			    <input type="button" class="popupBtn blueBtn" value="계약서보기">
-			    <input type="hidden" class="contractPath" th:value="${contract.contract_path}">
-			</td>
-       </tr>
-    </th:block>
-</th:block>					
+						<tr id="contract" th:if="${item.contracts != null}"
+							th:each="contract : ${item.contracts}">
+							<td th:text="${contract.contract_number}"></td>
+							<td th:text="${item.itemCode}"></td>
+							<td th:text="${item.itemName}"></td>
+							<td th:text="${contract.company.company_name}"></td>
+							<td th:text="${contract.company.brn}"></td>
+							<td th:text="${contract.unit_price}"></td>
+							<td th:text="${contract.lead_time}"></td>
+							<td th:switch="${contract.contract_yn}"><span th:case="'n'">
+									<input type="button" class="blueBtn" value="계약하기"
+									th:onclick="'confirmContract(' + ${contract.contract_number} + ')'">
+							</span> <span th:case="'y'"> <input type="button" id="blueBtn"
+									class="blueBtn" value="계약완료">
+							</span></td>
+							<td th:text="${contract.contract_yn}"></td>
+							<td><input type="button" id="deleteBtn" class="blueBtn"
+								value="삭제"></td>
+							<td><input type="button" class="popupBtn blueBtn"
+								value="계약서보기"> <input type="hidden" class="contractPath"
+								th:value="${contract.contract_path}"></td>
+						</tr>
+					</th:block>
+					</th:block>
 				</table>
 				
 				 <div class="paging-wrap">
