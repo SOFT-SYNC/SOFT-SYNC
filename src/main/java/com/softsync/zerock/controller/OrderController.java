@@ -1,7 +1,7 @@
 package com.softsync.zerock.controller;
 
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -85,7 +85,7 @@ public class OrderController {
 					  			@RequestParam("orderQuantity") Integer orderQuantity,
 					  			@RequestParam("unit_price") int unitPrice, 
 					  			@RequestParam("orderNote") String orderNote,
-					  			@RequestParam("orderDate") LocalDateTime orderDate,
+					  			@RequestParam("orderDate") LocalDate orderDate,
 					  			@RequestParam("receiveDuedate") Date receiveDuedate,
 					  			Model model,
 					  			@PageableDefault(size = 10) Pageable pageable) {

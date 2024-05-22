@@ -15,15 +15,13 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-
-
 @Entity
 @Getter
 @Setter
 @Table(name = "production_plans")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class ProductionPlan {
-	@Id
+   @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // 기본키
 
@@ -58,69 +56,69 @@ public class ProductionPlan {
         this.id = id;
     }
 
-	public Long getId() {
-		return id;
-	}
+   public Long getId() {
+      return id;
+   }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+   public void setId(Long id) {
+      this.id = id;
+   }
 
-	public LocalDate getProductionStartDate() {
-		return productionStartDate;
-	}
+   public LocalDate getProductionStartDate() {
+      return productionStartDate;
+   }
 
-	public void setProductionStartDate(LocalDate productionStartDate) {
-		this.productionStartDate = productionStartDate;
-	}
+   public void setProductionStartDate(LocalDate productionStartDate) {
+      this.productionStartDate = productionStartDate;
+   }
 
-	public LocalDate getProductionEndDate() {
-		return productionEndDate;
-	}
+   public LocalDate getProductionEndDate() {
+      return productionEndDate;
+   }
 
-	public void setProductionEndDate(LocalDate productionEndDate) {
-		this.productionEndDate = productionEndDate;
-	}
+   public void setProductionEndDate(LocalDate productionEndDate) {
+      this.productionEndDate = productionEndDate;
+   }
 
-	public String getProductCode() {
-		return productCode;
-	}
+   public String getProductCode() {
+      return productCode;
+   }
 
-	public void setProductCode(String productCode) {
-		this.productCode = productCode;
-	}
+   public void setProductCode(String productCode) {
+      this.productCode = productCode;
+   }
 
-	public String getProductName() {
-		return productName;
-	}
+   public String getProductName() {
+      return productName;
+   }
 
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
+   public void setProductName(String productName) {
+      this.productName = productName;
+   }
 
-	public Item getItem() {
-		return item;
-	}
+   public Item getItem() {
+      return item;
+   }
 
-	public void setItem(Item item) {
-		this.item = item;
-	}
+   public void setItem(Item item) {
+      this.item = item;
+   }
 
-	public int getProductionQuantity() {
-		return productionQuantity;
-	}
+   public int getProductionQuantity() {
+      return productionQuantity;
+   }
 
-	public void setProductionQuantity(int productionQuantity) {
-		this.productionQuantity = productionQuantity;
-	}
+   public void setProductionQuantity(int productionQuantity) {
+      this.productionQuantity = productionQuantity;
+   }
 
-	public int getItemQuantity() {
-		return itemQuantity;
-	}
+   public int getItemQuantity() {
+      return itemQuantity;
+   }
 
-	public void setItemQuantity(int itemQuantity) {
-		this.itemQuantity = itemQuantity;
-	}
+   public void setItemQuantity(int itemQuantity) {
+      this.itemQuantity = itemQuantity;
+   }
     
     
 }

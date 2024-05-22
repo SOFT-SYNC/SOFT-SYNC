@@ -8,318 +8,361 @@
 <link type="text/css" rel="stylesheet" href="css/header.css">
 <link type="text/css" rel="stylesheet" href="css/common.css">
 <link type="text/css" rel="stylesheet" href="css/sidebar.css">
+<link type="text/css" rel="stylesheet" href="css/invoice.css">
 <link type="text/css" rel="stylesheet" href="css/addProd.css">
 
 </head>
 <body>
-	<div th:insert="~{common/sidebar :: sidebar}"></div>
-	<div class="main-content">
-		<div th:insert="~{common/header :: header}"></div>
-		<form id="productForm" method="POST" action="/api/items"
-			enctype="multipart/form-data" onsubmit="submitProduct(event)">
-			<div id="row1">
-				<h2 class="visual-title">품목정보등록</h2>
-				<table>
-					<tr>
-						<th rowspan="3">품목코드</th>
-						<td>대분류</td>
-						<td><select id="categorySelect"
-							onchange="fetchSubcategories(this.value, 'subcategorySelect')">
-								<option></option>
-						</select></td>
-					</tr>
-					<tr>
-						<td>중분류</td>
-						<td><select id="subcategorySelect"
-							onchange="fetchSubcategories(this.value, 'childcategorySelect')"
-							disabled>
-								<option></option>
-						</select></td>
-					</tr>
-					<tr>
-						<td>소분류</td>
-						<td><select id="childcategorySelect" name="childcategoryId"
-							disabled>
-								<option></option>
-						</select></td>
-					</tr>
-					<tr>
-						<th>품목명</th>
-						<td colspan="2"><input type="text" id="itemName"
-							name="itemName"></td>
-					</tr>
-					<tr>
-						<th rowspan="3">규격</th>
-						<td>가로(W)</td>
-						<td><input type="text" id="width" onchange="setDimensions()"></td>
-					</tr>
-					<tr>
-						<td>세로(D)</td>
-						<td><input type="text" id="depth" onchange="setDimensions()"></td>
-					</tr>
-					<tr>
-						<td>높이(H)</td>
-						<td><input type="text" id="height" onchange="setDimensions()"></td>
-						<input type="hidden" id="dimensions" name="dimensions">
-					</tr>
-					<tr>
-						<th>재질</th>
-						<td colspan="2"><input type="text" id="material"
-							name="material"></td>
-					</tr>
-					<tr>
-						<th>도면</th>
-						<td colspan="2"><input type="file" id="blueprintPath"
-							name="blueprintPath"></td>
-					</tr>
-				</table>
-				<button type="submit" class="blueBtn">등록</button>
-			</div>
-		</form>
-		<div id="row2">
-			<div id="productList">
-				<div>
-					<select id="filterSelect">
-						<option value="itemCode">품목코드</option>
-						<option value="itemName">품목명</option>
-					</select> <input type="text" id="searchInput" placeholder="검색...">
-					<button onclick="performSearch()" class="blueBtn">검색</button>
-					<table class="listTable">
-						<thead>
-							<tr>
-								<th>품목코드</th>
-								<th>품목명</th>
-								<th>규격</th>
-								<th>재질</th>
-								<th>도면</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr th:each="item : ${items.content}">
-								<td th:text="${item.itemCode}"></td>
-								<td th:text="${item.itemName}"></td>
-								<td th:text="${item.dimensions}"></td>
-								<td th:text="${item.material}"></td>
-								<td><a th:href="@{${item.blueprintPath}}" th:text="도면">View</a></td>
-							</tr>
-						</tbody>
-					</table>
-					<div>
-						<ul class="pagination">
-							<!-- 처음 페이지로 이동 -->
-							<li th:if="${items.number >= 10}"><a
-								th:href="@{/add_prod(page=${0})}">&laquo;</a></li>
+   <div th:insert="~{common/sidebar :: sidebar}"></div>
+   <div class="main-content">
+      <div th:insert="~{common/header :: header}"></div>
+      <form id="productForm" method="POST" action="/api/items"
+         enctype="multipart/form-data" onsubmit="submitProduct(event)">
+         <div id="row1">
+            <h2 class="visual-title">품목정보등록</h2>
+            <table>
+               <tr>
+                  <th rowspan="3">품목코드</th>
+                  <td>대분류</td>
+                  <td><select id="categorySelect"
+                     onchange="fetchSubcategories(this.value, 'subcategorySelect')">
+                        <option></option>
+                  </select></td>
+               </tr>
+               <tr>
+                  <td>중분류</td>
+                  <td><select id="subcategorySelect"
+                     onchange="fetchSubcategories(this.value, 'childcategorySelect')"
+                     disabled>
+                        <option></option>
+                  </select></td>
+               </tr>
+               <tr>
+                  <td>소분류</td>
+                  <td><select id="childcategorySelect" name="childcategoryId"
+                     disabled>
+                        <option></option>
+                  </select></td>
+               </tr>
+               <tr>
+                  <th>품목명</th>
+                  <td colspan="2"><input type="text" id="itemName"
+                     name="itemName"></td>
+               </tr>
+               <tr>
+                  <th rowspan="3">규격</th>
+                  <td>가로(W)</td>
+                  <td><input type="text" id="width" onchange="setDimensions()"></td>
+               </tr>
+               <tr>
+                  <td>세로(D)</td>
+                  <td><input type="text" id="depth" onchange="setDimensions()"></td>
+               </tr>
+               <tr>
+                  <td>높이(H)</td>
+                  <td><input type="text" id="height" onchange="setDimensions()"></td>
+                  <input type="hidden" id="dimensions" name="dimensions">
+               </tr>
+               <tr>
+                  <th>재질</th>
+                  <td colspan="2"><input type="text" id="material"
+                     name="material"></td>
+               </tr>
+               <tr>
+                  <th>도면</th>
+                  <td colspan="2"><input type="file" id="blueprintPath"
+                     name="blueprintPath"></td>
+               </tr>
+            </table>
+            <button type="submit" class="blueBtn">등록</button>
+         </div>
+      </form>
+      <div id="row2">
+         <div id="productList">
+            <div>
+                   <form onsubmit="performitemSearch(event)">
+                       <div>
+                           <select id="itemFilterSelect">
+                               <option value="itemCode" th:selected="${searchField == 'itemCode'}">품목코드</option>
+                               <option value="itemName" th:selected="${searchField == 'itemName'}">품목명</option>
+                               <option value="material" th:selected="${searchField == 'material'}">재질</option>
+                           </select>
+                           <input type="text" id="itemSearchInput" placeholder="검색어를 입력하세요">
+                           <input type="submit" value="검색" class="blueBtn">
+                       </div>
+                   </form>
+               <table class="listTable">
+                  <thead>
+                     <tr>
+                        <th>품목코드</th>
+                        <th>품목명</th>
+                        <th>규격</th>
+                        <th>재질</th>
+                        <th>도면</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr th:each="item : ${items.content}">
+                        <td th:text="${item.itemCode}"></td>
+                        <td th:text="${item.itemName}"></td>
+                        <td th:text="${item.dimensions}"></td>
+                        <td th:text="${item.material}"></td>
+                        <td><a th:href="@{${item.blueprintPath}}" th:text="도면">View</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+               <div>
+                  <ul class="pagination">
+                     <!-- 처음 페이지로 이동 -->
+                     <li th:if="${items.number >= 10}"><a
+                        th:href="@{/add_prod(page=${0})}">&laquo;</a></li>
 
-							<!-- 이전 페이지 링크 -->
-							<li th:if="${!items.isFirst()}"><a
-								th:href="@{/add_prod(page=${items.number - 1})}">&lt;</a></li>
+                     <!-- 이전 페이지 링크 -->
+                     <li th:if="${!items.isFirst()}"><a
+                        th:href="@{/add_prod(page=${items.number - 1})}">&lt;</a></li>
 
-							<!-- 페이지 번호 링크 -->
-							<th:block
-								th:with="startPage=${(items.number / 10) * 10}, endPage=${(startPage + 9) < items.totalPages ? (startPage + 9) : items.totalPages - 1}">
-								<li th:each="i : ${#numbers.sequence(startPage, endPage)}">
-									<!-- 현재 페이지일 경우 active 클래스 추가 --> <a
-									th:href="@{/add_prod(page=${i})}"
-									th:classappend="${i == items.number} ? 'active'"
-									th:text="${i + 1}">Page number</a>
-								</li>
-							</th:block>
+                     <!-- 페이지 번호 링크 -->
+                     <th:block
+                        th:with="startPage=${(items.number / 10) * 10}, endPage=${(startPage + 9) < items.totalPages ? (startPage + 9) : items.totalPages - 1}">
+                        <li th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                           <!-- 현재 페이지일 경우 active 클래스 추가 --> <a
+                           th:href="@{/add_prod(page=${i})}"
+                           th:classappend="${i == items.number} ? 'active'"
+                           th:text="${i + 1}">Page number</a>
+                        </li>
+                     </th:block>
 
-							<!-- 다음 페이지 링크 -->
-							<li th:if="${!items.isLast()}"><a
-								th:href="@{/add_prod(page=${items.number + 1})}">&gt;</a></li>
+                     <!-- 다음 페이지 링크 -->
+                     <li th:if="${!items.isLast()}"><a
+                        th:href="@{/add_prod(page=${items.number + 1})}">&gt;</a></li>
 
-							<!-- 10 페이지 앞으로 이동 -->
-							<li th:if="${(items.number + 10) < items.totalPages}"><a
-								th:href="@{/add_prod(page=${(items.number / 10 + 1) * 10})}">&raquo;</a>
-							</li>
-							<!-- 마지막 페이지로 이동 -->
-							<li
-								th:if="${(items.number + 10) >= items.totalPages && !items.isLast()}">
-								<a th:href="@{/add_prod(page=${items.totalPages - 1})}">&raquo;</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                     <!-- 10 페이지 앞으로 이동 -->
+                     <li th:if="${(items.number + 10) < items.totalPages}"><a
+                        th:href="@{/add_prod(page=${(items.number / 10 + 1) * 10})}">&raquo;</a>
+                     </li>
+                     <!-- 마지막 페이지로 이동 -->
+                     <li
+                        th:if="${(items.number + 10) >= items.totalPages && !items.isLast()}">
+                        <a th:href="@{/add_prod(page=${items.totalPages - 1})}">&raquo;</a>
+                     </li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
 
 
-	<script>
-		function toggleSidenav() {
-			const sidenav = document.querySelector('.sidenav');
-			const mainContent = document.querySelector('.main-content');
-			const sidenavToggle = document.querySelector('.sidenav-toggle');
+   <script>
+      function toggleSidenav() {
+         const sidenav = document.querySelector('.sidenav');
+         const mainContent = document.querySelector('.main-content');
+         const sidenavToggle = document.querySelector('.sidenav-toggle');
 
-			if (sidenav.style.left === '0px') {
-				sidenav.style.left = '-200px'; // 사이드바 숨기기
-				mainContent.style.marginLeft = '0'; // 메인 콘텐츠 원래 위치로
-				sidenavToggle.style.left = '5px'; // 토글 버튼 원래 위치로
-			} else {
-				sidenav.style.left = '0'; // 사이드바 보이기
-				mainContent.style.marginLeft = '200px'; // 메인 콘텐츠를 오른쪽으로 밀어냄
-				sidenavToggle.style.left = '205px'; // 토글 버튼 오른쪽으로 이동
-			}
-		}
+         if (sidenav.style.left === '0px') {
+            sidenav.style.left = '-200px'; // 사이드바 숨기기
+            mainContent.style.marginLeft = '0'; // 메인 콘텐츠 원래 위치로
+            sidenavToggle.style.left = '5px'; // 토글 버튼 원래 위치로
+         } else {
+            sidenav.style.left = '0'; // 사이드바 보이기
+            mainContent.style.marginLeft = '200px'; // 메인 콘텐츠를 오른쪽으로 밀어냄
+            sidenavToggle.style.left = '205px'; // 토글 버튼 오른쪽으로 이동
+         }
+      }
 
-		// document.addEventListener('DOMContentLoaded', function() {
-		//     loadDummyData();
-		// });
-		document
-			.addEventListener(
-				'DOMContentLoaded',
-				function () {
-					// 드롭다운 버튼을 모두 선택합니다.
-					var dropdowns = document
-						.querySelectorAll('.dropdown-btn');
+      // document.addEventListener('DOMContentLoaded', function() {
+      //     loadDummyData();
+      // });
+      document
+         .addEventListener(
+            'DOMContentLoaded',
+            function () {
+               // 드롭다운 버튼을 모두 선택합니다.
+               var dropdowns = document
+                  .querySelectorAll('.dropdown-btn');
 
-					// 각 버튼에 클릭 이벤트 리스너를 추가합니다.
-					dropdowns
-						.forEach(function (btn) {
-							btn
-								.addEventListener(
-									'click',
-									function () {
-										// 모든 드롭다운 컨테이너를 닫습니다.
-										closeAllDropdowns();
+               // 각 버튼에 클릭 이벤트 리스너를 추가합니다.
+               dropdowns
+                  .forEach(function (btn) {
+                     btn
+                        .addEventListener(
+                           'click',
+                           function () {
+                              // 모든 드롭다운 컨테이너를 닫습니다.
+                              closeAllDropdowns();
 
-										// 현재 클릭된 버튼의 다음 요소(드롭다운 컨테이너)의 표시 상태를 토글합니다.
-										var dropdownContainer = this.nextElementSibling;
-										dropdownContainer.style.display = dropdownContainer.style.display === 'block' ? 'none'
-											: 'block';
+                              // 현재 클릭된 버튼의 다음 요소(드롭다운 컨테이너)의 표시 상태를 토글합니다.
+                              var dropdownContainer = this.nextElementSibling;
+                              dropdownContainer.style.display = dropdownContainer.style.display === 'block' ? 'none'
+                                 : 'block';
 
-										// 클릭된 버튼에 'active' 클래스를 추가합니다.
-										this.classList
-											.toggle('active');
-									});
-						});
+                              // 클릭된 버튼에 'active' 클래스를 추가합니다.
+                              this.classList
+                                 .toggle('active');
+                           });
+                  });
 
-					// 모든 드롭다운을 닫는 함수
-					function closeAllDropdowns() {
-						var dropdownContainers = document
-							.querySelectorAll('.dropdown-container');
-						dropdownContainers.forEach(function (container) {
-							container.style.display = 'none';
-						});
+               // 모든 드롭다운을 닫는 함수
+               function closeAllDropdowns() {
+                  var dropdownContainers = document
+                     .querySelectorAll('.dropdown-container');
+                  dropdownContainers.forEach(function (container) {
+                     container.style.display = 'none';
+                  });
 
-						// 모든 드롭다운 버튼에서 'active' 클래스를 제거합니다.
-						dropdowns.forEach(function (btn) {
-							btn.classList.remove('active');
-						});
-					}
-				});
-	</script>
-	<script>
-		function performSearch() {
-			var filter = document.getElementById('filterSelect').value;
-			var searchText = document.getElementById('searchInput').value
-				.trim();
-			alert("검색 필터: " + filter + "\n검색어: " + searchText);
-			// 실제 검색 로직 구현 필요
-		}
-	</script>
+                  // 모든 드롭다운 버튼에서 'active' 클래스를 제거합니다.
+                  dropdowns.forEach(function (btn) {
+                     btn.classList.remove('active');
+                  });
+               }
+            });
+   </script>
+   <script>
+   function performitemSearch(event) {
+      event.preventDefault();
+       var filter = document.getElementById('itemFilterSelect').value;
+       var searchText = document.getElementById('itemSearchInput').value.trim();
 
-	<script>
-		document.addEventListener('DOMContentLoaded', function () {
-			fetchCategories();
-		});
+       if (searchText === '') {
+           alert("검색어를 입력하세요");
+           return;
+       }
 
-		function fetchCategories() {
-			fetch('/api/categories/root')
-				.then(response => response.json())
-				.then(data => {
-					const categorySelect = document.getElementById('categorySelect');
-					data.forEach(category => {
-						const option = document.createElement('option');
-						option.value = category.id;
-						option.textContent = category.name;
-						categorySelect.appendChild(option);
-					});
-				})
-				.catch(error => console.error('Error loading categories:', error));
-		}
+       // 검색어와 필터를 세션에 저장합니다.
+       sessionStorage.setItem('itemSearchField', filter);
+       sessionStorage.setItem('itemSearchKeyword', searchText);
+       sessionStorage.setItem('searchType', 'item');
 
-		function fetchSubcategories(parentId, selectId) {
-			const selectElement = document.getElementById(selectId);
-			selectElement.innerHTML = ''; // 기존 옵션 초기화
-			selectElement.disabled = false; // 초기에 비활성화
+       var url = '/add_prod?searchField=' + encodeURIComponent(filter) + '&searchKeyword=' + encodeURIComponent(searchText) + '&searchType=item';
+       window.location.href = url;
+   }
 
-			if (!parentId) {
-				return; // parentId가 없으면 중단
-			}
 
-			fetch(`/api/categories/${parentId}/subcategories`)
-				.then(response => response.json())
-				.then(data => {
-					if (data.length > 0) {
-						data.forEach(subcategory => {
-							const option = document.createElement('option');
-							option.value = subcategory.id;
-							option.textContent = subcategory.name;
-							selectElement.appendChild(option);
-						});
-						selectElement.disabled = false; // 데이터 로드 후 활성화
-					} else {
-						selectElement.disabled = true; // 데이터가 없으면 비활성화 유지
-					}
-				})
-				.catch(error => {
-					console.error(`Error loading subcategories for parent ${parentId}:`, error);
-					selectElement.disabled = true; // 오류 발생 시 비활성화 유지
-				});
-		}
-		// 대분류 선택 시 중분류 선택 가능하도록 초기화
-		document.addEventListener('DOMContentLoaded', function () {
-			const categorySelect = document.getElementById('categorySelect');
-			const subcategorySelect = document.getElementById('subcategorySelect');
-			categorySelect.addEventListener('change', function () {
-				const selectedCategoryId = this.value;
-				fetchSubcategories(selectedCategoryId, 'subcategorySelect');
-				subcategorySelect.disabled = selectedCategoryId ? false : true; // 대분류가 선택되면 중분류 활성화
-			});
-		});
-	</script>
-	<script>
-		function submitProduct(event) {
-			event.preventDefault(); // 기본 이벤트 중지
+   // 새로고침 시 세션 저장소를 확인하여 검색어와 필터를 초기화합니다.
+   document.addEventListener('DOMContentLoaded', function () {
+       var itemSearchField = sessionStorage.getItem('itemSearchField');
+       var itemSearchKeyword = sessionStorage.getItem('itemSearchKeyword');
 
-			const form = document.getElementById('productForm');
-			const formData = new FormData(form); // 폼 데이터 생성
+       if (itemSearchField && itemSearchKeyword) {
+           document.getElementById('itemFilterSelect').value = itemSearchField;
+           document.getElementById('itemSearchInput').value = itemSearchKeyword;
+           // URL에서 검색 조건 제거
+           window.history.replaceState({}, document.title, window.location.pathname);
+       }
 
-			fetch('/api/items', {
-			        method: 'POST',
-			        body: formData
-			    })
-			    .then(response => response.json())  // 응답을 JSON으로 변환
-			    .then(data => {
-			        if (data.message) {
-			            alert(data.message); // 서버에서 보낸 메시지를 사용자에게 표시
-						window.location.href = "/add_prod";
-			        }
-			    })
-			    .catch(error => {
-			        console.error('Error uploading file:', error); // 오류 메시지 표시
-			        alert('There was a problem with your submission.'); // 일반 오류 메시지 표시
-					window.location.href = "/add_prod";
-			    });
-		}
-	</script>
-	<script>
-		// 가로, 세로, 높이 값을 가져와서 dimensions에 설정하는 함수
-		function setDimensions() {
-		    // 가로, 세로, 높이 값을 가져옴
-		    var width = document.getElementById('width').value;
-		    var depth = document.getElementById('depth').value;
-		    var height = document.getElementById('height').value;
-		    
-		    // dimensions에 "가로x세로x높이" 형태로 설정
-		    var dimensions = width + " (W) X " + depth + " (D) X " + height + " (H)";
-		
-		    
-		    document.getElementById('dimensions').value = dimensions;
-		}
-	</script>
+       // 검색 결과가 없는 경우 경고 메시지를 표시합니다.
+       var itemSearchEmpty = [[${itemSearchEmpty}]];
+
+       if (itemSearchEmpty && sessionStorage.getItem('searchType') === 'item') {
+           alert("품목 검색 결과가 없습니다.");
+           sessionStorage.removeItem('itemSearchField');
+           sessionStorage.removeItem('itemSearchKeyword');
+       }
+       // 검색 후 세션 저장소를 비웁니다.
+       sessionStorage.removeItem('searchType');
+   });
+    </script>
+
+   <script>
+      document.addEventListener('DOMContentLoaded', function () {
+         fetchCategories();
+      });
+
+      function fetchCategories() {
+         fetch('/api/categories/root')
+            .then(response => response.json())
+            .then(data => {
+               const categorySelect = document.getElementById('categorySelect');
+               data.forEach(category => {
+                  const option = document.createElement('option');
+                  option.value = category.id;
+                  option.textContent = category.name;
+                  categorySelect.appendChild(option);
+               });
+            })
+            .catch(error => console.error('Error loading categories:', error));
+      }
+
+      function fetchSubcategories(parentId, selectId) {
+         const selectElement = document.getElementById(selectId);
+         selectElement.innerHTML = ''; // 기존 옵션 초기화
+         selectElement.disabled = false; // 초기에 비활성화
+
+         if (!parentId) {
+            return; // parentId가 없으면 중단
+         }
+
+         fetch(`/api/categories/${parentId}/subcategories`)
+            .then(response => response.json())
+            .then(data => {
+               if (data.length > 0) {
+                  data.forEach(subcategory => {
+                     const option = document.createElement('option');
+                     option.value = subcategory.id;
+                     option.textContent = subcategory.name;
+                     selectElement.appendChild(option);
+                  });
+                  selectElement.disabled = false; // 데이터 로드 후 활성화
+               } else {
+                  selectElement.disabled = true; // 데이터가 없으면 비활성화 유지
+               }
+            })
+            .catch(error => {
+               console.error(`Error loading subcategories for parent ${parentId}:`, error);
+               selectElement.disabled = true; // 오류 발생 시 비활성화 유지
+            });
+      }
+      // 대분류 선택 시 중분류 선택 가능하도록 초기화
+      document.addEventListener('DOMContentLoaded', function () {
+         const categorySelect = document.getElementById('categorySelect');
+         const subcategorySelect = document.getElementById('subcategorySelect');
+         categorySelect.addEventListener('change', function () {
+            const selectedCategoryId = this.value;
+            fetchSubcategories(selectedCategoryId, 'subcategorySelect');
+            subcategorySelect.disabled = selectedCategoryId ? false : true; // 대분류가 선택되면 중분류 활성화
+         });
+      });
+   </script>
+   <script>
+      function submitProduct(event) {
+         event.preventDefault(); // 기본 이벤트 중지
+
+         const form = document.getElementById('productForm');
+         const formData = new FormData(form); // 폼 데이터 생성
+
+         fetch('/api/items', {
+                 method: 'POST',
+                 body: formData
+             })
+             .then(response => response.json())  // 응답을 JSON으로 변환
+             .then(data => {
+                 if (data.message) {
+                     alert(data.message); // 서버에서 보낸 메시지를 사용자에게 표시
+                  window.location.href = "/add_prod";
+                 }
+             })
+             .catch(error => {
+                 console.error('Error uploading file:', error); // 오류 메시지 표시
+                 alert('There was a problem with your submission.'); // 일반 오류 메시지 표시
+               window.location.href = "/add_prod";
+             });
+      }
+   </script>
+   <script>
+      // 가로, 세로, 높이 값을 가져와서 dimensions에 설정하는 함수
+      function setDimensions() {
+          // 가로, 세로, 높이 값을 가져옴
+          var width = document.getElementById('width').value;
+          var depth = document.getElementById('depth').value;
+          var height = document.getElementById('height').value;
+          
+          // dimensions에 "가로x세로x높이" 형태로 설정
+          var dimensions = width + " (W) X " + depth + " (D) X " + height + " (H)";
+      
+          
+          document.getElementById('dimensions').value = dimensions;
+      }
+   </script>
 </body>
 
 </html>

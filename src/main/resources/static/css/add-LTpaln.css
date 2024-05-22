@@ -5,33 +5,36 @@
   border-radius: 5px;
   padding: 20px;
   margin: 10px 40px;
- }
- 
- .visual-title {
-   margin-bottom: 15px;
-   border-left: 3px solid black;
-   padding-left: 10px;
- }
- 
- .regi-table { 
-   width:100%;
-   border-radius: 5px;
- }
- .list-table { 
-  width:100%;
-  border-radius: 5px;
- }
- 
- #row2 {
-   border: solid 1px #999;
-   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
-   background-color: white;
-   border-radius: 5px;
-   padding: 20px;
-   margin: 10px 40px;
- }
+}
 
- .blueBtn {
+.visual-title {
+  margin-bottom: 15px;
+  border-left: 3px solid black;
+  padding-left: 10px;
+}
+
+.regi-table {
+  width: 100%;
+  border-radius: 5px;
+  table-layout: fixed;
+}
+
+.list-table {
+  width: 100%;
+  border-radius: 5px;
+  table-layout: fixed;
+}
+
+#row2 {
+  border: solid 1px #999;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
+  background-color: white;
+  border-radius: 5px;
+  padding: 20px;
+  margin: 10px 40px;
+}
+
+.blueBtn {
   padding: 10px 20px;
   color: white;
   background-color: #007BFF;
@@ -40,9 +43,21 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
+
 .blueBtn:hover {
   background-color: #0056b3;
 }
+
+input[type="number"],
+.text2,.date2{
+  padding: 8px !important;
+  margin-right: 10px !important;
+  border: 1px solid #ddd !important;
+  border-radius: 4px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
 input[type="date"],
 input[type="text"],
 select {
@@ -51,18 +66,9 @@ select {
   border: 1px solid #ddd;
   border-radius: 4px;
   width: 180px;
+  box-sizing: border-box;
 }
-input[type="number"] {
-	  padding: 8px;
-  margin-right: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  width: 100px;
-}
+
 input[type="checkbox"] {
   margin-right: 5px;
-}
-.regiBtn {
-	float: right; 
-	margin-bottom: 20px;	
 }

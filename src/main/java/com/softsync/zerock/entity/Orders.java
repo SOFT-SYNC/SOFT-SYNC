@@ -1,6 +1,6 @@
 package com.softsync.zerock.entity;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Date;
 
 import org.hibernate.annotations.DynamicUpdate;
@@ -57,10 +57,10 @@ public class Orders {
    private Receiving Receivings;  //입고 1:n
    
    @Column (nullable = false)
-   private Integer orderQuantity;
+   private Integer orderQuantity;   //발주량
    
    @Column (nullable = false)
-   private LocalDateTime orderDate;
+   private LocalDate orderDate;
 
    @Column (nullable = false)
    private Date receiveDuedate;
