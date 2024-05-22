@@ -137,19 +137,7 @@ public class OrderController {
         return ResponseEntity.ok(orderDetails);
     }
 	
-	/*
-	 * @GetMapping("/purchase_order_list") public String purchaseOrderListView(
-	 * 
-	 * @RequestParam(name = "page", defaultValue = "0") int page,
-	 * 
-	 * @RequestParam(name = "size", defaultValue = "10") int size, Model model) {
-	 * Pageable pageable = PageRequest.of(page, size); Page<Orders> ordersPage =
-	 * orderService.getOrders(pageable);
-	 * 
-	 * model.addAttribute("orders", ordersPage);
-	 * 
-	 * return "orders/purchase_order_list"; }
-	 */
+
 
 	 @GetMapping("/purchase_order_list")
 	    public String purchaseOrderListView(Model model) {
