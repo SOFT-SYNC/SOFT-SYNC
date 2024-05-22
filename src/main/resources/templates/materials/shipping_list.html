@@ -54,83 +54,11 @@
 					</tbody>
 				</table>
 				<div class="actions">
-					<button type="button" onclick="publishSelected()" class="blueBtn">저장</button>
+					<button type="button" class="blueBtn">저장</button>
 				</div>
 			</div>
 		</div>
 	</div>
-	<script>
-    document.addEventListener('DOMContentLoaded', function() {
-    loadDummyData();
-});
-const dummyData = [
-    { id: 1, itemCode: "A001", itemName: "Item A", productName: "Product A", productionDate: "2022-05-01", consumption: 100, stock: 500 },
-    { id: 2, itemCode: "B002", itemName: "Item B", productName: "Product B", productionDate: "2022-05-02", consumption: 150, stock: 600 },
-    { id: 3, itemCode: "C003", itemName: "Item C", productName: "Product C", productionDate: "2022-05-03", consumption: 200, stock: 700 }
-];
-
-function loadDummyData(filteredData = dummyData) {
-    const tbody = document.querySelector('#resultsTable tbody');
-    tbody.innerHTML = '';
-    filteredData.forEach(data => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>${data.itemCode}</td>
-            <td>${data.itemName}</td>
-            <td>${data.productName}</td>
-            <td>${data.productionDate}</td>
-            <td>${data.consumption}</td>
-            <td>${data.stock}</td>
-            <td><input type="number" min="0" value="0" onchange="updateStock(this, ${data.id})"></td>
-        `;
-        tbody.appendChild(tr);
-    });
-}
-
-function updateStock(input, id) {
-    const item = dummyData.find(item => item.id === id);
-    if (item) {
-        const newStock = item.stock - parseInt(input.value);
-        item.stock = newStock >= 0 ? newStock : 0; // Prevent stock from going negative
-        loadDummyData(); // Reload table to reflect the updated stock
-    }
-}
-
-function performSearch() {
-    const startDate = document.getElementById('startDate').value;
-    const endDate = document.getElementById('endDate').value;
-    const filterSelect = document.getElementById('filterSelect').value;
-    const searchText = document.getElementById('searchInput').value.toLowerCase();
-
-    const filteredData = dummyData.filter(data => {
-        let dateMatch = true;
-        let textMatch = true;
-
-        if (startDate || endDate) {
-            const productionDate = new Date(data.productionDate);
-            const start = startDate ? new Date(startDate) : new Date(-8640000000000000); // Min date
-            const end = endDate ? new Date(endDate) : new Date(8640000000000000); // Max date
-            dateMatch = productionDate >= start && productionDate <= end;
-        }
-        
-        if (searchText && filterSelect) {
-            textMatch = data[filterSelect] && data[filterSelect].toString().toLowerCase().includes(searchText);
-        }
-        
-        return dateMatch && textMatch;
-    });
-
-    loadDummyData(filteredData);
-}
-
-function publishSelected() {
-    console.log("Changes saved.");
-    // Optionally, process data or communicate with a server here.
-    dummyData.forEach(item => {
-        console.log(`Item ID: ${item.id}, Stock: ${item.stock}`);
-    });
-    // Reset stock changes if necessary or finalize the changes
-}
-</script>
+	
 </body>
 </html>

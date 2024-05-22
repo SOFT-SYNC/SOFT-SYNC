@@ -26,20 +26,23 @@ import lombok.Setter;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Category {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column(nullable = false)
-	private String name;
+    @Column(nullable = false)
+    private String name;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "parent_id")
-	@JsonBackReference // 부모 엔티티 참조에서 순환 참조 방지
-	private Category parent;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id")
+    @JsonBackReference
+    private Category parent;
 
-	@OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
-	@JsonManagedReference // 자식 엔티티 참조에서 순환 참조 방지
-	private List<Category> childcategories;
+    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<Category> childcategories;
+
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+    private List<Item> items;
 
 	public Long getId() {
 		return id;

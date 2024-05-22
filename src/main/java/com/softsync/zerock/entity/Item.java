@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -13,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,37 +23,35 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "items")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Item {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-	@OneToMany( fetch = FetchType.LAZY)
-    private List<Contract> contracts;
+	@OneToMany(mappedBy = "item", fetch = FetchType.LAZY)
+	private List<Contract> contracts;
 
-    @Column(nullable = true, unique = true)
-    private String itemCode;
+	@Column(nullable = true, unique = true)
+	private String itemCode;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id", nullable = true)
-    private Category category;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "category_id", nullable = false)
+	private Category category;
 
-    @Column(nullable = true)
-    private String itemName;
+	@Column(nullable = true)
+	private String itemName;
 
-    @Column(nullable = true)
-    private String dimensions;
+	@Column(nullable = true)
+	private String dimensions;
 
-    @Column(nullable = true)
-    private String material;
+	@Column(nullable = true)
+	private String material;
 
-    @Column(nullable = true)
-    private String blueprintPath;
+	@Column(nullable = true)
+	private String blueprintPath;
 
-    // Getter and Setter
-
-    
+	// Getter and Setter
 
 	public Long getId() {
 		return id;
@@ -108,7 +108,5 @@ public class Item {
 	public void setBlueprintPath(String blueprintPath) {
 		this.blueprintPath = blueprintPath;
 	}
-    
-    
-    
+
 }

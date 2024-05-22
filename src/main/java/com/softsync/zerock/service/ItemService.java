@@ -8,9 +8,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,10 +16,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.softsync.zerock.DTO.ItemDto;
 import com.softsync.zerock.entity.Category;
-import com.softsync.zerock.entity.Company;
-import com.softsync.zerock.entity.Contract;
+
 import com.softsync.zerock.entity.Item;
 import com.softsync.zerock.repository.CategoryRepository;
+
 import com.softsync.zerock.repository.ItemRepository;
 
 @Service
@@ -66,8 +63,11 @@ public class ItemService {
 		String uniqueCode = generateUniqueCode();
 		String itemCode = String.format("%s%s%s-%s", topCategoryCode, midCategoryCode, childCategoryCode, uniqueCode);
 		item.setItemCode(itemCode);
+		
+		 // Item 엔터티 저장
+        Item savedItem = itemRepository.save(item);
 
-		return itemRepository.save(item);
+		return savedItem;
 	}
 
 	public String generateUniqueCode() {

@@ -31,7 +31,7 @@
 						<col width="8%">
 						<col width="8%">
 						<col width="10%">
-						<col width="5%">
+						
 					</colgroup>
 					<tr>
 						<th>생산시작일</th>
@@ -45,9 +45,7 @@
 						<th>조달간격(일)</th>
 						<th>조달수량</th>
 						<th>조달납기일</th>
-						<th rowspan="2">
-							<button type="button" id="deleteBtn">삭제</button>
-						</th>
+						
 					</tr>
 					<tr>
 						<input type="hidden" id="regi_productionPlanId" name="productionPlanId">
@@ -84,7 +82,7 @@
 				<h2 class="visual-title">생산계획조회</h2>
 				<div class="search-container">
 
-					<select id="filterSelect">
+					<select id="productionFilterSelect">
 						<option value="itemCode" th:selected="${searchField == 'itemCode'}">품목코드</option>
 		                <option value="itemName" th:selected="${searchField == 'itemName'}">품목명</option>
 		                <option value="productionStartDate" th:selected="${searchField == 'productionStartDate'}">생산시작일</option>
@@ -93,8 +91,8 @@
 		                <option value="productName" th:selected="${searchField == 'productName'}">생산제품명</option>
 		                <option value="productionQuantity" th:selected="${searchField == 'productionQuantity'}">생산수량</option>
 		                <option value="itemQuantity" th:selected="${searchField == 'itemQuantity'}">품목소요수량</option>
-					</select> <input type="text" id="searchInput" placeholder="검색어를 입력하세요">
-					<button class="blueBtn" onclick="performSearch()">검색</button>
+					</select> <input type="text" id="productionSearchInput" placeholder="검색어를 입력하세요">
+					<button class="blueBtn" onclick="performProductionSearch()">검색</button>
 				</div>
 				<table class="list-table">
 					<colgroup>
@@ -183,11 +181,20 @@
 			<div id="planList">
 				<h2 class="visual-title">조달계획조회</h2>
 				<div class="search-container">
-					<select id="filterSelect">
+					<select id="procurementFilterSelect">
 						<option value="itemCode" th:selected="${searchField == 'itemCode'}">품목코드</option>
-                		<option value="itemName" th:selected="${searchField == 'itemName'}">품목명</option>
-					</select> <input type="text" id="searchInput" placeholder="검색어를 입력하세요">
-					<button class="blueBtn" onclick="performSearch()">검색</button>
+				        <option value="itemName" th:selected="${searchField == 'itemName'}">품목명</option>
+				        <option value="productionStartDate" th:selected="${searchField == 'productionStartDate'}">생산시작일</option>
+				        <option value="productionEndDate" th:selected="${searchField == 'productionEndDate'}">생산종료일</option>
+				        <option value="productCode" th:selected="${searchField == 'productCode'}">생산제품코드</option>
+				        <option value="productName" th:selected="${searchField == 'productName'}">생산제품명</option>
+				        <option value="productionQuantity" th:selected="${searchField == 'productionQuantity'}">생산수량</option>
+				        <option value="itemQuantity" th:selected="${searchField == 'itemQuantity'}">품목소요수량</option>
+				        <option value="procurementQuantity" th:selected="${searchField == 'procurementQuantity'}">조달수량</option>
+				        <option value="procurementInterval" th:selected="${searchField == 'procurementInterval'}">조달간격</option>
+				        <option value="procurementDueDate" th:selected="${searchField == 'procurementDueDate'}">조달납기일</option>
+					</select> <input type="text" id="procurementSearchInput" placeholder="검색어를 입력하세요">
+					<button class="blueBtn" onclick="performProcurementSearch()">검색</button>
 				</div>
 				<table class="list-table">
 					<colgroup>
@@ -308,12 +315,94 @@
 			}
 		});
 
-		function performSearch() {
-			var filter = document.getElementById('filterSelect').value;
-			var searchText = document.getElementById('searchInput').value.trim();
-			alert("검색 필터: " + filter + "\n검색어: " + searchText);
-			// 실제 검색 로직 구현 필요
+		function performProductionSearch() {
+		    var filter = document.getElementById('productionFilterSelect').value;
+		    var searchText = document.getElementById('productionSearchInput').value.trim();
+
+		    if (searchText === '') {
+		        alert("검색어를 입력하세요");
+		        return;
+		    }
+
+		    // 검색어와 필터를 세션에 저장합니다.
+		    sessionStorage.setItem('productionSearchField', filter);
+		    sessionStorage.setItem('productionSearchKeyword', searchText);
+		    sessionStorage.setItem('searchType', 'production');
+
+		    var url = '/add_LTplan?searchField=' + encodeURIComponent(filter) + '&searchKeyword=' + encodeURIComponent(searchText) + '&searchType=production';
+		    window.location.href = url;
 		}
+
+		function performProcurementSearch() {
+		    var filter = document.getElementById('procurementFilterSelect').value;
+		    var searchText = document.getElementById('procurementSearchInput').value.trim();
+
+		    if (searchText === '') {
+		        alert("검색어를 입력하세요");
+		        return;
+		    }
+
+		    // 검색어와 필터를 세션에 저장합니다.
+		    sessionStorage.setItem('procurementSearchField', filter);
+		    sessionStorage.setItem('procurementSearchKeyword', searchText);
+		    sessionStorage.setItem('searchType', 'procurement');
+
+		    var url = '/add_LTplan?searchField=' + encodeURIComponent(filter) + '&searchKeyword=' + encodeURIComponent(searchText) + '&searchType=procurement';
+		    window.location.href = url;
+		}
+
+		// 새로고침 시 세션 저장소를 확인하여 검색어와 필터를 초기화합니다.
+		document.addEventListener('DOMContentLoaded', function () {
+		    var productionSearchField = sessionStorage.getItem('productionSearchField');
+		    var productionSearchKeyword = sessionStorage.getItem('productionSearchKeyword');
+
+		    if (productionSearchField && productionSearchKeyword) {
+		        document.getElementById('productionFilterSelect').value = productionSearchField;
+		        document.getElementById('productionSearchInput').value = productionSearchKeyword;
+		        // URL에서 검색 조건 제거
+		        window.history.replaceState({}, document.title, window.location.pathname);
+		    }
+
+		    var procurementSearchField = sessionStorage.getItem('procurementSearchField');
+		    var procurementSearchKeyword = sessionStorage.getItem('procurementSearchKeyword');
+
+		    if (procurementSearchField && procurementSearchKeyword) {
+		        document.getElementById('procurementFilterSelect').value = procurementSearchField;
+		        document.getElementById('procurementSearchInput').value = procurementSearchKeyword;
+		        // URL에서 검색 조건 제거
+		        window.history.replaceState({}, document.title, window.location.pathname);
+		    }
+
+		    // 검색 결과가 없는 경우 경고 메시지를 표시합니다.
+		    var productionSearchEmpty = [[${productionSearchEmpty}]];
+		    var procurementSearchEmpty = [[${procurementSearchEmpty}]];
+
+		    if (productionSearchEmpty && sessionStorage.getItem('searchType') === 'production') {
+		        alert("생산계획 검색 결과가 없습니다.");
+		        sessionStorage.removeItem('productionSearchField');
+		        sessionStorage.removeItem('productionSearchKeyword');
+		    }
+
+		    if (procurementSearchEmpty && sessionStorage.getItem('searchType') === 'procurement') {
+		        alert("조달계획 검색 결과가 없습니다.");
+		        sessionStorage.removeItem('procurementSearchField');
+		        sessionStorage.removeItem('procurementSearchKeyword');
+		    }
+
+		    // 검색 후 세션 저장소를 비웁니다.
+		    sessionStorage.removeItem('searchType');
+		});
+		document.getElementById('productionSearchInput').addEventListener('keypress', function (e) {
+		    if (e.key === 'Enter') {
+		        performProductionSearch();
+		    }
+		});
+
+		document.getElementById('procurementSearchInput').addEventListener('keypress', function (e) {
+		    if (e.key === 'Enter') {
+		        performProcurementSearch();
+		    }
+		});
 
 		function setRegistrationFields(event) {
 			var row = event.currentTarget;
@@ -355,19 +444,6 @@
 				alert('조달계획 등록에 실패했습니다.');
 			}
 		}
-	</script>
-	<script>
-		function performSearch() {
-		    var filter = document.getElementById('filterSelect').value;
-		    var searchInput = document.getElementById('searchInput').value;
-		    window.location.href = `/add_LTplan?pageProduction=0&pageProcurement=0&searchField=${filter}&searchKeyword=${searchInput}`;
-		}
-		
-		document.getElementById('searchInput').addEventListener('keypress', function (e) {
-		    if (e.key === 'Enter') {
-		        performSearch();
-		    }
-		});
 	</script>
 </body>
 

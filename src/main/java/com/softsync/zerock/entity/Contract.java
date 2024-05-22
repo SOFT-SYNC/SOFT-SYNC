@@ -12,6 +12,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -26,7 +27,7 @@ import lombok.Setter;
 @Table(name = "contract") //계약
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Contract {
-	
+   
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE) // 자동 증가
     @Column(length = 30)  //계약번호
@@ -34,13 +35,15 @@ public class Contract {
 
     
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_brn") // 외래 키 설정
     private Company company;
     
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "items_id") // 외래 키 설정
     private Item item;
     
 //    @OneToMany(fetch = FetchType.LAZY)
-    @OneToMany(mappedBy = "contract_number", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "contract", fetch = FetchType.LAZY)
     private List<Orders> orders;
 
     @Column(name = "contract_date")//계약일 
