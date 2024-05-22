@@ -50,17 +50,9 @@ public class OrderController {
 	    model.addAttribute("contracts", contracts);
 	    
 	    List<Orders> orderList = orderService.getAllOrders();
-	    model.addAttribute("orders", orderList); // 수정된 부분
+	    model.addAttribute("orders", orderList); 
 	    
-	    for (Orders order : orderList) {
-	    System.out.println("Order No: " + order.getOrderNo());
-	    System.out.println("Order Quantity: " + order.getOrderQuantity());
-	    System.out.println("Order Date: " + order.getOrderDate());
-	    System.out.println("Receive Due Date: " + order.getReceiveDuedate());
-	    System.out.println("Order Y/N: " + order.getOrderYn());
-	    System.out.println("Receipt Y/N: " + order.getReceiptYn());
-	    System.out.println("Order Note: " + order.getOrderNote());
-	    }
+	   
 	    return "orders/purchase_order";
 	}
 
@@ -133,20 +125,45 @@ public class OrderController {
 	    return "redirect:/purchase_order";
 	}
 
+	@PostMapping("/getOrderDetails")
+    public ResponseEntity<Orders> getOrderDetails(@RequestBody Map<String, String> request) {
+        String orderNo = request.get("orderNo");
 
+        
+        // orderNo를 사용하여 데이터베이스에서 주문 상세 정보를 조회
+        Orders orderDetails = orderService.getOrderDetailsByOrderNo(orderNo);
+
+        return ResponseEntity.ok(orderDetails);
+    }
 	
-	 @GetMapping("/purchase_order_list")
-	    public String purchaseOrderListView(
-	            @RequestParam(name = "page", defaultValue = "0") int page,
-	            @RequestParam(name = "size", defaultValue = "10") int size,
-	            Model model) {
-	        Pageable pageable = PageRequest.of(page, size);
-	        Page<Orders> ordersPage = orderService.getOrders(pageable);
+	/*
+	 * @GetMapping("/purchase_order_list") public String purchaseOrderListView(
+	 * 
+	 * @RequestParam(name = "page", defaultValue = "0") int page,
+	 * 
+	 * @RequestParam(name = "size", defaultValue = "10") int size, Model model) {
+	 * Pageable pageable = PageRequest.of(page, size); Page<Orders> ordersPage =
+	 * orderService.getOrders(pageable);
+	 * 
+	 * model.addAttribute("orders", ordersPage);
+	 * 
+	 * return "orders/purchase_order_list"; }
+	 */
 
-	        model.addAttribute("orders", ordersPage);
+	 @GetMapping("/purchase_order_list")
+	    public String purchaseOrderListView(Model model) {
+	    		System.out.println("[OrderContorller] getPurchaseOrder()");
+
+	    	    List<Contract> contracts = orderService.getAllContracts();
+	    	    model.addAttribute("contracts", contracts);
+	    	    
+	    	    List<Orders> orderList = orderService.getAllOrders();
+	    	    model.addAttribute("orders", orderList); 
 
 	        return "orders/purchase_order_list";
 	    }
+	 
+	    
 	 
 
 	@GetMapping("/purchase_order_tracking")

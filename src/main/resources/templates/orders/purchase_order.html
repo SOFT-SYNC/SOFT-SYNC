@@ -32,18 +32,9 @@
 					<tbody>
 						<tr>
 							<th>발주번호</th>
-							<td></td>
-							<!-- <td><input type="text" name="orderNo" readonly></td> -->
+							<td id="orderNoCell"><input type="text" name="orderNo" readonly></td>
 							<th>사업자등록번호</th>
-							<td id="brn"><input type="text" name="brn"> 
-							<!--    
-		               <select name="brn">
-		                   <option value="">업체 선택</option>
-		                   <option th:each="company : ${company}"
-		                           th:value="${company.brn}"
-		                           th:text="${company.brn}">
-		                   </option>
-		               </select> --></td>
+							<td id="brn"><input type="text" name="brn"> </td>
 						</tr>
 						<tr>
 							<th>발신처</th>
@@ -59,7 +50,7 @@
 						</tr>
 						<tr>
 							<th>발주일</th>
-							<td><input type="text" name="orderDate" id="orderDate"
+							<td id="orderDateCell"><input type="text" name="orderDate" id="orderDate"
 								readonly></td>
 							<th>주소</th>
 							<td><input type="text" name="company_address" readonly></td>
@@ -123,17 +114,19 @@
 			<table class="listTable" id="3">
 					<colgroup>
 						<col width="8%">
+						<col width="6%">
 						<col width="10%">
 						<col width="10%">
-						<col width="10%">
+						<col width="8%">
 						<col width="14%">
 						<col width="10%">
 						<col width="10%">
 						<col width="10%">
 						<col width="10%">
-						<col width="7%">
+						<col width="8%">
 					</colgroup>
 					<tr id="item">
+						<th>발주번호</th>
 						<th>계약번호</th>
 						<th>품목코드</th>
 						<th>품목명</th>
@@ -146,14 +139,15 @@
 						<th>추가/확인</th>
 					</tr>
 					<tr th:each="contract : ${contracts}">
-						<td th:text="${contract.contract_number}">계약번호</td>
+						<td class="orderNo" th:text="${contract.orders.size() > 0 ? contract.orders[0].orderNo : '-'}">N/A</td>
+						<td th:text="${contract.contract_number}"> 계약번호</td>
 						<td th:text="${contract.item.itemCode}">품목코드</td>
 						<td th:text="${contract.item.itemName}">품목명</td>
 						<td th:text="${contract.item.material}">재질</td>
 						<td th:text="${contract.item.dimensions}">규격</td>
-						<td th:text="${contract.orders.size() > 0 ? contract.orders[0].orderQuantity : 'N/A'}">N/A</td>
+						<td th:text="${contract.orders.size() > 0 ? contract.orders[0].orderQuantity : '-'}">N/A</td>
 						<td th:text="${contract.unit_price}">단가</td>
-						<td th:text="${contract.orders.size() > 0 ? contract.orders[0].orderDate : 'N/A'}">N/A</td>
+						<td th:text="${contract.orders.size() > 0 ? contract.orders[0].orderDate : '-'}">N/A</td>
 						<td th:text="${contract.lead_time}">납기일</td>
 						<td th:if="${contract.orders.size() > 0 && contract.orders[0].orderYn == 'Y'}">
 							<button id="detailBtn" class="blueBtn">상세</button>
@@ -361,17 +355,17 @@
 
 </script>
 	<script>
-	///////////////////////////////////하단 테이블 추가 버튼누르면 값입력
+	/////////////////////////////발주대기항목 하단 테이블 추가 버튼누르면 상단에 값입력
   $(document).ready(function() {
 	  $('#3').on('click', 'button#addBtn', function() {
 	    var $row = $(this).closest('tr');
-	    var contractNum = $row.find('td:nth-child(1)').text().trim();
-	    var itemCode = $row.find('td:nth-child(2)').text().trim();
-	    var itemName = $row.find('td:nth-child(3)').text().trim();
-	    var itemMaterial = $row.find('td:nth-child(4)').text().trim();
-	    var itemDimensions = $row.find('td:nth-child(5)').text().trim();
-	    var unitPrice = $row.find('td:nth-child(7)').text().trim();
-	    var leadTime = $row.find('td:nth-child(9)').text().trim();
+	    var contractNum = $row.find('td:nth-child(2)').text().trim();
+	    var itemCode = $row.find('td:nth-child(3)').text().trim();
+	    var itemName = $row.find('td:nth-child(4)').text().trim();
+	    var itemMaterial = $row.find('td:nth-child(5)').text().trim();
+	    var itemDimensions = $row.find('td:nth-child(6)').text().trim();
+	    var unitPrice = $row.find('td:nth-child(8)').text().trim();
+	    var leadTime = $row.find('td:nth-child(10)').text().trim();
 	    
 	    $('#contractNumCell').val(contractNum);
 	    $('#itemCodeCell').val(itemCode);
@@ -385,72 +379,46 @@
 	});
 
 
-/////////////////////////////////// 하단테이블 상세 버튼 누르면 값 입력
-    $(document).ready(function() {
-        // 하단 테이블의 품목행 대한 클릭 이벤트 처리 
-        $('#contractList table tr#item').click(function() {
-            // 클릭한 행에서 품목코드와 품목명 가져오기
-            var itemCode = $(this).find('td:eq(1)').text().trim(); // 품목코드 (두 번째 열)
-            var itemName = $(this).find('td:eq(2)').text().trim(); // 품목명 (세 번째 열)
-            var brnValue = $('#brn input[name="brn"]').val();
-            
-            // 상단 테이블의 품목코드와 품목명 위치에 정보 넣기
-            $('#itemCodeCell input[name="itemCode"]').val(itemCode).prop('readonly', true);
-            $('#itemNameCell input[name="itemName"]').val(itemName).prop('readonly', true);
-            $('#brn input[name="brn"]').val(brnValue);
-        });
+/////////////////////////////발주 내용 저장 상세보기
+$(document).ready(function() {
+    $('#3').on('click', 'button#detailBtn', function() {
+        var $row = $(this).closest('tr');
+        var orderNo = $row.find('.orderNo').text().trim();
         
-        
-        // 상단 테이블의 계약 행 대한 클릭 이벤트 처리 
-        $('#contractList table tr#contract').click(function() {
-            // 클릭한 행에서 계약정보 가져오기
-            var itemCode = $(this).find('td:eq(1)').text().trim();
-            var itemName = $(this).find('td:eq(2)').text().trim();
-            var brn = $(this).find("td:eq(4)").text().trim();
-            
-            // 상단 테이블에 정보 넣기
-            $('#itemCodeCell input[name="itemCode"]').val(itemCode);
-            $('#itemNameCell input[name="itemName"]').val(itemName);
-            $('#brn input[name="brn"]').val(brn);    
-        });
-        
-        // 상단 테이블의 계약 행 대한 클릭 이벤트 처리 
-        $("#contractList table[id='3'] tr").click(function() {
-            // 클릭한 행에서 계약정보 가져오기
-            var contractNumber = $(this).find('td:eq(0)').text().trim();
-            var itemCode = $(this).find('td:eq(1)').text().trim();
-            var itemName = $(this).find('td:eq(2)').text().trim();
-            var companyName = $(this).find('td:eq(3)').text().trim();
-            var brn = $(this).find('td:eq(4)').text().trim();
-            var unitPrice = $(this).find('td:eq(5)').text().trim();
-            var leadTime = $(this).find('td:eq(6)').text().trim();
-            var contractNote = $(this).find('td:eq(7)').text().trim();
-            var conYn = $(this).find('td:eq(8)').text().trim();
-            
-            //계약 완료시 조회만 되게함 .prop
-            var ConBool = false;
-            if (conYn === 'y'){
-            	ConBool = true;
-            	  $('#buttonContainer').hide();  //계약완료시  저장, 초기화버튼 감추기
-            }
-            else{
-            	 $('#buttonContainer').show();
-            }
-            
-            // 해당 정보를 상단의 입력 필드에 넣기
-            $('#itemCodeCell input[name="itemCode"]').val(itemCode).prop('readonly', ConBool);
-            $('#itemCodeCell input[name="itemCode"]').val(itemCode).prop('readonly', ConBool);
-            $('#itemNameCell input[name="itemName"]').val(itemName).prop('readonly', ConBool);
-            $('#brn input[name="brn"]').val(brn).trigger('change').prop('readonly', ConBool);
-            $('#unitPriceCell input[name="price"]').val(unitPrice).prop('readonly', ConBool);
-            $('#leadTimeCell input[name="leadTime"]').val(leadTime).prop('readonly', ConBool);
-            $('#contractNote input[name="contractNote"]').val(contractNote).prop('readonly', ConBool);
-            
-            
+        // AJAX 요청을 통해 서버에서 데이터를 받아옴
+        $.ajax({
+            url: '/getOrderDetails', 
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ orderNo: orderNo }),
+            success: function(response) {
+                // 서버로부터 받은 데이터를 상단 테이블에 입력
+                $('#orderNoCell input').val(response.orderNo).prop('readonly',true);
+                $('#brn input input').val(response.brn).trigger('change').prop('readonly',true);
+                $('#orderDateCell input').val(response.orderDate).prop('readonly',true);
+				$('#leadTimeCell input').val(response.lead_time).prop('readonly',true);
+				
+				$('#contractNumCell').val(response.contract.contractNumber).prop('readonly', true);
+                $('#itemCodeCell').val(response.item.itemCode).prop('readonly', true);
+                $('#itemNameCell input').val(response.item.itemName).prop('readonly', true);
+                $('#itemMaterialCell input').val(response.item.material).prop('readonly', true);
+                $('#itemDimensionsCell input').val(response.item.dimensions).prop('readonly', true);
+                $('#unitPriceCell input').val(response.unitPrice).prop('readonly', true);
+                $('#orderQuantityCell input').val(response.orderQuantity).prop('readonly', true);
+                $('#manager input').val(response.manager).prop('readonly', true);
+                $('#managerTel input').val(response.managerTel).prop('readonly', true);
+                $('#company_name input').val(response.company.name).prop('readonly', true);
+                $('#company_ceo input').val(response.company.ceo).prop('readonly', true);
+                $('#company_address input').val(response.company.address).prop('readonly', true);
+                // 추가된 필드 처리
+             }
         });
     });
+});
     
 </script>
+
+
 	<!-- brn을 통해 업체명/계좌/비고를 불러옴(제이쿼리) -->
 	<script type="text/javascript">
 		$(document).ready(function() {

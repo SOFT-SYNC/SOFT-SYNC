@@ -1,19 +1,21 @@
 package com.softsync.zerock.entity;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 import org.hibernate.annotations.DynamicUpdate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,6 +40,7 @@ public class Orders {
    
    @ManyToOne
    @JoinColumn(name = "brn", nullable = true)
+   @JsonIgnore
    private Company company;
 
    @ManyToOne
@@ -48,11 +51,14 @@ public class Orders {
    @JoinColumn(name = "contract_number", nullable = true)
    private Contract contract;
    
+// @ManyToOne(fetch = FetchType.LAZY) //조달계획 :입고예정일
+// @JoinColumn(name = "procNo", nullable = false)
+// private ProcurementPlan procNo;
+ 
    
-	/*
-	 * @OneToOne(mappedBy = "orders", fetch = FetchType.LAZY, cascade =
-	 * CascadeType.ALL, orphanRemoval = true) private Receiving Receivings; //입고 1:n
-	 */   
+   @OneToOne(mappedBy = "orders", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+   private Receiving Receivings;  //입고 1:n
+
    @Column (nullable = false)
    private Integer orderQuantity;   //발주량
    
