@@ -1,5 +1,6 @@
 package com.softsync.zerock.controller;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -9,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -50,8 +50,9 @@ public class OrderController {
 	    model.addAttribute("contracts", contracts);
 	    
 	    List<Orders> orderList = orderService.getAllOrders();
-	    model.addAttribute("orders", orderList); // 수정된 부분
-
+	    model.addAttribute("orders", orderList); 
+	    
+	   
 	    return "orders/purchase_order";
 	}
 
@@ -75,67 +76,94 @@ public class OrderController {
 	}
 
 	@PostMapping("/saveOrders")
-	public String saveOrders(@RequestParam("brn") String brn, 
-							@RequestParam("contract_number") int contractNumber,
-							@RequestParam("company_name") String companyName, 
-							@RequestParam("company_ceo") String companyCeo,
-							@RequestParam("company_address") String companyAddress, 
-							@RequestParam("manager") String manager,
-							@RequestParam("manager_tel") String managerTel, 
-							@RequestParam("itemCode") String itemCode,
-							@RequestParam("itemName") String itemName, 
-							@RequestParam("material") String material,
-							@RequestParam("dimensions") String dimensions, 
-							@RequestParam("orderQuantity") int orderQuantity,
-							@RequestParam("unitPrice") int unitPrice, 
-							@RequestParam("orderNote") String orderNote,
-							@RequestParam("orderDate") String orderDate,
-							@RequestParam("receiveDuedate") String receiveDuedate,
-			Model model, @PageableDefault(size = 10) Pageable pageable) {
+	public String saveOrders(
+	    @RequestParam("brn") String brn, 
+	    @RequestParam("contract_number") int contractNumber,
+	    @RequestParam("company_name") String companyName, 
+	    @RequestParam("company_ceo") String companyCeo,
+	    @RequestParam("company_address") String companyAddress, 
+	    @RequestParam("manager") String manager,
+	    @RequestParam("manager_tel") String managerTel, 
+	    @RequestParam("itemCode") String itemCode,
+	    @RequestParam("itemName") String itemName, 
+	    @RequestParam("material") String material,
+	    @RequestParam("dimensions") String dimensions, 
+	    @RequestParam("orderQuantity") int orderQuantity,
+	    @RequestParam("unitPrice") int unitPrice, 
+	    @RequestParam("orderNote") String orderNote,
+	    @RequestParam("orderDate") String orderDate,
+	    @RequestParam("receiveDuedate") String receiveDuedate,
+	    Model model) {
 
-		System.out.println("[OrderController] saveOrders()");
-		
-		 
-		Orders order = new Orders(); 
-		Company company = orderService.getorderByBrn(brn);
-		Item item = orderService.getItemByItemCode(itemCode);
-		Contract contract = contractService.getContractByItemCode(itemCode);
-		String orderNo = orderService.generateOrderNo(); // 발주번호 자동
+	    System.out.println("[OrderController] saveOrders()");
+	    
+	    Orders order = new Orders(); 
+	    Company company = orderService.getorderByBrn(brn);
+	    Item item = orderService.getItemByItemCode(itemCode);
+	    Contract contract = contractService.getContractByItemCode(itemCode);
+	    String orderNo = orderService.generateOrderNo(); // 발주번호 자동
 
-		order.setContract(contract);
-		order.setCompany(company);
-		order.setItem(item); 
-		order.setOrderNo(orderNo);
+	    order.setContract(contract);
+	    order.setCompany(company);
+	    order.setItem(item); 
+	    order.setOrderNo(orderNo);
 
-		// orderDate 문자열을 LocalDate로 변환
-		LocalDate parsedOrderDate = LocalDate.parse(orderDate);
-		order.setOrderDate(parsedOrderDate);
+	    // orderDate 문자열을 LocalDate로 변환
+	    LocalDate parsedOrderDate = LocalDate.parse(orderDate);
+	    order.setOrderDate(parsedOrderDate);
 
-		// receiveDuedate 문자열을 LocalDate로 변환
-		LocalDate parsedReceiveDuedate = LocalDate.parse(receiveDuedate);
-		order.setReceiveDuedate(parsedReceiveDuedate);
+	    // receiveDuedate 문자열을 LocalDate로 변환
+	    LocalDate parsedReceiveDuedate = LocalDate.parse(receiveDuedate);
+	    order.setReceiveDuedate(Date.valueOf(parsedReceiveDuedate));
 
-		order.setOrderQuantity(orderQuantity);
-		order.setOrderNote(orderNote);
+	    order.setOrderQuantity(orderQuantity);
+	    order.setOrderNote(orderNote);
+	    order.setOrderYn("Y"); // '저장' 버튼을 눌렀을 때 orderYn을 'Y'로 설정
 
-		orderService.saveOrder(order);
+	    orderService.saveOrder(order);
 
-		return "redirect:/purchase_order";
+	    return "redirect:/purchase_order";
 	}
 
-	
-	 @GetMapping("/purchase_order_list")
-	    public String purchaseOrderListView(
-	            @RequestParam(name = "page", defaultValue = "0") int page,
-	            @RequestParam(name = "size", defaultValue = "10") int size,
-	            Model model) {
-	        Pageable pageable = PageRequest.of(page, size);
-	        Page<Orders> ordersPage = orderService.getOrders(pageable);
+	@PostMapping("/getOrderDetails")
+    public ResponseEntity<Orders> getOrderDetails(@RequestBody Map<String, String> request) {
+        String orderNo = request.get("orderNo");
 
-	        model.addAttribute("orders", ordersPage);
+        
+        // orderNo를 사용하여 데이터베이스에서 주문 상세 정보를 조회
+        Orders orderDetails = orderService.getOrderDetailsByOrderNo(orderNo);
+
+        return ResponseEntity.ok(orderDetails);
+    }
+	
+	/*
+	 * @GetMapping("/purchase_order_list") public String purchaseOrderListView(
+	 * 
+	 * @RequestParam(name = "page", defaultValue = "0") int page,
+	 * 
+	 * @RequestParam(name = "size", defaultValue = "10") int size, Model model) {
+	 * Pageable pageable = PageRequest.of(page, size); Page<Orders> ordersPage =
+	 * orderService.getOrders(pageable);
+	 * 
+	 * model.addAttribute("orders", ordersPage);
+	 * 
+	 * return "orders/purchase_order_list"; }
+	 */
+
+	 @GetMapping("/purchase_order_list")
+	    public String purchaseOrderListView(Model model) {
+	    		System.out.println("[OrderContorller] getPurchaseOrder()");
+
+	    	    List<Contract> contracts = orderService.getAllContracts();
+	    	    model.addAttribute("contracts", contracts);
+	    	    
+	    	    List<Orders> orderList = orderService.getAllOrders();
+	    	    model.addAttribute("orders", orderList); 
 
 	        return "orders/purchase_order_list";
 	    }
+	 
+	    
 	 
 
 	@GetMapping("/purchase_order_tracking")

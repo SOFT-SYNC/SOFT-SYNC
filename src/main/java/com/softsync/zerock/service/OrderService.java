@@ -32,23 +32,6 @@ public class OrderService {
     @Autowired
     private CompanyRepository companyRepository;
 
-	/*
-	 * public List<Contract> getContractInfo(String itemCode) { List<Contract>
-	 * contracts = contractRepository.findAllByItemItemCode(itemCode); return
-	 * contracts; }
-	 */
-	/*
-	 * public Map<String, Object> getContractInfo(String itemCode) { Map<String,
-	 * Object> response = new HashMap<>();
-	 * 
-	 * Contract contract = contractRepository.findByItemItemCode(itemCode); if
-	 * (contract != null) { response.put("contract", contract);
-	 * 
-	 * // 회사 정보 가져오기 Company company = companyRepository.findByContracts(contract);
-	 * if (company != null) { response.put("company", company); } }
-	 * 
-	 * return response; }
-	 */
 
 	public List<Item> getAllItems(){
 		return itemRepository.findAll();
@@ -60,7 +43,9 @@ public class OrderService {
 		return orderRepository.findAll();
 	}
 	
-
+	public List<Company> getAllCompany() {
+		return companyRepository.findAll();
+	}
 	public Company getorderByBrn(String brn) {
 		Company company = companyRepository.findByBrn(brn);
     	return company;
@@ -73,8 +58,13 @@ public class OrderService {
 	
 
 	public String generateOrderNo() {
-   
-        return "ORD-" + System.currentTimeMillis();
+		 // 현재 시간을 밀리초 단위로 가져옵니다.
+        long currentTimeMillis = System.currentTimeMillis();
+        // 밀리초를 1000으로 나누어 초 단위로 변환한 후, 1000000으로 모듈로 연산을 합니다.
+        long uniquePart = currentTimeMillis % 1000000;
+        // uniquePart가 6자리가 되도록 zero-padding
+        String orderNo = String.format("ORD-%06d", uniquePart);
+        return orderNo;
     }
 	
 	public void saveOrder(Orders order) {
@@ -88,11 +78,16 @@ public class OrderService {
 		return contractRepository.findAll();
 		}
 
-	/*
-	 * public Contract getContractByContractNumber(int contractNumber) { Contract
-	 * contract = contractRepository.findByContractNumber(contractNumber); return
-	 * contract; }
-	 */
+	public Orders getOrderDetailsByOrderNo(String orderNo) {
+        return orderRepository.findByOrderNo(orderNo);
+    }
+	
+	
+		/*
+		 * public List<Orders> getLatestOrders() { // 최신 주문 목록을 최신 순으로 정렬
+		 * return orderRepository.findAll(Sort.by(Sort.Direction.ASC, "orderDate")); }
+		 */
+
 	
 	
 
