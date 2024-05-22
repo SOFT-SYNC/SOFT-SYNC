@@ -11,7 +11,7 @@ function orderListAjax() { // 위에서 보낸 매개변수 1을 받아줌
     f.page.value = page;
 
     $.ajax({ // $부분이 jquery
-        url: "/orders/purchase_order_listAjax", //백엔드 경로
+        url: "/purchase_order_listAjax", //백엔드 경로
         type: 'GET',
         cache: false,
         data: $('#form1').serialize(), // 이걸 통해 input 애들 값을 백엔드 경로로 보내줌 그러면 백엔드가 받는다.

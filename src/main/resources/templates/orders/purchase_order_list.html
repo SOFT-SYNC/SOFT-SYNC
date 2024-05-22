@@ -1,92 +1,90 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<link type="text/css" rel="stylesheet" href="../CSS/header.css">
-<link type="text/css" rel="stylesheet" href="../CSS/common.css">
-<link type="text/css" rel="stylesheet" href="../CSS/sidebar.css">
-<link type="text/css" rel="stylesheet" href="../CSS/invoice.css">
-  <script type="text/javascript" src="../js/sidebar.js"></script>
-  <script type="text/javascript" src="../js/orderList.js}"></script>
+    <link type="text/css" rel="stylesheet" href="../CSS/header.css">
+    <link type="text/css" rel="stylesheet" href="../CSS/common.css">
+    <link type="text/css" rel="stylesheet" href="../CSS/sidebar.css">
+    <link type="text/css" rel="stylesheet" href="../CSS/invoice.css">
+    <script type="text/javascript" src="../js/sidebar.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <div th:insert="~{common/sidebar :: sidebar}"></div>
 <div class="main-content">
-	<div th:insert="~{common/header :: header}"></div>
-		<div id="row1">
-		<div class="head">
-			<div class="left">
-				품목코드 <input id="searchInput" type="text" placeholder="품목코드 입력">
-				<button onclick="search()" class="blueBtn">검색</button>
-			</div>
-			<div class="right">
-				<input type="date" id="date-start"> ~ <input type="date"
-					id="date-end">
-			</div>
-		</div>
-		<form id = "form1">
-			<input type="hidden" id="page" name="page" value="1"> <!--page 값 넘기기-->
-			<h1 class="visual-title">발주 리스트</h1>
-			<div id="purchaseOderListForm">
-			</div>
-		</form>
-	</div>
+    <div th:insert="~{common/header :: header}"></div>
+    <div id="row1">
+        <div class="head">
+            <div class="left">
+                품목코드 <input id="searchInput" type="text" placeholder="품목코드 입력">
+                <button onclick="search()" class="blueBtn">검색</button>
+            </div>
+            <div class="right">
+                <input type="date" id="date-start"> ~ <input type="date"
+                                                             id="date-end">
+            </div>
+        </div>
+            <input type="hidden" id="page" name="page" value="1"> <!--page 값 넘기기-->
+            <h1 class="visual-title">발주 리스트</h1>
+            <div id="purchaseOrderListForm">
+                <table>
+                    <colgroup>
+                    	<col width="11%">
+                        <col width="11%">
+                        <col width="10%">
+                        <col width="12%">
+                        <col width="12%">
+                        <col width="12%">
+                        <col width="12%">
+                        <col width="13%">
+                        <col width="10%">
+                    </colgroup>
+                    <tr>
+                   		<th>발주번호</th>
+                        <th>품목코드</th>
+                        <th>품명</th>
+                        <th>발주일자</th>
+                        <th>납기일자</th>
+                        <th>발주수량</th>
+                        <th>단가</th>
+                        <th>공급가액</th>
+                        <th>검수현황</th>
+                    </tr>
+ 
+                   <tr th:each="contract : ${contracts}" onchange="calculateSupplyAmount(this)">
+						<td class="orderNo" th:text="${contract.orders.size() > 0 ? contract.orders[0].orderNo : '-'}">발주번호</td>
+						<td th:text="${contract.item.itemCode}">품목코드</td>
+						<td th:text="${contract.item.itemName}">품목명</td>
+						<td th:text="${contract.orders.size() > 0 ? contract.orders[0].orderDate : '-'}">발주일</td>
+						<td th:text="${contract.lead_time}">납기일</td>
+						<td th:text="${contract.orders.size() > 0 ? contract.orders[0].orderQuantity : '-'}">발주수량</td>
+						<td th:text="${contract.unit_price}">단가</td>
+						<td></td> <!-- 공급가액 -->
+                        <td th:if="${contract.orders.size() > 0 && contract.orders[0].receiptYn == 'Y'}">
+							<button id="detailBtn" class="blueBtn">발행전</button>
+						</td>
+						<td th:unless="${contract.orders.size() > 0 && contract.orders[0].receiptYn == 'Y'}">
+							<button id="addBtn" class="blueBtn">발주필요</button>
+						</td>
+					</tr>
+                </table>
+            </div>
+    </div>
 </div>
 
-	<script>
-  // 더미 데이터로 발주 리스트 생성
-  const orderData = [
-    { code: "001", orderDate: "2024-05-01", deliveryDate: "2024-05-10", name: "제품A", quantity: 100, price: 500000, status: "검수완료" },
-    { code: "002", orderDate: "2024-05-02", deliveryDate: "2024-05-12", name: "제품B", quantity: 200, price: 800000, status: "검수중" },
-    { code: "003", orderDate: "2024-05-03", deliveryDate: "2024-05-15", name: "제품C", quantity: 150, price: 600000, status: "검수대기" },
-  ];
+<script th:inline="javascript">
 
-  // 발주 리스트 초기화 함수
-  function initOrderList() {
-    const orderList = document.getElementById("order-list");
-    orderList.innerHTML = ""; // 기존 내용 초기화
+    function calculateSupplyAmount(row) {
+        var orderQuantity = parseInt(row.querySelector('.orderQuantity').innerText.trim());
+        var unitPrice = parseInt(row.querySelector('.unit_price').innerText.trim());
+        var supplyAmount = orderQuantity * unitPrice;
+        row.querySelector('.supplyAmount').innerText = supplyAmount;
+    }
 
-  // 더미 데이터를 이용하여 발주 리스트를 동적으로 생성
-  orderData.forEach(order => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-    <td>${order.code}</td>
-    <td>${order.orderDate}</td>
-    <td>${order.deliveryDate}</td>
-    <td>${order.name}</td>
-    <td>${order.quantity}</td>
-    <td>${order.price}</td>
-    <td>${order.status}</td>
-  `;
-  orderList.appendChild(row);
-    });
-  }
 
-  // 검색 기능 함수
-  function search() {
-    const searchInput = document.getElementById("searchInput").value;
-    const filteredOrders = orderData.filter(order => order.code.includes(searchInput));
-    const orderList = document.getElementById("order-list");
-    orderList.innerHTML = ""; // 기존 내용 초기화
-
-    // 검색 결과를 이용하여 발주 리스트를 동적으로 생성
-    filteredOrders.forEach(order => {
-      const row = document.createElement("tr");
-      row.innerHTML = `
-      <td>${order.code}</td>
-      <td>${order.orderDate}</td>
-      <td>${order.deliveryDate}</td>
-      <td>${order.name}</td>
-      <td>${order.quantity}</td>
-      <td>${order.price}</td>
-      <td>${order.status}</td>
-    `;
-    orderList.appendChild(row);
-  });
-}
-
-// 초기 발주 리스트 표시
-initOrderList();
+    // 페이지가 로드될 때 공급가액을 계산하여 표시합니다.
+    window.onload = function() {
+        document.querySelector('#purchaseOrderListForm table').innerHTML = calculateSupplyPrice();
+    };
 </script>
 </body>
-
 </html>

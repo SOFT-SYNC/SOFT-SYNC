@@ -5,6 +5,7 @@ import java.util.Date;
 
 import org.hibernate.annotations.DynamicUpdate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
@@ -31,31 +32,34 @@ public class Orders {
    private String orderNo;
 
    
-   @ManyToOne(fetch = FetchType.LAZY)
-   @JoinColumn(name = "employee_id", nullable = false)
-   private User employeeId;
+	/*
+	 * @ManyToOne(fetch = FetchType.LAZY)
+	 * 
+	 * @JoinColumn(name = "employee_id", nullable = false) private User employeeId;
+	 */
    
    @ManyToOne
-   @JoinColumn(name = "brn")
+   @JoinColumn(name = "brn", nullable = true)
+   @JsonIgnore
    private Company company;
 
    @ManyToOne
-   @JoinColumn(name = "item_code")
+   @JoinColumn(name = "item_code", nullable = true)
    private Item item;
    
    @ManyToOne(fetch = FetchType.LAZY)
-   @JoinColumn(name = "contract_number")
+   @JoinColumn(name = "contract_number", nullable = true)
    private Contract contract;
    
-//   @ManyToOne(fetch = FetchType.LAZY) //조달계획 :입고예정일
-//   @JoinColumn(name = "procNo", nullable = false)
-//   private ProcurementPlan procNo;
-   
-   
+
+// @ManyToOne(fetch = FetchType.LAZY) //조달계획 :입고예정일
+// @JoinColumn(name = "procNo", nullable = false)
+// private ProcurementPlan procNo;
+ 
    
    @OneToOne(mappedBy = "orders", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
    private Receiving Receivings;  //입고 1:n
-   
+
    @Column (nullable = false)
    private Integer orderQuantity;   //발주량
    
@@ -65,11 +69,11 @@ public class Orders {
    @Column (nullable = false)
    private Date receiveDuedate;
    
-   @Column (nullable = false, length = 1, columnDefinition = "CHAR(1) DEFAULT 'N'")
-   private String orderYn;
+   @Column(nullable = false, columnDefinition = "CHAR(1) DEFAULT 'N'")
+   private String orderYn = "N";
    
-   @Column (nullable = false, length = 1, columnDefinition = "CHAR(1) DEFAULT 'N'")
-   private String receiptYn;
+   @Column (nullable = false,columnDefinition = "CHAR(1) DEFAULT 'N'")
+   private String receiptYn = "N";
    
    @Column (nullable = true)
    private String orderNote;
