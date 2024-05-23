@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.softsync.zerock.entity.Inventory;
 import com.softsync.zerock.entity.Item;
+import com.softsync.zerock.entity.Orders;
 import com.softsync.zerock.entity.ReceiveList;
 import com.softsync.zerock.entity.Receiving;
 import com.softsync.zerock.repository.InventoryRepository;
@@ -47,6 +48,15 @@ public class ReceivingService {
 	public List<ReceiveList> resList(){
 		
 		return receiveListRepository.findAll();
+	}
+	
+	public void saveReceiving(Orders order) {
+		 Receiving receiving = new Receiving();
+	        receiving.setOrders(order);
+	        receiving.setReceiveClosingYn('N');
+
+	        // 입고 정보 저장
+	        receivingRepository.save(receiving);
 	}
 	
 	//입고처리  > 입고테이블 : 입고총량 / 입고내역 :컬럼추가 / 인벤토리 : 재고추가됨

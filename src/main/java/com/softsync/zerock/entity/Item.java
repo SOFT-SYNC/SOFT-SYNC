@@ -2,6 +2,7 @@ package com.softsync.zerock.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
@@ -28,15 +29,18 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    @JsonIgnore //명세서 발행시 필요
     @OneToOne(mappedBy = "item", fetch = FetchType.LAZY)
     private Inventory inventory;
 
+    @JsonIgnore //명세서 발행시 필요
     @OneToMany(mappedBy = "item", fetch = FetchType.LAZY) //상대필드
     private List<Contract> contracts;
 
     @Column(nullable = true, unique = true)
     private String itemCode;
-
+    
+    @JsonIgnore //명세서 발행시 필요
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = true)
     private Category category;

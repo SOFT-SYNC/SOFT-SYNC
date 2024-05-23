@@ -6,7 +6,6 @@ import java.util.Date;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -25,22 +24,14 @@ import lombok.Setter;
 @Setter
 @Table(name="orders")
 @DynamicUpdate
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Orders {
 
    @Id
    private String orderNo;
 
    
-	/*
-	 * @ManyToOne(fetch = FetchType.LAZY)
-	 * 
-	 * @JoinColumn(name = "employee_id", nullable = false) private User employeeId;
-	 */
-   
-   @ManyToOne
+   @ManyToOne(fetch = FetchType.EAGER)
    @JoinColumn(name = "brn", nullable = true)
-   @JsonIgnore
    private Company company;
 
    @ManyToOne
@@ -48,6 +39,7 @@ public class Orders {
    private Item item;
    
    @ManyToOne(fetch = FetchType.LAZY)
+   @JsonIgnore //명세서 발행시 필요
    @JoinColumn(name = "contract_number", nullable = true)
    private Contract contract;
    
@@ -57,7 +49,8 @@ public class Orders {
 // private ProcurementPlan procNo;
  
    
-   @OneToOne(mappedBy = "orders", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+   @OneToOne(mappedBy = "orders", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+   @JsonIgnore //거래명세서용 무한참조 방지
    private Receiving Receivings;  //입고 1:n
 
    @Column (nullable = false)

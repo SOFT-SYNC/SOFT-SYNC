@@ -27,6 +27,7 @@ import com.softsync.zerock.service.CompanyService;
 import com.softsync.zerock.service.ContractService;
 import com.softsync.zerock.service.ItemService;
 import com.softsync.zerock.service.OrderService;
+import com.softsync.zerock.service.ReceivingService;
 
 @Controller
 public class OrderController {
@@ -41,7 +42,9 @@ public class OrderController {
 
    @Autowired
    ItemService itemService;
-
+   
+   @Autowired //발주 - 입고 연계를 위해 추가 5/23 김홍택
+   ReceivingService receivingService;
 
 	@GetMapping("/purchase_order")
 	public String purchaseOrder(Model model) {
@@ -122,7 +125,12 @@ public class OrderController {
 	    order.setOrderYn("Y"); // '저장' 버튼을 눌렀을 때 orderYn을 'Y'로 설정
 
 	    orderService.saveOrder(order);
-
+	    
+	    
+	  //발주 - 입고 연계를 위해 추가 5/23 김홍택
+	    if(order.getOrderYn().equals("Y")){
+	    	receivingService.saveReceiving(order);
+	    }
 	    return "redirect:/purchase_order";
 	}
 

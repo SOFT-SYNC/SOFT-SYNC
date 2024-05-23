@@ -3,6 +3,9 @@ package com.softsync.zerock.entity;
 import java.sql.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -22,7 +25,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "receiving")
-public class Receiving {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Receiving { //입고
 
 
    @Id
@@ -36,6 +40,7 @@ public class Receiving {
     
     
     @OneToMany(mappedBy = "receiving", fetch = FetchType.LAZY)
+    @JsonIgnore //거래명세서용 무한참조 방지
     private List<ReceiveList> receiveLists;
 
    
