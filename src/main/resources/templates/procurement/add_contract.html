@@ -408,7 +408,7 @@ document.querySelector('form').addEventListener('submit', function(event) {
     const leadTime = document.querySelector('input[name="leadTime"]').value;
     const contractNote = document.querySelector('input[name="contractNote"]').value;
 
-    if (!contractPath || !brn || !companyName || !companyAccount || !itemCode || !itemName || !price || !leadTime || !contractNote) {
+    if (!contractPath || !brn || !companyName || !companyAccount || !itemCode || !itemName || !price || !leadTime) {
         event.preventDefault(); // 폼 제출을 막음
         alert('모든 항목을 입력해주세요.'); // 경고 메시지 표시
     }

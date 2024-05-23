@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
@@ -35,7 +36,8 @@ public class Contract {
 
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "company_brn") // 외래 키 설정
+   
+    @JoinColumn(name = "company_brn")
     private Company company;
     
     @ManyToOne(fetch = FetchType.LAZY)
