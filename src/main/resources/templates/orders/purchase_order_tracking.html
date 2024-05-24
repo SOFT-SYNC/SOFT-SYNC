@@ -6,6 +6,7 @@
 <link type="text/css" rel="stylesheet" href="../CSS/sidebar.css">
   <link type="text/css" rel="stylesheet" href="../css/orderTracking.css">
   <script type="text/javascript" src="../js/sidebar.js"></script>
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
 
 </head>
 <body>
@@ -15,8 +16,8 @@
 		<div id="row1">
 		<h1 class="visual-title">발주 진행 현황 리포트</h1>
 		<div class="content-card">
-	  <!-- 이거 백엔드 구현할 때는 프론트 코드 고쳐야함 svg text -->
-	    <div class="b-graph-wrap">
+		<div id="container1" style="height: 700px; width: 70%;"></div>
+	    <!-- <div class="b-graph-wrap">
 	      <div class="b-graph">
 	        <p class="home-title"> REPORT </p>
 	        <div class="b-graph-body">
@@ -26,7 +27,7 @@
 	          <div class="bar bar4"></div>
 	        </div>
 	      </div>
-	    </div>
+	    </div> -->
 	    <div class="card-wrap">
 	    <form id="searchForm">
 			<!-- 날짜 선택 영역 -->
@@ -80,7 +81,7 @@
 
 
 
-  <script>
+ <!--  <script>
     document.addEventListener("DOMContentLoaded", function() {
       // 각 막대에 대해 높이를 지정하는 값을 변경
       var bars = document.querySelectorAll(".bar");
@@ -95,7 +96,42 @@
         bar.style.height = height + "%"; // 각 막대에 높이를 지정
       });
     });
-  </script>
+  </script> -->
+  <script type="text/javascript">
+      var dom = document.getElementById('container1');
+      var myChart = echarts.init(dom, null, {
+          renderer: 'canvas',
+          useDirtyRect: false
+      });
+      var app = {};
 
+      var option;
+
+      option = {
+          xAxis: {
+              type: 'category',
+              data: ['총 조달계획', '발주서 발행', '진척 검수', '조달 마감']
+          },
+          yAxis: {
+              type: 'value'
+          },
+          series: [
+              {
+                  data: [50, 30, 20, 15],
+                  type: 'bar',
+                  showBackground: true,
+                  backgroundStyle: {
+                      color: 'rgba(180, 180, 180, 0.2)'
+                  }
+              }
+          ]
+      };
+
+      if (option && typeof option === 'object') {
+          myChart.setOption(option);
+      }
+
+      window.addEventListener('resize', myChart.resize);
+  </script>
 </body>
 </html>
