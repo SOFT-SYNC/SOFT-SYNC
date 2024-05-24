@@ -49,10 +49,10 @@ public class BasicController {
 		return "/common/login";
 	}
 
-	@GetMapping("/welcome")
-	public String welcome() {
-		return "/common/welcome";
-	}
+	/*
+	 * @GetMapping("/welcome") public String welcome() { return "/common/welcome"; }
+	 */
+	
 	@GetMapping("/account_register")
 	public String registerview(Model model) {
 		// user 객체를 초기화
@@ -316,10 +316,10 @@ public class BasicController {
 		return"/materials/shipping_list";
 	}
 	
-	@GetMapping("/purchase_schedule")
-	public String purchaseview() {
-		return"/orders/purchase_schedule";
-	}
+//	@GetMapping("/purchase_schedule")
+//	public String purchaseview() {
+//		return"/orders/purchase_schedule";
+//	}
 	@GetMapping("/dashBoard")
 	public String dashBoard() {
 		return"/common/home";

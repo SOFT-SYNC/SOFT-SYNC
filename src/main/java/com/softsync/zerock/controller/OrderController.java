@@ -131,6 +131,19 @@ public class OrderController {
 	    return "redirect:/purchase_order";
 	}
 
+	@PostMapping("/pushOrders")
+	public String pushOrders() {
+		System.out.println("[OrderController] pushOrders()");
+		
+		  Orders order = new Orders(); 
+		  
+		  
+		order.setReceiptYn("Y"); // '저장' 버튼을 눌렀을 때 발주서 발행여부 'Y'로 설정
+		
+		  return "redirect:/purchase_order";
+	}
+    
+	
 	@PostMapping("/getOrderDetails")
     public ResponseEntity<Orders> getOrderDetails(@RequestBody Map<String, String> request) {
         String orderNo = request.get("orderNo");
@@ -146,19 +159,30 @@ public class OrderController {
 
 	 @GetMapping("/purchase_order_list")
 	    public String purchaseOrderListView(Model model) {
-	    		System.out.println("[OrderContorller] getPurchaseOrder()");
-
-	    	    List<Contract> contracts = orderService.getAllContracts();
-	    	    model.addAttribute("contracts", contracts);
-	    	    
-	    	    List<Orders> orderList = orderService.getAllOrders();
-	    	    model.addAttribute("orders", orderList); 
-
+		 System.out.println("[OrderContorller] getOrderedList()");
+		   List<Contract> contracts = orderService.getAllContracts();
+		    model.addAttribute("contracts", contracts);
+		    
+		    List<Orders> orderList = orderService.getAllOrders();
+		    model.addAttribute("orders", orderList); 
+		    
 	        return "orders/purchase_order_list";
 	    }
-	 
-	    
-	 
+
+	
+		@GetMapping("/purchase_schedule")
+		public String purchaseview(Model model) {
+			 System.out.println("[OrderContorller] getinspecList()");
+
+			    List<Contract> contracts = orderService.getAllContracts();
+			    model.addAttribute("contracts", contracts);
+			    
+			    List<Orders> orderList = orderService.getAllOrders();
+			    model.addAttribute("orders", orderList); 
+			    
+		      
+			return"/orders/purchase_schedule";
+		}
 
 	@GetMapping("/purchase_order_tracking")
 	public String orderTracking() {
