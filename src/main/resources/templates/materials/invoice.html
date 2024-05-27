@@ -7,13 +7,14 @@
 <link type="text/css" rel="stylesheet" href="../css/common/header.css">
 <link type="text/css" rel="stylesheet" href="../css/common/common.css">
 <link type="text/css" rel="stylesheet" href="../css/common/sidebar.css">
-<link type="text/css" rel="stylesheet" href="../css/invoice.css">
+<link type="text/css" rel="stylesheet" href="../css/materials/invoice.css">
   <script type="text/javascript" src="../js/sidebar.js"></script>
 </head>
 <body>
 	<div th:insert="~{common/sidebar :: sidebar}"></div>
+			<div th:insert="~{common/header :: header}"></div>
 	<div class="main-content">
-		<div th:insert="~{common/header :: header}"></div>
+
 		<div id="row1">
 			<h2 class="visual-title">거래명세서</h2>
 			<div class="search-container">
@@ -82,7 +83,7 @@
 		
 	<div id="modalWrap">
 	    <div id="modalBody">
-		<table class="table" id="1">
+		<table class="table1" id="1">
 					<colgroup>
 						<col width="1%">
 						<col width="15%">
@@ -193,7 +194,7 @@ $(document).ready(function(){
 		    contentType : "application/json",
 		    data: JSON.stringify({ orderNo : orderNo}),
 		    success: function(data){
-		    	 $("#modalWrap input[name='orderNo']").val(data.receiveNumber);  //입고번호
+		    	 $("#modalWrap input[name='orderNo']").val(data.orders.orderNo);  //입고번호
 		    	 $("#modalWrap input[name='publishDate']").val(data.receiveDate); //입고마감일
 		    	 // 현재 날짜 가져오기
 	    		    var today = new Date();

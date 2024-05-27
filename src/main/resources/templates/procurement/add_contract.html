@@ -10,67 +10,69 @@
 </head>
 <body>
 	<div th:insert="~{common/sidebar :: sidebar}"></div>
+			<div th:insert="~{common/header :: header}"></div>
 	<div class="main-content">
-		<div th:insert="~{common/header :: header}"></div>
+	<form th:action="@{/saveContract}" method="post" enctype="multipart/form-data">
 		<div id="row1">
-		<h2 class="visual-title">계약등록</h2>
-		<form th:action="@{/saveContract}" method="post" enctype="multipart/form-data">
-			<table class="regi-table" id ="1">
-				<colgroup>
-					<col width="20%">
-					<col width="70%">
-				</colgroup>
-				<tr>
-					<th>계약서</th>
-					<td><input type="file" name="contract_path"></td>
-				</tr>
-				<tr>
-					<th>사업자번호</th>
-
-					<td id="brn"><input type="text" name="brn"></td>
-				</tr>
-				<tr>
-					<th>업체명</th>
-					<td><input type="text" name="company_name" readonly></td>
-				</tr>
-				<tr>
-					<th>계좌정보</th>
-					<td><input type="text" name="company_account" readonly></td>
-				</tr>
-				<tr>
-					<th>비고</th>
-					<td><input type="text" name="company_note" readonly></td>
-				</tr>
-			</table>
-			<table class="regi-table" id ="2">
-				<colgroup>
-					<col width="20%">
-					<col width="20%">
-					<col width="15%">
-					<col width="20%">
-					<col width="30%">
-				</colgroup>
-				<tr>
-					<th>품목코드</th>
-					<th>품목명</th>
-					<th>단가</th>
-					<th>L/T일</th>
-					<th>특이사항</th>
-				</tr>
-				<tr>
-					<td id="itemCodeCell"><input type="text" name="itemCode" readonly></td>  <!-- item 테이블의 외래키 : 계약 품목에 저장  값 보내는거 생성-->
-				    <td id="itemNameCell"><input type="text" name="itemName" readonly></td>
-					<td id="unitPriceCell"><input type="text" name ="price"></td>
-					<td id="leadTimeCell"><input type="date" name="leadTime"></td> 
-					<td id="contractNote"><input type="text" name="contractNote"></td>
-				</tr>
-			</table>
-		<div id="buttonContainer">
-			<button type="submit" class="blueBtn">저장</button>
-			<button type="reset" class="blueBtn">초기화</button>
-		</div>
+			<h2 class="visual-title">계약등록</h2>
+				<table class="regi-table" id ="1">
+					<colgroup>
+						<col width="20%">
+						<col width="70%">
+					</colgroup>
+					<tr>
+						<th>계약서</th>
+						<td><input type="file" name="contract_path"></td>
+					</tr>
+					<tr>
+						<th>사업자번호</th>
+	
+						<td id="brn"><input type="text" name="brn"></td>
+					</tr>
+					<tr>
+						<th>업체명</th>
+						<td><input type="text" name="company_name" readonly></td>
+					</tr>
+					<tr>
+						<th>계좌정보</th>
+						<td><input type="text" name="company_account" readonly></td>
+					</tr>
+					<tr>
+						<th>비고</th>
+						<td><input type="text" name="company_note" readonly></td>
+					</tr>
+				</table>
+				<table class="regi-table" id ="2">
+					<colgroup>
+						<col width="20%">
+						<col width="20%">
+						<col width="15%">
+						<col width="20%">
+						<col width="30%">
+					</colgroup>
+					<tr>
+						<th>품목코드</th>
+						<th>품목명</th>
+						<th>단가</th>
+						<th>L/T일</th>
+						<th>특이사항</th>
+					</tr>
+					<tr>
+						<td id="itemCodeCell"><input type="text" name="itemCode" readonly></td>  <!-- item 테이블의 외래키 : 계약 품목에 저장  값 보내는거 생성-->
+					    <td id="itemNameCell"><input type="text" name="itemName" readonly></td>
+						<td id="unitPriceCell"><input type="text" name ="price"></td>
+						<td id="leadTimeCell"><input type="date" name="leadTime"></td> 
+						<td id="contractNote"><input type="text" name="contractNote"></td>
+					</tr>
+					
+				</table>
+				<div class="btn-container">
+					<button type="submit" class="blueBtn">저장</button>
+					<button type="reset" class="blueBtn">초기화</button>
+				</div>
+			</div>
 		</form>
-		</div>
+		
 		<div id="row2">
 			<div id="contractList">
 				<h2 class="visual-title">계약관리</h2>

@@ -22,6 +22,7 @@ import com.softsync.zerock.entity.Item;
 import com.softsync.zerock.entity.Orders;
 import com.softsync.zerock.service.CompanyService;
 import com.softsync.zerock.service.ContractService;
+import com.softsync.zerock.service.EmailService;
 import com.softsync.zerock.service.ItemService;
 import com.softsync.zerock.service.OrderService;
 import com.softsync.zerock.service.ReceivingService;
@@ -39,6 +40,9 @@ public class OrderController {
 
    @Autowired
    ItemService itemService;
+   
+   @Autowired
+   EmailService emailService;
    
    @Autowired //발주 - 입고 연계를 위해 추가 5/23 김홍택
    ReceivingService receivingService;
@@ -138,25 +142,38 @@ public class OrderController {
 		  Orders order = new Orders(); 
 		  
 		  
-		order.setReceiptYn("Y"); // '저장' 버튼을 눌렀을 때 발주서 발행여부 'Y'로 설정
+		order.setReceiptYn("Y"); // '발주서발행' 버튼을 눌렀을 때 발주서 발행여부 'Y'로 설정
 		
 		  return "redirect:/purchase_order";
 	}
     
-	
+
 	@PostMapping("/getOrderDetails")
-    public ResponseEntity<Orders> getOrderDetails(@RequestBody Map<String, String> request) {
-        String orderNo = request.get("orderNo");
+	@ResponseBody
+	public ResponseEntity<Orders> getOrderDetails(@RequestBody Map<String, String> request) {
+	    System.out.println("[OrderController] getOrdersInfo()");
+	    String orderNo = request.get("orderNo");
 
-        
-        // orderNo를 사용하여 데이터베이스에서 주문 상세 정보를 조회
-        Orders orderDetails = orderService.getOrderDetailsByOrderNo(orderNo);
+	    Orders orderDetails = orderService.getOrderDetailsByOrderNo(orderNo);
+	    
+	    // 필요한 데이터를 로그에 출력
+	    System.out.println("Order Details: " + orderDetails);
 
-        return ResponseEntity.ok(orderDetails);
+	    return ResponseEntity.ok(orderDetails);
+	}
+
+	@PostMapping("/sendOrderEmail")
+    public String sendOrderEmail(@RequestParam String to, @RequestParam String subject, @RequestParam String text) {
+        try {
+            emailService.sendEmail(to, subject, text);
+            return "Email sent successfully!";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Failed to send email.";
+        }
     }
 	
-
-
+	
 	 @GetMapping("/purchase_order_list")
 	    public String purchaseOrderListView(Model model) {
 		 System.out.println("[OrderContorller] getOrderedList()");

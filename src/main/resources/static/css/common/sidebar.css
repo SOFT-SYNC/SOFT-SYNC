@@ -2,17 +2,21 @@
 	 z-index: 1000; /* 다른 요소 위에 표시 */
 }
 .logo { 
-  height: 50px;
-  width: 200px;
-  margin-bottom: 20px;
+  margin: 0 auto 10px;
+  display: table;
 }
 .logo img {
-  height: 50px;
+	margin-left : 10px;
+  height:50px;
+  width:80px;
 }
 
 .main-title {
   text-shadow: 0 2px 4px rgba(0,0,0,0.4);
-  font-size: larger;
+  font-size: 20px;
+}
+.main-title:action {
+	text-decoration :none;
 }
 .sidenav-toggle {
   position: fixed;

@@ -18,15 +18,15 @@ body {
 }
 
 .table {
-   width : 90%;
-   margin : 20px auto 0;
+	width : 90%;
+	margin : 20px auto 0;
 }
 .table1 {
-   width : 80%;
-   margin : 10px auto;
+	width : 80%;
+	margin : 10px auto;
 }
 .table td {
-   colspan="2";
+	colspan="2";
 }
 #row1 {
 /* border: solid 1px #999; */
@@ -37,8 +37,8 @@ padding: 20px;
 margin: 10px 40px;
 }
 tr.small td input{
-   width : 100%;
-   margin : 0 auto;
+	width : 100%;
+	margin : 0 auto;
 }
 
 #row2 {
@@ -101,6 +101,6 @@ label {
   margin-left: 5px;
 }
 .regiBtn {
-   float: right; 
-   margin-bottom : 10px
+	float: right; 
+	margin-bottom : 10px
 }

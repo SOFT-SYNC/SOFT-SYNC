@@ -1,10 +1,23 @@
+body {
+	background-color: #f1f1f1;
+}
+
+.btn-container {
+	float: right;
+	margin: 0 90px 20px;
+}
+.search-container {
+	float: right;
+	margin: 0 90px 30px;
+}
 #row1 {
-  border: solid 1px #999;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
-  background-color: white;
-  border-radius: 5px;
-  padding: 20px;
-  margin: 10px 40px;
+/*  border: solid 1px #999; */
+ box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
+ background-color: white;
+ border-radius: 5px;
+ padding: 20px;
+ margin: 10px 40px;
+ overflow: hidden; 
 }
 
 .visual-title {
@@ -13,20 +26,20 @@
   padding-left: 10px;
 }
 
-.regi-table {
-  width: 100%;
+.regi-table { 
+  width:90%;
   border-radius: 5px;
-  table-layout: fixed;
+  margin: 20px auto;
 }
 
 .list-table {
-  width: 100%;
+  width: 90%;
+  margin: 20px auto;
   border-radius: 5px;
   table-layout: fixed;
 }
 
 #row2 {
-  border: solid 1px #999;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
   background-color: white;
   border-radius: 5px;
