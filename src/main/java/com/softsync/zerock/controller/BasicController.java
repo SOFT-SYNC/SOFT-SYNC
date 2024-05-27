@@ -318,11 +318,11 @@ public class BasicController {
 	public String stockReport() {
 		return"/materials/stock_report";
 	}
-
-	@GetMapping("/purchase_schedule")
-	public String purchaseview() {
-		return"/orders/purchase_schedule";
-	}
+//
+//	@GetMapping("/purchase_schedule")
+//	public String purchaseview() {
+//		return"/orders/purchase_schedule";
+//	}
 
 	@GetMapping("/dashBoard")
 	public String dashBoard(Model model) {
