@@ -18,12 +18,12 @@ body {
 }
 
 .table {
-	width : 80%;
+	width : 90%;
 	margin : 20px auto 0;
 }
 .table1 {
 	width : 80%;
-	margin : 0px auto;
+	margin : 10px auto;
 }
 .table td {
 	colspan="2";
@@ -59,9 +59,6 @@ tr.small td input{
   width: 90%;
   margin: 20px auto;
   padding: 20px;
-  background: white;
-  border: 1px solid #ccc;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   border-radius: 5px;
 }
 form div {
