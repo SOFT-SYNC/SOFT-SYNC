@@ -60,10 +60,10 @@
 	      <div class="recentList">
 	        <p class="home-title"> RECENT LIST </p>
 	        <div class="recent-content">
-	        	<div th:if="${orderList == null or #lists.isEmpty(orderList)}" class="no_result">
+	        	<div th:each="contract : ${contracts}" th:if="${contract.orders.size() > 0 && contract.orders[0].orderYn == 'N'}" class="no_result">
                     <p>최근 발주 내역이 없습니다.</p>
               	</div>
-              	<div th:if="${orderList != null and not #lists.isEmpty(orderList)}">
+              	<div>
 		        <table>
 		          <colgroup>
 		          <col width="30%">
@@ -71,10 +71,10 @@
 		          <col width="20%">
 		          <col width="30%">
 		        </colgroup>
-		          <tr th:each="order : ${purchase_order}" class="recent-item">
-		            <td><h3 th:text="${order.orderDate}">발주내역출력</h3><h5 th:text="${order.orderDate}">발주일</h5></td>
-		            <td><h3>단가출력</h3><h5>Price</h5></td>
-		            <td><h3 th:text="{order.orderQuantity">수량출력</h3><h5>Quantity</h5></td>
+		          <tr th:each="contract : ${contracts}" th:if="${contract.orders.size() > 0 && contract.orders[0].orderYn == 'Y'}" class="recent-item">
+		            <td><h3 th:text="${contract.item.itemName}">발주내역출력</h3><h5 th:text="${contract.orders.size() > 0 ? contract.orders[0].orderDate : '-'}">발주일</h5></td>
+		            <td><h3 th:text="${contract.unit_price}">단가출력</h3><h5>Price</h5></td>
+		            <td><h3 th:text="${contract.orders.size() > 0 ? contract.orders[0].orderQuantity : '-'}">수량출력</h3><h5>Quantity</h5></td>
 		            <td><h3>총 발주금액</h3><h5>Amount</h5></td>
 		          </tr>
 		        </table>
@@ -101,7 +101,7 @@
 	        <div class="notice-content">
 	        <table>
 	          <tr class="notice-item">
-	            <td>공지사항입니다</td>
+	            <td></td>
 	          </tr>
 	          
 	        </table>
