@@ -3,7 +3,6 @@ package com.softsync.zerock.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.softsync.zerock.entity.Contract;
+import com.softsync.zerock.entity.Orders;
 import com.softsync.zerock.entity.Receiving;
 import com.softsync.zerock.service.InvoiceService;
 
@@ -51,8 +52,10 @@ public class InvoiceController {
 		    	
 		        // 주문 번호를 사용하여 수신 정보를 조회
 		        Receiving receiving = invoiceService.getReceive(orderNumber); //
-
-		        return ResponseEntity.ok(receiving);
+		        System.out.println(receiving.getOrders().getItem());
+		        System.out.println(receiving.getOrders().getContract());
+		        return ResponseEntity.ok(receiving );
+		        
 		    } catch (Exception e) {
 		        // 예외 발생 시 클라이언트에 오류 응답을 반환
 		    	   return ResponseEntity.status(500).body("Error occurred while processing request.");

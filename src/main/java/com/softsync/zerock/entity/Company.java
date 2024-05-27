@@ -3,7 +3,6 @@ package com.softsync.zerock.entity;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,13 +13,14 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-@Data
+//@Data
 @Getter
 @Setter
 @Entity
 @Table(name = "company")
-
+@ToString(exclude = {"contracts", "orders"})
 public class Company {
     
     @Id

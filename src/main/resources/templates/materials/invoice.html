@@ -165,12 +165,17 @@
            		   	<td><input type="text" name="itemName" readonly></td>
            		   	<td><input type="text" name="dimensions" readonly></td>
            		   	<td><input type="text" name="quantity" readonly></td>
-           		   	<td><input type="text" name="manager_tel" readonly></td>
-           		   	<td><input type="text" name="manager_tel" readonly></td>
-           		   	<td><input type="text" name="manager_tel" readonly></td>
-           		   	<td><input type="text" name="manager_tel" readonly></td>
+           		   	<td><input type="text" name="price" readonly></td>
+           		   	<td><input type="text" name="supply_price" readonly></td>
+           		   	<td><input type="text" name="tax" readonly></td>
+           		   	<td><input type="text" name="text"></td>
            		   </tr>
 				</table>
+				
+			<div>
+				<button type="submit" class="blueBtn">명세서 전송</button>
+				<button type="reset" class="blueBtn" id="printBtn">인쇄</button>
+			</div>
     </div>
 </div>
 	
@@ -190,22 +195,43 @@ $(document).ready(function(){
 		    success: function(data){
 		    	 $("#modalWrap input[name='orderNo']").val(data.receiveNumber);  //입고번호
 		    	 $("#modalWrap input[name='publishDate']").val(data.receiveDate); //입고마감일
+		    	 // 현재 날짜 가져오기
+	    		    var today = new Date();
+	    		    
+	    		    // 날짜를 YYYY-MM-DD 형식으로 변환
+	    		    var yyyy = today.getFullYear();
+	    		    var mm = String(today.getMonth() + 1).padStart(2, '0'); // 0부터 시작하므로 1을 더하고, 두 자리로 만듭니다.
+	    		    var dd = String(today.getDate()).padStart(2, '0');
+	    		    
+	    		    // 년월일 형식으로 조합
+	    		    var publishDate = yyyy + '년 ' + mm + '월 ' + dd + '일';
+		    	   
 		    	 var quantity = data.receiveQuantity; //입고량
-		    	 console.log(data);
+		    	 var price = data.orders.contract.unit_price; // 단가
+		    	 var supply_price = quantity * price; // 공급가
+		    	 var tax = supply_price * 0.1;//세액
+		    	 var total_price = supply_price + tax; //합계금액
 		    		 $("#modalWrap input[name='brn']").val(data.orders.company.brn);
 		    		 $("#modalWrap input[name='company_name']").val(data.orders.company.company_name);
 		    		 $("#modalWrap input[name='company_ceo']").val(data.orders.company.company_ceo);
 		    		 $("#modalWrap input[name='company_address']").val(data.orders.company.company_address );
 		    		 $("#modalWrap input[name='manager']").val(data.orders.company.manager );
 		    		 $("#modalWrap input[name='manager_tel']").val(data.orders.company.manager_tel );
+		    		 $("#modalWrap input[name='total_price']").val(total_price.toLocaleString());
 		    		 
 		    		 
+		    		 $("#modalWrap input[name='month']").val(mm);
+		    		 $("#modalWrap input[name='day']").val(dd);
 		    		 $("#modalWrap input[name='itemName']").val(data.orders.item.itemName );
-		    		 $("#modalWrap input[name='dimensions']").val(data.orders.item.dimensions );
-		    		 $("#modalWrap input[name='quantity']").val(data.receiveQuantity );
+		    		 $("#modalWrap input[name='dimensions']").val(data.orders.item.dimensions);
+		    		 $("#modalWrap input[name='quantity']").val(quantity);
+		    		 $("#modalWrap input[name='price']").val(price.toLocaleString());
+		    		 $("#modalWrap input[name='supply_price']").val(supply_price.toLocaleString());
+		    		 $("#modalWrap input[name='tax']").val(tax.toLocaleString());
+		
 		    		 
-		    		 
-		    	 
+		    		
+		    		 $("#modalWrap input[name='publishDate']").val(publishDate);
 		    	 
 		    },
             error: function(xhr, status, error) {
@@ -214,6 +240,32 @@ $(document).ready(function(){
             }
 		});
 	});
+});
+
+//인쇄 및 저장
+document.getElementById('printBtn').addEventListener('click', function() {
+    // 모달에 표시된 이미지를 가져옴
+    var modalImage = document.getElementById('modalImage');
+    // 새로운 창을 열어서 이미지를 표시하고 인쇄
+    var printWindow = window.open('', '_blank');
+    printWindow.document.write('<html><head><title>Print</title></head><body>');
+    printWindow.document.write('<img src="' + modalImage.src + '" style="width:100%; height:auto;">');
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+
+    // 이미지가 로드된 후에 인쇄 실행
+    printWindow.onload = function() {
+        printWindow.print();
+        printWindow.close();
+    };
+});
+</script>
+
+<script th:inline="javascript">
+document.querySelectorAll('.popupBtn').forEach(button => {
+    button.addEventListener('click', function() {
+        document.getElementById("modalWrap").style.display = 'block'; // 모달 열기
+    });
 });
 </script>
 
