@@ -1,7 +1,7 @@
 package com.softsync.zerock.entity;
 
+import java.sql.Date;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -20,12 +20,14 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-@Data
+//@Data
 @Getter
 @Setter
 @Entity
 @Table(name = "contract") //계약
+@ToString(exclude = {"company"}) // company 필드는 toString()에서 제외
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Contract {
 	
@@ -36,20 +38,19 @@ public class Contract {
 
     
     @ManyToOne(fetch = FetchType.LAZY)
-   
     @JoinColumn(name = "company_brn")
     private Company company;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER) 
     @JoinColumn(name = "items_id") // 외래 키 설정
     private Item item;
     
-//    @OneToMany(fetch = FetchType.LAZY)
     @OneToMany(mappedBy = "contract", fetch = FetchType.LAZY)
+    @JsonIgnore //명세서 발행시 필요
     private List<Orders> orders;
-
+    
     @Column(name = "contract_date")//계약일 
-    private LocalDateTime contract_date;
+    private Date contract_date;
 
     @Column(name = "contract_path", length = 100) //계약서
     private String contract_path;
@@ -66,5 +67,7 @@ public class Contract {
 
     @Column(name = "contract_note" ) //특이사항
     private String contract_note;
+    
+
 }
     // Getters 
