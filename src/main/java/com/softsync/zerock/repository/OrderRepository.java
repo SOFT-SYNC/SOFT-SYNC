@@ -9,4 +9,5 @@ import com.softsync.zerock.entity.Orders;
 public interface OrderRepository extends JpaRepository<Orders,String>{
 
 	  Orders findByOrderNo(String orderNo);
+
 }

@@ -188,7 +188,7 @@ $(document).ready(function(){
 		    contentType : "application/json",
 		    data: JSON.stringify({ orderNo : orderNo}),
 		    success: function(data){
-		    	 $("#modalWrap input[name='orderNo']").val(data.receiveNumber);  //입고번호
+		    	 $("#modalWrap input[name='orderNo']").val(data.orders.orderNo);  //입고번호
 		    	 $("#modalWrap input[name='publishDate']").val(data.receiveDate); //입고마감일
 		    	 var quantity = data.receiveQuantity; //입고량
 		    	 console.log(data);

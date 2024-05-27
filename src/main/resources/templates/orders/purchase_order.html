@@ -17,11 +17,11 @@
 			<form th:action="@{/saveOrders}" method="POST" enctype="multipart/form-data">
 				<div>
 					<button type="submit" class="blueBtn">저장</button>
-					<button type="button" id="popupBtn" class="blueBtn">발주서 발행</button>
+					<button type="button" id="popupBtn" class="blueBtn printOrder">발주서 발행</button>
 					<button type="reset" class="blueBtn">초기화</button>
 				</div>
-				<input type="number" id="contractNumCell" name="contract_number">
-				<input type="text" id="itemCodeCell" name="itemCode"> 
+				<input type="hidden" id="contractNumCell" name="contract_number">
+				<input type="hidden" id="itemCodeCell" name="itemCode"> 
 				<table class="table" id="1">
 					<colgroup>
 						<col width="10%">
@@ -84,18 +84,13 @@
 					</tr>
 					<tr>
 						<td>1</td>
-						<td id="itemNameCell"><input type="text" name="itemName"
-							readonly></td>
-						<td id="itemMaterialCell"><input type="text" name="material"
-							readonly></td>
-						<td id="itemDimensionsCell"><input type="text"
-							name="dimensions" readonly></td>
+						<td id="itemNameCell"><input type="text" name="itemName" readonly></td>
+						<td id="itemMaterialCell"><input type="text" name="material" readonly></td>
+						<td id="itemDimensionsCell"><input type="text"name="dimensions" readonly></td>
 						<td>EA</td>
-						<td id="orderQuantityCell"><input type="number"
-							name="orderQuantity"></td>
-						<td id="unitPriceCell"><input type="text" name="unitPrice"></td>
-						<td id="totalPriceCell"><input type="text" name="totalPrice"
-							readonly></td>
+						<td id="orderQuantityCell"><input type="number"name="orderQuantity"></td>
+						<td id="unitPriceCell"><input type="number" name="unitPrice" readonly></td>
+						<td id="totalPriceCell"><input type="text" name="totalPrice"readonly></td>
 						<td id="orderNote"><input type="text" name="orderNote"></td>
 					</tr>
 				</table>
@@ -200,13 +195,11 @@
 					</tr>
 					<tr>
 						<th>주소</th>
-						<td colspan="3" id="companyAddressModal"><input type="text" name="companyAddress" readonly></td>
-					</tr>
-					<tr>
-						<th>전화번호</th>
+						<td id="companyAddressModal"><input type="text" name="companyAddress" readonly></td>
+
+						<th>담당자번호</th>
 						<td id="managerTelModal"><input type="text" name="managerTel" readonly></td>
-						<th>이메일</th>
-						<td id="managerEmailModal"><input type="text" name="managerEmail" readonly></td>
+
 					</tr>
 				</tbody>
 			</table>
@@ -290,7 +283,7 @@
 				</tbody>
 			</table>
 			<div>
-				<button type="submit" class="blueBtn">발주서 전송</button>
+				<button type="submit" id="sendOrderButton" class="blueBtn">발주서 전송</button>
 				<button type="reset" class="blueBtn" id="printBtn"
 					onClick="printModalContent()">파일저장 및 인쇄</button>
 			</div>
@@ -312,7 +305,32 @@
 	// 팝업 버튼 클릭 시 모달 열기
 	popupBtn.addEventListener("click", function() {
 	  modalWrap.style.display = "block";
-	});
+	
+	   // row1의 데이터 가져와서 모달에 채워 넣기
+    const orderNo = document.getElementById("orderNoCell").querySelector("input").value;
+    const brn = document.getElementById("brn").querySelector("input").value;
+    const companyName = document.querySelector("input[name='company_name']").value;
+    const companyCeo = document.querySelector("input[name='company_ceo']").value;
+    const companyAddress = document.querySelector("input[name='company_address']").value;
+    const managerTel = document.querySelector("input[name='manager_tel']").value;
+    const itemName = document.querySelector("input[name='itemName']").value;
+    const orderQuantity = document.querySelector("input[name='orderQuantity']").value;
+    const unitPrice = document.querySelector("input[name='unitPrice']").value;
+    const totalPrice = document.querySelector("input[name='totalPrice']").value;
+
+
+    document.getElementById("brnModal").querySelector("input").value = brn;
+    document.getElementById("orderNoModal").querySelector("input").value = orderNo;
+    document.getElementById("companyNameModal").querySelector("input").value = companyName;
+    document.getElementById("companyCeoModal").querySelector("input").value = companyCeo;
+    document.getElementById("companyAddressModal").querySelector("input").value = companyAddress;
+    document.getElementById("managerTelModal").querySelector("input").value = managerTel;
+    document.getElementById("itemNameModal").querySelector("input").value = itemName;
+    document.getElementById("orderQuantityModal").querySelector("input").value = orderQuantity;
+    document.getElementById("unitPriceModal").querySelector("input").value = unitPrice;
+    document.getElementById("totalPriceModal").querySelector("input").value = totalPrice;
+});
+	
 	
 	// 모달 닫기 버튼 클릭 시 모달 닫기
 	closeBtn.addEventListener("click", function() {
@@ -326,33 +344,62 @@
 	  }
 	});
 
- function printModalContent() {
-        // 모든 버튼과 모달 내 요소를 프린트하기 전에 임시로 숨깁니다.
-        var buttons = document.querySelectorAll('.closeBtn, .blueBtn');
-        buttons.forEach(function(button) {
-            button.style.display = 'none';
-        });
+	function printModalContent() {
+	    // 인쇄할 내용을 저장할 변수
+	    var modalContent = document.getElementById('modalBody').innerHTML;
 
-        // 인쇄할 모달의 내용을 저장
-        var modalContent = document.getElementById('modalBody').innerHTML;
+	    // 프린트하기 전에 모든 입력 필드의 값을 텍스트로 변경
+	    var inputs = document.querySelectorAll('#modalWrap input');
+	    inputs.forEach(function(input) {
+	        input.outerHTML = input.value;
+	    });
 
-        // 프린트합니다.
-        var originalContent = document.body.innerHTML; // 현재 문서의 내용을 저장
-        document.body.innerHTML = modalContent; // 모달의 내용으로 문서의 내용을 변경
-        window.print(); // 인쇄 
-        document.body.innerHTML = originalContent; // 원래의 내용으로 복원
+	    // 프린트
+	    window.print();
 
-        // 프린트 후 다시 보이도록 스타일을 원래대로 복원합니다.
-        buttons.forEach(function(button) {
-            button.style.display = 'block';
-        });
-    }
+	    // 프린트 후에 모든 입력 필드의 값을 원래대로 복원
+	    var inputs = document.querySelectorAll('#modalWrap span');
+	    inputs.forEach(function(input) {
+	        input.outerHTML = '<input type="text" value="' + input.textContent + '" readonly>';
+	    });
+	}
 
-    // 버튼 클릭 이벤트에 함수 연결
-    document.getElementById('printBtn').addEventListener('click', function() {
-        printModalContent();
-    }); 
+	// 버튼 클릭 이벤트에 함수 연결
+	document.getElementById('printBtn').addEventListener('click', function() {
+	    printModalContent();
+	});
+	
+	
+	// 이메일 전송
+document.getElementById('sendOrderButton').addEventListener('click', function() {
+    var to = document.getElementById('recipientEmail').value;
+    var subject = document.getElementById('emailSubject').value;
+    var text = document.getElementById('emailBody').value;
+    var tableHtml = document.getElementById('modalBody').innerHTML;
 
+    // 이메일 본문에 모달 창의 테이블 HTML을 추가합니다.
+    text += '<br><br>' + tableHtml;
+
+    fetch('/sendOrderEmail', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ to: to, subject: subject, text: text }),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to send email');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Email sent successfully');
+    })
+    .catch(error => {
+        console.error('Error sending email:', error);
+    });
+});
 </script>
 	<script>
 	/////////////////////////////발주대기항목 하단 테이블 추가 버튼누르면 상단에 값입력
@@ -367,6 +414,10 @@
 	    var unitPrice = $row.find('td:nth-child(8)').text().trim();
 	    var leadTime = $row.find('td:nth-child(10)').text().trim();
 	    
+	    var orderDate = $('#orderDateCell input').val();
+	    $('#row1').find('input').val('');
+	    $('#orderDateCell input').val(orderDate);
+
 	    $('#contractNumCell').val(contractNum);
 	    $('#itemCodeCell').val(itemCode);
 	    $('#itemNameCell input').val(itemName);
@@ -380,42 +431,50 @@
 
 
 /////////////////////////////발주 내용 저장 상세보기
-$(document).ready(function() {
-    $('#3').on('click', 'button#detailBtn', function() {
-        var $row = $(this).closest('tr');
-        var orderNo = $row.find('.orderNo').text().trim();
+$(document).ready(function(){
+    $("#detailBtn").click(function(){
+        var orderNo = $(this).closest("tr").find("td:first").text();
         
-        // AJAX 요청을 통해 서버에서 데이터를 받아옴
         $.ajax({
             url: '/getOrderDetails', 
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({ orderNo: orderNo }),
-            success: function(response) {
-                // 서버로부터 받은 데이터를 상단 테이블에 입력
-                $('#orderNoCell input').val(response.orderNo).prop('readonly',true);
-                $('#brn input input').val(response.brn).trigger('change').prop('readonly',true);
-                $('#orderDateCell input').val(response.orderDate).prop('readonly',true);
-				$('#leadTimeCell input').val(response.lead_time).prop('readonly',true);
-				
-				$('#contractNumCell').val(response.contract.contractNumber).prop('readonly', true);
-                $('#itemCodeCell').val(response.item.itemCode).prop('readonly', true);
-                $('#itemNameCell input').val(response.item.itemName).prop('readonly', true);
-                $('#itemMaterialCell input').val(response.item.material).prop('readonly', true);
-                $('#itemDimensionsCell input').val(response.item.dimensions).prop('readonly', true);
-                $('#unitPriceCell input').val(response.unitPrice).prop('readonly', true);
-                $('#orderQuantityCell input').val(response.orderQuantity).prop('readonly', true);
-                $('#manager input').val(response.manager).prop('readonly', true);
-                $('#managerTel input').val(response.managerTel).prop('readonly', true);
-                $('#company_name input').val(response.company.name).prop('readonly', true);
-                $('#company_ceo input').val(response.company.ceo).prop('readonly', true);
-                $('#company_address input').val(response.company.address).prop('readonly', true);
-                // 추가된 필드 처리
-             }
+            success: function(data) {
+
+            	   console.log(data); 
+            	    $('#row1').find('input').val('');
+            	    
+            	    
+            	    $("#orderNoCell input").val(data.orderNo).prop('readonly', true);
+            	    $("#orderDateCell input").val(data.orderDate).prop('readonly', true);
+
+            	    var receiveDuedate = new Date(data.receiveDuedate);
+            	    var formattedDate = receiveDuedate.getFullYear() + '-' + 
+            	        ('0' + (receiveDuedate.getMonth() + 1)).slice(-2) + '-' + 
+            	        ('0' + receiveDuedate.getDate()).slice(-2);
+            	    $("#leadTimeCell input").val(formattedDate).prop('readonly', true);
+
+            	    $('#itemNameCell input').val(data.item.itemName).prop('readonly', true);
+            	    $('#itemDimensionsCell input').val(data.item.dimensions).prop('readonly', true);
+            	    $('#itemMaterialCell input').val(data.item.material).prop('readonly', true);
+            	    $('#orderQuantityCell input').val(data.orderQuantity).prop('readonly', true);
+
+            	    $("#row1 input[name='brn']").val(data.company.brn);
+            	    $("#row1 input[name='company_name']").val(data.company.company_name);
+            	    $("#row1 input[name='company_ceo']").val(data.company.company_ceo);
+            	    $("#row1 input[name='company_address']").val(data.company.company_address);
+            	    $("#row1 input[name='manager']").val(data.company.manager);
+            	    $("#row1 input[name='manager_tel']").val(data.company.manager_tel);
+            	    
+            	    
+            	    $('#unitPriceCell input').val(data.contract.unitPrice).prop('readonly', true);
+            	}
         });
     });
 });
     
+
 </script>
 
 
