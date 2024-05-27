@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<link type="text/css" rel="stylesheet" href="../css/header.css">
-<link type="text/css" rel="stylesheet" href="../css/common.css">
-<link type="text/css" rel="stylesheet" href="../css/add_contract.css">
-<link type="text/css" rel="stylesheet" href="../css/sidebar.css">
+<link type="text/css" rel="stylesheet" href="../css/common/header.css">
+<link type="text/css" rel="stylesheet" href="../css/common/common.css">
+<link type="text/css" rel="stylesheet" href="../css/procurement/add_contract.css">
+<link type="text/css" rel="stylesheet" href="../css/common/sidebar.css">
   <script type="text/javascript" src="../js/sidebar.js"></script>
 <title>계약등록</title>
 </head>
@@ -408,7 +408,7 @@ document.querySelector('form').addEventListener('submit', function(event) {
     const leadTime = document.querySelector('input[name="leadTime"]').value;
     const contractNote = document.querySelector('input[name="contractNote"]').value;
 
-    if (!contractPath || !brn || !companyName || !companyAccount || !itemCode || !itemName || !price || !leadTime || !contractNote) {
+    if (!contractPath || !brn || !companyName || !companyAccount || !itemCode || !itemName || !price || !leadTime) {
         event.preventDefault(); // 폼 제출을 막음
         alert('모든 항목을 입력해주세요.'); // 경고 메시지 표시
     }

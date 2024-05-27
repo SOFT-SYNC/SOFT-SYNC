@@ -3,15 +3,13 @@
 <head>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"> -->
-<!-- <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet"> -->
-<title>진척검수</title>
+
 <script
    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<link type="text/css" rel="stylesheet" href="../css/header.css">
-<link type="text/css" rel="stylesheet" href="../css/common.css">
-<link type="text/css" rel="stylesheet" href="../css/sidebar.css">
-<link type="text/css" rel="stylesheet" href="../css/invoice.css">
+<link type="text/css" rel="stylesheet" href="../css/common/header.css">
+<link type="text/css" rel="stylesheet" href="../css/common/common.css">
+<link type="text/css" rel="stylesheet" href="../css/common/sidebar.css">
+<link type="text/css" rel="stylesheet" href="../css/orders/purchase_schedule.css">
   <script type="text/javascript" src="../js/sidebar.js"></script>
 </head>
 <body>
@@ -20,81 +18,32 @@
       <div th:insert="~{common/header :: header}"></div>
       <div id="row1">
          <h2 class="visual-title">구매 발주서</h2>
-         <!-- (상단)구매발주서  테이블-->
          <div id="toptb">
             <button type="submit" class="blueBtn">마감</button>
-            <table>
+            <table class="table">
                <colgroup>
-                  <col width="10%">
-                  <col width="40%">
-                  <col width="10%">
-                  <col width="40%">
                </colgroup>
                <thead>
                   <tr>
                      <th>발주번호</th>
-                     <td>발주번호출력</td>
-                     <th>등록번호</th>
-                     <td>등록번호 출력</td>
-                  </tr>
-                  <tr>
-                     <th>발신처</th>
-                     <td>(주) SOFT-SYNC</td>
-                     <th>수신처</th>
-                     <td>수신처 출력</td>
-                  </tr>
-                  <tr>
-                     <th>연락처</th>
-                     <td>연락처 출력</td>
-                     <th>대표자명</th>
-                     <td>대표자명 출력</td>
-                  </tr>
-                  <tr>
                      <th>발주일</th>
-                     <td>발주일 출력</td>
-                     <th>주소</th>
-                     <td>주소 출력</td>
-                  </tr>
-                  <tr>
-                     <th>납기일</th>
-                     <td>납기일 출력</td>
-                     <th>담당자</th>
-                     <td>담당자 출력</td>
-                  </tr>
-                  <tr>
-                     <th>지불조건</th>
-                     <td>지불조건 출력</td>
-                     <th>연락처</th>
-                     <td>연락처 출력</td>
-                  </tr>
-               </thead>
-            </table>
-            <table>
-               <thead>
-                  <tr>
-                     <th>번호</th>
+                     <th>입고예정일</th>
+                     <th>품목코드</th>
                      <th>품명</th>
-                     <th>규격</th>
-                     <th>단위</th>
-                     <th>수량</th>
-                     <th>단가</th>
-                     <th>공급가액</th>
-                     <th>비고</th>
+              		 <th>발주수량</th>
                   </tr>
                   <tr>
-                     <td></td>
-                     <td></td>
-                     <td></td>
-                     <td></td>
-                     <td></td>
-                     <td></td>
-                     <td></td>
-                     <td></td>
+                     <td>*******</td>
+                     <td>*******</td>
+                     <td>*******</td> 
+                     <td>*******</td>
+                     <td>*******</td>
+                     <td>*******</td>
                   </tr>
                </thead>
             </table>
-            <h3 class="visual-title">진척검수</h3>
-            <table class="inspecPlanList" id="createtb">
+          
+            <table class="inspecPlanList table" id="createtb">
                <tr>
                   <th>차수</th>
                   <th>검수예정일</th>
@@ -106,29 +55,53 @@
                   <th>진행</th>
                </tr>
             </table>
-         </div>
-      </div>
-      <div id="row2">
-         <!-- (하단)진척검수처리scope -->
-         <h2 class="visual-title">진척검수 일정 등록</h2>
-         <table class="inspecPlanRegi">
+            <h2 class="visual-title">진척검수 일정 등록</h2>
+         <table class="inspecPlanRegi listTable">
             <tr>
                <th>차수</th>
                <th>검수예정일</th>
-               <th>검수일</th>
                <th>생산량</th>
                <th>등록 취소</th>
             </tr>
             <tr>
                <td><input type="text" id="times" readonly disabled></td>
                <td><input type="date" id="duedate"></td>
-               <td><input type="date" id="finishDate"></td>
                <td><input type="text" id="quantity"></td>
                <td>
                   <button type="button" onclick="register()" class="blueBtn">등록</button>
                </td>
             </tr>
          </table>
+         </div>
+      </div>
+      <div id="row2">
+           <h2 class="visual-title">검수 예정 품목</h2>
+      <table class="listTable">
+               <colgroup>
+               </colgroup>
+               <thead>
+                  <tr>
+                     <th>발주번호</th>
+                     <th>발주일</th>
+                     <th>입고예정일</th>
+                     <th>품목코드</th>
+                     <th>품명</th>
+              		 <th>발주수량</th>
+              		 <th>검수현황</th>
+              		 <th>검수</th>
+                  </tr>
+                  <tr th:each="contract : ${contracts}" th:if="${contract.orders.size() > 0 && contract.orders[0].receiptYn == 'Y'}">
+					<td th:text="${contract.orders.size() > 0 ? contract.orders[0].orderNo : '-'}">발주번호</td>
+					<td th:text="${contract.orders.size() > 0 ? contract.orders[0].orderDate : '-'}">발주일</td>
+					<td th:text="${contract.lead_time}">납기일</td>
+					<td th:text="${contract.item.itemCode}">품목코드</td>
+					<td th:text="${contract.item.itemName}">품목명</td>
+					<td th:text="${contract.orders.size() > 0 ? contract.orders[0].orderQuantity : '-'}">N/A</td>
+					<td></td>
+					<td><input type="button" value="검수" class="blueBtn" id="addBtn"></td>
+                  </tr>
+               </thead>
+            </table>
       </div>
    </div>
    <script>
@@ -138,7 +111,6 @@
       function register() {
          // Get input values
          var 검수예정일 = document.getElementById("duedate").value;
-         var 검수일 = document.getElementById("finishDate").value;
          var 생산량 = document.getElementById("quantity").value;
          var 비고 = "비고란"; // 임의의 비고 생성
          var 진행률 = "계산식";
@@ -158,7 +130,7 @@
          // Add input values to the cells
          cell1.innerHTML = time;
          cell2.innerHTML = 검수예정일;
-         cell3.innerHTML = 검수일;
+         cell3.innerHTML = '<input type="date" id="finishDate">now';
          cell4.innerHTML = "300";
          cell5.innerHTML = 생산량;
          cell6.innerHTML = 진행률;

@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>거래명세서 조회</title>
-<link type="text/css" rel="stylesheet" href="../css/header.css">
-<link type="text/css" rel="stylesheet" href="../css/common.css">
-<link type="text/css" rel="stylesheet" href="../css/sidebar.css">
+<link type="text/css" rel="stylesheet" href="../css/common/header.css">
+<link type="text/css" rel="stylesheet" href="../css/common/common.css">
+<link type="text/css" rel="stylesheet" href="../css/common/sidebar.css">
 <link type="text/css" rel="stylesheet" href="../css/invoice.css">
   <script type="text/javascript" src="../js/sidebar.js"></script>
 </head>
@@ -37,15 +37,16 @@
 					</div>
 				</form>
 				<!-- 결과 표시 테이블 -->
-				<table id="resultsTable">
+				<table id="resultsTable" class="table">
 					<colgroup>
 						<col width="10%">
 						<col width="15%">
 						<col width="15%">
 						<col width="15%">
 						<col width="10%">
-						<col width="20%">
-						<col width="20%">
+						<col width="15%">
+						<col width="15%">
+						<col width="5%">
 					</colgroup>
 					<thead>
 						<tr>
@@ -69,7 +70,7 @@
 							<td th:text="${receiving.orders.orderQuantity}">
 							<td th:text="${receiving.orders.orderDate}">
 							<td th:text="${receiving.receiveDate}">
-							<td><input type="button" value="발행" class="popupBtn blueBtn"></td>
+							<td><input type="button" value="발행" class="popupBtn blueBtn publish"></td>
 						</tr>
 					 </th:block>
 					</tbody>
@@ -81,35 +82,139 @@
 		
 	<div id="modalWrap">
 	    <div id="modalBody">
-	     <button type="button" id="closeBtn" class="closeBtn">&times;</button>
-	       <div class="container">
-        <h1>거래명세서</h1>
-        <form action="#" method="post">
-            <div class="form-group">
-                <label for="customer">고객명:</label>
-                <input type="text" id="customer" name="customer" required>
-            </div>
-            <div class="form-group">
-                <label for="date">거래일:</label>
-                <input type="date" id="date" name="date" required>
-            </div>
-            <div class="form-group">
-                <label for="amount">거래금액:</label>
-                <input type="text" id="amount" name="amount" required>
-            </div>
-            <div class="form-group">
-                <label for="description">거래내용:</label>
-                <textarea id="description" name="description" rows="4" required></textarea>
-            </div>
-            <input type="submit" value="제출">
-        </form>
-    </div>
-	     <button type="button" class="blueBtn modalBtn" id="printBtn">인쇄</button>
-	     <button type="button" class="blueBtn modalBtn" id="saveBtn">저장</button>
+		<table class="table" id="1">
+					<colgroup>
+						<col width="1%">
+						<col width="15%">
+						<col width="10%">
+						<col width="1%">
+						<col width="10%">
+						<col width="15%">
+					</colgroup>
+					<tbody>
+					<tr><th colspan="7">거래명세서</th></tr>
+					 	<tr>
+					 	   <th rowspan="7">공<br>급<br>받<br>는<br>자</th>
+					 	</tr>
+						<tr>
+							<th>발주번호</th>
+							<td ><input type="text" name="orderNo" readonly></td>
+							<th rowspan="6">공<br><br>급<br><br>자</th>
+							<th>사업자등록번호</th>
+							<td ><input type="text" name="brn" readonly> </td>
+						</tr>
+						<tr>
+							<th>상호</th>
+							<td><input type="text" value="(주) SOFT-SYNC" readonly></td>
+							<th>상호</th>
+							<td><input type="text" name="company_name" readonly></td>
+						</tr>
+						<tr>
+							<th>연락처</th>
+							<td><input type="text" value="031-5555-5555" readonly></td>
+							<th>대표자</th>
+							<td><input type="text" name="company_ceo" readonly></td>
+						</tr>
+						<tr>
+							<th>공급일</th>
+							<td ><input type="text" name="publishDate" readonly></td>
+							<th>주소</th>
+							<td><input type="text" name="company_address" readonly></td>
+						</tr>
+						<tr>
+							<th>지불조건</th>
+							<td ><input type="text" value="대금지불 약관" readonly></td>
+							<th>담당자</th>
+							<td><input type="text" name="manager" readonly></td>
+						</tr>
+						<tr>
+							<th>합계 금액</th>
+							<td><input type="text" name="total_price" readonly></td>
+							<th>연락처</th>
+							<td><input type="text" name="manager_tel" readonly></td>
+						</tr>
+					</tbody>
+				</table>
+				<table class="table1">
+					<colgroup>
+						<col width="3%">
+						<col width="3%">
+						<col width="15%">
+						<col width="15%">
+						<col width="8%">
+						<col width="8%">
+						<col width="8%">
+						<col width="10%">
+						<col width="15%">
+						
+					</colgroup>
+					<tr>
+		                <th>월</th>
+		                <th>일</th>
+		                <th>품목</th>
+		                <th>규격</th>
+		                <th>수량</th>
+		                <th>단가</th>
+		                <th>공급가액</th>
+		                <th>세액</th>
+		                <th>비고</th>
+           		   </tr>
+           		   <tr class="small">
+           		   	<td><input type="text" name="month" readonly></td>
+           		   	<td><input type="text" name="day" readonly></td>
+           		   	<td><input type="text" name="itemName" readonly></td>
+           		   	<td><input type="text" name="dimensions" readonly></td>
+           		   	<td><input type="text" name="quantity" readonly></td>
+           		   	<td><input type="text" name="manager_tel" readonly></td>
+           		   	<td><input type="text" name="manager_tel" readonly></td>
+           		   	<td><input type="text" name="manager_tel" readonly></td>
+           		   	<td><input type="text" name="manager_tel" readonly></td>
+           		   </tr>
+				</table>
     </div>
 </div>
 	
 </body>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function(){
+	$(".publish").click(function(){
+		var orderNo = $(this).closest("tr").find("td:first").text();
+		
+		$.ajax({
+			url : "/getReceive",
+		    type : "POST",
+		    contentType : "application/json",
+		    data: JSON.stringify({ orderNo : orderNo}),
+		    success: function(data){
+		    	 $("#modalWrap input[name='orderNo']").val(data.orders.orderNo);  //입고번호
+		    	 $("#modalWrap input[name='publishDate']").val(data.receiveDate); //입고마감일
+		    	 var quantity = data.receiveQuantity; //입고량
+		    	 console.log(data);
+		    		 $("#modalWrap input[name='brn']").val(data.orders.company.brn);
+		    		 $("#modalWrap input[name='company_name']").val(data.orders.company.company_name);
+		    		 $("#modalWrap input[name='company_ceo']").val(data.orders.company.company_ceo);
+		    		 $("#modalWrap input[name='company_address']").val(data.orders.company.company_address );
+		    		 $("#modalWrap input[name='manager']").val(data.orders.company.manager );
+		    		 $("#modalWrap input[name='manager_tel']").val(data.orders.company.manager_tel );
+		    		 
+		    		 
+		    		 $("#modalWrap input[name='itemName']").val(data.orders.item.itemName );
+		    		 $("#modalWrap input[name='dimensions']").val(data.orders.item.dimensions );
+		    		 $("#modalWrap input[name='quantity']").val(data.receiveQuantity );
+		    		 
+		    		 
+		    	 
+		    	 
+		    },
+            error: function(xhr, status, error) {
+                alert("서버에서 주문 정보를 가져오는 동안 오류가 발생했습니다.");
+                console.error(error);
+            }
+		});
+	});
+});
+</script>
 
 </html>

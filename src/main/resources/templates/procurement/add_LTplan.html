@@ -3,10 +3,11 @@
 
 <head>
 <link type="text/css" rel="stylesheet" href="css/page.css">
-<link type="text/css" rel="stylesheet" href="css/header.css">
-<link type="text/css" rel="stylesheet" href="css/common.css">
-<link type="text/css" rel="stylesheet" href="css/add-LTpaln.css">
-<link type="text/css" rel="stylesheet" href="css/sidebar.css">
+<link type="text/css" rel="stylesheet" href="css/common/header.css">
+<link type="text/css" rel="stylesheet" href="css/common/common.css">
+<link type="text/css" rel="stylesheet" href="css/procurement/add-LTpaln.css">
+<link type="text/css" rel="stylesheet" href="css/common/sidebar.css">
+    <script type="text/javascript" src="../js/sidebar.js"></script>
 <title>조달계획등록</title>
 </head>
 
@@ -277,43 +278,7 @@
    </div>
 
    <script>
-      function toggleSidenav() {
-         const sidenav = document.querySelector('.sidenav');
-         const mainContent = document.querySelector('.main-content');
-         const sidenavToggle = document.querySelector('.sidenav-toggle');
-
-         if (sidenav.style.left === '0px') {
-            sidenav.style.left = '-200px'; // 사이드바 숨기기
-            mainContent.style.marginLeft = '0'; // 메인 콘텐츠 원래 위치로
-            sidenavToggle.style.left = '5px'; // 토글 버튼 원래 위치로
-         } else {
-            sidenav.style.left = '0'; // 사이드바 보이기
-            mainContent.style.marginLeft = '200px'; // 메인 콘텐츠를 오른쪽으로 밀어냄
-            sidenavToggle.style.left = '205px'; // 토글 버튼 오른쪽으로 이동
-         }
-      }
-
-      document.addEventListener('DOMContentLoaded', function () {
-         var dropdowns = document.querySelectorAll('.dropdown-btn');
-         dropdowns.forEach(function (btn) {
-            btn.addEventListener('click', function () {
-               closeAllDropdowns();
-               var dropdownContainer = this.nextElementSibling;
-               dropdownContainer.style.display = dropdownContainer.style.display === 'block' ? 'none' : 'block';
-               this.classList.toggle('active');
-            });
-         });
-
-         function closeAllDropdowns() {
-            var dropdownContainers = document.querySelectorAll('.dropdown-container');
-            dropdownContainers.forEach(function (container) {
-               container.style.display = 'none';
-            });
-            dropdowns.forEach(function (btn) {
-               btn.classList.remove('active');
-            });
-         }
-      });
+   
 
       function performProductionSearch() {
           var filter = document.getElementById('productionFilterSelect').value;

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link type="text/css" rel="stylesheet" href="../CSS/header.css">
-    <link type="text/css" rel="stylesheet" href="../CSS/common.css">
-    <link type="text/css" rel="stylesheet" href="../CSS/sidebar.css">
+    <link type="text/css" rel="stylesheet" href="../CSS/common/header.css">
+    <link type="text/css" rel="stylesheet" href="../CSS/common/common.css">
+    <link type="text/css" rel="stylesheet" href="../CSS/common/sidebar.css">
     <link type="text/css" rel="stylesheet" href="../CSS/invoice.css">
     <script type="text/javascript" src="../js/sidebar.js"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -35,8 +35,8 @@
                         <col width="12%">
                         <col width="12%">
                         <col width="12%">
-                        <col width="13%">
-                        <col width="10%">
+                        <col width="12%">
+                        <col width="11%">
                     </colgroup>
                     <tr>
                    		<th>발주번호</th>
@@ -50,20 +50,20 @@
                         <th>검수현황</th>
                     </tr>
  
-                   <tr th:each="contract : ${contracts}" onchange="calculateSupplyAmount(this)">
+                   <tr th:each="contract : ${contracts}" onchange="calculateSupplyAmount(this)" th:if="${contract.orders.size() > 0 && contract.orders[0].orderYn == 'Y'}">
 						<td class="orderNo" th:text="${contract.orders.size() > 0 ? contract.orders[0].orderNo : '-'}">발주번호</td>
 						<td th:text="${contract.item.itemCode}">품목코드</td>
 						<td th:text="${contract.item.itemName}">품목명</td>
 						<td th:text="${contract.orders.size() > 0 ? contract.orders[0].orderDate : '-'}">발주일</td>
 						<td th:text="${contract.lead_time}">납기일</td>
-						<td th:text="${contract.orders.size() > 0 ? contract.orders[0].orderQuantity : '-'}">발주수량</td>
-						<td th:text="${contract.unit_price}">단가</td>
-						<td></td> <!-- 공급가액 -->
-                        <td th:if="${contract.orders.size() > 0 && contract.orders[0].receiptYn == 'Y'}">
-							<button id="detailBtn" class="blueBtn">발행전</button>
+						<td class="orderQuantity" th:text="${contract.orders.size() > 0 ? contract.orders[0].orderQuantity : '-'}">발주수량</td>
+						<td class="unit_price" th:text="${contract.unit_price}">단가</td>
+						<td class="supplyAmount"></td> <!-- 공급가액 -->
+                        <td th:if="${contract.orders.size() > 0 && contract.orders[0].receiptYn == 'N'}">
+							<button class="blueBtn">발주서발행</button>
 						</td>
-						<td th:unless="${contract.orders.size() > 0 && contract.orders[0].receiptYn == 'Y'}">
-							<button id="addBtn" class="blueBtn">발주필요</button>
+						<td th:if="${contract.orders.size() > 0 && contract.orders[0].receiptYn == 'Y'}">
+							<button class="blueBtn">검수대기</button>
 						</td>
 					</tr>
                 </table>

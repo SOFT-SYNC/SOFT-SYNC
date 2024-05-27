@@ -2,6 +2,7 @@ package com.softsync.zerock.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
@@ -19,15 +20,20 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "company")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","contracts"})
+
 public class Company {
     
     @Id
     @Column(name = "brn", length = 20)
     private String brn;  
     
+    @JsonIgnore //명세서 발행시 필요 
     @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
     private List<Contract> contracts;
+    
+    @JsonIgnore //명세서 발행시 필요
+    @OneToMany(mappedBy = "company", fetch = FetchType.EAGER)
+    private List<Orders> orders;
     
     @Column(name = "company_name", length = 50, nullable = false)
     private String company_name;
