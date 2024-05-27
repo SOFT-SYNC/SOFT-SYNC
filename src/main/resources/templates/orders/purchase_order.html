@@ -10,12 +10,12 @@
 </head>
 <body>
 	<div th:insert="~{common/sidebar :: sidebar}"></div>
+			<div th:insert="~{common/header :: header}"></div>
 	<div class="main-content">
-		<div th:insert="~{common/header :: header}"></div>
 		<div id="row1">
 			<h2 class="visual-title">구매발주서</h2>
 			<form th:action="@{/saveOrders}" method="POST" enctype="multipart/form-data">
-				<div>
+				<div class="btn-container">
 					<button type="submit" class="blueBtn">저장</button>
 					<button type="button" id="popupBtn" class="blueBtn printOrder">발주서 발행</button>
 					<button type="reset" class="blueBtn">초기화</button>

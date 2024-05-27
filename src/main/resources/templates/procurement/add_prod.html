@@ -4,7 +4,6 @@
 <head>
 <meta charset="UTF-8">
 <title>품목등록</title>
-<link type="text/css" rel="stylesheet" href="css/page.css">
 <link type="text/css" rel="stylesheet" href="css/common/header.css">
 <link type="text/css" rel="stylesheet" href="css/common/common.css">
 <link type="text/css" rel="stylesheet" href="css/common/sidebar.css">
@@ -14,8 +13,8 @@
 </head>
 <body>
    <div th:insert="~{common/sidebar :: sidebar}"></div>
+   <div th:insert="~{common/header :: header}"></div>
    <div class="main-content">
-      <div th:insert="~{common/header :: header}"></div>
       <form id="productForm" method="POST" action="/api/items"
          enctype="multipart/form-data" onsubmit="submitProduct(event)">
          <div id="row1">
@@ -74,7 +73,10 @@
                      name="blueprintPath"></td>
                </tr>
             </table>
-            <button type="submit" class="blueBtn">등록</button>
+	            <div class="btn-container">
+	            <button type="submit" class="blueBtn">등록</button>
+	           		<button type="reset" class="blueBtn">초기화</button>
+	            </div>
          </div>
       </form>
       <div id="row2">
@@ -82,7 +84,7 @@
          <div id="productList">
             <div>
                    <form onsubmit="performitemSearch(event)">
-                       <div>
+                       <div class="search-container">
                            <select id="itemFilterSelect">
                                <option value="itemCode" th:selected="${searchField == 'itemCode'}">품목코드</option>
                                <option value="itemName" th:selected="${searchField == 'itemName'}">품목명</option>
@@ -112,7 +114,7 @@
                      </tr>
                   </tbody>
                </table>
-               <div>
+               <div class="paging-wrap">
                   <ul class="pagination">
                      <!-- 처음 페이지로 이동 -->
                      <li th:if="${items.number >= 10}"><a

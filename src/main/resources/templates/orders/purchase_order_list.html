@@ -4,70 +4,66 @@
     <link type="text/css" rel="stylesheet" href="../CSS/common/header.css">
     <link type="text/css" rel="stylesheet" href="../CSS/common/common.css">
     <link type="text/css" rel="stylesheet" href="../CSS/common/sidebar.css">
-    <link type="text/css" rel="stylesheet" href="../CSS/invoice.css">
+    <link type="text/css" rel="stylesheet" href="../css/orders/orderList.css">
     <script type="text/javascript" src="../js/sidebar.js"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <div th:insert="~{common/sidebar :: sidebar}"></div>
-<div class="main-content">
     <div th:insert="~{common/header :: header}"></div>
+<div class="main-content">
+
     <div id="row1">
-        <div class="head">
-            <div class="left">
-                품목코드 <input id="searchInput" type="text" placeholder="품목코드 입력">
-                <button onclick="search()" class="blueBtn">검색</button>
-            </div>
-            <div class="right">
-                <input type="date" id="date-start"> ~ <input type="date"
-                                                             id="date-end">
-            </div>
-        </div>
-            <input type="hidden" id="page" name="page" value="1"> <!--page 값 넘기기-->
-            <h1 class="visual-title">발주 리스트</h1>
-            <div id="purchaseOrderListForm">
-                <table>
-                    <colgroup>
-                    	<col width="11%">
-                        <col width="11%">
-                        <col width="10%">
-                        <col width="12%">
-                        <col width="12%">
-                        <col width="12%">
-                        <col width="12%">
-                        <col width="12%">
-                        <col width="11%">
-                    </colgroup>
-                    <tr>
-                   		<th>발주번호</th>
-                        <th>품목코드</th>
-                        <th>품명</th>
-                        <th>발주일자</th>
-                        <th>납기일자</th>
-                        <th>발주수량</th>
-                        <th>단가</th>
-                        <th>공급가액</th>
-                        <th>검수현황</th>
-                    </tr>
- 
-                   <tr th:each="contract : ${contracts}" onchange="calculateSupplyAmount(this)" th:if="${contract.orders.size() > 0 && contract.orders[0].orderYn == 'Y'}">
-						<td class="orderNo" th:text="${contract.orders.size() > 0 ? contract.orders[0].orderNo : '-'}">발주번호</td>
-						<td th:text="${contract.item.itemCode}">품목코드</td>
-						<td th:text="${contract.item.itemName}">품목명</td>
-						<td th:text="${contract.orders.size() > 0 ? contract.orders[0].orderDate : '-'}">발주일</td>
-						<td th:text="${contract.lead_time}">납기일</td>
-						<td class="orderQuantity" th:text="${contract.orders.size() > 0 ? contract.orders[0].orderQuantity : '-'}">발주수량</td>
-						<td class="unit_price" th:text="${contract.unit_price}">단가</td>
-						<td class="supplyAmount"></td> <!-- 공급가액 -->
-                        <td th:if="${contract.orders.size() > 0 && contract.orders[0].receiptYn == 'N'}">
-							<button class="blueBtn">발주서발행</button>
-						</td>
-						<td th:if="${contract.orders.size() > 0 && contract.orders[0].receiptYn == 'Y'}">
-							<button class="blueBtn">검수대기</button>
-						</td>
-					</tr>
-                </table>
-            </div>
+      <h1 class="visual-title">발주 리스트</h1>
+       <div class="search-container">
+        	<div class="right">
+	        	<input id="searchInput" type="text" placeholder="품목코드 입력">
+				<button onclick="search()" class="blueBtn">검색</button>
+			</div>
+		</div>
+           <div id="purchaseOrderListForm">
+               <table>
+                   <colgroup>
+                   	<col width="11%">
+                       <col width="11%">
+                       <col width="10%">
+                       <col width="12%">
+                       <col width="12%">
+                       <col width="12%">
+                       <col width="12%">
+                       <col width="12%">
+                       <col width="11%">
+                   </colgroup>
+                   <tr>
+                  		<th>발주번호</th>
+                       <th>품목코드</th>
+                       <th>품명</th>
+                       <th>발주일자</th>
+                       <th>납기일자</th>
+                       <th>발주수량</th>
+                       <th>단가</th>
+                       <th>공급가액</th>
+                       <th>검수현황</th>
+                   </tr>
+
+                  <tr th:each="contract : ${contracts}" onchange="calculateSupplyAmount(this)" th:if="${contract.orders.size() > 0 && contract.orders[0].orderYn == 'Y'}">
+					<td class="orderNo" th:text="${contract.orders.size() > 0 ? contract.orders[0].orderNo : '-'}">발주번호</td>
+					<td th:text="${contract.item.itemCode}">품목코드</td>
+					<td th:text="${contract.item.itemName}">품목명</td>
+					<td th:text="${contract.orders.size() > 0 ? contract.orders[0].orderDate : '-'}">발주일</td>
+					<td th:text="${contract.lead_time}">납기일</td>
+					<td class="orderQuantity" th:text="${contract.orders.size() > 0 ? contract.orders[0].orderQuantity : '-'}">발주수량</td>
+					<td class="unit_price" th:text="${contract.unit_price}">단가</td>
+					<td class="supplyAmount"></td> <!-- 공급가액 -->
+                       <td th:if="${contract.orders.size() > 0 && contract.orders[0].receiptYn == 'N'}">
+						<button class="blueBtn">발주서발행</button>
+					</td>
+					<td th:if="${contract.orders.size() > 0 && contract.orders[0].receiptYn == 'Y'}">
+						<button class="blueBtn">검수대기</button>
+					</td>
+				</tr>
+               </table>
+           </div>
     </div>
 </div>
 

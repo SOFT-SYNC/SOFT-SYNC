@@ -1,5 +1,7 @@
 package com.softsync.zerock.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,7 +13,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.softsync.zerock.entity.Contract;
 import com.softsync.zerock.entity.Item;
+import com.softsync.zerock.entity.Orders;
 import com.softsync.zerock.entity.ProcurementPlan;
 import com.softsync.zerock.entity.ProductionPlan;
 import com.softsync.zerock.entity.User;
@@ -19,6 +23,7 @@ import com.softsync.zerock.repository.ItemRepository;
 import com.softsync.zerock.repository.ProcurementPlanRepository;
 import com.softsync.zerock.repository.ProductionPlanRepository;
 import com.softsync.zerock.service.ItemService;
+import com.softsync.zerock.service.OrderService;
 import com.softsync.zerock.service.UploadFileService;
 import com.softsync.zerock.service.UserService;
 
@@ -43,7 +48,9 @@ public class BasicController {
 	ProductionPlanRepository productionPlanRepository;
 	@Autowired
 	ProcurementPlanRepository procurementPlanRepository;
-
+	 @Autowired
+	   OrderService orderService;
+	 
 	@GetMapping("/login")
 	public String loginview() {
 		return "/common/login";
@@ -318,8 +325,14 @@ public class BasicController {
 	}
 
 	@GetMapping("/dashBoard")
-	public String dashBoard() {
-		return"/common/home";
+	public String dashBoard(Model model) {
+			 System.out.println("[DashBoard]");
+			   List<Contract> contracts = orderService.getAllContracts();
+			    model.addAttribute("contracts", contracts);
+			    
+			    List<Orders> orderList = orderService.getAllOrders();
+			    model.addAttribute("orders", orderList); 
+		return"common/home";
 	}
 
 }

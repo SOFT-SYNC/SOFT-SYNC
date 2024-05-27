@@ -2,7 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<link type="text/css" rel="stylesheet" href="css/page.css">
 <link type="text/css" rel="stylesheet" href="css/common/header.css">
 <link type="text/css" rel="stylesheet" href="css/common/common.css">
 <link type="text/css" rel="stylesheet" href="css/procurement/add-LTpaln.css">
@@ -13,13 +12,15 @@
 
 <body>
    <div th:insert="~{common/sidebar :: sidebar}"></div>
+         <div th:insert="~{common/header :: header}"></div>
    <div class="main-content">
-      <div th:insert="~{common/header :: header}"></div>
       <div id="row1">
          <h2 class="visual-title">조달계획등록</h2>
          <form id="procurementPlanForm" onsubmit="submitForm(event)">
+	         <div class="btn-container">
+	        	 <button type="submit" class="blueBtn">조달계획등록</button>
+	         </div>
             <table class="regi-table">
-               <button type="submit" style="float: right; margin-bottom: 20px;">조달계획등록</button>
                <colgroup>
                   <col width="10%">
                   <col width="10%">
@@ -138,7 +139,7 @@
                   <td th:text="${production.itemQuantity}"></td>
                </tr>
             </table>
-            <div>
+            <div class="paging-wrap">
                <ul class="pagination">
                   <!-- 처음 페이지로 이동 -->
                   <li th:if="${productionPlans.number >= 10}"><a
@@ -235,7 +236,7 @@
                   <td th:text="${procurement.procurementDueDate}"></td>
                </tr>
             </table>
-            <div>
+            <div class="paging-wrap">
                <ul class="pagination">
                   <!-- 처음 페이지로 이동 -->
                   <li th:if="${procurementPlans.number >= 10}"><a
