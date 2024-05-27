@@ -17,14 +17,7 @@
 		<div id="row1">
 			<h1 class="visual-title">출고목록</h1>
 			<div class="search-container">
-				<form id="searchForm"
-					onsubmit="event.preventDefault(); performSearch();">
-					<!-- 날짜 선택 영역 -->
-					<div class="date-range">
-						<label for="startDate"></label> <input type="date" id="startDate">
-						<label for="endDate">~</label> <input type="date" id="endDate">
-					</div>
-					<!-- 검색 옵션과 필드 -->
+				<form id="searchForm">					
 					<div class="search-bar">
 						<select id="filterSelect">
 							<option value="itemCode">품목코드</option>
@@ -33,104 +26,117 @@
 							<option value="consumption">소요량</option>
 							<option value="stock">재고수량</option>
 						</select> <input type="text" id="searchInput" placeholder="검색...">
-						<button type="button" onclick="performSearch()" class="blueBtn">검색</button>
+						 <button type="button" class="blueBtn">검색</button>
 					</div>
 				</form>
+				<form id="shipmentForm" action="/api/saveShipmentList" method="post">
 				<!-- 결과 표시 테이블 -->
 				<table id="resultsTable">
-					<thead>
-						<tr>
-							<th>품목코드</th>
-							<th>품목명</th>
-							<th>제품명</th>
-							<th>생산일자</th>
-							<th>소요량</th>
-							<th>재고수량</th>
-							<th>출고수량</th>
-						</tr>
-					</thead>
-					<tbody>
-						<!-- 동적 결과 -->
-					</tbody>
-				</table>
+				        <thead>
+				            <tr>
+				                <th>품목코드</th>
+				                <th>품목명</th>
+				                <th>제품명</th>
+				                <th>생산일자</th>
+				                <th>소요량</th>
+				                <th>재고수량</th>
+				                <th>출고수량</th>
+				            </tr>
+				        </thead>
+						<tbody>
+						    <!-- 타임리프 반복문을 사용하여 데이터 표시 -->
+						    <tr th:each="shipment : ${shipments}">
+						        <td th:text="${shipment.procurementPlan.productionPlan.item.itemCode}"></td>
+						        <td th:text="${shipment.procurementPlan.productionPlan.item.itemName}"></td>
+						        <td th:text="${shipment.procurementPlan.productionPlan.productName}"></td>
+						        <td th:text="${shipment.procurementPlan.productionPlan.productionStartDate}"></td>
+						        <td th:text="${shipment.procurementPlan.productionPlan.itemQuantity}"></td>
+						        <td th:text="${shipment.inventory.quantity}"></td>
+								<td><input type="number" name="quantity"></td>
+								<td class="shipment-id" th:text="${shipment.id}" style="display: none;"></td>
+						    </tr>
+						</tbody>
+				    </table>
 				<div class="actions">
-					<button type="button" onclick="publishSelected()" class="blueBtn">저장</button>
+					<button type="button" class="blueBtn" onclick="saveShipmentList()">저장</button>
 				</div>
+				</form>
 			</div>
 		</div>
 	</div>
-	<script>
-    document.addEventListener('DOMContentLoaded', function() {
-    loadDummyData();
-});
-const dummyData = [
-    { id: 1, itemCode: "A001", itemName: "Item A", productName: "Product A", productionDate: "2022-05-01", consumption: 100, stock: 500 },
-    { id: 2, itemCode: "B002", itemName: "Item B", productName: "Product B", productionDate: "2022-05-02", consumption: 150, stock: 600 },
-    { id: 3, itemCode: "C003", itemName: "Item C", productName: "Product C", productionDate: "2022-05-03", consumption: 200, stock: 700 }
-];
+	
+</body>
+<script>
+// 테이블의 각 행을 클릭할 때마다 실행되는 함수
+function handleRowClick(event) {
+    var row = event.target.closest("tr"); // 클릭한 요소가 포함된 행 선택
+    if (!row) return; // 행이 없으면 종료
 
-function loadDummyData(filteredData = dummyData) {
-    const tbody = document.querySelector('#resultsTable tbody');
-    tbody.innerHTML = '';
-    filteredData.forEach(data => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>${data.itemCode}</td>
-            <td>${data.itemName}</td>
-            <td>${data.productName}</td>
-            <td>${data.productionDate}</td>
-            <td>${data.consumption}</td>
-            <td>${data.stock}</td>
-            <td><input type="number" min="0" value="0" onchange="updateStock(this, ${data.id})"></td>
-        `;
-        tbody.appendChild(tr);
-    });
-}
-
-function updateStock(input, id) {
-    const item = dummyData.find(item => item.id === id);
-    if (item) {
-        const newStock = item.stock - parseInt(input.value);
-        item.stock = newStock >= 0 ? newStock : 0; // Prevent stock from going negative
-        loadDummyData(); // Reload table to reflect the updated stock
+    if (row.classList.contains("selected")) {
+        row.classList.remove("selected"); // 이미 선택된 행이면 선택 해제
+    } else {
+        // 선택된 행이 아니면 모든 선택 해제 후 해당 행만 선택
+        var selectedRows = row.parentNode.querySelectorAll("tr.selected");
+        selectedRows.forEach(function(selectedRow) {
+            selectedRow.classList.remove("selected");
+        });
+        row.classList.add("selected");
     }
 }
 
-function performSearch() {
-    const startDate = document.getElementById('startDate').value;
-    const endDate = document.getElementById('endDate').value;
-    const filterSelect = document.getElementById('filterSelect').value;
-    const searchText = document.getElementById('searchInput').value.toLowerCase();
+// 테이블의 각 행에 클릭 이벤트 리스너 추가
+document.querySelectorAll("#resultsTable tbody tr").forEach(function(row) {
+    row.addEventListener("click", handleRowClick);
+});
 
-    const filteredData = dummyData.filter(data => {
-        let dateMatch = true;
-        let textMatch = true;
+/// 저장 버튼 클릭 시 실행되는 함수
+function saveShipmentList() {
+    var selectedRow = document.querySelector("#resultsTable tbody tr.selected"); // 선택된 행 선택
+    if (!selectedRow) {
+        alert("선택된 행이 없습니다.");
+        return;
+    }
 
-        if (startDate || endDate) {
-            const productionDate = new Date(data.productionDate);
-            const start = startDate ? new Date(startDate) : new Date(-8640000000000000); // Min date
-            const end = endDate ? new Date(endDate) : new Date(8640000000000000); // Max date
-            dateMatch = productionDate >= start && productionDate <= end;
+    var shipmentId = selectedRow.querySelector(".shipment-id").textContent.trim(); // 출고 ID 가져오기
+    var quantityInput = selectedRow.querySelector("input[type='number']"); // 입력된 수량 가져오기
+    var quantity = quantityInput.value.trim(); // 수량 값
+
+    if (quantity === "") {
+        alert("출고 수량을 입력하세요.");
+        return;
+    }
+
+    var inventoryQuantity = parseInt(selectedRow.querySelector("td:nth-child(6)").textContent.trim()); // 재고 수량 가져오기
+
+    if (parseInt(quantity) > inventoryQuantity) {
+        alert("재고가 출고량보다 부족합니다.");
+        return;
+    }
+
+    // HTML Form 데이터 생성
+    var formData = new FormData();
+    formData.append("shipmentId", shipmentId);
+    formData.append("quantity", quantity);
+
+    // 서버로 데이터 전송
+    fetch('/api/saveShipmentList', {
+        method: 'POST',
+        body: formData,
+    })
+    .then(response => {
+        if (response.ok) {
+            alert("출고 목록이 저장되었습니다.");
+            quantityInput.value = ''; // 출고 수량 입력 필드 초기화
+            location.reload(); // 페이지 새로고침
+        } else {
+            throw new Error('Failed to save Shipment List');
         }
-        
-        if (searchText && filterSelect) {
-            textMatch = data[filterSelect] && data[filterSelect].toString().toLowerCase().includes(searchText);
-        }
-        
-        return dateMatch && textMatch;
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        alert("출고 목록 저장에 실패하였습니다.");
     });
-
-    loadDummyData(filteredData);
 }
 
-function publishSelected() {
-    console.log("Changes saved.");
-    // Optionally, process data or communicate with a server here.
-    dummyData.forEach(item => {
-        console.log(`Item ID: ${item.id}, Stock: ${item.stock}`);
-    });
-    // Reset stock changes if necessary or finalize the changes
-}
 </script>
-</body>
 </html>
