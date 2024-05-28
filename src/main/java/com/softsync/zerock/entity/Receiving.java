@@ -45,7 +45,7 @@ public class Receiving { //입고
 
    
    @Column(nullable = true)
-   private Date receiveDate;  //입고일
+   private Date receiveDate;  //입고마감일
    
    @Column(nullable = false, columnDefinition = "int(5) DEFAULT '0'")
    private int receiveQuantity; //총입고량

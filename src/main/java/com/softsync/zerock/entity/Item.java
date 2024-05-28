@@ -37,7 +37,7 @@ public class Item {
     @OneToMany(mappedBy = "item", fetch = FetchType.LAZY) //상대필드
     private List<Contract> contracts;
 
-    @Column(nullable = true, unique = true)
+    @Column(nullable = true)
     private String itemCode;
     
     @JsonIgnore //명세서 발행시 필요
