@@ -12,6 +12,6 @@ public interface OrderRepository extends JpaRepository<Orders,String>{
 
 	  Orders findByOrderNo(String orderNo);
 
-	Optional<Orders> findByorderNo(String orderNo);
+	  Long countByReceiptYn(String receiptYn);
 
 }

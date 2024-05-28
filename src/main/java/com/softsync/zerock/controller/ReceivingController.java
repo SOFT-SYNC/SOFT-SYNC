@@ -38,9 +38,8 @@ public class ReceivingController {
 	//입고 저장
 	@PostMapping("/saveReceiving")
 	public String saveReceiving(@RequestParam("quantity") int quantity,
-							    @RequestParam("receivingNumber") String num) {
+							    @RequestParam("receivingNumber") int num) {
 		System.out.println("입고 컨트롤러 : 자재입고");
-		num = num.replace(",",""); // 번호,  형식으로 불러와서 수정함;;'
 		receivingService.updateReceiving(quantity, num);
 		
 		return "redirect:/receivings";
@@ -48,10 +47,9 @@ public class ReceivingController {
 	
 	//입고 마감
 	@PostMapping("/endRecieving")
-	public String endRecieving(@RequestParam("receivingNumber")String num) {
+	public String endRecieving(@RequestParam("receivingNumber")int num) {
 		System.out.println("입고 컨트롤러 : 자재 입고   마   감 ");
 		
-		num = num.replace(",","");
 		receivingService.endRecieving(num);
 
 		return "redirect:/receivings";

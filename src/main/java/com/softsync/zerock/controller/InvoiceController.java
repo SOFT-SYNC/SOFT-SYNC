@@ -9,11 +9,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.softsync.zerock.entity.Contract;
-import com.softsync.zerock.entity.Orders;
+import com.softsync.zerock.entity.Invoice;
 import com.softsync.zerock.entity.Receiving;
 import com.softsync.zerock.service.InvoiceService;
 
@@ -23,14 +23,16 @@ public class InvoiceController {
 	@Autowired
 	InvoiceService invoiceService;
 	
+	
+	
 	@GetMapping("/invoice")
 	public String invoiceview(Model model) {
 		System.out.println("거래명세서 컨트롤러 : 명세서 조회");
 		
-		List<Receiving> receivings = invoiceService.getReceivings();
+		List<Invoice> invoices = invoiceService.getInvoices();
 		
 		
-		model.addAttribute("receivings", receivings);
+		model.addAttribute("invoices", invoices);
 		
 		return"/materials/invoice";
 	}
@@ -61,5 +63,14 @@ public class InvoiceController {
 		    	   return ResponseEntity.status(500).body("Error occurred while processing request.");
 		    }
 		}
-
+	
+	//명세서 발행
+	@PostMapping("/saveInvice")
+	public String saveInvice(@RequestParam("reseiving_no") int no) {
+		System.out.println("거래명세서 컨트롤러 : 발행!"+no);
+		
+		invoiceService.saveInvice(no);
+		
+		return "redirect:/invoice";
+	}
 }

@@ -10,7 +10,7 @@ import com.softsync.zerock.entity.Receiving;
 
 
 @Repository
-public interface ReceivingRepository extends JpaRepository<Receiving, String> {
+public interface ReceivingRepository extends JpaRepository<Receiving, Integer> {
 
 	 List<Receiving> findByOrders(Orders order);
 	

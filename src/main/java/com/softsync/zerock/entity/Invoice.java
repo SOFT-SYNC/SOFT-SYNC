@@ -1,6 +1,6 @@
 package com.softsync.zerock.entity;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,9 +24,9 @@ public class Invoice {
 	private int num;
 	
 	@Column(nullable = true)
-	private Date publishDate;  //발행일5
+	private LocalDate publishDate;  //발행일
 	
-	@Column (nullable = true, length = 1, columnDefinition = "CHAR(1) DEFAULT 'N'")
+	@Column(nullable = true, length = 1, columnDefinition = "CHAR(1) DEFAULT 'N'")
 	private char publishYn; // 발행 여부
 	
 	@OneToOne

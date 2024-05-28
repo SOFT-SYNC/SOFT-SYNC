@@ -53,16 +53,19 @@ public class ContractController {
 	                               Model model,
 	                               @PageableDefault(size = 10) Pageable pageable) {
 			System.out.println("[계약컨트롤러] 계약서 저장");
-			
+			 
 	        Contract contract = new Contract();
 	        Company company = contractService.getContractByBrn(brn);//회사정보 가져오기(외래키)
 	        Item item = contractService.getItemByItemCode(itemCode);//품목정보 가져오기(외래키)
 	        
 	        String file = contractService.saveFile(contractFile);
+	       
 	        
 	        //저장
 	        contract.setCompany(company); //회사정보(외래키)
+
 	        contract.setContract_date(LocalDate.now());  //계약일 (현재시각)
+
 	        contract.setContract_path(file);
 	        contract.setItem(item);//품목정보(외래키)
 	        contract.setLead_time(leadTime);//납기일
