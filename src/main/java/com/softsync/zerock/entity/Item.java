@@ -93,6 +93,7 @@ public class Item {
 		this.itemName = itemName;
 	}
 
+	
 	public String getDimensions() {
 		return dimensions;
 	}

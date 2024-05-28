@@ -46,4 +46,5 @@ public class Inventory {
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
+    
 }

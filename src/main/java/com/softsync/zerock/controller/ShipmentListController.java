@@ -59,6 +59,7 @@ public class ShipmentListController {
 
             // ShipmentList 저장
             shipmentListService.save(shipmentList);
+            
 
             // InventoryPeriod 저장
             InventoryPeriod inventoryPeriod = new InventoryPeriod();

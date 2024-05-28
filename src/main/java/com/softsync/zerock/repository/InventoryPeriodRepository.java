@@ -9,3 +9,4 @@ import com.softsync.zerock.entity.InventoryPeriod;
 public interface InventoryPeriodRepository extends JpaRepository<InventoryPeriod, Long> {
     // 추가적인 메서드가 필요한 경우 여기에 추가합니다.
 }
+

@@ -24,3 +24,4 @@ public class ShipmentListService {
     	return shipmentListRepository.findAll();
     }
 }
+

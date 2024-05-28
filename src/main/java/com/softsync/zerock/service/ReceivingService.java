@@ -37,6 +37,7 @@ public class ReceivingService {
 	 public Page<ReceiveList> getAllItems(@PageableDefault(size = 10) Pageable pageable) {
 	        return receiveListRepository.findAll(pageable);
 	  }
+
 	 
 	//입고 리스트
 	public List<Receiving> resiving(){
