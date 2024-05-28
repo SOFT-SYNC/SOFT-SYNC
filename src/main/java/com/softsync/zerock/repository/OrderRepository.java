@@ -1,5 +1,7 @@
 package com.softsync.zerock.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,5 +11,7 @@ import com.softsync.zerock.entity.Orders;
 public interface OrderRepository extends JpaRepository<Orders,String>{
 
 	  Orders findByOrderNo(String orderNo);
+
+	Optional<Orders> findByorderNo(String orderNo);
 
 }

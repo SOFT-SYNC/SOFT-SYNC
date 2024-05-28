@@ -1,7 +1,6 @@
 package com.softsync.zerock.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,7 +11,6 @@ import com.softsync.zerock.entity.Company;
 import com.softsync.zerock.entity.Contract;
 import com.softsync.zerock.entity.Item;
 import com.softsync.zerock.entity.Orders;
-import com.softsync.zerock.entity.Receiving;
 import com.softsync.zerock.repository.CompanyRepository;
 import com.softsync.zerock.repository.ContractRepository;
 import com.softsync.zerock.repository.ItemRepository;
@@ -83,7 +81,12 @@ public class OrderService {
 	public Orders getOrderDetailsByOrderNo(String orderNo) {
         return orderRepository.findByOrderNo(orderNo);
     }
-	
+	 public Orders getOrderDetails(String orderNo) {
+	       return orderRepository.findById(orderNo).orElseThrow(() -> new IllegalArgumentException("Invalid order ID: " + orderNo));
+	   }
+	 public List<Orders> getAllOrders1() {
+	       return orderRepository.findAll();
+	   }
 
 
 

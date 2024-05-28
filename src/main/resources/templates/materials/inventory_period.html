@@ -7,20 +7,21 @@
 <link type="text/css" rel="stylesheet" href="../css/common/header.css">
 <link type="text/css" rel="stylesheet" href="../css/common/common.css">
 <link type="text/css" rel="stylesheet" href="../css/common/sidebar.css">
-<link type="text/css" rel="stylesheet" href="../css/invoice.css">
+<link type="text/css" rel="stylesheet" href="../css/materials/invoice.css">
   <script type="text/javascript" src="../js/sidebar.js"></script>
 </head>
 <body>
 	<div th:insert="~{common/sidebar  :: sidebar}"></div>
+			<div th:insert="~{common/header :: header}"></div>
 	<div class="main-content">
-		<div th:insert="~{common/header :: header}"></div>
+
 		<div id="row1">
 			<h1 class="visual-title">기간별 재고목록</h1>
 			<div class="search-container">
 				<form id="searchForm"
 					onsubmit="event.preventDefault(); performSearch();">
 					<!-- 날짜 선택 영역 -->
-					<div class="date-range">
+					<div class="date-range"> 
 						<label for="startDate"></label> <input type="date" id="startDate">
 						<label for="endDate">~</label> <input type="date" id="endDate">
 					</div>

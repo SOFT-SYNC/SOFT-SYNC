@@ -1,7 +1,6 @@
 package com.softsync.zerock.controller;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,7 +62,7 @@ public class ContractController {
 	        
 	        //저장
 	        contract.setCompany(company); //회사정보(외래키)
-	        contract.setContract_date(LocalDateTime.now());  //계약일 (현재시각)
+	        contract.setContract_date(LocalDate.now());  //계약일 (현재시각)
 	        contract.setContract_path(file);
 	        contract.setItem(item);//품목정보(외래키)
 	        contract.setLead_time(leadTime);//납기일

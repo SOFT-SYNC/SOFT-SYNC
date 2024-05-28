@@ -18,11 +18,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.softsync.zerock.entity.Company;
 import com.softsync.zerock.entity.Contract;
+import com.softsync.zerock.entity.Inspection;
+import com.softsync.zerock.entity.InspectionList;
 import com.softsync.zerock.entity.Item;
 import com.softsync.zerock.entity.Orders;
 import com.softsync.zerock.service.CompanyService;
 import com.softsync.zerock.service.ContractService;
 import com.softsync.zerock.service.EmailService;
+import com.softsync.zerock.service.InspectionListService;
+import com.softsync.zerock.service.InspectionService;
 import com.softsync.zerock.service.ItemService;
 import com.softsync.zerock.service.OrderService;
 import com.softsync.zerock.service.ReceivingService;
@@ -44,6 +48,12 @@ public class OrderController {
    @Autowired
    EmailService emailService;
    
+   @Autowired
+   InspectionService inspectionService;
+   
+   @Autowired
+   InspectionListService inspectionListService;
+   
    @Autowired //발주 - 입고 연계를 위해 추가 5/23 김홍택
    ReceivingService receivingService;
 
@@ -57,7 +67,7 @@ public class OrderController {
 	    List<Orders> orderList = orderService.getAllOrders();
 	    model.addAttribute("orders", orderList); 
 	    
-	   
+
 	    return "orders/purchase_order";
 	}
 
@@ -187,7 +197,7 @@ public class OrderController {
 	    }
 
 	
-		@GetMapping("/purchase_schedule")
+	 @GetMapping("/purchase_schedule")
 		public String purchaseview(Model model) {
 			 System.out.println("[OrderContorller] getinspecList()");
 
@@ -197,10 +207,20 @@ public class OrderController {
 			    List<Orders> orderList = orderService.getAllOrders();
 			    model.addAttribute("orders", orderList); 
 			    
-		      
+			    List<Inspection> inspections = inspectionService.getAllInspections();
+			    model.addAttribute("inspections", inspections);
+			    
+			    List<InspectionList> inspectionList = inspectionListService.getAllInspectionList();
+			    model.addAttribute("inspectionList", inspectionList);
+			    
+			    System.out.println("[OrderController] Inspections:");
+			    for (Inspection inspection : inspections) {
+			        System.out.println(inspection.toString());
+			    }
+			   
 			return"/orders/purchase_schedule";
 		}
-
+		
 	@GetMapping("/purchase_order_tracking")
 	public String orderTracking() {
 		return "/orders/purchase_order_tracking";

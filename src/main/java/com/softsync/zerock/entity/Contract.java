@@ -1,6 +1,5 @@
 package com.softsync.zerock.entity;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -17,7 +16,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -50,7 +48,7 @@ public class Contract {
     private List<Orders> orders;
     
     @Column(name = "contract_date")//계약일 
-    private Date contract_date;
+    private LocalDate contract_date;
 
     @Column(name = "contract_path", length = 100) //계약서
     private String contract_path;
