@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.softsync.zerock.entity.Inspection;
+import com.softsync.zerock.entity.InspectionList;
 import com.softsync.zerock.entity.Orders;
 import com.softsync.zerock.service.ContractService;
 import com.softsync.zerock.service.InspectionService;
@@ -31,8 +32,8 @@ public class InspectionController {
 
 	@PostMapping("/api/inspections/create")
 	public Inspection createInspection(@RequestParam String orderNo, @RequestParam LocalDate inspecPlan,
-			@RequestParam Integer quantity) {
-		return inspectionService.createInspection(orderNo, inspecPlan, quantity);
+			@RequestParam Integer quantity,@RequestParam Integer times) {
+		return inspectionService.createInspection(orderNo, inspecPlan, quantity, times);
 	}
 
 	/*
@@ -60,26 +61,20 @@ public class InspectionController {
 	}
 	 
 
+	
 	/*
 	 * @PostMapping("/complete_inspection") public String
 	 * completeInspection(@RequestParam Integer inspecNo,
 	 * 
-	 * @RequestParam String inspecDate,
+	 * @RequestParam LocalDate inspecDate,
 	 * 
-	 * @RequestParam String inspecNote,
+	 * @RequestParam Integer percent) {
+	 * System.out.println("[InspectionController] completeInspection()");
 	 * 
-	 * @RequestParam Integer quantity) {
-	 * inspectionService.completeInspection(inspecNo, inspecDate, inspecNote,
-	 * quantity); return "redirect:/purchase_schedule"; }
+	 * inspectionService.completeInspection(inspecNo, inspecDate, percent);
+	 * 
+	 * return "redirect:/purchase_schedule"; }
 	 */
 
-	/*
-	 * @PostMapping("/saveInspecList") public String
-	 * saveInspecList(@RequestParam("duedate") String dueDate,
-	 * 
-	 * @RequestParam("quantity") int quantity) {
-	 * 
-	 * return "redirect:/inspection/schedule"; }
-	 */
 
 }

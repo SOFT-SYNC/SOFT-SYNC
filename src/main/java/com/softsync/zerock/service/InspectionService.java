@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.softsync.zerock.entity.Inspection;
+import com.softsync.zerock.entity.InspectionList;
 import com.softsync.zerock.entity.Orders;
 import com.softsync.zerock.repository.ContractRepository;
+import com.softsync.zerock.repository.InspectionListRepository;
 import com.softsync.zerock.repository.InspectionRepository;
 import com.softsync.zerock.repository.OrderRepository;
 
@@ -20,6 +22,8 @@ public class InspectionService {
 	   @Autowired
 	   InspectionRepository inspectionRepository;
 	   
+	   @Autowired
+	   InspectionListRepository inspectionListRepository;
 		@Autowired
 		OrderRepository orderRepository;
 		
@@ -42,15 +46,20 @@ public class InspectionService {
 		 * inspectionRepository.findAll(); }
 		 */
 
-		   // 새로운 Inspection 엔티티를 생성
-		   public Inspection createInspection(String orderNo, LocalDate inspecPlan, Integer quantity) {
+		   public Inspection createInspection(String orderNo, LocalDate inspecPlan, Integer quantity, Integer times) {
 		       Orders orders = orderRepository.findById(orderNo).orElseThrow(() -> new IllegalArgumentException("Invalid order ID: " + orderNo));
 		       Inspection inspection = new Inspection();
 		       inspection.setOrders(orders);
 		       inspection.setInspecPlan(inspecPlan);
 		       inspection.setQuantity(quantity);
+		       inspection.setTimes(times);
 		       return inspectionRepository.save(inspection);
 		   }
+		   
+			public void completeInspection(Integer inspecNo, LocalDate inspecDate, Integer percent) {
+				
+				
+			}
 
 		   // 특정 orderNo에 대한 Inspection 목록을 반환
 		   public List<Inspection> getInspectionsByOrderNo(String orderNo) {
@@ -66,5 +75,9 @@ public class InspectionService {
 		   public void updateInspection(Inspection inspection) {
 		       inspectionRepository.save(inspection);
 		   }
+
+
+
+	
 }
  

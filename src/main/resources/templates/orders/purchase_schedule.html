@@ -33,13 +33,15 @@
 	    .catch(error => console.error('Error fetching inspections:', error));
 	}
 
-	function populateMainTable(order) {
+   function populateMainTable(order) {
 	    const mainTableBody = document.querySelector('#mainTable tbody');
-	    mainTableBody.innerHTML = ''; // Clear existing rows
+	    mainTableBody.innerHTML = ''; 
+	    // 입고예정일 to yyyy-MM-dd
+	    const receiveDuedate = new Date(order.receiveDuedate).toISOString().split('T')[0];
 	    let row = `<tr>
 	                <td>${order.orderNo}</td>
 	                <td>${order.orderDate}</td>
-	                <td>${order.receiveDuedate}</td>
+	                <td>${receiveDuedate}</td>
 	                <td>${order.item.itemCode}</td>
 	                <td>${order.item.itemName}</td>
 	                <td>${order.orderQuantity}</td>
@@ -49,17 +51,15 @@
 
 	function populateInspecPlanList(inspectionList) {
 	    const inspecPlanListBody = document.querySelector('#createtb tbody');
-	    inspecPlanListBody.innerHTML = ''; // Clear existing rows
+	    inspecPlanListBody.innerHTML = ''; 
 	    inspectionList.forEach(inspectionList => {
 	        let row = `<tr>
-	                    <td>${inspectionList.inspecNo}</td>
 	                    <td>${inspectionList.times}</td>
 	                    <td>${inspectionList.inspecPlan}</td>
 	                    <td>${inspectionList.inspecDate || '-'}</td>
 	                    <td>${inspectionList.orders.orderQuantity}</td>
 	                    <td>${inspectionList.quantity}</td>
 	                    <td>${inspectionList.progressRate || '진행률'}</td>
-	                    <td>${inspectionList.inspecNote || '-'}</td>
 	                    <td><button type="button" class="blueBtn" onclick="markComplete(this)">진행</button></td>
 	                  </tr>`;
 	        inspecPlanListBody.innerHTML += row;
@@ -70,6 +70,7 @@
 
    function registerInspection() {
       let orderNo = document.querySelector('#mainTable tbody tr:first-child td:first-child').innerText;
+      let times = document.querySelector('#times').value;
       let inspecPlan = document.querySelector('#duedate').value;
       let quantity = document.querySelector('#quantity').value;
 
@@ -78,7 +79,7 @@
          headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
          },
-         body: `orderNo=${orderNo}&inspecPlan=${inspecPlan}&quantity=${quantity}`
+         body: `orderNo=${orderNo}&inspecPlan=${inspecPlan}&quantity=${quantity}&times=${times}`
       })
       .then(response => response.json())
       .then(data => {
@@ -107,25 +108,11 @@
 	    .catch(error => console.error('Error creating inspection:', error));
 	});
 
-   function calculateNext차수() {
-       var table = document.getElementById("createtb").getElementsByTagName("tbody")[0];
-       var rows = table.getElementsByTagName("tr");
-       var max차수 = 0;
-
-       for (var i = 0; i < rows.length; i++) {
-           var 차수 = parseInt(rows[i].cells[0].innerText);
-           if (차수 > max차수) {
-               max차수 = 차수;
-           }
-       }
-
-       return max차수 + 1;
-   }
-
+  
    function markComplete(button) {
        var row = button.closest("tr");
-       var 발주량 = row.cells[4].innerText;
-       var 생산량 = row.cells[5].innerText;
+       var 발주량 = row.cells[3].innerText;
+       var 생산량 = row.cells[4].innerText;
 
        if (!발주량 || !생산량) {
            alert("발주량 또는 생산량이 없습니다.");
@@ -133,8 +120,8 @@
        }
 
        var 진행률 = (parseInt(생산량) / parseInt(발주량)) * 100;
-       row.cells[3].innerText = new Date().toISOString().split('T')[0];  // 현재 날짜
-       row.cells[6].innerText = 진행률.toFixed(2) + "%";  // 진행률 계산
+       row.cells[2].innerText = new Date().toISOString().split('T')[0];  // 현재 날짜
+       row.cells[5].innerText = 진행률.toFixed(2) + "%";  // 진행률 계산
    }
 
 </script>
@@ -144,8 +131,10 @@
    <div th:insert="~{common/header :: header}"></div>
    <div class="main-content">
       <div id="row1">
+      <form>
          <div id="toptb">
             <h1 class="visual-title">진척검수</h1>
+            <button type="submit" class="blueBtn">검수내역저장</button>
             <table class="table" id="mainTable">
                <colgroup>
                </colgroup>
@@ -165,14 +154,13 @@
             <table class="inspecPlanList table" id="createtb">
                <thead>
                   <tr>
-                  	<th>일정번호</th>
                      <th>차수</th>
                      <th>검수예정일</th>
                      <th>검수일</th>
                      <th>발주량</th>
                      <th>생산량</th>
                      <th>진행률</th>
-                     <th>비고</th>
+                     <!-- <th>비고</th> -->
                      <th>진행</th>
                   </tr>
                </thead>
@@ -197,6 +185,7 @@
                </tr>
             </table>
          </div>
+         </form>
       </div>
       <div id="row2">
          <h2 class="visual-title">검수 예정 품목</h2>

@@ -32,7 +32,7 @@ public class InspectionList {
     private Inspection inspection;
 
     @Column (nullable = false)
-    private String percent; //진행률
+    private Integer percent; //진행률
     
 	@Column (nullable = true)
 	private LocalDate inspecDate; //검수일
