@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.softsync.zerock.DTO.ShipmentListDTO;
 import com.softsync.zerock.entity.Inventory;
+import com.softsync.zerock.entity.InventoryPeriod;
 import com.softsync.zerock.entity.Shipment;
 import com.softsync.zerock.entity.ShipmentList;
 import com.softsync.zerock.repository.InventoryRepository;
+import com.softsync.zerock.service.InventoryPeriodService;
 import com.softsync.zerock.service.ShipmentListService;
 import com.softsync.zerock.service.ShipmentService;
 
@@ -27,6 +29,9 @@ public class ShipmentListController {
     
     @Autowired
     private InventoryRepository inventoryRepository;
+    
+    @Autowired
+    private InventoryPeriodService inventoryPeriodService;
 
     @Autowired
     private ShipmentService shipmentService; // ShipmentService 추가
@@ -52,11 +57,19 @@ public class ShipmentListController {
             shipmentList.setInventoryQuantity(shipment.getInventory().getQuantity()); // 출고 시점의 재고 수량 설정
             shipmentList.setShipmentDate(LocalDate.now());
 
+            // ShipmentList 저장
             shipmentListService.save(shipmentList);
 
-            return new ResponseEntity<>("Shipment List saved successfully", HttpStatus.OK);
+            // InventoryPeriod 저장
+            InventoryPeriod inventoryPeriod = new InventoryPeriod();
+            inventoryPeriod.setInventory(shipment.getInventory());
+            inventoryPeriod.setShipmentList(shipmentList);
+            inventoryPeriod.setDate(LocalDate.now());
+            inventoryPeriodService.save(inventoryPeriod);
+
+            return new ResponseEntity<>("Shipment List and Inventory Period saved successfully", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Failed to save Shipment List: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Failed to save Shipment List and Inventory Period: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -76,4 +89,5 @@ public class ShipmentListController {
             throw new RuntimeException("Inventory not found for the shipment");
         }
     }
+    
 }

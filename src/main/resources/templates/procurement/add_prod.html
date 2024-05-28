@@ -95,6 +95,13 @@
                        </div>
                    </form>
                <table class="listTable">
+               <colgroup>
+               <col width="20%">
+               <col width="15%">
+               <col width="30%">
+               <col width="20%">
+               <col width="20%">
+               </colgroup>
                   <thead>
                      <tr>
                         <th>품목코드</th>
@@ -115,7 +122,8 @@
                   </tbody>
                </table>
                <div class="paging-wrap">
-                  <ul class="pagination">
+                  <ul class="pagination"
+						th:if="${items.totalElements > 0}">
                      <!-- 처음 페이지로 이동 -->
                      <li th:if="${items.number >= 10}"><a
                         th:href="@{/add_prod(page=${0})}">&laquo;</a></li>
@@ -137,17 +145,13 @@
 
                      <!-- 다음 페이지 링크 -->
                      <li th:if="${!items.isLast()}"><a
-                        th:href="@{/add_prod(page=${items.number + 1})}">&gt;</a></li>
-
-                     <!-- 10 페이지 앞으로 이동 -->
-                     <li th:if="${(items.number + 10) < items.totalPages}"><a
-                        th:href="@{/add_prod(page=${(items.number / 10 + 1) * 10})}">&raquo;</a>
-                     </li>
-                     <!-- 마지막 페이지로 이동 -->
-                     <li
-                        th:if="${(items.number + 10) >= items.totalPages && !items.isLast()}">
-                        <a th:href="@{/add_prod(page=${items.totalPages - 1})}">&raquo;</a>
-                     </li>
+                        th:href="@{/add_prod(page=${items.number + 1})}">&gt;</a></li>                                                             
+                     <!-- 10 페이지 앞으로 이동 -->						
+						<li
+							th:if="${(items.number div 10) < ((items.totalPages - 1) div 10)}">
+							<a
+							th:href="@{/add_prod(page=${(items.number div 10 + 1) * 10}, page=${items.number})}">&raquo;</a>
+						</li>	
                   </ul>
                </div>
             </div>

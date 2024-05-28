@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -60,6 +61,54 @@
 				<div class="actions">
 					<button type="button" class="blueBtn" onclick="saveShipmentList()">저장</button>
 				</div>
+				</form>
+			</div>
+		</div>
+		
+		<div id="row1">
+			<h1 class="visual-title">출고내역</h1>
+			<div class="search-container">
+				<form id="searchForm">					
+					<div class="search-bar">
+						<select id="filterSelect">
+							<option value="itemCode">품목코드</option>
+							<option value="itemName">품목명</option>
+							<option value="productName">제품명</option>
+							<option value="consumption">소요량</option>
+							<option value="stock">재고수량</option>
+						</select> <input type="text" id="searchInput" placeholder="검색...">
+						 <button type="button" class="blueBtn">검색</button>
+					</div>
+				</form>
+				<form id="shipmentForm" action="/api/saveShipmentList" method="post">
+				<!-- 결과 표시 테이블 -->
+				<table id="resultsTable">
+				        <thead>
+				            <tr>
+				                <th>품목코드</th>
+				                <th>품목명</th>
+				                <th>제품명</th>
+				                <th>생산일자</th>
+				                <th>소요량</th>
+				                <th>재고수량</th>
+				                <th>출고수량</th>
+				                <th>출고일</th>
+				            </tr>
+				        </thead>
+						<tbody>
+						    <!-- 타임리프 반복문을 사용하여 데이터 표시 -->
+						    <tr th:each="shipmentList : ${shipmentLists}">
+						        <td th:text="${shipmentList.shipment.procurementPlan.productionPlan.item.itemCode}"></td>
+						        <td th:text="${shipmentList.shipment.procurementPlan.productionPlan.item.itemName}"></td>
+						        <td th:text="${shipmentList.shipment.procurementPlan.productionPlan.productName}"></td>
+						        <td th:text="${shipmentList.shipment.procurementPlan.productionPlan.productionStartDate}"></td>
+						        <td th:text="${shipmentList.shipment.procurementPlan.productionPlan.itemQuantity}"></td>
+						        <td th:text="${shipmentList.inventoryQuantity}"></td>
+								<td th:text="${shipmentList.quantity}"></td>
+								<td th:text="${shipmentList.shipmentDate}"></td>
+						    </tr>
+						</tbody>
+				    </table>				
 				</form>
 			</div>
 		</div>
