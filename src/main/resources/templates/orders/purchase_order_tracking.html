@@ -52,13 +52,15 @@
 	        <div class="card">
 	          <div class="card-body">
 	            <p class="card-title">조달계획</p>
-	            <h2 class="card-content">50</h2>
+	            <h2 class="card-content" th:text="${arr[0]}"></h2>
+	            <input type="hidden" th:value="${arr[0]}" class="proc"> 
 	          </div>
 	        </div>
 	        <div class="card">
 	          <div class="card-body">
 	            <p class="card-title">발주서발행</p>
-	            <h2 class="card-content">30</h2>
+	            <h2 class="card-content" th:text="${arr[1]}"></h2>
+	             <input type="hidden" th:value="${arr[1]}" class="order"> 
 	          </div>
 	        </div>
       	    <div class="card">
@@ -98,7 +100,7 @@
       });
     });
   </script> -->
-  <script type="text/javascript">
+<script th:inline="javascript">
       var dom = document.getElementById('container1');
       var myChart = echarts.init(dom, null, {
           renderer: 'canvas',
@@ -107,7 +109,19 @@
       var app = {};
 
       var option;
-
+      
+      
+      var proc = document.querySelector(".proc").value;
+      console.log(proc)
+		var orderElement = document.querySelector(".order");
+		if (orderElement) {
+		    var order = orderElement.value;
+		    console.log(order);
+		} else {
+		    console.log("요소를 찾을 수 없습니다.");
+		}
+		
+		
       option = {
           xAxis: {
               type: 'category',
@@ -118,7 +132,7 @@
           },
           series: [
               {
-                  data: [50, 30, 20, 15],
+                  data: [proc, order, 20, 15],
                   type: 'bar',
                   showBackground: true,
                   backgroundStyle: {

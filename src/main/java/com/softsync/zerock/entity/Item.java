@@ -35,7 +35,7 @@ public class Item {
 
     @JsonIgnore //명세서 발행시 필요
     @OneToMany(mappedBy = "item", fetch = FetchType.LAZY) //상대필드
-    private List<Contract> contracts;
+    private List<Contract> contracts;  
 
     @Column(nullable = true)
     private String itemCode;
@@ -93,6 +93,7 @@ public class Item {
 		this.itemName = itemName;
 	}
 
+	
 	public String getDimensions() {
 		return dimensions;
 	}

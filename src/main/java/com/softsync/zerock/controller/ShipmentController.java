@@ -32,5 +32,6 @@ public class ShipmentController {
 
         // 뷰 이름 반환
         return "/materials/shipping_list";
+        
     }
 }

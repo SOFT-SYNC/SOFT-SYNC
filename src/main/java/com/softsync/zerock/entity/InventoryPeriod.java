@@ -41,3 +41,4 @@ public class InventoryPeriod {
 
     // Getter and Setter 생략
 }
+

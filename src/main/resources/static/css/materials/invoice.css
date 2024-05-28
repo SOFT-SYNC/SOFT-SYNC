@@ -1,7 +1,18 @@
 body {
   background-color: #f1f1f1;
 }
-
+#modalWrap {
+  position: fixed; /* 화면에 고정 */
+  z-index: 9999; /* 상위에 위치 */
+  padding-top: 50px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.7); /* 반투명한 배경색 */
+  display: none; /* 초기에는 숨김 */
+}
 #modalBody {
   max-width: 70%; /* 최대 너비 */
   max-height: 70%; /* 최대 높이 */
@@ -27,6 +38,10 @@ body {
 }
 .table td {
    colspan="2";
+}
+table th{
+	text-align: center; /* 가로 중앙 정렬 */
+    vertical-align: middle; /* 세로 중앙 정렬 */
 }
 #row1 {
 /* border: solid 1px #999; */
@@ -92,6 +107,9 @@ label {
   }
 }
 
+input{
+	height : 100%;
+}
 .sort-button {
   cursor: pointer;
   background: none;

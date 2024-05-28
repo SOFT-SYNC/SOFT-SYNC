@@ -7,3 +7,4 @@ import com.softsync.zerock.entity.Inventory;
 public interface InventoryRepository extends JpaRepository<Inventory, Long>{
 
 }
+
