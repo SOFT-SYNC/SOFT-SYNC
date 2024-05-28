@@ -145,10 +145,10 @@
 						<td th:text="${contract.orders.size() > 0 ? contract.orders[0].orderDate : '-'}">N/A</td>
 						<td th:text="${contract.lead_time}">납기일</td>
 						<td th:if="${contract.orders.size() > 0 && contract.orders[0].orderYn == 'Y'}">
-							<button id="detailBtn" class="blueBtn">상세</button>
+							<button class="blueBtn detailBtn">상세</button>
 						</td>
 						<td th:unless="${contract.orders.size() > 0 && contract.orders[0].orderYn == 'Y'}">
-							<button id="addBtn" class="blueBtn">추가</button>
+							<button class="blueBtn addBtn">추가</button>
 						</td>
 					</tr>
 					
@@ -404,7 +404,7 @@ document.getElementById('sendOrderButton').addEventListener('click', function() 
 	<script>
 	/////////////////////////////발주대기항목 하단 테이블 추가 버튼누르면 상단에 값입력
   $(document).ready(function() {
-	  $('#3').on('click', 'button#addBtn', function() {
+	  $('#3').on('click', 'button.addBtn', function() {
 	    var $row = $(this).closest('tr');
 	    var contractNum = $row.find('td:nth-child(2)').text().trim();
 	    var itemCode = $row.find('td:nth-child(3)').text().trim();
@@ -432,8 +432,9 @@ document.getElementById('sendOrderButton').addEventListener('click', function() 
 
 /////////////////////////////발주 내용 저장 상세보기
 $(document).ready(function(){
-    $("#detailBtn").click(function(){
+    $(".detailBtn").click(function(){
         var orderNo = $(this).closest("tr").find("td:first").text();
+        console.log(orderNo);
         
         $.ajax({
             url: '/getOrderDetails', 
@@ -441,9 +442,9 @@ $(document).ready(function(){
             contentType: 'application/json',
             data: JSON.stringify({ orderNo: orderNo }),
             success: function(data) {
-
-            	   console.log(data); 
+ 
             	    $('#row1').find('input').val('');
+            	    console.log(data);
             	    
             	    
             	    $("#orderNoCell input").val(data.orderNo).prop('readonly', true);
@@ -468,7 +469,7 @@ $(document).ready(function(){
             	    $("#row1 input[name='manager_tel']").val(data.company.manager_tel);
             	    
             	    
-            	    $('#unitPriceCell input').val(data.contract.unitPrice).prop('readonly', true);
+            	    $('#unitPriceCell input').val(data.contract.unit_price).prop('readonly', true);
             	}
         });
     });

@@ -11,11 +11,13 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
 import com.softsync.zerock.entity.Inventory;
+import com.softsync.zerock.entity.Invoice;
 import com.softsync.zerock.entity.Item;
 import com.softsync.zerock.entity.Orders;
 import com.softsync.zerock.entity.ReceiveList;
 import com.softsync.zerock.entity.Receiving;
 import com.softsync.zerock.repository.InventoryRepository;
+import com.softsync.zerock.repository.InvoiceRepository;
 import com.softsync.zerock.repository.ReceiveListRepository;
 import com.softsync.zerock.repository.ReceivingRepository;
 
@@ -31,6 +33,9 @@ public class ReceivingService {
 	
 	@Autowired
 	InventoryRepository inventoryRepository;
+	
+	@Autowired
+	InvoiceRepository invoiceRepository;
 	
 	
 	//하단(입고 내역) 페이징
@@ -61,7 +66,7 @@ public class ReceivingService {
 	}
 	
 	//입고처리  > 입고테이블 : 입고총량 / 입고내역 :컬럼추가 / 인벤토리 : 재고추가됨
-	public void updateReceiving(int quantity, String num) {
+	public void updateReceiving(int quantity, int num) {
 		System.out.println("입고 서비스 : 업데이트 입고량" + num);
 		
 		Receiving receiving = receivingRepository.getReferenceById(num);
@@ -92,7 +97,7 @@ public class ReceivingService {
 	}
 	
 	//마감처리    receive_closing_yn : (디폴트)N -> Y 
-	public void endRecieving(String num) {
+	public void endRecieving(int num) {
 		System.out.println("입고 서비스 : 입고마갑" + num);
 		
 	    java.util.Date utilDate = new java.util.Date();
@@ -103,7 +108,11 @@ public class ReceivingService {
 		receiving.setReceiveDate(sqlDate);
 		receiving.setReceiveClosingYn('Y');
 		
-		
+		 Invoice invoice = new Invoice();
+		 invoice.setReceiving(receiving);
+		 invoice.setPublishYn('N');
+		 invoiceRepository.save(invoice);
+		 
 		receivingRepository.save(receiving);
 	}
 	

@@ -1,7 +1,6 @@
 package com.softsync.zerock.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,11 +11,11 @@ import com.softsync.zerock.entity.Company;
 import com.softsync.zerock.entity.Contract;
 import com.softsync.zerock.entity.Item;
 import com.softsync.zerock.entity.Orders;
-import com.softsync.zerock.entity.Receiving;
 import com.softsync.zerock.repository.CompanyRepository;
 import com.softsync.zerock.repository.ContractRepository;
 import com.softsync.zerock.repository.ItemRepository;
 import com.softsync.zerock.repository.OrderRepository;
+import com.softsync.zerock.repository.ProcurementPlanRepository;
 
 @Service
 public class OrderService {
@@ -27,12 +26,17 @@ public class OrderService {
 	@Autowired
 	ItemRepository itemRepository;
 	
-	  
     @Autowired
     private ContractRepository contractRepository;
     
     @Autowired
     private CompanyRepository companyRepository;
+    
+    @Autowired
+    ProcurementPlanRepository procurementPlanRepository;
+    
+//    @Autowired
+//    InspectionRepository inspectionRepository;
 
 
 	public List<Item> getAllItems(){
@@ -83,6 +87,24 @@ public class OrderService {
 	public Orders getOrderDetailsByOrderNo(String orderNo) {
         return orderRepository.findByOrderNo(orderNo);
     }
+	
+	//발주현황 그래프~
+	public Long[] trackingCount(){
+		System.out.println("발주 서비스 : 발주현황 그래프");
+		
+		Long proc = procurementPlanRepository.count(); //총 조달계획
+		
+		
+		Long order = orderRepository.countByReceiptYn("Y"); //발주서 발행
+		if (order == null) {
+		    order = 0L;
+		}
+		
+		
+		Long arr[] = {proc, order}; 
+		
+		return arr;
+	}
 	
 
 

@@ -42,7 +42,7 @@ public class Contract {
     @ManyToOne(fetch = FetchType.EAGER) 
     @JoinColumn(name = "items_id") // 외래 키 설정
     private Item item;
-    
+     
     @OneToMany(mappedBy = "contract", fetch = FetchType.LAZY)
     @JsonIgnore //명세서 발행시 필요
     private List<Orders> orders;

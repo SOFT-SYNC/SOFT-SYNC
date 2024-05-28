@@ -14,7 +14,7 @@ import com.softsync.zerock.service.ProcurementPlanService;
 @RestController
 @RequestMapping("/api/procurement-plans")
 public class ProcurementPlanController {
-	@Autowired
+	@Autowired 
 	private ProcurementPlanService procurementPlanService;
 
 	@PostMapping

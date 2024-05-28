@@ -200,9 +200,17 @@ public class OrderController {
 		      
 			return"/orders/purchase_schedule";
 		}
-
+		
+		
+//발주현황 그래프"
 	@GetMapping("/purchase_order_tracking")
-	public String orderTracking() {
+	public String orderTracking(Model model) {
+		System.out.println("발주 컨트롤러 : 발주현황 그래프\"");
+			
+		Long arr[] = orderService.trackingCount();
+		
+		model.addAttribute("arr", arr);
+			
 		return "/orders/purchase_order_tracking";
 	}
 

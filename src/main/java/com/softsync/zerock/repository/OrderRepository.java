@@ -10,4 +10,7 @@ public interface OrderRepository extends JpaRepository<Orders,String>{
 
 	  Orders findByOrderNo(String orderNo);
 
+	  Long countByReceiptYn(String receiptYn);
+
+
 }

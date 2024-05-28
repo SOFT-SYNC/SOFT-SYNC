@@ -21,7 +21,8 @@ public class CategoryService {
 		// 카테고리 코드 매핑 초기화
 		categoryCodeMap.put("전기자재", "EL");
 		categoryCodeMap.put("전력선", "CP");
-		categoryCodeMap.put("전선", "KT");
+		categoryCodeMap.put("전선", "KT"); 
+		
 	}
 
 	String getCategoryCode(Category category) {
