@@ -1,0 +1,44 @@
+package com.softsync.zerock.entity;
+
+import java.time.LocalDate;
+import java.util.List;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
+
+@Entity
+@Getter
+@Setter
+@Table(name="inspection")
+public class Inspection {
+
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long inspecNo; // 기본키
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "orderNo", nullable = false)
+    private Orders orders; //발주 엔터티
+	
+  @OneToMany(fetch = FetchType.LAZY)
+    private List<InspectionList> InspectionList;
+	  
+	@Column (nullable = false)
+	private LocalDate inspecPlan; //검수예정일
+	
+	@Column (nullable = false)
+	private Integer quantity; //검수수량
+	
+	@Column(nullable = false)
+	private Integer times; //차수
+}

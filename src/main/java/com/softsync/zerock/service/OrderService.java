@@ -87,6 +87,14 @@ public class OrderService {
 	public Orders getOrderDetailsByOrderNo(String orderNo) {
         return orderRepository.findByOrderNo(orderNo);
     }
+
+	 public Orders getOrderDetails(String orderNo) {
+	       return orderRepository.findById(orderNo).orElseThrow(() -> new IllegalArgumentException("Invalid order ID: " + orderNo));
+	   }
+	 public List<Orders> getAllOrders1() {
+	       return orderRepository.findAll();
+	   }
+
 	
 	//발주현황 그래프~
 	public Long[] trackingCount(){
@@ -106,6 +114,7 @@ public class OrderService {
 		return arr;
 	}
 	
+
 
 
 
