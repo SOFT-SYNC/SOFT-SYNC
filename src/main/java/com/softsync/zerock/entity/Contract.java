@@ -1,6 +1,5 @@
 package com.softsync.zerock.entity;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -17,7 +16,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -67,6 +65,7 @@ public class Contract {
 
     @Column(name = "contract_note" ) //특이사항
     private String contract_note;
+    
     
 
 }
