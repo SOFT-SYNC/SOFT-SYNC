@@ -213,14 +213,29 @@ public class OrderController {
 			    List<InspectionList> inspectionList = inspectionListService.getAllInspectionList();
 			    model.addAttribute("inspectionList", inspectionList);
 			    
-			    System.out.println("[OrderController] Inspections:");
-			    for (Inspection inspection : inspections) {
-			        System.out.println(inspection.toString());
-			    }
-			   
-			return"/orders/purchase_schedule";
-		}
 		
+			return"/orders/purchase_schedule";
+		}	
+		
+	 @PostMapping("/saveInspection")
+		public String saveInspection(@RequestParam Long inspecNo,
+
+				@RequestParam String percent) {
+
+			System.out.println("[InspetionController] saveInspection()");
+
+			InspectionList inspectionList = new InspectionList();
+			Inspection inspection = inspectionService.getinspectionByInspecNo(inspecNo);
+
+			inspectionList.setInspection(inspection);
+			inspectionList.setPercent(percent);
+			inspectionList.setInspecYn("Y");
+
+			inspectionService.saveInspectionList(inspectionList);
+
+			return "redirect:/purchase_schedule";
+
+		}
 
 //발주현황 그래프"
 

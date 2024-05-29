@@ -8,135 +8,28 @@
 <link type="text/css" rel="stylesheet" href="../css/common/sidebar.css">
 <link type="text/css" rel="stylesheet" href="../css/orders/purchase_schedule.css">
 <script type="text/javascript" src="../js/sidebar.js"></script>
-<script type="text/javascript">
-
-
-   function addToMainTable(button) {
-      let orderNo = button.closest('tr').querySelector('td').innerText;
-      fetchInspections(orderNo);
-   }
-
-   function fetchInspections(orderNo) {
-	    fetch(`/api/inspections`, {
-	        method: 'POST',
-	        headers: {
-	            'Content-Type': 'application/json'
-	        },
-	        body: JSON.stringify({ orderNo })
-	    })
-	    .then(response => response.json())
-	    .then(data => {
-	        populateMainTable(data.order);
-	        populateInspecPlanList(data.inspectionList);
-		       console.log(data); //inspection
-	    })
-	    .catch(error => console.error('Error fetching inspections:', error));
-	}
-
-   function populateMainTable(order) {
-	    const mainTableBody = document.querySelector('#mainTable tbody');
-	    mainTableBody.innerHTML = ''; 
-	    // 입고예정일 to yyyy-MM-dd
-	    const receiveDuedate = new Date(order.receiveDuedate).toISOString().split('T')[0];
-	    let row = `<tr>
-	                <td>${order.orderNo}</td>
-	                <td>${order.orderDate}</td>
-	                <td>${receiveDuedate}</td>
-	                <td>${order.item.itemCode}</td>
-	                <td>${order.item.itemName}</td>
-	                <td>${order.orderQuantity}</td>
-	              </tr>`;
-	    mainTableBody.innerHTML += row;
-	}
-
-	function populateInspecPlanList(inspectionList) {
-	    const inspecPlanListBody = document.querySelector('#createtb tbody');
-	    inspecPlanListBody.innerHTML = ''; 
-	    inspectionList.forEach(inspectionList => {
-	        let row = `<tr>
-	                    <td>${inspectionList.times}</td>
-	                    <td>${inspectionList.inspecPlan}</td>
-	                    <td>${inspectionList.inspecDate || '-'}</td>
-	                    <td>${inspectionList.orders.orderQuantity}</td>
-	                    <td>${inspectionList.quantity}</td>
-	                    <td>${inspectionList.progressRate || '진행률'}</td>
-	                    <td><button type="button" class="blueBtn" onclick="markComplete(this)">진행</button></td>
-	                  </tr>`;
-	        inspecPlanListBody.innerHTML += row;
-		    console.log(inspectionList);
-	    });
-	}
-
-
-   function registerInspection() {
-      let orderNo = document.querySelector('#mainTable tbody tr:first-child td:first-child').innerText;
-      let times = document.querySelector('#times').value;
-      let inspecPlan = document.querySelector('#duedate').value;
-      let quantity = document.querySelector('#quantity').value;
-
-      fetch(`/api/inspections/create`, {
-         method: 'POST',
-         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-         },
-         body: `orderNo=${orderNo}&inspecPlan=${inspecPlan}&quantity=${quantity}&times=${times}`
-      })
-      .then(response => response.json())
-      .then(data => {
-         alert('새로운 검수 계획이 등록되었습니다.');
-         fetchInspections(orderNo);
-      })
-      .catch(error => console.error('Error registering inspection:', error));
-   }
-   
-   document.querySelector('.addBtn').addEventListener('click', function() {
-	    const orderNo = document.querySelector('#times').value;
-	    const inspecPlan = document.querySelector('#duedate').value;
-	    const quantity = document.querySelector('#quantity').value;
-
-	    fetch(`/api/inspections/create`, {
-	        method: 'POST',
-	        headers: {
-	            'Content-Type': 'application/json'
-	        },
-	        body: JSON.stringify({ orderNo, inspecPlan, quantity })
-	    })
-	    .then(response => response.json())
-	    .then(data => {
-	        fetchInspections(orderNo); // 등록 후 테이블 업데이트
-	    })
-	    .catch(error => console.error('Error creating inspection:', error));
-	});
-
-  
-   function markComplete(button) {
-       var row = button.closest("tr");
-       var 발주량 = row.cells[3].innerText;
-       var 생산량 = row.cells[4].innerText;
-
-       if (!발주량 || !생산량) {
-           alert("발주량 또는 생산량이 없습니다.");
-           return;
-       }
-
-       var 진행률 = (parseInt(생산량) / parseInt(발주량)) * 100;
-       row.cells[2].innerText = new Date().toISOString().split('T')[0];  // 현재 날짜
-       row.cells[5].innerText = 진행률.toFixed(2) + "%";  // 진행률 계산
-   }
-
-</script>
+<script type="text/javascript" src="../js/Inspection.js"></script>
 </head>
 <body>
    <div th:insert="~{common/sidebar :: sidebar}"></div>
    <div th:insert="~{common/header :: header}"></div>
    <div class="main-content">
       <div id="row1">
-      <form>
+      <form th:action="@{/saveInspection}" method="POST" enctype="multipart/form-data">
          <div id="toptb">
             <h1 class="visual-title">진척검수</h1>
-            <button type="submit" class="blueBtn">검수내역저장</button>
+            <div class="btn-container">
+	            <button type="submit" class="blueBtn">검수내역저장</button>
+	            <button type="button" class="blueBtn" onclick="location.href='purchase_schedule'">초기화</button>
+            </div>
             <table class="table" id="mainTable">
                <colgroup>
+               <col width="15%">
+               <col width="20%">
+               <col width="20%">
+               <col width="15%">
+               <col width="15%">
+               <col width="15%">
                </colgroup>
                <thead>
                   <tr>
@@ -152,8 +45,19 @@
                </tbody>
             </table>
             <table class="inspecPlanList table" id="createtb">
+            <colgroup>
+            <col width="8%">
+            <col width="8%">
+            <col width="15%">
+            <col width="15%">
+            <col width="10%">
+            <col width="10%">
+            <col width="10%">
+            <col width="8%">
+            </colgroup>
                <thead>
                   <tr>
+                 	<th>일정번호</th>
                      <th>차수</th>
                      <th>검수예정일</th>
                      <th>검수일</th>
@@ -167,13 +71,22 @@
                <tbody>
                </tbody>
             </table>
+         </div>
+		</form>
             <h2 class="visual-title">진척검수 일정 등록</h2>
+            <form>
             <table class="inspecPlanRegi listTable">
+            <colgroup>
+            <col width="10%">
+            <col width="40%">
+            <col width="35%">
+            <col width="15%">
+            </colgroup>
                <tr>
                   <th>차수</th>
                   <th>검수예정일</th>
                   <th>생산량</th>
-                  <th>등록 취소</th>
+                  <th>등록/취소</th>
                </tr>
                <tr>
                   <td><input type="number" id="times"></td>
@@ -181,11 +94,11 @@
                   <td><input type="text" id="quantity"></td>
                   <td>
                      <button type="button" class="addBtn blueBtn" onclick="registerInspection()">등록</button>
+                     <button type="reset" class="blueBtn">취소</button>
                   </td>
                </tr>
             </table>
-         </div>
-         </form>
+            </form>
       </div>
       <div id="row2">
          <h2 class="visual-title">검수 예정 품목</h2>

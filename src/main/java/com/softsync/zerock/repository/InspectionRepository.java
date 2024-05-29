@@ -16,4 +16,7 @@ public interface InspectionRepository extends JpaRepository<Inspection, Long> {
 	 * Optional<Inspection> findById(Integer inspecNo);
 	 */
 
+	Inspection findByInspecNo(Long inspecNo);
+	
+
 }
