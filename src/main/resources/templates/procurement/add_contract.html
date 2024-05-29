@@ -27,7 +27,7 @@
 					<tr>
 						<th>사업자번호</th>
 	
-						<td id="brn"><input type="text" name="brn"></td>
+						<td id="brn"><input type="text" name="brn" id="tt1"></td>
 					</tr>
 					<tr>
 						<th>업체명</th>
@@ -87,7 +87,7 @@
 					<input type="text" id="searchInput" placeholder="검색어를 입력하세요">
 					<button onclick="performSearch()" class="blueBtn">검색</button>
 				</div>
-				<table class="regi-table" id ="3">
+				<table class="regi-table" id ="t3">
 					<tr>
 						<th>계약번호</th>
 						<th>품목코드</th>
@@ -171,8 +171,10 @@
     <div id="modalBody">
       <button type="button" id="closeBtn" class="closeBtn">&times;</button>
         <img id="modalImage" alt="계약서 이미지">
+      <div class="modalBtn1">
          <button type="button" class="blueBtn modalBtn" id="printBtn">인쇄</button>
          <button type="button" class="blueBtn modalBtn" id="saveBtn">저장</button>
+      </div>
     </div>
 </div>
 	
@@ -215,7 +217,7 @@ document.querySelectorAll('.popupBtn').forEach(button => {
         // 새로운 창을 열어서 이미지를 표시하고 인쇄
         var printWindow = window.open('', '_blank');
         printWindow.document.write('<html><head><title>Print</title></head><body>');
-        printWindow.document.write('<img src="' + modalImage.src + '" style="width:100%; height:auto;">');
+        printWindow.document.write('<img src="' + modalImage.src + '" style="max-width: 100%; max-height: auto;">');
         printWindow.document.write('</body></html>');
         printWindow.document.close();
 
@@ -268,95 +270,90 @@ document.querySelectorAll('.popupBtn').forEach(button => {
     
     
   
-  <!-- 하단 품목 클릭으로 값을 가져옴(제이쿼리) -->
+  <!-- 하단의 품목 클릭으로 (품목코드,이름)값을 가져옴(제이쿼리) -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function() {
-        // 하단 테이블의 품목행 대한 클릭 이벤트 처리 
-        $('#contractList table tr#item').click(function() {
-            // 클릭한 행에서 품목코드와 품목명 가져오기
-            var itemCode = $(this).find('td:eq(1)').text().trim(); // 품목코드 (두 번째 열)
-            var itemName = $(this).find('td:eq(2)').text().trim(); // 품목명 (세 번째 열)
-            var brnValue = $('#brn input[name="brn"]').val();
-            
-            // 상단 테이블의 품목코드와 품목명 위치에 정보 넣기
-            $('#itemCodeCell input[name="itemCode"]').val(itemCode).prop('readonly', true);
-            $('#itemNameCell input[name="itemName"]').val(itemName).prop('readonly', true);
-            $('#brn input[name="brn"]').val(brnValue);
-        });
+$(document).ready(function() {
+    // 하단 클릭 -> 상단 출력 // 품목 클릭 이벤트 처리 
+    $('#contractList table tr#item').click(function() {
+        // 클릭한 행의 품목코드와 품목명 저장
+        var itemCode = $(this).find('td:eq(1)').text().trim(); // 품목코드 (두 번째 열)
+        var itemName = $(this).find('td:eq(2)').text().trim(); // 품목명 (세 번째 열)
+        var brnValue = $('#brn input[name="brn"]').val();
         
-        
-        // 상단 테이블의 계약 행 대한 클릭 이벤트 처리 
-        $('#contractList table tr#contract').click(function() {
-            // 클릭한 행에서 계약정보 가져오기
-            var itemCode = $(this).find('td:eq(1)').text().trim();
-            var itemName = $(this).find('td:eq(2)').text().trim();
-            var brn = $(this).find("td:eq(4)").text().trim();
-            
-            // 상단 테이블에 정보 넣기
-            $('#itemCodeCell input[name="itemCode"]').val(itemCode);
-            $('#itemNameCell input[name="itemName"]').val(itemName);
-            $('#brn input[name="brn"]').val(brn);    
-        });
-        
-        // 상단 테이블의 계약 행 대한 클릭 이벤트 처리 
-        $("#contractList table[id='3'] tr").click(function() {
-            // 클릭한 행에서 계약정보 가져오기
-            var contractNumber = $(this).find('td:eq(0)').text().trim();
-            var itemCode = $(this).find('td:eq(1)').text().trim();
-            var itemName = $(this).find('td:eq(2)').text().trim();
-            var companyName = $(this).find('td:eq(3)').text().trim();
-            var brn = $(this).find('td:eq(4)').text().trim();
-            var unitPrice = $(this).find('td:eq(5)').text().trim();
-            var leadTime = $(this).find('td:eq(6)').text().trim();
-            var contractNote = $(this).find('td:eq(7)').text().trim();
-            var conYn = $(this).find('td:eq(8)').text().trim();
-            
-            //계약 완료시 조회만 되게함 .prop
-            var ConBool = false;
-            if (conYn === 'y'){
-            	ConBool = true;
-            	  $('#buttonContainer').hide();  //계약완료시  저장, 초기화버튼 감추기
-            }
-            else{
-            	 $('#buttonContainer').show();
-            }
-            
-            // 해당 정보를 상단의 입력 필드에 넣기
-            $('#itemCodeCell input[name="itemCode"]').val(itemCode).prop('readonly', ConBool);
-            $('#itemCodeCell input[name="itemCode"]').val(itemCode).prop('readonly', ConBool);
-            $('#itemNameCell input[name="itemName"]').val(itemName).prop('readonly', ConBool);
-            $('#brn input[name="brn"]').val(brn).trigger('change').prop('readonly', ConBool);
-            $('#unitPriceCell input[name="price"]').val(unitPrice).prop('readonly', ConBool);
-            $('#leadTimeCell input[name="leadTime"]').val(leadTime).prop('readonly', ConBool);
-            $('#contractNote input[name="contractNote"]').val(contractNote).prop('readonly', ConBool);
-            
-            
-        });
+        // 상단에 출력
+        $('#itemCodeCell input[name="itemCode"]').val(itemCode).prop('readonly', true);
+        $('#itemNameCell input[name="itemName"]').val(itemName).prop('readonly', true);
     });
-</script>
-	
-	<!-- 사업자 정보를 통해 업체명/계좌/비고를 불러옴(제이쿼리) -->
-	<script type="text/javascript">
-		$(document).ready(function() {
-		    $('input[name="brn"]').on('change', function(event) { 
-		        var brn = $(this).val(); 
-		        if (brn !== '') { 
-		            $.ajax({
-		                url: '/getCompanyInfo', // 서버의 컨트롤러 경로
-		                type: 'POST',
-		                contentType: 'application/json',
-		                data: JSON.stringify({ brn: brn }), // 사업자번호를 JSON 형식으로 전송
-		                success: function(response) {
-		                    // 서버로부터 받은 데이터를 화면에 표시
-		                    $('input[name="company_name"]').val(response.company_name);
-		                    $('input[name="company_account"]').val(response.company_account);
-		                    $('input[name="company_note"]').val(response.company_note);
-		                }
-		            });
-		        }
-		    });
-		});
+    
+    //  하단 클릭 -> 상단 출력 //계약 내역 클릭 이벤트 처리 
+    $('#contractList table tr#contract').click(function() {
+        // 클릭한 행에서 계약정보 가져오기
+        var itemCode = $(this).find('td:eq(1)').text().trim();
+        var itemName = $(this).find('td:eq(2)').text().trim();
+        var brn = $(this).find("td:eq(4)").text().trim();
+        
+        // 상단 테이블에 정보 넣기
+        $('#itemCodeCell input[name="itemCode"]').val(itemCode);
+        $('#itemNameCell input[name="itemName"]').val(itemName);
+        $('#brn input[name="brn"]').val(brn);    
+    });
+
+    // 상단 테이블의 계약 행 대한 클릭 이벤트 처리 
+    $("#contractList table[id='t3'] tr").click(function() {
+        // 클릭한 행에서 계약정보 가져오기
+        var contractNumber = $(this).find('td:eq(0)').text().trim();
+        var itemCode = $(this).find('td:eq(1)').text().trim();
+        var itemName = $(this).find('td:eq(2)').text().trim();
+        var companyName = $(this).find('td:eq(3)').text().trim();
+        var brn = $(this).find('td:eq(4)').text().trim();
+        var unitPrice = $(this).find('td:eq(5)').text().trim();
+        var leadTime = $(this).find('td:eq(6)').text().trim();
+        var contractNote = $(this).find('td:eq(7)').text().trim();
+        var conYn = $(this).find('td:eq(8)').text().trim();
+        
+        //계약 완료시 조회만 되게함 .prop
+        var ConBool = false;
+        if (conYn === 'y'){
+            ConBool = true;
+            $('#buttonContainer').hide();  //계약완료시  저장, 초기화버튼 감추기
+        }
+        else{
+            $('#buttonContainer').show();
+        }
+        
+        // 해당 정보를 상단의 입력 필드에 넣기
+        $('#itemCodeCell input[name="itemCode"]').val(itemCode).prop('readonly', ConBool);
+        $('#itemCodeCell input[name="itemCode"]').val(itemCode).prop('readonly', ConBool);
+        $('#itemNameCell input[name="itemName"]').val(itemName).prop('readonly', ConBool);
+        if (brn !== ''){
+			console.log(brn);
+       	 $('#brn input[name="brn"]').val(brn).trigger('change').prop('readonly', ConBool);
+        }
+        $('#unitPriceCell input[name="price"]').val(unitPrice).prop('readonly', ConBool);
+        $('#leadTimeCell input[name="leadTime"]').val(leadTime).prop('readonly', ConBool);
+        $('#contractNote input[name="contractNote"]').val(contractNote).prop('readonly', ConBool);
+    });
+    
+    // 사업자 정보를 통해 업체명/계좌/비고를 불러오는 AJAX 요청
+    $('input[name="brn"]').on('change', function(event) { 
+        var brn = $(this).val(); 
+        if (brn !== '') { 
+            $.ajax({
+                url: '/getCompanyInfo', // 서버의 컨트롤러 경로
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ brn: brn }), // 사업자번호를 JSON 형식으로 전송
+                success: function(response) {
+                    // 서버로부터 받은 데이터를 화면에 표시
+                    $('input[name="company_name"]').val(response.company_name);
+                    $('input[name="company_account"]').val(response.company_account);
+                    $('input[name="company_note"]').val(response.company_note);
+                }
+            });
+        }
+    });
+});
 	</script>
 <script>
 	// 확인창 띄우고 확인 시 해당 계약을 확정하는 함수
@@ -378,7 +375,7 @@ function performSearch() {
     var filter = document.getElementById('filterSelect').value; // 필터 값을 가져옴
 
     var searchText = document.getElementById('searchInput').value.trim(); // 검색어 값을 가져옴
-    var tableRows = document.querySelectorAll('#contractList table[id="3"] tr');
+    var tableRows = document.querySelectorAll('#contractList table[id="t3"] tr');
 
     tableRows.forEach(function(row) { //매핑
         if (!row.querySelector('th')) {  //th는 제외

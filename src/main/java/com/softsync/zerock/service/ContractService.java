@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,6 +97,8 @@ public class ContractService {
 	    Optional<Contract> contractOptional = contractRepository.findById(contract_number);
 	    if (contractOptional.isPresent()) {
 	        Contract contractS = contractOptional.get();
+	        LocalDate date = LocalDate.now();
+	        contractS.setContract_date(date);
 	        contractS.setContract_yn('y'); // 계약 여부를 'y'로 설정
 	        contractRepository.save(contractS); // 변경된 계약 정보 저장
 	    } else {
