@@ -51,7 +51,7 @@
           <th> 발주수량</th>
           <th> 발주일</th>
           <th> 납기일</th>
-          <th> 마감일</th>
+          <th> 입고마감일</th>
           <th> 현황</th>
         </tr>
         <th:block th:each="receiving : ${receivings}">
@@ -68,12 +68,10 @@
           <td th:text="${receiving.orders.contract.lead_time}"></td>  <!-- 계약 : 납기일 -->
           <td th:text="${receiving.receiveDate}"></td>
           <td th:if="${receiving.receiveClosingYn} == 'Y'">
-          
           	<input type="button" value="마감" class="blueBtn">
           </td>
           <td th:if="${receiving.receiveClosingYn} == 'N'">
-
-     <input type="button" data-ono="${receiving.orders.orderNo}"  value="입고" class="blueBtn" th:onclick="receivingStrat(this)">
+   			  <input type="button" data-ono="${receiving.orders.orderNo}"  value="입고" class="blueBtn" th:onclick="receivingStrat(this)">
           </td>
         </tr>
         </th:block>
@@ -82,7 +80,7 @@
   </div>
     <div id="row1">
     <form action="saveReceiving" method="post" onsubmit="return confirmReceiving()">
-	      <h2 class="visual-title">자재입고  - 중요:인벤토리 테이블임시로 만들어야됨</h2>
+	      <h2 class="visual-title">자재입고</h2>
 	       <table class="regi-table" id="receivingTable">
 	        <colgroup>
 	          <col width="20%">
@@ -193,7 +191,7 @@
   		var receivingNumber = row.querySelector('.receiving-number').value; //입고번호(pk)
         var itemCode = row.cells[0].children[1].innerText; //품목코드
         var itemName = row.cells[1].innerText; //품목네임
-        var wQuantity = row.cells[3].innerText; //기발주수량
+        var wQuantity = row.cells[3].innerText; //기입고수량
         var orderedQuantity = row.cells[4].innerText; //발주수량
         
   
@@ -203,6 +201,14 @@
 	      var receivingNumbers = row.getElementsByClassName('receiving-number');
 	      var receiveNum  = receivingNumbers[0].value;
 	  	  //입고번호 가져오려고 발악함 [0]셀
+	  	  
+	  	  if(orderedQuantity == wQuantity){
+	  		  document.getElementById("save").style.display = "none";
+	  		document.getElementById("end").style.display = "block";
+	  	  }else{
+	  		  document.getElementById("save").style.display = "block";
+		  		document.getElementById("end").style.display = "none";
+	  	  }
 	  	  
 	  	  console.log(receiveNum);
 	  	  

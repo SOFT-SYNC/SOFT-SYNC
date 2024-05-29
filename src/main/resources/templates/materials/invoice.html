@@ -187,7 +187,7 @@
             </table>
             </div>
              <div>
-                <button type="submit" class="blueBtn submit">명세서 전송</button>
+                <button type="submit" class="blueBtn submit">명세서 발행</button>
                 <button type="reset" class="blueBtn" id="printBtn">인쇄</button>
                 <button type="reset" class="blueBtn" id="saveBtn">저장</button>
             </div>
@@ -284,7 +284,7 @@
             html2canvas(invoice).then(function(canvas) {
                 var imgData = canvas.toDataURL('image/png');
                 var printWindow = window.open('', '_blank');
-                printWindow.document.write('<html><head><title>Print</title></head><body>');
+                printWindow.document.write('<html><body>');
                 printWindow.document.write('<img src="' + imgData + '" alt="Modal Content Image" style="max-width:100%;">');
                 printWindow.document.write('</body></html>');
                 printWindow.document.close();

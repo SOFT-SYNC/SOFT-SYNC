@@ -71,6 +71,7 @@ public class ContractController {
 	        contract.setLead_time(leadTime);//납기일
 	        contract.setUnit_price(price);//단가
 	        contract.setContract_yn('n');//계약여부
+	        contract.setContract_note(contractNote);
 			/* contract.setContractSaveName(contractFile); */
 	        
 	        contractService.saveContract(contract, contractFile);//인설트
@@ -93,6 +94,7 @@ public class ContractController {
 	        return "redirect:add_contract"; // 저장 후 홈페이지로 리다이렉트
 	    } 
 	
+	   //계약 확정
 	    @GetMapping("/contractOn")
 	    public String confirmContract(@RequestParam("contract_number") int contract_number,Model model,
 	    								@PageableDefault(size = 10) Pageable pageable) {
