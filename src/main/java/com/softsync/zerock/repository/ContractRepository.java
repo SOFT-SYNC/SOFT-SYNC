@@ -12,6 +12,8 @@ public interface ContractRepository extends JpaRepository<Contract, Integer> {
 
 	List<Contract> findAllByItemItemCode(String itemCode);
 
+	
+
     
 	 
 }

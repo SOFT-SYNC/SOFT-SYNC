@@ -1,19 +1,11 @@
 body {
   background-color: #f1f1f1;
 }
-.search-container {
-	float: right;
-	margin: 20px auto;
-}
-.left {
-	float: left;
-	margin: 0 90px 20px;
-}
-.right {
-	float: right;
-	margin: 0 90px 20px;
-}
 
+.btn-container {
+	float: right;
+	margin: 0 90px 20px;
+}
 #row1 {
 /* border: solid 1px #999; */
 box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); 

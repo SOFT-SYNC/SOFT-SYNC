@@ -21,30 +21,12 @@ public class InspectionService {
 	   
 	   @Autowired
 	   InspectionRepository inspectionRepository;
-	   
+
 	   @Autowired
 	   InspectionListRepository inspectionListRepository;
 		@Autowired
 		OrderRepository orderRepository;
-		
-		/*
-		 * public Inspection createInspection(String orderNo, LocalDate inspecPlan,
-		 * Integer quantity) { Orders orders =
-		 * orderRepository.findById(orderNo).orElseThrow(() -> new
-		 * IllegalArgumentException("Invalid order ID")); Inspection inspection = new
-		 * Inspection(); inspection.setOrders(orders);
-		 * inspection.setInspecPlan(inspecPlan); inspection.setQuantity(quantity);
-		 * return inspectionRepository.save(inspection); }
-		 * 
-		 * public List<Inspection> getInspectionsByOrderNo(String orderNo) {
-		 * List<Inspection> inspections =
-		 * inspectionRepository.findByOrdersOrderNo(orderNo); return inspections; }
-		 * public void updateInspection(Inspection inspection) {
-		 * inspectionRepository.save(inspection); }
-		 * 
-		 * public List<Inspection> getAllInspections() { return
-		 * inspectionRepository.findAll(); }
-		 */
+
 
 		   public Inspection createInspection(String orderNo, LocalDate inspecPlan, Integer quantity, Integer times) {
 		       Orders orders = orderRepository.findById(orderNo).orElseThrow(() -> new IllegalArgumentException("Invalid order ID: " + orderNo));
@@ -56,10 +38,16 @@ public class InspectionService {
 		       return inspectionRepository.save(inspection);
 		   }
 		   
-			public void completeInspection(Integer inspecNo, LocalDate inspecDate, Integer percent) {
-				
-				
-			}
+			/*
+			 * // 검수 완료 public InspectionList completeInspection(Long inspecNo, LocalDate
+			 * inspecDate, Integer percent) { Inspection inspection =
+			 * inspectionRepository.findById(inspecNo) .orElseThrow(() -> new
+			 * IllegalArgumentException("Invalid inspection ID: " + inspecNo));
+			 * InspectionList inspectionList = new InspectionList();
+			 * inspectionList.setInspection(inspection);
+			 * inspectionList.setInspecDate(inspecDate); inspectionList.setPercent(percent);
+			 * return inspectionListRepository.save(inspectionList); }
+			 */
 
 		   // 특정 orderNo에 대한 Inspection 목록을 반환
 		   public List<Inspection> getInspectionsByOrderNo(String orderNo) {
@@ -77,7 +65,36 @@ public class InspectionService {
 		   }
 
 
+		public void saveInspectionList(InspectionList inspectionList) {
+			inspectionListRepository.save(inspectionList);
+			
+		}
 
+		public Inspection getinspectionByInspecNo(Long inspecNo) {
+			Inspection inspection = inspectionRepository.findByInspecNo(inspecNo);
+			return inspection;
+		}
+
+
+			
+			/*
+			 * public Inspection createInspection(String orderNo, LocalDate inspecPlan,
+			 * Integer quantity) { Orders orders =
+			 * orderRepository.findById(orderNo).orElseThrow(() -> new
+			 * IllegalArgumentException("Invalid order ID")); Inspection inspection = new
+			 * Inspection(); inspection.setOrders(orders);
+			 * inspection.setInspecPlan(inspecPlan); inspection.setQuantity(quantity);
+			 * return inspectionRepository.save(inspection); }
+			 * 
+			 * public List<Inspection> getInspectionsByOrderNo(String orderNo) {
+			 * List<Inspection> inspections =
+			 * inspectionRepository.findByOrdersOrderNo(orderNo); return inspections; }
+			 * public void updateInspection(Inspection inspection) {
+			 * inspectionRepository.save(inspection); }
+			 * 
+			 * public List<Inspection> getAllInspections() { return
+			 * inspectionRepository.findAll(); }
+			 */
 	
 }
  
