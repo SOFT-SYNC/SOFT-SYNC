@@ -12,7 +12,7 @@ import com.softsync.zerock.entity.Contract;
 public interface ContractRepository extends JpaRepository<Contract, Integer> {
 
 	Contract findByItemItemCode(String itemCode);
-
+	Contract findByItemId(Long itemId);
 	List<Contract> findAllByItemItemCode(String itemCode);
 	
 	Long countByContractYn(char contractYn);
