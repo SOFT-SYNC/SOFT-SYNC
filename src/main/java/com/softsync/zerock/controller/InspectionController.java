@@ -56,31 +56,4 @@ public class InspectionController {
 	}
 
 
-	/*
-	 * @PostMapping("/api/inspections/save") public InspectionList
-	 * saveInspectionDetails(@RequestParam Long inspecNo, @RequestParam LocalDate
-	 * inspecDate,
-	 * 
-	 * @RequestParam Integer percent) { return
-	 * inspectionService.completeInspection(inspecNo, inspecDate, percent); }
-	 */
-	/*
-	 * 
-	 * @PostMapping("/complete_inspection") public String
-	 * completeInspection(@RequestParam Integer inspecNo,
-	 * 
-	 * @RequestParam LocalDate inspecDate,
-	 * 
-	 * @RequestParam Integer percent,
-	 * 
-	 * @RequestParam String inspecYn) {
-	 * System.out.println("[InspectionController] completeInspection()");
-	 * 
-	 * inspectionService.completeInspection(inspecNo, inspecDate, percent,
-	 * inspecYn);
-	 * 
-	 * return "redirect:/purchase_schedule"; }
-	 * 
-	 */
-
 }

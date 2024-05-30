@@ -7,40 +7,30 @@
    
 
 function fetchInspections(orderNo) {
-    // Ajax 요청을 보내기 위한 객체 생성
-    var xhr = new XMLHttpRequest();
     var url = `/api/inspections`;
-    
-    // POST 메서드로 요청을 보내기 위한 설정
-    xhr.open('POST', url, true);
-    
-    // 요청 헤더 설정
-    xhr.setRequestHeader('Content-Type', 'application/json');
 
-    // 요청 완료 시 콜백 함수 설정
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            // 성공적으로 데이터를 받아왔을 때의 처리
-            var data = JSON.parse(xhr.responseText);
-            populateMainTable(data.order);
-            populateInspecPlanList(data.inspectionList);
-            console.log(data.inspectionList); //inspection
-        } else {
-            // 요청이 실패했을 때의 처리
-            console.error('Error fetching inspections:', xhr.statusText);
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ orderNo: orderNo })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
         }
-    };
-
-    // 요청이 실패했을 때의 처리
-    xhr.onerror = function() {
-        console.error('Error fetching inspections:', xhr.statusText);
-    };
-
-    // 요청 본문에 데이터 추가하여 요청 보내기
-    var requestBody = JSON.stringify({ orderNo });
-    xhr.send(requestBody);
+        return response.json();
+    })
+    .then(data => {
+        populateMainTable(data.order);
+        populateInspecPlanList(data.inspectionList);
+        console.log(data);
+    })
+    .catch(error => {
+        console.error('Error fetching inspections:', error);
+    });
 }
-
 
 
    function populateMainTable(order) {
