@@ -7,7 +7,7 @@
   <link type="text/css" rel="stylesheet" href="../css/orders/orderTracking.css">
   <script type="text/javascript" src="../js/sidebar.js"></script>
   <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 	<div th:insert="~{common/sidebar :: sidebar}"></div>
@@ -15,7 +15,7 @@
 	
 	<div class="main-content">
 		<div id="row1">
-		<h1 class="visual-title">발주 진행 현황 리포트</h1>
+		<h1 class="visual-title">발주 진행 현황 리포트 :오더 컨트롤러</h1>
 		<div class="content-card">
 		<div id="container1" style="height: 700px; width: 70%;"></div>
 	    <!-- <div class="b-graph-wrap">
@@ -31,48 +31,40 @@
 	    </div> -->
 	    <div class="card-wrap">
 	    <form id="searchForm">
+
 			<!-- 날짜 선택 영역 -->
-			<div class="date-range">
-				<label for="startDate"></label> <input type="date" id="startDate">
-				<label for="endDate">~</label> <input type="date" id="endDate">
-			</div>
-			<!-- 검색 옵션과 필드 -->
 			<div class="search-bar">
-				<select id="filterSelect">
-					<option value="itemCode">품목코드</option>
-					<option value="itemName">품목명</option>
-					<option value="productName">제품명</option>
-					<option value="consumption">소요량</option>
-					<option value="stock">재고수량</option>
-				</select> <input type="text" id="searchInput" placeholder="검색...">
-				<button type="button" class="blueBtn">검색</button>
+				<label for="startDate"></label> <input type="date" id="startDate">
+				<label for="endDate">~</label> <input type="date" id="endDate" disabled>
+				<button type="button" class="blueBtn" id="searchBtn">검색</button>
 			</div>
 		</form>
 	      <div class="col1">
 	        <div class="card">
 	          <div class="card-body">
-	            <p class="card-title">조달계획</p>
-	            <h2 class="card-content" th:text="${arr[0]}"></h2>
-	            <input type="hidden" th:value="${arr[0]}" class="proc"> 
+	            <p class="card-title">계약 진행</p>
+	            <h2 class="card-content conttext" th:text="${arr[0]}" ></h2>
+	            <input type="hidden" th:value="${arr[0]}" class="contract"> 
 	          </div>
-	        </div>
+	         </div>
 	        <div class="card">
 	          <div class="card-body">
 	            <p class="card-title">발주서발행</p>
-	            <h2 class="card-content" th:text="${arr[1]}"></h2>
+	            <h2 class="card-content ordertext" th:text="${arr[1]}"></h2>
 	             <input type="hidden" th:value="${arr[1]}" class="order"> 
 	          </div>
 	        </div>
       	    <div class="card">
 	          <div class="card-body">
-	            <p class="card-title">진척검사진행</p>
+	            <p class="card-title">진척검사 완료</p>
 	            <h2 class="card-content">20</h2>
 	          </div>
 	        </div>
    	        <div class="card">
 	          <div class="card-body">
-	            <p class="card-title">조달마감</p>
-	            <h2 class="card-content">15</h2>
+	            <p class="card-title">거래명세서 발행</p>
+	            <h2 class="card-content invtext" th:text="${arr[3]}"></h2>
+	             <input type="hidden" th:value="${arr[3]}" class="invoice"> 
 	          </div>
 	        </div>
 	      </div>
@@ -106,47 +98,88 @@
           renderer: 'canvas',
           useDirtyRect: false
       });
-      var app = {};
 
-      var option;
       
       
-      var proc = document.querySelector(".proc").value;
-      console.log(proc)
-		var orderElement = document.querySelector(".order");
-		if (orderElement) {
-		    var order = orderElement.value;
-		    console.log(order);
-		} else {
-		    console.log("요소를 찾을 수 없습니다.");
-		}
+/*       var contract = document.querySelector(".contract").value;
+	  var order = document.querySelector(".order").value;
+	  var invoice = document.querySelector(".invoice").value; */
+	
+	  function update(contract,order,invoice){
+	      option = {
+	          xAxis: {
+	              type: 'category',
+	              data: ['계약진행', '발주서 발행', '진척 검수', '거래명세서 발행']
+	          },
+	          yAxis: {
+	              type: 'value'
+	          },
+	          series: [
+	              {
+	                  data: [contract, order, 5, invoice],
+	                  type: 'bar',
+	                  showBackground: true,
+	                  backgroundStyle: {
+	                      color: 'rgba(180, 180, 180, 0.2)'
+	                  }
+	              }
+	          ]
+	      };
+	
+	      if (option && typeof option === 'object') {
+	          myChart.setOption(option);
+	      }
+	
+	      window.addEventListener('resize', myChart.resize);
+	  }
+      
+  //검색 기능!
+  $(document).ready(function() {
+	  var contract = document.querySelector(".contract").value;
+	  var order = document.querySelector(".order").value;
+	  var invoice = document.querySelector(".invoice").value; 
 		
-		
-      option = {
-          xAxis: {
-              type: 'category',
-              data: ['총 조달계획', '발주서 발행', '진척 검수', '조달 마감']
-          },
-          yAxis: {
-              type: 'value'
-          },
-          series: [
-              {
-                  data: [proc, order, 2, 1],
-                  type: 'bar',
-                  showBackground: true,
-                  backgroundStyle: {
-                      color: 'rgba(180, 180, 180, 0.2)'
-                  }
+	  update(contract,order,invoice);
+	  
+      $('#searchBtn').click(function() {
+          var startDate = $('#startDate').val();
+          var endDate = $('#endDate').val();
+          
+          if(startDate > endDate){
+        	  alert("날짜를 확인하세요.");
+        	  return;
+          }
+          $.ajax({
+              type: "GET",
+              url: "/seach", // Replace with your actual endpoint URL
+              data: {
+                  startDate: startDate,
+                  endDate: endDate
+              },
+              success: function(data) {
+            	  $('.conttext').text(data[0]); // 'contract' 클래스를 가진 엘리먼트의 텍스트를 갱신
+            	  $('.contract').val(data[0]);
+                  $('.ordertext').text(data[1]);
+                  $('.orderCount').val(data[1]);
+                  $('.invtext').text(data[3]);
+                  $('.invoice').val(data[3]);
+                  
+                  update(data[0],data[1],data[3]);
+              },
+              error: function(xhr, status, error) {
+                  console.error(xhr.responseText);
               }
-          ]
-      };
-
-      if (option && typeof option === 'object') {
-          myChart.setOption(option);
-      }
-
-      window.addEventListener('resize', myChart.resize);
+          });
+      });
+  });
+  
+  
+  // 시작 날짜가 변경될 때 종료 날짜의 최소값을 설정하고 활성화
+  $('#startDate').change(function() {
+      var startDate = $(this).val();
+      $('#endDate').attr('min', startDate);
+      $('#endDate').prop('disabled', false);
+  });
   </script>
 </body>
 </html>

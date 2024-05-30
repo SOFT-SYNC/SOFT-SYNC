@@ -99,7 +99,7 @@ public class ContractService {
 	        Contract contractS = contractOptional.get();
 	        LocalDate date = LocalDate.now();
 	        contractS.setContract_date(date);
-	        contractS.setContract_yn('y'); // 계약 여부를 'y'로 설정
+	        contractS.setContractYn('y'); // 계약 여부를 'y'로 설정
 	        contractRepository.save(contractS); // 변경된 계약 정보 저장
 	    } else {
 	        // ID에 해당하는 계약을 찾을 수 없는 경우에 대한 처리
@@ -114,6 +114,10 @@ public class ContractService {
 	    		 
 	}
 
-
+	//계약 삭제   // n 상태만 가능
+	public void contractOut(int contract_number) {
+		 Contract contract = contractRepository.getReferenceById(contract_number);
+		        contractRepository.delete(contract); // 변경된 계약 정보 저장
+	}
    
 }

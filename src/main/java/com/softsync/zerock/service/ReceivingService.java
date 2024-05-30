@@ -1,6 +1,7 @@
 package com.softsync.zerock.service;
 
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,11 +12,13 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
 import com.softsync.zerock.entity.Inventory;
+import com.softsync.zerock.entity.InventoryPeriod;
 import com.softsync.zerock.entity.Invoice;
 import com.softsync.zerock.entity.Item;
 import com.softsync.zerock.entity.Orders;
 import com.softsync.zerock.entity.ReceiveList;
 import com.softsync.zerock.entity.Receiving;
+import com.softsync.zerock.repository.InventoryPeriodRepository;
 import com.softsync.zerock.repository.InventoryRepository;
 import com.softsync.zerock.repository.InvoiceRepository;
 import com.softsync.zerock.repository.ReceiveListRepository;
@@ -36,6 +39,9 @@ public class ReceivingService {
 	
 	@Autowired
 	InvoiceRepository invoiceRepository;
+	
+	@Autowired
+	InventoryPeriodRepository inventoryPeriodRepository;
 	
 	
 	//하단(입고 내역) 페이징
@@ -58,7 +64,14 @@ public class ReceivingService {
 	
 	public void saveReceiving(Orders order) {
 		 Receiving receiving = new Receiving();
+		 
+	        Long num = order.getItem().getId();
+	        Optional<Inventory> inventorys = inventoryRepository.findById(num);
+	        Inventory inventory = inventorys.get();
+	        receiving.setInventory(inventory);
+	
 	        receiving.setOrders(order);
+	        
 	        receiving.setReceiveClosingYn('N');
 
 	        // 입고 정보 저장
@@ -69,6 +82,7 @@ public class ReceivingService {
 	public void updateReceiving(int quantity, int num) {
 		System.out.println("입고 서비스 : 업데이트 입고량" + num);
 		
+		//입고 내역  receiveList
 		Receiving receiving = receivingRepository.getReferenceById(num);
 		ReceiveList receiveList = new ReceiveList();
 		receiveList.setQuantity(quantity);
@@ -84,6 +98,7 @@ public class ReceivingService {
 	    receiveList.setSysdate(sqlDate);
 		
 		receivingRepository.save(receiving); //입고
+		
 		receiveListRepository.save(receiveList); //입고 내역
 		
 		Item item= receiving.getOrders().getItem();
@@ -93,6 +108,16 @@ public class ReceivingService {
 		 Inventory inventory = optionalInventory.get();
 		 inventory.setQuantity(inventory.getQuantity() + quantity); //재고량 업데잍스
 		inventoryRepository.save(inventory);
+		
+		InventoryPeriod inventoryPeriod = new InventoryPeriod();
+		inventoryPeriod.setInventory(inventory);
+		inventoryPeriod.setReceiveList(receiveList);
+		
+		 LocalDate localDate = sqlDate.toLocalDate();
+		inventoryPeriod.setDate(localDate);
+		
+		inventoryPeriodRepository.save(inventoryPeriod);
+		
 		
 	}
 	

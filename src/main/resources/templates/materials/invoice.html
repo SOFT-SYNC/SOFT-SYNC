@@ -219,7 +219,6 @@
                      // publishDay 값이 없을 경우에만 새로운 날짜 생성
                         if (!publishDay) {
                             publishDay = new Date(); // 새로운 날짜 생성
-                            console.log("새로운 발행일 생성: " + publishDay);
                         } else {
                             publishDay = new Date(publishDay); // 기존의 publishDay 값 사용
                             console.log("기존 발행일: " + publishDay);
@@ -231,11 +230,12 @@
                        
 
                         var quantity = data.receiveQuantity;
+                        console.log(quantity);
                         var price = data.orders.contract.unit_price;
                         var supply_price = quantity * price;
                         var tax = supply_price * 0.1;
                         var total_price = supply_price + tax;
-                        
+                        console.log(data);
                         $("#modalWrap td[class='brn']").text(data.orders.company.brn);
                         $("#modalWrap td[class='company_name']").text(data.orders.company.company_name);
                         $("#modalWrap td[class='company_ceo']").text(data.orders.company.company_ceo);

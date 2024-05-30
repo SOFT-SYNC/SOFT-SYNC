@@ -93,7 +93,7 @@
 	    const orderNo = document.querySelector('#times').value;
 	    const inspecPlan = document.querySelector('#duedate').value;
 	    const quantity = document.querySelector('#quantity').value;
-
+		console.log(orderNo);
 	    fetch(`/api/inspections/create`, {
 	        method: 'POST',
 	        headers: {

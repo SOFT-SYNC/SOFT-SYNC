@@ -150,42 +150,41 @@
 						<td th:text="${production.itemQuantity}"></td>
 					</tr>
 				</table>
+				
 				<div class="paging-wrap">
-					<ul class="pagination" th:if="${productionPlans.totalElements > 0}">
-						<!-- 처음 페이지로 이동 -->
-						<li th:if="${productionPlans.number >= 10}"><a
-							th:href="@{/add_LTplan(pageProduction=${0}, pageProcurement=${procurementPlans.number})}">&laquo;</a>
-						</li>
-
-						<!-- 이전 페이지 링크 -->
-						<li th:if="${!productionPlans.isFirst()}"><a
-							th:href="@{/add_LTplan(pageProduction=${productionPlans.number - 1}, pageProcurement=${procurementPlans.number})}">&lt;</a>
-						</li>
-
-						<!-- 페이지 번호 링크 -->
-						<th:block
-							th:with="startPage=${(productionPlans.number div 10) * 10}, endPage=${(startPage + 9) < productionPlans.totalPages ? (startPage + 9) : productionPlans.totalPages - 1}">
-							<li th:each="i : ${#numbers.sequence(startPage, endPage)}">
-								<!-- 현재 페이지일 경우 active 클래스 추가 --> <a
-								th:href="@{/add_LTplan(pageProduction=${i}, pageProcurement=${procurementPlans.number})}"
-								th:classappend="${i == productionPlans.number ? 'active' : ''}"
-								th:text="${i + 1}">Page number</a>
-							</li>
-						</th:block>
-
-						<!-- 다음 페이지 링크 -->
-						<li th:if="${!productionPlans.isLast()}"><a
-							th:href="@{/add_LTplan(pageProduction=${productionPlans.number + 1}, pageProcurement=${procurementPlans.number})}">&gt;</a>
-						</li>
-
-						<!-- 10 페이지 앞으로 이동 -->
-						<li
-							th:if="${(productionPlans.number div 10) < ((productionPlans.totalPages - 1) div 10)}">
-							<a
-							th:href="@{/add_LTplan(pageProduction=${(productionPlans.number div 10 + 1) * 10}, pageProduction=${productionPlans.number})}">&raquo;</a>
-						</li>
-					</ul>
+				    <ul class="pagination" th:if="${productionPlans.totalElements > 0}">
+				        <!-- 처음 페이지로 이동 -->
+				        <li th:if="${productionPlans.number >= 10}">
+				            <a th:href="@{/receivings(Receiving=${0}, Receivings=${procurementPlans.number})}">&laquo;</a>
+				        </li>
+				
+				        <!-- 이전 페이지 링크 -->
+				        <li th:if="${!productionPlans.isFirst()}">
+				            <a th:href="@{/receivings(Receiving=${productionPlans.number - 1}, Receivings=${procurementPlans.number})}">&lt;</a>
+				        </li>
+				
+				        <!-- 페이지 번호 링크 -->
+				        <th:block th:with="startPage=${(productionPlans.number div 10) * 10}, endPage=${(startPage + 9) < productionPlans.totalPages ? (startPage + 9) : productionPlans.totalPages - 1}">
+				            <li th:each="i : ${#numbers.sequence(startPage, endPage)}">
+				                <!-- 현재 페이지일 경우 active 클래스 추가 -->
+				                <a th:href="@{/receivings(Receiving=${i}, Receivings=${procurementPlans.number})}"
+				                   th:classappend="${i == productionPlans.number ? 'active' : ''}"
+				                   th:text="${i + 1}">Page number</a>
+				            </li>
+				        </th:block>
+				
+				        <!-- 다음 페이지 링크 -->
+				        <li th:if="${!productionPlans.isLast()}">
+				            <a th:href="@{/receivings(Receiving=${productionPlans.number + 1}, Receivings=${procurementPlans.number})}">&gt;</a>
+				        </li>
+				
+				        <!-- 10 페이지 앞으로 이동 -->
+				        <li th:if="${(productionPlans.number div 10) < ((productionPlans.totalPages - 1) div 10)}">
+				            <a th:href="@{/receivings(Receiving=${(productionPlans.number div 10 + 1) * 10}, Receiving=${productionPlans.number})}">&raquo;</a>
+				        </li>
+				    </ul>
 				</div>
+
 			</div>
 		</div>
 		<div id="row2">
