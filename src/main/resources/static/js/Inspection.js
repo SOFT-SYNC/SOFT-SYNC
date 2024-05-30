@@ -1,3 +1,5 @@
+
+
    function addToMainTable(button) {
       let orderNo = button.closest('tr').querySelector('td').innerText;
       fetchInspections(orderNo);

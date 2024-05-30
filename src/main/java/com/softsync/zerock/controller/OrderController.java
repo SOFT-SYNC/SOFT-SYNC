@@ -174,6 +174,7 @@ public class OrderController {
 	    return ResponseEntity.ok(orderDetails);
 	}
 
+	
 	@PostMapping("/sendOrderEmail")
     public String sendOrderEmail(@RequestParam String to, @RequestParam String subject, @RequestParam String text) {
         try {
@@ -199,7 +200,7 @@ public class OrderController {
 	    }
 
 	
-		
+
 	 @GetMapping("/purchase_schedule")
 		public String purchaseview(Model model) {
 			 System.out.println("[OrderContorller] getinspecList()");
@@ -220,12 +221,13 @@ public class OrderController {
 			return"/orders/purchase_schedule";
 		}	
 		
-	 //검수 완료 
+	 
+	 //검수 완료
 	 @PostMapping("/saveInspection")
 		public String saveInspection(@RequestParam Long inspecNo,
 				@RequestParam String percent) {
 
-			System.out.println("[OrderController] saveInspection()");
+			System.out.println("[InspetionController] saveInspection()");
 
 			InspectionList inspectionList = new InspectionList();
 			Inspection inspection = inspectionService.getinspectionByInspecNo(inspecNo);
@@ -243,7 +245,6 @@ public class OrderController {
 
 		}
 
-		
 
 //발주현황 그래프"
 
