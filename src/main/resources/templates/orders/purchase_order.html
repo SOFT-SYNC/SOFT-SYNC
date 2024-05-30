@@ -70,7 +70,7 @@
 						</tr>
 					</tbody>
 				</table>
-				<table class="listTable" id="2">
+				<table class="table" id="2">
 					<tr>
 						<th>번호</th>
 						<th>품명</th>
@@ -114,11 +114,11 @@
 						<col width="10%">
 						<col width="8%">
 						<col width="14%">
-						<col width="10%">
-						<col width="10%">
-						<col width="10%">
-						<col width="10%">
 						<col width="8%">
+						<col width="10%">
+						<col width="10%">
+						<col width="10%">
+						<col width="10%">
 					</colgroup>
 					<tr id="item">
 						<th>발주번호</th>
@@ -460,7 +460,7 @@ $(document).ready(function(){
             	    $('#itemDimensionsCell input').val(data.item.dimensions).prop('readonly', true);
             	    $('#itemMaterialCell input').val(data.item.material).prop('readonly', true);
             	    $('#orderQuantityCell input').val(data.orderQuantity).prop('readonly', true);
-
+            	    $('#totalPriceCell input').val(data.totalPrice).prop('readonly', true);
             	    $("#row1 input[name='brn']").val(data.company.brn);
             	    $("#row1 input[name='company_name']").val(data.company.company_name);
             	    $("#row1 input[name='company_ceo']").val(data.company.company_ceo);

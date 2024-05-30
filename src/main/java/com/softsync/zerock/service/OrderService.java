@@ -1,5 +1,6 @@
 package com.softsync.zerock.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import com.softsync.zerock.entity.Item;
 import com.softsync.zerock.entity.Orders;
 import com.softsync.zerock.repository.CompanyRepository;
 import com.softsync.zerock.repository.ContractRepository;
+import com.softsync.zerock.repository.InvoiceRepository;
 import com.softsync.zerock.repository.ItemRepository;
 import com.softsync.zerock.repository.OrderRepository;
 import com.softsync.zerock.repository.ProcurementPlanRepository;
@@ -34,6 +36,9 @@ public class OrderService {
     
     @Autowired
     ProcurementPlanRepository procurementPlanRepository;
+    
+    @Autowired
+    InvoiceRepository invoiceRepository;
     
 //    @Autowired
 //    InspectionRepository inspectionRepository;
@@ -87,27 +92,39 @@ public class OrderService {
 	public Orders getOrderDetailsByOrderNo(String orderNo) {
         return orderRepository.findByOrderNo(orderNo);
     }
+
+	 public Orders getOrderDetails(String orderNo) {
+	       return orderRepository.findById(orderNo).orElseThrow(() -> new IllegalArgumentException("Invalid order ID: " + orderNo));
+	   }
+	 public List<Orders> getAllOrders1() {
+	       return orderRepository.findAll();
+	   }
+
 	
 	//발주현황 그래프~
 	public Long[] trackingCount(){
 		System.out.println("발주 서비스 : 발주현황 그래프");
 		
-		Long proc = procurementPlanRepository.count(); //총 조달계획
 		
+		Long contract = contractRepository.countByContractYn('y'); //계약서 발행 확인용
+		Long order = orderRepository.countByOrderYn("Y"); //발주서 발행
+		Long invoice = invoiceRepository.countByPublishYn('Y');  //CHAR 타입..
 		
-		Long order = orderRepository.countByReceiptYn("Y"); //발주서 발행
-		if (order == null) {
-		    order = 0L;
-		}
-		
-		
-		Long arr[] = {proc, order}; 
+		Long arr[] = {contract, order, 0L, invoice}; 
 		
 		return arr;
 	}
 	
-
-
+	
+	//기간 검색
+	public Long[] search(LocalDate startDate,LocalDate endDate ){
+		Long contract =	contractRepository.countByContractDate(startDate, endDate); //계약
+		Long order =orderRepository.countByOrderDate(startDate, endDate); //발주
+		Long invoice = invoiceRepository.countByInvoiceDate(startDate, endDate);
+		System.out.println(contract);
+		Long arr[] = {contract, order, 0L, invoice}; 
+		return arr;
+	}
 
 }
  

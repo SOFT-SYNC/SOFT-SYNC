@@ -1,7 +1,6 @@
 package com.softsync.zerock.controller;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,12 +44,12 @@ public class ContractController {
 	                               @RequestParam("brn") String brn,
 	                               @RequestParam("company_name") String companyName,
 	                               @RequestParam("company_account") String companyAccount,
-	                               @RequestParam("company_note") String companyNote,
 	                               @RequestParam("itemCode") String itemCode,
 	                               @RequestParam("itemName") String itemName,
 	                               @RequestParam("price") int price,
 	                               @RequestParam("leadTime") LocalDate leadTime,
 	                               @RequestParam("contractNote") String contractNote,
+	                               @RequestParam(name = "contractNumber", required = false) Integer contractNumber,
 	                               Model model,
 	                               @PageableDefault(size = 10) Pageable pageable) {
 			System.out.println("[계약컨트롤러] 계약서 저장");
@@ -63,6 +62,10 @@ public class ContractController {
 	       
 	        
 	        //저장
+	        if(contractNumber != null) {
+	        	contract.setContract_number(contractNumber);
+	        }
+	        contract.setContract_note(contractNote);
 	        contract.setCompany(company); //회사정보(외래키)
 
 	        contract.setContract_date(LocalDate.now());  //계약일 (현재시각)
@@ -71,7 +74,8 @@ public class ContractController {
 	        contract.setItem(item);//품목정보(외래키)
 	        contract.setLead_time(leadTime);//납기일
 	        contract.setUnit_price(price);//단가
-	        contract.setContract_yn('n');//계약여부
+	        contract.setContractYn('n');//계약여부
+	        contract.setContract_note(contractNote);
 			/* contract.setContractSaveName(contractFile); */
 	        
 	        contractService.saveContract(contract, contractFile);//인설트
@@ -94,6 +98,7 @@ public class ContractController {
 	        return "redirect:add_contract"; // 저장 후 홈페이지로 리다이렉트
 	    } 
 	
+	   //계약 확정
 	    @GetMapping("/contractOn")
 	    public String confirmContract(@RequestParam("contract_number") int contract_number,Model model,
 	    								@PageableDefault(size = 10) Pageable pageable) {
@@ -105,4 +110,13 @@ public class ContractController {
 	        return "redirect:add_contract"; // 확정 후 계약 리스트 페이지로 리다이렉트
 	    }
 
-}
+	    
+	    //계약삭제
+	    @GetMapping("/contractOut")
+	    public String contractOut(@RequestParam("contract_number") int contract_number) {
+	    	System.out.println("계약 컨트롤러");
+	    	 contractService.contractOut(contract_number);
+	    	return "redirect:add_contract";
+	    }
+}   
+

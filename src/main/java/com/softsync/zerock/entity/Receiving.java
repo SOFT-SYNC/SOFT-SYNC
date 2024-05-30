@@ -30,7 +30,7 @@ public class Receiving { //입고
 
 
    @Id
-   @GeneratedValue(strategy = GenerationType.AUTO)
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
    private int receiveNumber;  //입고번호
    
 
@@ -44,6 +44,7 @@ public class Receiving { //입고
     private List<ReceiveList> receiveLists;
     
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(name = "inventory_id", nullable = true)
     private Inventory inventory; // 재고
 

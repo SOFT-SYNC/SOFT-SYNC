@@ -20,6 +20,10 @@ body {
  overflow: hidden; 
 }
 
+#t3 tr:not(:first-child):hover {
+   background-color : #c0c2be;
+}
+
 .visual-title {
   margin-bottom: 15px;
   border-left: 3px solid black;
@@ -68,7 +72,7 @@ body {
 }
 #modalBody {
   max-width: 70%; /* 최대 너비 */
-  max-height: 70%; /* 최대 높이 */
+  max-height: 80%; /* 최대 높이 */
   padding: 30px 30px;
   margin: 0 auto;
   overflow: auto;
@@ -102,7 +106,11 @@ body {
 }
 
 .modalBtn {
-  margin-top: 10px;
+  margin-left : 10px;
   width: 80px;
-  float: right;
+}
+
+.modalBtn1 {
+  margin: 5px auto;
+  float: center;
 }

@@ -13,8 +13,9 @@
 </head>
 <body>
 	<div th:insert="~{common/sidebar :: sidebar}"></div>
+			<div th:insert="~{common/header :: header}"></div>
 	<div class="main-content">
-		<div th:insert="~{common/header :: header}"></div>
+
 		<div id="row1">
 			<h1 class="visual-title">출고목록</h1>
 			<div class="search-container">
@@ -26,7 +27,7 @@
 							<option value="productName">제품명</option>
 							<option value="consumption">소요량</option>
 							<option value="stock">재고수량</option>
-						</select> <input type="text" id="searchInput" placeholder="검색...">
+						</select> <input type="text" id="searchInput" placeholder="검색..."> 
 						 <button type="button" class="blueBtn">검색</button>
 					</div>
 				</form>

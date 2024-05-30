@@ -27,7 +27,6 @@ import com.softsync.zerock.repository.ReceivingRepository;
 @Service
 public class ReceivingService {
 
-   
    @Autowired
    ReceivingRepository receivingRepository;
    
@@ -143,3 +142,4 @@ public class ReceivingService {
    
    
 }
+

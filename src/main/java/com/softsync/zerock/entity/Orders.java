@@ -25,6 +25,7 @@ import lombok.Setter;
 @Setter
 @Table(name="orders")
 @DynamicUpdate
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Orders {
 
    @Id
@@ -70,4 +71,7 @@ public class Orders {
    
    @Column (nullable = true)
    private String orderNote;
+   
+   @Column (nullable = true)
+   private Integer totalPrice;
 }
