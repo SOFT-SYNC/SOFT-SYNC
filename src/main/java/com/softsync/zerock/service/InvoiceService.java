@@ -34,23 +34,10 @@ public class InvoiceService {
 	//
 	public Receiving getReceive(String orderNo) {
 		System.out.println("거래명세서 서비스 : 명세서 상세보기!");
-	    Optional<Orders> optionalOrder = orderRepository.findById(orderNo);
-	    
-	    if (optionalOrder.isPresent()) {
-	        Orders order = optionalOrder.get();
-	        // 주문을 사용하여 받기 정보를 찾습니다.
-	        List<Receiving> res = receivingRepository.findByOrders(order);
-	        
-	        if (!res.isEmpty()) {
-	            return res.get(0);
-	        } else {
-	            // 받기 정보가 없을 경우 예외 처리 또는 기본값 반환
-	            throw new IllegalStateException("Receiving information not found for order: " + orderNo);
-	        }
-	    } else {
-	        // 주문 정보가 없을 경우 예외 처리 또는 기본값 반환
-	        throw new IllegalArgumentException("Order not found: " + orderNo);
-	    }
+		Orders order = orderRepository.getReferenceById(orderNo);
+	   System.out.println("서비스" + order);
+	    return receivingRepository.findByOrders(order);
+	
 	}
 	
 	public void saveInvice(int no) {

@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.softsync.zerock.entity.Company;
 import com.softsync.zerock.entity.Contract;
-import com.softsync.zerock.entity.Inspection;
-import com.softsync.zerock.entity.InspectionList;
 import com.softsync.zerock.entity.Item;
 import com.softsync.zerock.entity.Orders;
 import com.softsync.zerock.service.CompanyService;
@@ -203,19 +201,25 @@ public class OrderController {
 		public String purchaseview(Model model) {
 			 System.out.println("[OrderContorller] getinspecList()");
 
-			    List<Contract> contracts = orderService.getAllContracts();
+			    List<Contract> contracts = orderService.getAllContracts();  
 			    model.addAttribute("contracts", contracts);
 			    
-			    List<Orders> orderList = orderService.getAllOrders();
+			    List<Orders> orderList = orderService.getAllOrders();  
 			    model.addAttribute("orders", orderList); 
 			    
-			    List<Inspection> inspections = inspectionService.getAllInspections();
-			    model.addAttribute("inspections", inspections);
-			    
-			    List<InspectionList> inspectionList = inspectionListService.getAllInspectionList();
-			    model.addAttribute("inspectionList", inspectionList);
-			    System.out.println(inspectionList);
-		
+
+//			    List<Inspection> inspections = inspectionService.getAllInspections();
+//			    model.addAttribute("inspections", inspections);
+//			    
+//			    List<InspectionList> inspectionList = inspectionListService.getAllInspectionList();
+//			    model.addAttribute("inspectionList", inspectionList);
+//			    
+//			    System.out.println("[OrderController] Inspections:");
+//			    for (Inspection inspection : inspections) {
+//			        System.out.println(inspection.toString());
+//			    }
+			   
+
 			return"/orders/purchase_schedule";
 		}	
 		
@@ -243,11 +247,10 @@ public class OrderController {
 
 		}
 
-//발주현황 그래프"
-
+	 //발주 진행 현황 리포트
 	@GetMapping("/purchase_order_tracking")
 	public String orderTracking(Model model) {
-		System.out.println("발주 컨트롤러 : 발주현황 그래프\"");
+		System.out.println("발주 컨트롤러 : 발주현황 그래프");
 			
 		Long arr[] = orderService.trackingCount();
 		
@@ -255,5 +258,13 @@ public class OrderController {
 			
 		return "/orders/purchase_order_tracking";
 	}
-
+	
+	@GetMapping("/seach")
+	 public ResponseEntity<Long[]> search(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate) {
+		 System.out.println("발주 컨트롤러 : 기간 검색");
+		 System.out.println(startDate);
+		 Long arr[] = orderService.search(LocalDate.parse(startDate), LocalDate.parse(endDate));
+	     
+	        return  ResponseEntity.ok(arr);
+	    }
 }

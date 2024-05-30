@@ -49,14 +49,14 @@ public class InvoiceController {
 		        ObjectMapper objectMapper = new ObjectMapper();
 		        // JSON 문자열 파싱
 		        JsonNode jsonNode = objectMapper.readTree(orderNo);
+System.out.println("컨트롤러 제이슨 오더노 : " + jsonNode);
 		        // "orderNo" 키의 값 추출
 		        String orderNumber = jsonNode.get("orderNo").asText();
-		    	
+		        
+		        System.out.println("컨트롤러 제이슨 오더노 : " + orderNumber);
 		        // 주문 번호를 사용하여 수신 정보를 조회
-		        Receiving receiving = invoiceService.getReceive(orderNumber); //
-		        System.out.println(receiving.getOrders().getItem());
-		        System.out.println(receiving.getOrders().getContract());
-		        return ResponseEntity.ok(receiving );
+		        Receiving receiving = invoiceService.getReceive(orderNumber); //;
+		        return ResponseEntity.ok(receiving);
 		        
 		    } catch (Exception e) {
 		        // 예외 발생 시 클라이언트에 오류 응답을 반환

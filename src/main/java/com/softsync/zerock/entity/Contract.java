@@ -60,8 +60,8 @@ public class Contract {
     @Column(name = "unit_price") // 단가
     private int unit_price;
 
-    @Column(name = "contract_yn" ) // 계약여부 초기생성시 n  계약등록 저장버튼 클릭시 y
-    private char contract_yn = 'y';
+    @Column(name = "contract_yn") // 계약여부 초기생성시 n  계약등록 저장버튼 클릭시 y
+    private char contractYn = 'n';
 
     @Column(name = "contract_note" ) //특이사항
     private String contract_note;
