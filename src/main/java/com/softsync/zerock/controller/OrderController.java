@@ -69,8 +69,9 @@ public class OrderController {
 	public ResponseEntity<Map<String, Object>> getContractInfo(@RequestBody Map<String, String> request) {
 		System.out.println("[OrderController] getContractInfo()");
 		String itemCode = request.get("itemCode");
-
-		Contract contract = contractService.getContractByItemCode(itemCode);
+		int contractNumber =2;
+		
+		Contract contract = contractService.getContractById(contractNumber);
 		Company company = companyService.getCompanyByContract(contract);
 
 		Map<String, Object> response = new HashMap<>();
@@ -105,7 +106,7 @@ public class OrderController {
 	    Orders order = new Orders(); 
 	    Company company = orderService.getorderByBrn(brn);
 	    Item item = orderService.getItemByItemCode(itemCode);
-	    Contract contract = contractService.getContractByItemCode(itemCode);
+	    Contract contract = contractService.getContractById(contractNumber);
 	    String orderNo = orderService.generateOrderNo(); // 발주번호 자동
 
 	    order.setContract(contract);

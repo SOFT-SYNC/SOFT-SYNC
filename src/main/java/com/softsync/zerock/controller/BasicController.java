@@ -94,7 +94,7 @@ public class BasicController {
 	           @RequestParam(value = "searchKeyword", required = false) String searchKeyword,
 	           HttpSession session) {
 
-	      Pageable pageable = PageRequest.of(page, 10);
+	       Pageable pageable = PageRequest.of(page, 10);
 	       Page<Item> items;
 	       boolean itemSearchEmpty = false;
 
@@ -297,12 +297,6 @@ public class BasicController {
 //		return"/procurement/add_contract";
 //	}
 	
-	
-	
-	@GetMapping("/inventory_period")
-	public String inventoryview() {
-		return"/materials/inventory_period";
-	}
 	
 //	@GetMapping("/invoice")
 //	public String invoiceview() {

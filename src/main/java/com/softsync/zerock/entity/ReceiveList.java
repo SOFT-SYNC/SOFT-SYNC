@@ -20,20 +20,19 @@ import lombok.Setter;
 @Setter
 @Table(name = "receiveList")
 public class ReceiveList {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int num;  //번호
-	
-	@ManyToOne
-	@JoinColumn(name = "receiving_receiveNumber") // 외래 키 설정
+   @Id
+   @GeneratedValue(strategy = GenerationType.AUTO)
+   private int num;  //번호
+   
+   @ManyToOne
+   @JoinColumn(name = "receiving_receiveNumber") // 외래 키 설정
     private Receiving receiving;
-	
-	@Column(nullable = false)
-	private int quantity;  //입고량
-	
-	@Column(nullable = false)
-	private Date sysdate;  //입고일
-
-	
-	
+   
+   @Column(nullable = false)
+   private int quantity;  //입고량
+   
+   @Column(nullable = false)
+   private Date sysdate;  //입고일
+   
+   
 }

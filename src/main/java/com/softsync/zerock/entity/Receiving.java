@@ -13,10 +13,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -42,6 +42,10 @@ public class Receiving { //입고
     @OneToMany(mappedBy = "receiving", fetch = FetchType.LAZY)
     @JsonIgnore //거래명세서용 무한참조 방지
     private List<ReceiveList> receiveLists;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "inventory_id", nullable = true)
+    private Inventory inventory; // 재고
 
    
    @Column(nullable = true)
