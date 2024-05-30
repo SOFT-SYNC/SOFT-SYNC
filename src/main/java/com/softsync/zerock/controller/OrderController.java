@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.softsync.zerock.entity.Company;
 import com.softsync.zerock.entity.Contract;
+import com.softsync.zerock.entity.Inspection;
+import com.softsync.zerock.entity.InspectionList;
 import com.softsync.zerock.entity.Item;
 import com.softsync.zerock.entity.Orders;
 import com.softsync.zerock.service.CompanyService;
