@@ -14,12 +14,11 @@ public interface ContractRepository extends JpaRepository<Contract, Integer> {
 	Contract findByItemItemCode(String itemCode);
 
 	List<Contract> findAllByItemItemCode(String itemCode);
-	
+
 	Long countByContractYn(char contractYn);
 
 
 	@Query("SELECT COUNT(*) FROM Contract  WHERE contract_date BETWEEN :startDate AND :endDate")
 	Long countByContractDate(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
-	 
 }

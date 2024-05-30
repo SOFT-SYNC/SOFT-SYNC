@@ -108,9 +108,9 @@ public class ContractService {
 
 
 
-	public Contract getContractByItemCode(String itemCode) {
-		System.out.println(contractRepository.findByItemItemCode(itemCode));
-		return contractRepository.findByItemItemCode(itemCode);
+	public Contract getContractById(int contractNumber) {
+		
+		return contractRepository.getReferenceById(contractNumber);
 	    		 
 	}
 

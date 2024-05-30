@@ -18,63 +18,60 @@
 		<div id="row1">
 			<h1 class="visual-title">기간별 재고목록</h1>
 			<div class="search-container">
-				<form id="searchForm"
-					onsubmit="event.preventDefault(); performSearch();">
-					<!-- 날짜 선택 영역 -->
-					<div class="date-range"> 
-						<label for="startDate"></label> <input type="date" id="startDate">
-						<label for="endDate">~</label> <input type="date" id="endDate">
-					</div>
-
-					<!-- 검색 옵션과 필드 -->
+				<form id="searchForm" th:action="@{/inventory_period}" method="get">
 					<div class="search-bar">
-						<select id="filterSelect">
-							<option value="itemCode">품목코드</option>
-							<option value="itemName">품목명</option>
-						</select> <input type="text" id="searchInput" placeholder="검색...">
-						<button type="button" onclick="performSearch()" class="blueBtn">검색</button>
+						<label for="startDate">시작 날짜:</label> <input type="date"
+							id="startDate" name="startDate" required> <label
+							for="endDate">종료 날짜:</label> <input type="date" id="endDate"
+							name="endDate" required>
+						<button type="submit" class="blueBtn">검색</button>
 					</div>
 				</form>
-				<!-- 결과 표시 테이블 -->
 				<table id="resultsTable">
 					<thead>
 						<tr>
-							<th>품목코드
-								<button class="sort-button" onclick="sortTable(0)">▲▼</button>
-							</th>
-							<th>품목명
-								<button class="sort-button" onclick="sortTable(1)">▲▼</button>
-							</th>
-							<th>규격
-								<button class="sort-button" onclick="sortTable(2)">▲▼</button>
-							</th>
-							<th>재질
-								<button class="sort-button" onclick="sortTable(3)">▲▼</button>
-							</th>
-							<th>기초재고
-								<button class="sort-button" onclick="sortTable(4)">▲▼</button>
-							</th>
-							<th>입고수량
-								<button class="sort-button" onclick="sortTable(5)">▲▼</button>
-							</th>
-							<th>출고수량
-								<button class="sort-button" onclick="sortTable(6)">▲▼</button>
-							</th>
-							<th>기말재고
-								<button class="sort-button" onclick="sortTable(7)">▲▼</button>
-							</th>
-							<th>재고금액
-								<button class="sort-button" onclick="sortTable(8)">▲▼</button>
-							</th>
+							<th>품목코드</th>
+							<th>품목명</th>
+							<th>기초재고</th>
+							<th>입고수량</th>
+							<th>출고수량</th>
+							<th>기말재고</th>
+							<th>재고금액</th>
 						</tr>
 					</thead>
 					<tbody>
-						<!-- 동적 결과 -->
+						<tr th:each="inventoryPeriod : ${inventoryPeriods}">
+							<td th:text="${inventoryPeriod.inventoryCode}"></td>
+							<td th:text="${inventoryPeriod.inventoryName}"></td>
+							<td
+								th:text="${inventoryPeriod.initialInventory != null ? inventoryPeriod.initialInventory : 0}"></td>
+							<!-- 기초재고 -->
+							<td
+								th:text="${inventoryPeriod.totalReceivingQuantity != null ? inventoryPeriod.totalReceivingQuantity : 0}"></td>
+							<td
+								th:text="${inventoryPeriod.totalShipmentQuantity != null ? inventoryPeriod.totalShipmentQuantity : 0}"></td>
+							<td
+								th:text="${inventoryPeriod.finalInventory != null ? inventoryPeriod.finalInventory : 0}"></td>
+							<!-- 기말재고 -->
+							<td
+								th:text="${inventoryPeriod.finalInventoryValue != null ? inventoryPeriod.finalInventoryValue : 0}"></td>
+							<!-- 기말재고금액 -->
+						</tr>
 					</tbody>
 				</table>
 			</div>
 		</div>
 	</div>
-	
 </body>
+<script type="text/javascript">
+	function performSearch() {
+		const startDate = document.getElementById('startDate').value;
+		const endDate = document.getElementById('endDate').value;
+		const searchInput = document.getElementById('searchInput').value;
+		const filterSelect = document.getElementById('filterSelect').value;
+
+		const url = `/inventory_period?startDate=${startDate}&endDate=${endDate}`;
+		window.location.href = url;
+	}
+</script>
 </html>
