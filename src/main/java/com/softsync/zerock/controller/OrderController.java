@@ -108,6 +108,7 @@ public class OrderController {
 	    @RequestParam("orderNote") String orderNote,
 	    @RequestParam("orderDate") String orderDate,
 	    @RequestParam("receiveDuedate") String receiveDuedate,
+	    @RequestParam("totalPrice") int totalPrice,
 	    Model model) {
 
 	    System.out.println("[OrderController] saveOrders()");
@@ -133,6 +134,7 @@ public class OrderController {
 
 	    order.setOrderQuantity(orderQuantity);
 	    order.setOrderNote(orderNote);
+	    order.setTotalPrice(totalPrice);
 	    order.setOrderYn("Y"); // '저장' 버튼을 눌렀을 때 orderYn을 'Y'로 설정
 
 	    orderService.saveOrder(order);
@@ -212,14 +214,15 @@ public class OrderController {
 			    
 			    List<InspectionList> inspectionList = inspectionListService.getAllInspectionList();
 			    model.addAttribute("inspectionList", inspectionList);
-			    
+			    System.out.println(inspectionList);
 		
 			return"/orders/purchase_schedule";
 		}	
 		
+	 
+	 //검수 완료
 	 @PostMapping("/saveInspection")
 		public String saveInspection(@RequestParam Long inspecNo,
-
 				@RequestParam String percent) {
 
 			System.out.println("[InspetionController] saveInspection()");
@@ -227,9 +230,12 @@ public class OrderController {
 			InspectionList inspectionList = new InspectionList();
 			Inspection inspection = inspectionService.getinspectionByInspecNo(inspecNo);
 
+			LocalDate inspecDate = LocalDate.now();
+			
 			inspectionList.setInspection(inspection);
 			inspectionList.setPercent(percent);
 			inspectionList.setInspecYn("Y");
+			inspectionList.setInspecDate(inspecDate);
 
 			inspectionService.saveInspectionList(inspectionList);
 

@@ -6,22 +6,40 @@
    }
    
 
-   function fetchInspections(orderNo) {
-	    fetch(`/api/inspections`, {
-	        method: 'POST',
-	        headers: {
-	            'Content-Type': 'application/json'
-	        },
-	        body: JSON.stringify({ orderNo })
-	    })
-	    .then(response => response.json())
-	    .then(data => {
-	        populateMainTable(data.order);
-	        populateInspecPlanList(data.inspectionList);
-		       console.log(data); //inspection
-	    })
-	    .catch(error => console.error('Error fetching inspections:', error));
-	}
+function fetchInspections(orderNo) {
+    // Ajax 요청을 보내기 위한 객체 생성
+    var xhr = new XMLHttpRequest();
+    var url = `/api/inspections`;
+    
+    // POST 메서드로 요청을 보내기 위한 설정
+    xhr.open('POST', url, true);
+    
+    // 요청 헤더 설정
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    // 요청 완료 시 콜백 함수 설정
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            // 성공적으로 데이터를 받아왔을 때의 처리
+            var data = JSON.parse(xhr.responseText);
+            populateMainTable(data.order);
+            populateInspecPlanList(data.inspectionList);
+            console.log(data.inspectionList); //inspection
+        } else {
+            // 요청이 실패했을 때의 처리
+            console.error('Error fetching inspections:', xhr.statusText);
+        }
+    };
+
+    // 요청이 실패했을 때의 처리
+    xhr.onerror = function() {
+        console.error('Error fetching inspections:', xhr.statusText);
+    };
+
+    // 요청 본문에 데이터 추가하여 요청 보내기
+    var requestBody = JSON.stringify({ orderNo });
+    xhr.send(requestBody);
+}
 
 
 
@@ -42,106 +60,93 @@
 	}
 
 
-
 function populateInspecPlanList(inspectionList) {
     const inspecPlanListBody = document.querySelector('#createtb tbody');
-    inspecPlanListBody.innerHTML = ''; 
-    
-    // 데이터가 있는지 확인
-    if (inspectionList && inspectionList.length > 0) {
-        inspectionList.forEach(inspection => {
-            let row = '';
-            if (inspection.inspecNo) { // 데이터베이스에 값이 있는 경우
-                row = `<tr>
-                            <td><input type="text" name="inspecNo" value="${inspection.inspecNo}" readonly></td>
-                            <td>${inspection.times}</td>
-                            <td>${inspection.inspecPlan}</td>
-                            <td>${inspection.inspecDate}</td>
-                            <td>${inspection.orders.orderQuantity}</td>
-                            <td>${inspection.quantity}</td>
-                            <td><input type="text" name="percent" value="${inspection.percent}" readonly></td>
-                            <td><button type="button" class="blueBtn" onclick="markComplete(this)">진행</button></td>
-                        </tr>`;
-            } else { // 데이터베이스에 값이 없는 경우
-                row = `<tr>
-                            <td><input type="text" name="inspecNo"></td>
-                            <td><input type="text" name="times"></td>
-                            <td><input type="text" name="inspecPlan"></td>
-                            <td><input type="date" name="inspecDate"></td>
-                            <td><input type="text" name="orderQuantity"></td>
-                            <td><input type="text" name="quantity"></td>
-                            <td><input type="text" name="percent"></td>
-                            <td><button type="button" class="blueBtn" onclick="markComplete(this)">진행</button></td>
-                        </tr>`;
-            }
-            inspecPlanListBody.innerHTML += row;
-            console.log(inspection);
-        });
-    } else {
-        // 데이터가 없는 경우 처리
-        console.log("No data exists.");
-        // 여기에 데이터가 없을 때 표시하는 추가적인 로직을 추가할 수 있습니다.
+    inspecPlanListBody.innerHTML = '';
+
+    if (!inspectionList || inspectionList.length === 0) {
+        console.log("검수 정보가 없습니다.");
+        return;
     }
+
+    inspectionList.forEach(inspection => {
+        let row = '';
+        if (inspection.inspecNo) {
+            row = `<tr>
+                        <td><input type="text" name="inspecNo" value="${inspection.inspecNo}" readonly></td>
+                        <td>${inspection.times}</td>
+                        <td>${inspection.inspecPlan}</td>
+                        <td>${inspection.inspectionList.inspecDate ? inspection.inspectionList.inspecDate : '-'}</td>
+                        <td>${inspection.orders ? inspection.orders.orderQuantity : '-'}</td>
+                        <td>${inspection.quantity ? inspection.quantity : '-'}</td>
+                        <td><input type="text" name="percent" value="${inspection.inspectionList.percent ? inspection.inspectionList.percent : '-'}" readonly></td>
+                        <td>${inspection.inspectionList.inspecYn === 'Y' ? '<button type="button" class="blueBtn" disabled>완료</button>' : '<button type="button" class="blueBtn" onclick="markComplete(this)">검수확정</button>'}</td>
+                    </tr>`;
+        } 
+        inspecPlanListBody.innerHTML += row;
+        console.log(inspection);
+    });
+}
+//********************차수 등록 **********************************
+  function registerInspection() {
+    let orderNo = document.querySelector('#mainTable tbody tr:first-child td:first-child').innerText;
+    let times = document.querySelector('#times').value;
+    let inspecPlan = document.querySelector('#duedate').value;
+    let quantity = document.querySelector('#quantity').value;
+
+    fetch(`/saveInspection`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `inspecNo=${orderNo}&percent=${quantity}`
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('검수 등록 중에 문제가 발생했습니다.');
+        }
+        return response.json();
+    })
+    .then(data => {
+        alert('새로운 검수 계획이 등록되었습니다.');
+        fetchInspections(orderNo);
+    })
+    .catch(error => {
+        console.error('Error registering inspection:', error);
+        alert('검수 등록 중에 문제가 발생했습니다.');
+    });
 }
 
+function markComplete(button) {
+    var row = button.closest("tr");
+    var inspecNo = row.cells[0].querySelector('input[name="inspecNo"]').value; // 검수번호 가져오기
+    var quantity = parseInt(row.cells[5].innerText);
 
+    if (isNaN(quantity)) {
+        alert("생산량이 없습니다.");
+        return;
+    }
 
-//********************차수 등록 **********************************
-   function registerInspection() {
-      let orderNo = document.querySelector('#mainTable tbody tr:first-child td:first-child').innerText;
-      let times = document.querySelector('#times').value;
-      let inspecPlan = document.querySelector('#duedate').value;
-      let quantity = document.querySelector('#quantity').value;
+    var formData = new FormData();
+    formData.append('inspecNo', inspecNo);
+    formData.append('percent', quantity);
 
-      fetch(`/api/inspections/create`, {
-         method: 'POST',
-         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-         },
-         body: `orderNo=${orderNo}&inspecPlan=${inspecPlan}&quantity=${quantity}&times=${times}`
-      })
-      .then(response => response.json())
-      .then(data => {
-         alert('새로운 검수 계획이 등록되었습니다.');
-         fetchInspections(orderNo);
-      })
-      .catch(error => console.error('Error registering inspection:', error));
-   }
-   
-   
-
+    fetch('/saveInspection', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('검수 등록 중에 문제가 발생했습니다.');
+        }
+        alert('검수가 완료되었습니다.');
+    })
+    .catch(error => {
+        console.error('Error registering inspection:', error);
+        alert('검수 등록 중에 문제가 발생했습니다.');
+    });
+}
    
    
    
  
-
-
-//************************진행률 계산*****************
-  
-  function markComplete(button) {
-    var row = button.closest("tr");
-    var 발주량 = parseInt(row.cells[4].innerText);
-    var 생산량 = parseInt(row.cells[5].innerText);
-
-    if (isNaN(발주량) || isNaN(생산량)) {
-        alert("발주량 또는 생산량이 없습니다.");
-        return;
-    }
-
-    var 진행률 = (생산량 / 발주량) * 100;
-    var 현재날짜 = new Date().toISOString().split('T')[0]; // 현재 날짜
-    var 진행률값 = 진행률.toFixed(2); // 진행률 계산
-
-    // 해당 셀에 input 요소가 있는 경우 값을 업데이트하고, 없는 경우 텍스트로 처리
-    if (row.cells[3].querySelector('input[type="date"]')) {
-        row.cells[3].querySelector('input[type="date"]').value = 현재날짜;
-    } else {
-        row.cells[3].innerText = 현재날짜;
-    }
-
-    if (row.cells[6].querySelector('input[type="text"]')) {
-        row.cells[6].querySelector('input[type="text"]').value = 진행률값;
-    } else {
-        row.cells[6].innerText = 진행률값;
-    }
-}

@@ -53,10 +53,10 @@
 					<td class="unit_price" th:text="${contract.unit_price}">단가</td>
 					<td class="supplyAmount"></td> <!-- 공급가액 -->
                        <td th:if="${contract.orders.size() > 0 && contract.orders[0].receiptYn == 'N'}">
-						<button class="blueBtn">발주서발행</button>
+						<button class="blueBtn" onclick="location.href='purchase_order'">발주서발행</button>
 					</td>
 					<td th:if="${contract.orders.size() > 0 && contract.orders[0].receiptYn == 'Y'}">
-						<button class="blueBtn">검수대기</button>
+						<button class="blueBtn" onclick="location.href='purchase_schedule'">검수대기</button>
 					</td>
 				</tr>
                </table>
