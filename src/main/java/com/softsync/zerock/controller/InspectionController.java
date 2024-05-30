@@ -37,9 +37,11 @@ public class InspectionController {
 	 
 	 
 	@PostMapping("/api/inspections/create")
-	public Inspection createInspection(@RequestParam String orderNo, @RequestParam LocalDate inspecPlan,
-			@RequestParam Integer quantity, @RequestParam Integer times) {
-		return inspectionService.createInspection(orderNo, inspecPlan, quantity, times);
+	public Inspection createInspection(@RequestParam String orderNo, 
+	                                   @RequestParam LocalDate inspecPlan,
+	                                   @RequestParam Integer quantity,
+	                                   @RequestParam Integer times) {
+	    return inspectionService.createInspection(orderNo, inspecPlan, quantity, times);
 	}
 
 	@PostMapping("/api/inspections")

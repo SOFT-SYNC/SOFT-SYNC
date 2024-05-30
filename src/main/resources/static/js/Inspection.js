@@ -107,6 +107,11 @@ function populateInspecPlanList(inspectionList) {
     });
 }
 
+
+
+
+
+
 function markComplete(button) {
     var row = button.closest("tr");
     var inspecNo = row.cells[0].querySelector('input[name="inspecNo"]').value; // 검수번호 가져오기
