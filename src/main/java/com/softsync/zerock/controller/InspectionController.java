@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.softsync.zerock.entity.Inspection;
-import com.softsync.zerock.entity.InspectionList;
 import com.softsync.zerock.entity.Orders;
 import com.softsync.zerock.service.ContractService;
 import com.softsync.zerock.service.InspectionListService;

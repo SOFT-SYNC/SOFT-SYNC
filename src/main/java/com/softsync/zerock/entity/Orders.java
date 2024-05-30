@@ -31,31 +31,24 @@ public class Orders {
    @Id
    private String orderNo;
 
-   
-   @ManyToOne(fetch = FetchType.EAGER)
+   @ManyToOne(fetch = FetchType.LAZY) // FetchType을 LAZY로 변경
    @JoinColumn(name = "brn", nullable = true)
    private Company company;
 
-   @ManyToOne
+   @ManyToOne(fetch = FetchType.LAZY) // FetchType을 LAZY로 변경
    @JoinColumn(name = "item_code", nullable = true)
    private Item item;
    
-   @ManyToOne
+   @ManyToOne(fetch = FetchType.LAZY) // FetchType을 LAZY로 변경
    @JoinColumn(name = "contract_number", nullable = true)
    private Contract contract;
-   
 
-// @ManyToOne(fetch = FetchType.LAZY) //조달계획 :입고예정일
-// @JoinColumn(name = "procNo", nullable = false)
-// private ProcurementPlan procNo;
- 
-   
-   @OneToOne(mappedBy = "orders", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-   @JsonIgnore //거래명세서용 무한참조 방지
-   private Receiving receiving;  //입고 1:1
+   @OneToOne(mappedBy = "orders", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+   @JsonIgnore // 거래명세서용 무한참조 방지
+   private Receiving receiving;  // 입고 1:1
 
    @Column (nullable = false)
-   private Integer orderQuantity;   //발주량
+   private Integer orderQuantity;   // 발주량
    
    @Column (nullable = false)
    private LocalDate orderDate;

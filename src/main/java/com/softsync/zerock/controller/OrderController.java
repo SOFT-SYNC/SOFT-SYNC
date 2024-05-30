@@ -203,18 +203,18 @@ public class OrderController {
 		public String purchaseview(Model model) {
 			 System.out.println("[OrderContorller] getinspecList()");
 
-			    List<Contract> contracts = orderService.getAllContracts();
-			    model.addAttribute("contracts", contracts);
+//			    List<Contract> contracts = orderService.getAllContracts();
+//			    model.addAttribute("contracts", contracts);
 			    
 			    List<Orders> orderList = orderService.getAllOrders();
 			    model.addAttribute("orders", orderList); 
 			    
-			    List<Inspection> inspections = inspectionService.getAllInspections();
-			    model.addAttribute("inspections", inspections);
-			    
-			    List<InspectionList> inspectionList = inspectionListService.getAllInspectionList();
-			    model.addAttribute("inspectionList", inspectionList);
-			    System.out.println(inspectionList);
+//			    List<Inspection> inspections = inspectionService.getAllInspections();
+//			    model.addAttribute("inspections", inspections);
+//			    
+//			    List<InspectionList> inspectionList = inspectionListService.getAllInspectionList();
+//			    model.addAttribute("inspectionList", inspectionList);
+//			    System.out.println(inspectionList);
 		
 			return"/orders/purchase_schedule";
 		}	
