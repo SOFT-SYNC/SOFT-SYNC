@@ -8,4 +8,7 @@ import com.softsync.zerock.entity.InspectionList;
 @Repository
 public interface InspectionListRepository extends JpaRepository<InspectionList, Long> {
 
+
+
+
 }

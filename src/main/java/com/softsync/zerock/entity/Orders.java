@@ -71,4 +71,7 @@ public class Orders {
    
    @Column (nullable = true)
    private String orderNote;
+   
+   @Column (nullable = true)
+   private Integer totalPrice;
 }

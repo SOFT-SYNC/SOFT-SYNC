@@ -109,6 +109,7 @@ public class ContractController {
 		     model.addAttribute("items", items);
 	        return "redirect:add_contract"; // 확정 후 계약 리스트 페이지로 리다이렉트
 	    }
+
 	    
 	    //계약삭제
 	    @GetMapping("/contractOut")
@@ -118,3 +119,4 @@ public class ContractController {
 	    	return "redirect:add_contract";
 	    }
 }   
+

@@ -15,6 +15,7 @@ import com.softsync.zerock.entity.Inspection;
 import com.softsync.zerock.entity.InspectionList;
 import com.softsync.zerock.entity.Orders;
 import com.softsync.zerock.service.ContractService;
+import com.softsync.zerock.service.InspectionListService;
 import com.softsync.zerock.service.InspectionService;
 import com.softsync.zerock.service.OrderService;
 
@@ -30,23 +31,17 @@ public class InspectionController {
 	@Autowired
 	InspectionService inspectionService;
 
+	@Autowired
+	InspectionListService inspectionListService;
+
+	 
+	 
 	@PostMapping("/api/inspections/create")
 	public Inspection createInspection(@RequestParam String orderNo, @RequestParam LocalDate inspecPlan,
-			@RequestParam Integer quantity,@RequestParam Integer times) {
+			@RequestParam Integer quantity, @RequestParam Integer times) {
 		return inspectionService.createInspection(orderNo, inspecPlan, quantity, times);
 	}
 
-	/*
-	 * @PostMapping("/api/inspections") public List<Inspection>
-	 * getInspectionsByOrderNo(@RequestBody String orderNo) {
-	 * 
-	 * List<Inspection> inspections =
-	 * inspectionService.getInspectionsByOrderNo(orderNo);
-	 * 
-	 * return inspections; }
-	 */
-
-	
 	@PostMapping("/api/inspections")
 	public Map<String, Object> getInspectionsByOrderNo(@RequestBody Map<String, String> request) {
 		String orderNo = request.get("orderNo");
@@ -59,22 +54,6 @@ public class InspectionController {
 
 		return response;
 	}
-	 
-
-	
-	/*
-	 * @PostMapping("/complete_inspection") public String
-	 * completeInspection(@RequestParam Integer inspecNo,
-	 * 
-	 * @RequestParam LocalDate inspecDate,
-	 * 
-	 * @RequestParam Integer percent) {
-	 * System.out.println("[InspectionController] completeInspection()");
-	 * 
-	 * inspectionService.completeInspection(inspecNo, inspecDate, percent);
-	 * 
-	 * return "redirect:/purchase_schedule"; }
-	 */
 
 
 }

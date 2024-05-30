@@ -17,7 +17,9 @@ public interface ContractRepository extends JpaRepository<Contract, Integer> {
 	
 	Long countByContractYn(char contractYn);
 
+
 	@Query("SELECT COUNT(*) FROM Contract  WHERE contract_date BETWEEN :startDate AND :endDate")
 	Long countByContractDate(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+
 	 
 }
