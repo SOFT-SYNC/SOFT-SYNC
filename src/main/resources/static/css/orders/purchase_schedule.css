@@ -30,7 +30,6 @@ margin: 10px 40px;
   background: white;
 
 } 
-
 .btn-container {
 	float: right;
 	margin: 0 90px 20px;
@@ -76,13 +75,13 @@ label {
 }
 
 .table {
-	width : 80%;
+	width : 85%;
 	margin : 20px auto;
 }
 .table th {
 	text-align : center;
 }
 .listTable {
-	width : 80%;
+	width : 85%;
 	margin : 20px auto;
 }

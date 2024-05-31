@@ -108,9 +108,9 @@ public class ContractService {
 
 
 
-	public Contract getContractByItemCode(String itemCode) {
-		System.out.println(contractRepository.findByItemItemCode(itemCode));
-		return contractRepository.findByItemItemCode(itemCode);
+	public Contract getContractByItemId(Long itemId) {
+		System.out.println(contractRepository.findByItemId(itemId));
+		return contractRepository.findByItemId(itemId);
 	    		 
 	}
 
@@ -118,6 +118,13 @@ public class ContractService {
 	public void contractOut(int contract_number) {
 		 Contract contract = contractRepository.getReferenceById(contract_number);
 		        contractRepository.delete(contract); // 변경된 계약 정보 저장
+	}
+
+
+
+	public Contract getContractByItemCode(String itemCode) {
+		System.out.println(contractRepository.findByItemItemCode(itemCode));
+		return contractRepository.findByItemItemCode(itemCode);
 	}
    
 }

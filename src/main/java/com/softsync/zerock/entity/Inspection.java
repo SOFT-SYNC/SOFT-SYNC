@@ -41,4 +41,7 @@ public class Inspection {
 	
 	@Column(nullable = false)
 	private Integer times; //차수
+	
+	@Column(nullable = false, columnDefinition = "CHAR(1) DEFAULT 'N'")
+	private String inspecYn = "N";
 }

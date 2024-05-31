@@ -152,36 +152,4 @@
 	</div>
 </body>
 
-<script>
-function registerInspectionss() {
-    // 입력값 가져오기
-    var orderNo = document.querySelector('#mainTable tbody tr:first-child td:first-child').innerText;
-    var times = document.getElementById('times').value;
-    var inspecPlan = document.getElementById('duedate').value;
-    var quantity = document.getElementById('quantity').value;
-
-    // POST 요청 보내기
-    fetch('/api/inspections/create', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: 'orderNo=' + encodeURIComponent(orderNo) + '&inspecPlan=' + encodeURIComponent(inspecPlan) + '&quantity=' + encodeURIComponent(quantity) + '&times=' + encodeURIComponent(times)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('검수 등록 중에 문제가 발생했습니다.');
-        }
-        return response.json();
-    })
-    .then(data => {
-        alert('새로운 검수 계획이 등록되었습니다.');
-        // 필요하다면 추가 작업 수행
-    })
-    .catch(error => {
-        console.error('Error registering inspection:', error);
-        alert('검수 등록 중에 문제가 발생했습니다.');
-    });
-}
-</script>
 </html>
