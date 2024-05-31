@@ -114,19 +114,22 @@ function registerInspectionss() {
 function addNewInspectionToTable(inspection) {
     const inspecPlanListBody = document.querySelector('#createtb tbody');
     
-    let row = `<tr>
-                    <td><input type="text" name="inspecNo" value="${inspection.inspecNo}" readonly></td>
-                    <td>${inspection.times}</td>
-                    <td>${inspection.inspecPlan}</td>
-                    <td>${inspection.inspecDate ? inspection.inspecDate : '-'}</td>
-					<td>${inspection.orders ? inspection.orders.orderQuantity : '-'}</td>
-					<td>${inspection.quantity ? inspection.quantity : '-'}</td>
-					<td><input type="text" name="percent" value="${inspection.percent ? inspection.percent : '-'}" readonly></td>
-					<td>
-					    <button type="button" class="blueBtn" th:if="${inspection.inspecYn == 'Y'}" disabled>완료</button>
-					    <button type="button" class="blueBtn" th:unless="${inspection.inspecYn == 'Y'}" onclick="markComplete(this, ${inspection.inspecNo})">검수확정</button>
-					</td>
-                </tr>`;
+    let row = '<tr>' +
+                '<td><input type="text" name="inspecNo" value="' + inspection.inspecNo + '" readonly></td>' +
+                '<td>' + inspection.times + '</td>' +
+                '<td>' + inspection.inspecPlan + '</td>' +
+                '<td>' + (inspection.inspecDate ? inspection.inspecDate : '-') + '</td>' +
+                '<td>' + (inspection.orders ? inspection.orders.orderQuantity : '-') + '</td>' +
+                '<td>' + (inspection.quantity ? inspection.quantity : '-') + '</td>' +
+                '<td><input type="text" name="percent" value="' + (inspection.percent ? inspection.percent : '-') + '" readonly></td>';
+
+    if (inspection.inspecYn === 'Y') {
+        row += '<td><button type="button" class="blueBtn" disabled>완료</button></td>';
+    } else {
+        row += '<td><button type="button" class="blueBtn" onclick="markComplete(this, ' + inspection.inspecNo + ')">검수확정</button></td>';
+    }
+    
+    row += '</tr>';
     
     inspecPlanListBody.innerHTML += row;
 }
@@ -136,16 +139,26 @@ function addNewInspectionToTable(inspection) {
 function markComplete(button) {
     var row = button.closest("tr");
     var inspecNo = row.cells[0].querySelector('input[name="inspecNo"]').value; // 검수번호 가져오기
-    var quantity = parseInt(row.cells[5].innerText);
+    var orderQuantity = parseInt(row.cells[4].innerText); // 발주량
+    var quantity = parseInt(row.cells[5].innerText); // 생산량
 
-    if (isNaN(quantity)) {
-        alert("생산량이 없습니다.");
+  if (isNaN(orderQuantity) || isNaN(quantity)) {
+        alert("발주량 또는 생산량이 유효하지 않습니다.");
         return;
     }
+    
+    // 진행률 계산
+    var percent = (quantity / orderQuantity) * 100;
+    
+       // percent 값을 소수점 둘째 자리까지 반올림하여 소수점 이하 자리를 제한
+    percent = Math.round(percent * 100) / 100;
 
+    // percent 값을 문자열로 변환하여 % 기호를 추가
+    percent = percent.toFixed(2) + "%";
+    
     var formData = new FormData();
     formData.append('inspecNo', inspecNo);
-    formData.append('percent', quantity);
+    formData.append('percent', percent);
 
     fetch('/saveInspection', {
         method: 'POST',
@@ -160,7 +173,7 @@ function markComplete(button) {
         // 검수가 완료되면 해당 행의 데이터를 업데이트하고 버튼을 변경
         //row.querySelector('input[name="percent"]').setAttribute('readonly', 'readonly');
        // row.querySelector('button').setAttribute('disabled', 'disabled');
-        row.querySelector('button').innerText = '완료';
+        //row.querySelector('button').innerText = '완료';
         alert('검수가 완료되었습니다.');
     })
     .catch(error => {

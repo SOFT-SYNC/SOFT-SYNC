@@ -238,9 +238,13 @@ public class OrderController {
 
 			LocalDate inspecDate = LocalDate.now();
 			
+			   if (!percent.endsWith("%")) {
+		            percent += "%";
+		        }
+			   
 			inspectionList.setInspection(inspection);
 			inspectionList.setPercent(percent);
-			inspectionList.setInspecYn("Y");
+			inspection.setInspecYn("Y");
 			inspectionList.setInspecDate(inspecDate);
 
 			inspectionService.saveInspectionList(inspectionList);

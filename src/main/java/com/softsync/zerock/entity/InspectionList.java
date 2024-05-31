@@ -40,7 +40,5 @@ public class InspectionList {
 	@Column (nullable =true)
 	private String inspecNote; //비고
 	
-	@Column(nullable = false, columnDefinition = "CHAR(1) DEFAULT 'N'")
-	private String inspecYn = "N";
 	 
 }
