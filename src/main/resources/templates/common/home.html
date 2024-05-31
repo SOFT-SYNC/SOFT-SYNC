@@ -97,23 +97,21 @@
 	      </div>
 	    </div>
 	    <div class="notice-wrap">
-	      <div class="noticeList">
-	        <a href="notice"><span class="home-title"> NOTICE LIST </span></a>
-	        <div class="notice-content">
-	        <table>
-	          <tr class="notice-item">
-	            <td>공지사항입니다.</td>
-	            <td>공지사항입니다.</td>
-	            <td>공지사항입니다.</td>
-	            <td>공지사항입니다.</td>
-	            <td>공지사항입니다.</td>
-	            <td>공지사항입니다.</td>
-	          </tr>
-	          
-	        </table>
-	        </div>
-	      </div>
-	    </div>
+		    <div class="noticeList">
+		        <a href="notice"><span class="home-title"> NOTICE LIST </span></a>
+		        <div th:if="${notices == null or notices.empty}" class="no_result">
+		            <p>공지사항이 없습니다.</p>
+		        </div>
+		        <div class="notice-content" th:if="${notices != null and not notices.empty}">
+		            <table>
+		                <tr th:each="notice : ${notices}" class="notice-item">
+		                    <td th:text="${notice.title}">공지사항입니다.</td>
+		                </tr>
+		            </table>
+		        </div>
+		    </div>
+		</div>
+
 	  <div id="row3">
 	  </div>
   </div>

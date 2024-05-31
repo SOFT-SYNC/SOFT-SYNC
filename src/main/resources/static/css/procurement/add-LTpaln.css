@@ -11,77 +11,45 @@ body {
 	margin: 0 90px 30px;
 }
 #row1 {
-/*  border: solid 1px #999; */
- box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
- background-color: white;
- border-radius: 5px;
- padding: 20px;
- margin: 10px 40px;
- overflow: hidden; 
+	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
+	background-color: white;
+	border-radius: 5px;
+	padding: 20px;
+	margin: 10px 40px;
 }
 
 .visual-title {
-  margin-bottom: 15px;
-  border-left: 3px solid black;
-  padding-left: 10px;
+	margin-bottom: 15px;
+	border-left: 3px solid black;
+	padding-left: 10px;
+}
+
+.regi-table-wrapper {
+	width: 100%;  /* 버튼 맞출거면 하단 주석 풀고 90%  */
+	overflow-x: auto;
+/* 	margin : 0 auto; */
+/* border-left : 1px solid #dadada;
+border-right : 1px solid #eee; */
 }
 
 .regi-table { 
-  width:90%;
-  border-radius: 5px;
-  margin: 20px auto;
+	width: 90%;
+	border-radius: 5px;
+/* 	margin: 20px auto; */
+	margin: 20px 80px;
 }
 
 .list-table {
-  width: 90%;
-  margin: 20px auto;
-  border-radius: 5px;
-  table-layout: fixed;
+	width: 90%;
+	margin: 20px auto;
+	border-radius: 5px;
+	table-layout: fixed;
 }
 
 #row2 {
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
-  background-color: white;
-  border-radius: 5px;
-  padding: 20px;
-  margin: 10px 40px;
-}
-
-.blueBtn {
-  padding: 10px 20px;
-  color: white;
-  background-color: #007BFF;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.blueBtn:hover {
-  background-color: #0056b3;
-}
-
-input[type="number"],
-.text2,.date2{
-  padding: 8px !important;
-  margin-right: 10px !important;
-  border: 1px solid #ddd !important;
-  border-radius: 4px !important;
-  width: 100% !important;
-  box-sizing: border-box !important;
-}
-
-input[type="date"],
-input[type="text"],
-select {
-  padding: 8px;
-  margin-right: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  width: 180px;
-  box-sizing: border-box;
-}
-
-input[type="checkbox"] {
-  margin-right: 5px;
+	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
+	background-color: white;
+	border-radius: 5px;
+	padding: 20px;
+	margin: 10px 40px;
 }

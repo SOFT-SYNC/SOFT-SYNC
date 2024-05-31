@@ -21,7 +21,7 @@ body {
 }
 
 #t3 tr:not(:first-child):hover {
-   background-color : #c0c2be;
+   background-color : #e3e4e2;
 }
 
 .visual-title {

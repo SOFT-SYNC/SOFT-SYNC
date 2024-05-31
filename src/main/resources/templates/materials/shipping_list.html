@@ -27,11 +27,12 @@
 							<option value="productName">제품명</option>
 							<option value="consumption">소요량</option>
 							<option value="stock">재고수량</option>
-						</select> <input type="text" id="searchInput" placeholder="검색..."> 
+						</select> 
+						<input type="text" id="searchInput" placeholder="검색..."> 
 						 <button type="button" class="blueBtn">검색</button>
 					</div>
 				</form>
-				<form id="shipmentForm" action="/api/saveShipmentList" method="post">
+				<form class="shipmentForm" id="shipmentForm" action="/api/saveShipmentList" method="post">
 				<!-- 결과 표시 테이블 -->
 				<table id="resultsTable">
 				        <thead>
@@ -66,7 +67,7 @@
 			</div>
 		</div>
 		
-		<div id="row1">
+		<div id="row2">
 			<h1 class="visual-title">출고내역</h1>
 			<div class="search-container">
 				<form id="searchForm">					

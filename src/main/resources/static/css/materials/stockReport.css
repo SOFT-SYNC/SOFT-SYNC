@@ -56,28 +56,7 @@ select {
   width: 180px;
 
 }
-input[type="checkbox"] {
-  margin-right: 5px;
-}
-input[type="number"] {
-	  padding: 8px;
-  margin-right: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  width: 100px;
-}
-.blueBtn {
-  padding: 10px 20px;
-  color: white;
-  background-color: #007BFF;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-.blueBtn:hover {
-  background-color: #0056b3;
-}
+
 .card-wrap {
   margin-left: 40px;
   display: flex;
@@ -118,14 +97,14 @@ input[type="number"] {
   margin: 1.5em auto !important;
 } */
 
-/************************************************************************/
-/***************************** 막대그래프 *****************************/
-/************************************************************************/
+/* /************************************************************************/
+**************************** 막대그래프 ****************************
+**********************************************************************
 .b-graph-wrap {
   margin-left: 40px;
   display: flex;
-/*   width: 80%; */
-/*   background-color: #ffff80; */
+  width: 80%;
+  background-color: #ffff80;
 }
 .b-graph {
   box-shadow: 0px 0px 35px 0px rgba(154, 161, 171, 0.15);
@@ -138,35 +117,35 @@ input[type="number"] {
   height : 600px
 }
 .b-graph-body {
-  height: 480px; /* 그래프 전체의 높이 */
+  height: 480px; 그래프 전체의 높이
   position: relative;
-  /* border: 1px solid #ccc;  */
-  /* background-color: #2196F3; */
+  border: 1px solid #ccc; 
+  background-color: #2196F3;
   
 }
 
 .bar {
   position: absolute;
-  bottom: 0; /* 그래프의 아래쪽에 막대가 정렬되도록 설정 */
-  width: 40px; /* 막대의 너비 */
+  bottom: 0; 그래프의 아래쪽에 막대가 정렬되도록 설정
+  width: 40px; 막대의 너비
   background-color: #2b80c5;
   height: 0%;
   transition: height 1s ease-in-out;
 }
 .bar2 {
   position: absolute;
-  bottom: 0; /* 그래프의 아래쪽에 막대가 정렬되도록 설정 */
-  width: 40px; /* 막대의 너비 */
+  bottom: 0; 그래프의 아래쪽에 막대가 정렬되도록 설정
+  width: 40px; 막대의 너비
   background-color: #de9712;
   height: 0%;
   transition: height 1s ease-in-out;
 }
 .bar3 {
   position: absolute;
-  bottom: 0; /* 그래프의 아래쪽에 막대가 정렬되도록 설정 */
-  width: 40px; /* 막대의 너비 */
+  bottom: 0; 그래프의 아래쪽에 막대가 정렬되도록 설정
+  width: 40px; 막대의 너비
   background-color: #008040;
   height: 0%;
   transition: height 1s ease-in-out;
 }
-
+ */
