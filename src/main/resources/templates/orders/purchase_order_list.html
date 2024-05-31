@@ -43,7 +43,7 @@
                        <th>검수현황</th>
                    </tr>
 
-                  <tr th:each="contract : ${contracts}" onchange="calculateSupplyAmount(this)" th:if="${contract.orders.size() > 0 && contract.orders[0].orderYn == 'Y'}">
+                  <tr th:each="contract : ${contracts}" th:if="${contract.orders.size() > 0 && contract.orders[0].orderYn == 'Y'}">
 					<td class="orderNo" th:text="${contract.orders.size() > 0 ? contract.orders[0].orderNo : '-'}">발주번호</td>
 					<td th:text="${contract.item.itemCode}">품목코드</td>
 					<td th:text="${contract.item.itemName}">품목명</td>
@@ -51,7 +51,7 @@
 					<td th:text="${contract.lead_time}">납기일</td>
 					<td class="orderQuantity" th:text="${contract.orders.size() > 0 ? contract.orders[0].orderQuantity : '-'}">발주수량</td>
 					<td class="unit_price" th:text="${contract.unit_price}">단가</td>
-					<td class="supplyAmount"></td> <!-- 공급가액 -->
+					<td class="supplyAmount" th:text="${contract.orders.size() > 0 ? contract.orders[0].totalPrice : '-'}">공급가액</td> <!-- 공급가액 -->
                        <td th:if="${contract.orders.size() > 0 && contract.orders[0].receiptYn == 'N'}">
 						<button class="blueBtn" onclick="location.href='purchase_order'">발주서발행</button>
 					</td>
@@ -63,20 +63,6 @@
     </div>
 </div>
 
-<script th:inline="javascript">
 
-    function calculateSupplyAmount(row) {
-        var orderQuantity = parseInt(row.querySelector('.orderQuantity').innerText.trim());
-        var unitPrice = parseInt(row.querySelector('.unit_price').innerText.trim());
-        var supplyAmount = orderQuantity * unitPrice;
-        row.querySelector('.supplyAmount').innerText = supplyAmount;
-    }
-
-
-    // 페이지가 로드될 때 공급가액을 계산하여 표시합니다.
-    window.onload = function() {
-        document.querySelector('#purchaseOrderListForm table').innerHTML = calculateSupplyPrice();
-    };
-</script>
 </body>
 </html>

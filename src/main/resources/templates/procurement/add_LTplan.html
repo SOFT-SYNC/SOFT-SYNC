@@ -4,8 +4,7 @@
 <head>
 <link type="text/css" rel="stylesheet" href="css/common/header.css">
 <link type="text/css" rel="stylesheet" href="css/common/common.css">
-<link type="text/css" rel="stylesheet"
-	href="css/procurement/add-LTpaln.css">
+<link type="text/css" rel="stylesheet" href="css/procurement/add-LTpaln.css">
 <link type="text/css" rel="stylesheet" href="css/common/sidebar.css">
 <script type="text/javascript" src="../js/sidebar.js"></script>
 <title>조달계획등록</title>
@@ -21,64 +20,51 @@
 				<div class="btn-container">
 					<button type="submit" class="blueBtn">조달계획등록</button>
 				</div>
-				<table class="regi-table">
-					<colgroup>
-						<col width="10%">
-						<col width="10%">
-						<col width="8%">
-						<col width="8%">
-						<col width="8%">
-						<col width="8%">
-						<col width="8%">
-						<col width="8%">
-						<col width="8%">
-						<col width="8%">
-						<col width="10%">
-
-					</colgroup>
-					<tr>
-						<th>생산시작일</th>
-						<th>생산종료일</th>
-						<th>생산제품코드</th>
-						<th>생산제품명</th>
-						<th>생산수량</th>
-						<th>품목코드</th>
-						<th>품목명</th>
-						<th>품목소요수량</th>
-						<th>조달간격(일)</th>
-						<th>조달수량</th>
-						<th>조달납기일</th>
-
-					</tr>
-					<tr>
-						<input type="hidden" id="regi_productionPlanId"
-							name="productionPlanId">
-						<input type="hidden" id="regi_itemId" name="itemId">
-						<td><input type="text" class="text2"
-							id="regi_productionStartDate" name="productionStartDate" readonly></td>
-						<td><input type="text" class="text2"
-							id="regi_productionEndDate" name="productionEndDate" readonly></td>
-						<td><input type="text" class="text2" id="regi_productCode"
-							name="productCode" readonly></td>
-						<td><input type="text" class="text2" id="regi_productName"
-							name="productName" readonly></td>
-						<td><input type="text" class="text2"
-							id="regi_productionQuantity" name="productionQuantity" readonly></td>
-						<td><input type="text" class="text2" id="regi_itemCode"
-							name="itemCode" readonly></td>
-						<td><input type="text" class="text2" id="regi_itemName"
-							name="itemName" readonly></td>
-						<td><input type="text" class="text2" id="regi_itemQuantity"
-							name="itemQuantity" readonly></td>
-						<td><input type="text" class="text2"
-							id="regi_procurementInterval" name="procurementInterval">
-						</td>
-						<td><input type="number" id="regi_procurementQuantity"
-							name="procurementQuantity"></td>
-						<td><input type="date" class="date2"
-							id="regi_procurementDueDate" name="procurementDueDate"></td>
-					</tr>
-				</table>
+				<div class="regi-table-wrapper">
+					<table class="regi-table">
+						<colgroup>
+							<col width="8%">
+							<col width="8%">
+							<col width="8%">
+							<col width="8%">
+							<col width="8%">
+							<col width="8%">
+							<col width="8%">
+							<col width="8%">
+							<col width="8%">
+							<col width="8%">
+							<col width="10%">
+						</colgroup>
+						<tr>
+							<th>생산시작일</th>
+							<th>생산종료일</th>
+							<th>생산제품코드</th>
+							<th>생산제품명</th>
+							<th>생산수량</th>
+							<th>품목코드</th>
+							<th>품목명</th>
+							<th>품목소요수량</th>
+							<th>조달간격(일)</th>
+							<th>조달수량</th>
+							<th>조달납기일</th>
+						</tr>
+						<tr>
+							<input type="hidden" id="regi_productionPlanId" name="productionPlanId">
+							<input type="hidden" id="regi_itemId" name="itemId">
+							<td><input type="text" class="text2" id="regi_productionStartDate" name="productionStartDate" readonly></td>
+							<td><input type="text" class="text2" id="regi_productionEndDate" name="productionEndDate" readonly></td>
+							<td><input type="text" class="text2" id="regi_productCode" name="productCode" readonly></td>
+							<td><input type="text" class="text2" id="regi_productName" name="productName" readonly></td>
+							<td><input type="text" class="text2" id="regi_productionQuantity" name="productionQuantity" readonly></td>
+							<td><input type="text" class="text2" id="regi_itemCode" name="itemCode" readonly></td>
+							<td><input type="text" class="text2" id="regi_itemName" name="itemName" readonly></td>
+							<td><input type="text" class="text2" id="regi_itemQuantity" name="itemQuantity" readonly></td>
+							<td><input type="text" class="text2" id="regi_procurementInterval" name="procurementInterval"></td>
+							<td><input type="number" id="regi_procurementQuantity" name="procurementQuantity"></td>
+							<td><input type="date" class="date2" id="regi_procurementDueDate" name="procurementDueDate"></td>
+						</tr>
+					</table>
+				</div>
 			</form>
 		</div>
 		<div id="row2">

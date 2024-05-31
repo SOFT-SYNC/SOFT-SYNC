@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.softsync.zerock.entity.Contract;
 import com.softsync.zerock.entity.Item;
+import com.softsync.zerock.entity.Notice;
 import com.softsync.zerock.entity.Orders;
 import com.softsync.zerock.entity.ProcurementPlan;
 import com.softsync.zerock.entity.ProductionPlan;
@@ -23,6 +24,7 @@ import com.softsync.zerock.repository.ItemRepository;
 import com.softsync.zerock.repository.ProcurementPlanRepository;
 import com.softsync.zerock.repository.ProductionPlanRepository;
 import com.softsync.zerock.service.ItemService;
+import com.softsync.zerock.service.NoticeService;
 import com.softsync.zerock.service.OrderService;
 import com.softsync.zerock.service.UploadFileService;
 import com.softsync.zerock.service.UserService;
@@ -40,6 +42,9 @@ public class BasicController {
 	
 	@Autowired
 	ItemRepository itemRepository;
+	
+	@Autowired
+	NoticeService noticeService;
 	
 	@Autowired
 	UploadFileService uploadFileService;
@@ -324,16 +329,20 @@ public class BasicController {
 //	public String purchaseview() {
 //		return"/orders/purchase_schedule";
 //	}
-
+	
 	@GetMapping("/dashBoard")
 	public String dashBoard(Model model) {
-			 System.out.println("[DashBoard]");
-			   List<Contract> contracts = orderService.getAllContracts();
-			    model.addAttribute("contracts", contracts);
-			    
-			    List<Orders> orderList = orderService.getAllOrders();
-			    model.addAttribute("orders", orderList); 
-		return"common/home";
+	    System.out.println("[DashBoard]");
+	    List<Contract> contracts = orderService.getAllContracts();
+	    model.addAttribute("contracts", contracts);
+
+	    List<Orders> orderList = orderService.getAllOrders();
+	    model.addAttribute("orders", orderList);
+
+	    List<Notice> notices = noticeService.getAllNotices();
+	    model.addAttribute("notices", notices);
+
+	    return "common/home";
 	}
 
 }

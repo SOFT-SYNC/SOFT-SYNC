@@ -18,8 +18,8 @@
     <div class="main-content">
         <div id="row1">
             <h2 class="visual-title">거래명세서</h2>
-            <div class="search-container">
-            
+            <div class="search-container">       
+            <form id="searchForm">
                     <!-- 날짜 선택 영역 -->
                     <div class="date-range">
                         <label for="startDate"></label>
@@ -39,7 +39,7 @@
                         <input type="text" id="searchInput" placeholder="검색...">
                         <button type="button" onclick="performSearch()" class="blueBtn">검색</button>
                     </div>
-              
+           		</form>
                 <!-- 결과 표시 테이블 -->
                 <table id="resultsTable" class="table">
                     <colgroup>

@@ -22,7 +22,9 @@ body {
 	width: 650px;
 	height: 800px;
 }
-
+#row1 select {
+	width : 200px;
+}
 /* .table { 
 	margin-top : 50px; 
 	} */

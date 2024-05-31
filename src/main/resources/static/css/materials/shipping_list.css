@@ -2,32 +2,15 @@ body {
   background-color: #f1f1f1;
 }
 
-#modalBody {
-  max-width: 70%; /* 최대 너비 */
-  max-height: 70%; /* 최대 높이 */
-  padding: 30px 30px;
-  margin: 0 auto;
-  overflow: auto;
-  position: relative;
-  border: 1px solid #777;
-  background-color: #fff;
-  border-radius: 15px;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
+#resultsTable {
+    width: 100%;
+    margin: 20px auto;
 }
 
-.table {
-	width : 90%;
-	margin : 20px auto 0;
-}
-.table1 {
-	width : 80%;
-	margin : 10px auto;
-}
 .table td {
-	colspan="2";
+    colspan="2";
 }
+
 #row1 {
 /* border: solid 1px #999; */
 box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); 
@@ -37,8 +20,8 @@ padding: 20px;
 margin: 10px 40px;
 }
 tr.small td input{
-	width : 100%;
-	margin : 0 auto;
+    width: 100%;
+    margin: 0 auto;
 }
 
 #row2 {
@@ -56,11 +39,19 @@ tr.small td input{
 }
 
 .search-container {
-  width: 90%;
+  width: 100%;
   margin: 20px auto;
   padding: 20px;
   border-radius: 5px;
 }
+.search-container form {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width : 90%;
+  margin : 0 auto;
+}
+
 form div {
   margin-bottom: 20px;
 }
@@ -69,15 +60,13 @@ label {
 }
 
 
-.search-container form {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
+
 
 .actions {
-  text-align: right;
-  margin-top: 10px;
+	width : 100%;
+}
+.actions button {
+	float : right;
 }
 
 /* 반응형 웹 */
@@ -90,18 +79,4 @@ label {
   select, input[type="date"], input[type="text"], button {
       width: calc(100% - 16px);
   }
-}
-
-
-.sort-button {
-  cursor: pointer;
-  background: none;
-  border: none;
-  color: #007BFF;
-  padding: 0;
-  margin-left: 5px;
-}
-.regiBtn {
-	float: right; 
-	margin-bottom : 10px
 }

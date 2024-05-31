@@ -16,18 +16,43 @@ body {
    border-left: 3px solid black;
    padding-left: 10px;
  }
- 
- 
- .regi-table { 
-   width:100%;
-   border-radius: 5px;
- }
- .list-table { 
-  width:100%;
+ .search-container {
+  width: 100%;
+  margin: 20px auto;
+  padding: 20px;
   border-radius: 5px;
 }
+.search-container form {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width : 90%;
+  margin : 0 auto;
+}
+ .btn-container {
+	float: right;
+	margin: 0 90px 20px;
+}
  
- 
+.regi-table { 
+  width:90%;
+  border-radius: 5px;
+  margin: 20px auto;
+}
+
+.list-table {
+  width: 90%;
+  margin: 20px auto;
+  border-radius: 5px;
+  table-layout: fixed;
+}
+ .table td {
+   colspan="2";
+}
+table th{
+	text-align: center; /* 가로 중앙 정렬 */
+    vertical-align: middle; /* 세로 중앙 정렬 */
+}
  #row2 {
 /*    border: solid 1px #999; */
    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
@@ -36,66 +61,3 @@ body {
    padding: 20px;
    margin: 10px 40px;
  }
-
-input[type="date"],
-input[type="text"],
-select {
-  padding: 8px;
-  margin-right: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  width: 180px;
-
-}
-input[type="checkbox"] {
-  margin-right: 5px;
-}
-input[type="number"] {
-	  padding: 8px;
-  margin-right: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  width: 100px;
-}
-.blueBtn {
-  padding: 10px 20px;
-  color: white;
-  background-color: #007BFF;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-.blueBtn:hover {
-  background-color: #0056b3;
-}
-
-.paging-wrap {
-	display :flex;
-}
-  .pagination {
-       display: inline-block;
-       padding-left: 0;
-       margin: 20px auto;
-       border-radius: 4px;
-   }
-   .pagination li {
-       display: inline;
-   }
-   .pagination li a {
-       color: black;
-       float: left;
-       padding: 8px 16px;
-       text-decoration: none;
-       border: 1px solid #ddd;
-   }
-   .pagination li a.active {
-       background-color: #aebdf2;
-       color: white;
-       border: 1px solid #aebdf2;
-   }
-      .pagination li a:hover {
-       background-color: #004080;
-       color: white;
-       border: 1px solid #004080;
-   }

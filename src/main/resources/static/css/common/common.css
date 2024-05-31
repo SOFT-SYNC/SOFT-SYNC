@@ -126,11 +126,12 @@ th, td {
 .blueBtn {
 	padding: 10px 20px;
 	color: white;
-	background-color: #007BFF;
+	background-color: #2d91ff;
 	border: none;
 	border-radius: 4px;
 	cursor: pointer;
 	transition: background-color 0.3s ease;
+	heigth : 
 }
 
 .blueBtn:hover {
@@ -139,12 +140,22 @@ th, td {
 
 
 /* input 기본 세팅 */
-input[type="date"], input[type="text"], select {
-	padding: 8px;
+input[type="date"]{
+		padding: 8px;
 	margin-right: 10px;
 	border: 1px solid #ddd;
 	border-radius: 4px;
 	width: 180px;
+	height: 40px;
+}
+
+ input[type="text"], select {
+	padding: 8px;
+	margin-right: 10px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	/* width: 180px; */
+	height: 40px;
 }
 
 input[type="checkbox"] {
@@ -193,4 +204,49 @@ input[type="number"] {
 	background-color: #004080;
 	color: white;
 	border: 1px solid #004080;
+	
 }
+
+
+/*************************** 스크롤바 스타일링 ***************************/
+::-webkit-scrollbar {
+	width: 12px; /* 스크롤바 너비 */
+	height: 10px; /* 가로 스크롤바 높이 */
+}
+
+/* 세로  */
+::-webkit-scrollbar-thumb:vertical {
+	background: #a4a4a4; 
+	border-radius: 10px; 
+}
+::-webkit-scrollbar-thumb:vertical:hover {
+	background: #757575; 
+}
+::-webkit-scrollbar-track:vertical {
+ background: #d4d4d4;
+}
+
+
+/* 가로 */
+::-webkit-scrollbar-thumb:horizontal {
+	background: #bfdeff; 
+	border-radius: 10px; 
+}
+
+::-webkit-scrollbar-thumb:horizontal:hover {
+	background: #8ac1ff; /* 가로 스크롤바 호버 색상 */
+}
+
+::-webkit-scrollbar-track:horizontal {
+	background: #f0f0f0; /* 스크롤바 트랙 색상 */
+		border-radius: 10px; 
+}
+
+/* ::-webkit-scrollbar-corner {
+	background: #f1f1f1;
+} */
+
+/* 스크롤바 화살표 버튼 숨기기 */
+/* ::-webkit-scrollbar-button {
+	display: none; 스크롤바 화살표 버튼 숨기기
+} */
