@@ -15,7 +15,7 @@ public interface OrderRepository extends JpaRepository<Orders,String>{
 
 	  Orders findByOrderNo(String orderNo);
 
-	  Long countByOrderYn(String orderYn);
+	  Long countByReceiptYn(String orderYn);
 	  
 	  @Query("SELECT COUNT(*) FROM Orders WHERE orderDate BETWEEN :startDate AND :endDate")
 		Long countByOrderDate(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);

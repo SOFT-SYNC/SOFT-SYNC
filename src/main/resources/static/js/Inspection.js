@@ -1,7 +1,10 @@
-function addToMainTable(button) {
-    let orderNo = button.closest('tr').querySelector('td').innerText;
-    fetchInspections(orderNo);
-}
+
+
+   function addToMainTable(button) {
+      let orderNo = button.closest('tr').querySelector('td').innerText;
+      fetchInspections(orderNo);
+   }
+   
 
 function fetchInspections(orderNo) {
     var url = `/api/inspections`;
@@ -20,29 +23,32 @@ function fetchInspections(orderNo) {
         return response.json();
     })
     .then(data => {
-        console.log("Data received from server: ", data);
         populateMainTable(data.order);
         populateInspecPlanList(data.inspectionList);
+        console.log(data);
     })
     .catch(error => {
         console.error('Error fetching inspections:', error);
     });
 }
 
-function populateMainTable(order) {
-    const mainTableBody = document.querySelector('#mainTable tbody');
-    mainTableBody.innerHTML = ''; 
-    const receiveDuedate = new Date(order.receiveDuedate).toISOString().split('T')[0];
-    let row = `<tr>
-                <td>${order.orderNo}</td>
-                <td>${order.orderDate}</td>
-                <td>${receiveDuedate}</td>
-                <td>${order.item.itemCode}</td>
-                <td>${order.item.itemName}</td>
-                <td>${order.orderQuantity}</td>
-              </tr>`;
-    mainTableBody.innerHTML += row;
-}
+
+   function populateMainTable(order) {
+	    const mainTableBody = document.querySelector('#mainTable tbody');
+	    mainTableBody.innerHTML = ''; 
+	    // 입고예정일 to yyyy-MM-dd
+	    const receiveDuedate = new Date(order.receiveDuedate).toISOString().split('T')[0];
+	    let row = `<tr>
+	                <td>${order.orderNo}</td>
+	                <td>${order.orderDate}</td>
+	                <td>${receiveDuedate}</td>
+	                <td>${order.item.itemCode}</td>
+	                <td>${order.item.itemName}</td>
+	                <td>${order.orderQuantity}</td>
+	              </tr>`;
+	    mainTableBody.innerHTML += row;
+	}
+
 
 function populateInspecPlanList(inspectionList) {
     const inspecPlanListBody = document.querySelector('#createtb tbody');
@@ -55,38 +61,31 @@ function populateInspecPlanList(inspectionList) {
 
     inspectionList.forEach(inspection => {
         let row = '';
-        let inspecDate = '-';
-        let percent = '-';
-
-        if (inspection.inspectionList.length > 0) {
-            // inspectionList가 비어있지 않다면 값을 가져옴
-            let inspecDetails = inspection.inspectionList[0];
-            inspecDate = inspecDetails.inspecDate ? inspecDetails.inspecDate : '-';
-            percent = inspecDetails.percent ? inspecDetails.percent : '-';
-        }
-
-        row = `<tr>
-                    <td><input type="text" name="inspecNo" value="${inspection.inspecNo}" readonly></td>
-                    <td>${inspection.times}</td>
-                    <td>${inspection.inspecPlan}</td>
-                    <td>${inspection.inspecYn === 'Y' ? inspecDate : '-'}</td>
-                    <td>${inspection.orders ? inspection.orders.orderQuantity : '-'}</td>
-                    <td>${inspection.quantity ? inspection.quantity : '-'}</td>
-                    <td><input type="text" name="percent" value="${inspection.inspecYn === 'Y' ? percent : '-'}" readonly></td>
-                    <td>${inspection.inspecYn === 'Y' ? '<button type="button" class="blueBtn" disabled>완료</button>' : '<button type="button" class="blueBtn" onclick="markComplete(this)">검수확정</button>'}</td>
-                </tr>`;
-        
+        if (inspection.inspecNo) {
+            row = `<tr>
+                        <td><input type="text" name="inspecNo" value="${inspection.inspecNo}" readonly></td>
+                        <td>${inspection.times}</td>
+                        <td>${inspection.inspecPlan}</td>
+                        <td>${inspection.inspectionList.inspecDate ? inspection.inspectionList.inspecDate : '-'}</td>
+                        <td>${inspection.orders ? inspection.orders.orderQuantity : '-'}</td>
+                        <td>${inspection.quantity ? inspection.quantity : '-'}</td>
+                        <td><input type="text" name="percent" value="${inspection.inspectionList.percent ? inspection.inspectionList.percent : '-'}" readonly></td>
+                        <td>${inspection.inspectionList.inspecYn === 'Y' ? '<button type="button" class="blueBtn" disabled>완료</button>' : '<button type="button" class="blueBtn" onclick="markComplete(this)">검수확정</button>'}</td>
+                    </tr>`;
+        } 
         inspecPlanListBody.innerHTML += row;
         console.log(inspection);
     });
 }
-
+//********************차수 등록 **********************************
 function registerInspectionss() {
+    // 입력값 가져오기
     var orderNo = document.querySelector('#mainTable tbody tr:first-child td:first-child').innerText;
     var times = document.getElementById('times').value;
     var inspecPlan = document.getElementById('duedate').value;
     var quantity = document.getElementById('quantity').value;
 
+    // POST 요청 보내기
     fetch('/api/inspections/create', {
         method: 'POST',
         headers: {
@@ -102,6 +101,8 @@ function registerInspectionss() {
     })
     .then(data => {
         alert('새로운 검수 계획이 등록되었습니다.');
+
+        // 새로운 검수 계획을 createtb 테이블에 추가
         addNewInspectionToTable(data);
     })
     .catch(error => {
@@ -113,32 +114,28 @@ function registerInspectionss() {
 function addNewInspectionToTable(inspection) {
     const inspecPlanListBody = document.querySelector('#createtb tbody');
     
-    let inspecDate = '-';
-    let percent = '-';
-
-    if (inspection.inspectionList && inspection.inspectionList.length > 0) {
-        let inspecDetails = inspection.inspectionList[0];
-        inspecDate = inspecDetails.inspecDate ? inspecDetails.inspecDate : '-';
-        percent = inspecDetails.percent ? inspecDetails.percent : '-';
-    }
-
     let row = `<tr>
                     <td><input type="text" name="inspecNo" value="${inspection.inspecNo}" readonly></td>
                     <td>${inspection.times}</td>
                     <td>${inspection.inspecPlan}</td>
-                    <td>${inspection.inspecYn === 'Y' ? inspecDate : '-'}</td>
-                    <td>${inspection.orderQuantity ? inspection.orderQuantity : '-'}</td>
-                    <td>${inspection.quantity ? inspection.quantity : '-'}</td>
-                    <td><input type="text" name="percent" value="${inspection.inspecYn === 'Y' ? percent : '-'}" readonly></td>
-                    <td>${inspection.inspecYn === 'Y' ? '<button type="button" class="blueBtn" disabled>완료</button>' : '<button type="button" class="blueBtn" onclick="markComplete(this)">검수확정</button>'}</td>
+                    <td>${inspection.inspecDate ? inspection.inspecDate : '-'}</td>
+					<td>${inspection.orders ? inspection.orders.orderQuantity : '-'}</td>
+					<td>${inspection.quantity ? inspection.quantity : '-'}</td>
+					<td><input type="text" name="percent" value="${inspection.percent ? inspection.percent : '-'}" readonly></td>
+					<td>
+					    <button type="button" class="blueBtn" th:if="${inspection.inspecYn == 'Y'}" disabled>완료</button>
+					    <button type="button" class="blueBtn" th:unless="${inspection.inspecYn == 'Y'}" onclick="markComplete(this, ${inspection.inspecNo})">검수확정</button>
+					</td>
                 </tr>`;
     
     inspecPlanListBody.innerHTML += row;
 }
 
+
+
 function markComplete(button) {
     var row = button.closest("tr");
-    var inspecNo = row.cells[0].querySelector('input[name="inspecNo"]').value;
+    var inspecNo = row.cells[0].querySelector('input[name="inspecNo"]').value; // 검수번호 가져오기
     var quantity = parseInt(row.cells[5].innerText);
 
     if (isNaN(quantity)) {
@@ -158,29 +155,20 @@ function markComplete(button) {
         if (!response.ok) {
             throw new Error('검수 등록 중에 문제가 발생했습니다.');
         }
-        return response.json();
     })
     .then(data => {
+        // 검수가 완료되면 해당 행의 데이터를 업데이트하고 버튼을 변경
+        //row.querySelector('input[name="percent"]').setAttribute('readonly', 'readonly');
+       // row.querySelector('button').setAttribute('disabled', 'disabled');
+        row.querySelector('button').innerText = '완료';
         alert('검수가 완료되었습니다.');
-        updateInspectionRow(row, data);
     })
     .catch(error => {
         console.error('Error registering inspection:', error);
         alert('검수 등록 중에 문제가 발생했습니다.');
     });
 }
-
-function updateInspectionRow(row, inspection) {
-    let inspecDate = '-';
-    let percent = '-';
-
-    if (inspection.inspectionList && inspection.inspectionList.length > 0) {
-        let inspecDetails = inspection.inspectionList[0];
-        inspecDate = inspecDetails.inspecDate ? inspecDetails.inspecDate : '-';
-        percent = inspecDetails.percent ? inspecDetails.percent : '-';
-    }
-
-    row.cells[3].innerText = inspection.inspecYn === 'Y' ? inspecDate : '-';
-    row.cells[6].querySelector('input[name="percent"]').value = inspection.inspecYn === 'Y' ? percent : '-';
-    row.cells[7].innerHTML = '<button type="button" class="blueBtn" disabled>완료</button>';
-}
+   
+   
+   
+ 
