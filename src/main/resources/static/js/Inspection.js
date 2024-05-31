@@ -49,25 +49,30 @@ function fetchInspections(orderNo) {
 	    mainTableBody.innerHTML += row;
 	}
 
-
 function populateInspecPlanList(inspectionList) {
+console.log(inspectionList); // inspectionList를 콘솔에 출력하여 확인
     const createtbBody = document.querySelector('#createtb tbody');
     createtbBody.innerHTML = '';
 
     inspectionList.forEach(inspection => {
+        let inspecDate = inspection.inspecDate ? new Date(inspection.inspecDate).toISOString().split('T')[0] : '-'; // 검수일 변환
+        let percent = inspection.percent ? inspection.percent : '-'; // 진행률 확인
+
         let row = `<tr>
                     <td><input type="text" name="inspecNo" value="${inspection.inspecNo}" readonly></td>
                     <td>${inspection.times}</td>
                     <td>${inspection.inspecPlan}</td>
-                    <td>${inspection.inspecDate ? inspection.inspecDate : '-'}</td>
+                    <td>${inspecDate}</td>
                     <td>${inspection.orders ? inspection.orders.orderQuantity : '-'}</td>
                     <td>${inspection.quantity ? inspection.quantity : '-'}</td>
-                    <td><input type="text" name="percent" value="${inspection.percent ? inspection.percent : '-'}" readonly></td>
+                    <td><input type="text" name="percent" value="${percent}" readonly></td>
                     <td>${inspection.inspecYn == 'Y' ? '<button type="button" class="blueBtn" disabled>완료</button>' : '<button type="button" class="blueBtn" onclick="markComplete(this, ' + inspection.inspecNo + ')">검수확정</button>'}</td>
                   </tr>`;
         createtbBody.innerHTML += row;
     });
 }
+
+
 //********************차수 등록 **********************************
 function registerInspectionss() {
     // 입력값 가져오기
