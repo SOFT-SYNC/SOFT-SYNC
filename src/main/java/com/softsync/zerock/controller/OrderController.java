@@ -1,6 +1,7 @@
 package com.softsync.zerock.controller;
 
 import java.sql.Date;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -238,10 +239,7 @@ public class OrderController {
 
 			LocalDate inspecDate = LocalDate.now();
 			
-			   if (!percent.endsWith("%")) {
-		            percent += "%";
-		        }
-			   
+			 
 			inspectionList.setInspection(inspection);
 			inspectionList.setPercent(percent);
 			inspection.setInspecYn("Y");

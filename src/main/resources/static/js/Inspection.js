@@ -51,30 +51,21 @@ function fetchInspections(orderNo) {
 
 
 function populateInspecPlanList(inspectionList) {
-    const inspecPlanListBody = document.querySelector('#createtb tbody');
-    inspecPlanListBody.innerHTML = '';
-
-    if (!inspectionList || inspectionList.length === 0) {
-        console.log("검수 정보가 없습니다.");
-        return;
-    }
+    const createtbBody = document.querySelector('#createtb tbody');
+    createtbBody.innerHTML = '';
 
     inspectionList.forEach(inspection => {
-        let row = '';
-        if (inspection.inspecNo) {
-            row = `<tr>
-                        <td><input type="text" name="inspecNo" value="${inspection.inspecNo}" readonly></td>
-                        <td>${inspection.times}</td>
-                        <td>${inspection.inspecPlan}</td>
-                        <td>${inspection.inspectionList.inspecDate ? inspection.inspectionList.inspecDate : '-'}</td>
-                        <td>${inspection.orders ? inspection.orders.orderQuantity : '-'}</td>
-                        <td>${inspection.quantity ? inspection.quantity : '-'}</td>
-                        <td><input type="text" name="percent" value="${inspection.inspectionList.percent ? inspection.inspectionList.percent : '-'}" readonly></td>
-                        <td>${inspection.inspectionList.inspecYn === 'Y' ? '<button type="button" class="blueBtn" disabled>완료</button>' : '<button type="button" class="blueBtn" onclick="markComplete(this)">검수확정</button>'}</td>
-                    </tr>`;
-        } 
-        inspecPlanListBody.innerHTML += row;
-        console.log(inspection);
+        let row = `<tr>
+                    <td><input type="text" name="inspecNo" value="${inspection.inspecNo}" readonly></td>
+                    <td>${inspection.times}</td>
+                    <td>${inspection.inspecPlan}</td>
+                    <td>${inspection.inspecDate ? inspection.inspecDate : '-'}</td>
+                    <td>${inspection.orders ? inspection.orders.orderQuantity : '-'}</td>
+                    <td>${inspection.quantity ? inspection.quantity : '-'}</td>
+                    <td><input type="text" name="percent" value="${inspection.percent ? inspection.percent : '-'}" readonly></td>
+                    <td>${inspection.inspecYn == 'Y' ? '<button type="button" class="blueBtn" disabled>완료</button>' : '<button type="button" class="blueBtn" onclick="markComplete(this, ' + inspection.inspecNo + ')">검수확정</button>'}</td>
+                  </tr>`;
+        createtbBody.innerHTML += row;
     });
 }
 //********************차수 등록 **********************************
@@ -102,38 +93,12 @@ function registerInspectionss() {
     .then(data => {
         alert('새로운 검수 계획이 등록되었습니다.');
 
-        // 새로운 검수 계획을 createtb 테이블에 추가
-        addNewInspectionToTable(data);
     })
     .catch(error => {
         console.error('Error registering inspection:', error);
         alert('검수 등록 중에 문제가 발생했습니다.');
     });
 }
-
-function addNewInspectionToTable(inspection) {
-    const inspecPlanListBody = document.querySelector('#createtb tbody');
-    
-    let row = '<tr>' +
-                '<td><input type="text" name="inspecNo" value="' + inspection.inspecNo + '" readonly></td>' +
-                '<td>' + inspection.times + '</td>' +
-                '<td>' + inspection.inspecPlan + '</td>' +
-                '<td>' + (inspection.inspecDate ? inspection.inspecDate : '-') + '</td>' +
-                '<td>' + (inspection.orders ? inspection.orders.orderQuantity : '-') + '</td>' +
-                '<td>' + (inspection.quantity ? inspection.quantity : '-') + '</td>' +
-                '<td><input type="text" name="percent" value="' + (inspection.percent ? inspection.percent : '-') + '" readonly></td>';
-
-    if (inspection.inspecYn === 'Y') {
-        row += '<td><button type="button" class="blueBtn" disabled>완료</button></td>';
-    } else {
-        row += '<td><button type="button" class="blueBtn" onclick="markComplete(this, ' + inspection.inspecNo + ')">검수확정</button></td>';
-    }
-    
-    row += '</tr>';
-    
-    inspecPlanListBody.innerHTML += row;
-}
-
 
 
 function markComplete(button) {
@@ -170,10 +135,7 @@ function markComplete(button) {
         }
     })
     .then(data => {
-        // 검수가 완료되면 해당 행의 데이터를 업데이트하고 버튼을 변경
-        //row.querySelector('input[name="percent"]').setAttribute('readonly', 'readonly');
-       // row.querySelector('button').setAttribute('disabled', 'disabled');
-        //row.querySelector('button').innerText = '완료';
+     
         alert('검수가 완료되었습니다.');
     })
     .catch(error => {
