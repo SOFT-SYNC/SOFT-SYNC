@@ -3,6 +3,7 @@ package com.softsync.zerock.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -23,15 +24,19 @@ public class ReceivingController {
 	ReceivingService receivingService;
 
 	@GetMapping("/receivings")
-	public String receiving(Model model, @PageableDefault(size = 10) Pageable pageable) {
+	public String receiving(Model model, @PageableDefault(size = 5) @Qualifier("page1") Pageable pageable,
+			@PageableDefault(size = 5) @Qualifier("page2") Pageable pagere ) {
 		System.out.println("입고 컨트롤러 : 리스트 조회");
 		
 		List<Receiving> receivings = receivingService.resiving();
+		Page<Receiving> receivingsP = receivingService.getAllItem(pagere);
+		
 		List<ReceiveList> receiveLists = receivingService.resList();
 		Page<ReceiveList> receiveListsP = receivingService.getAllItems(pageable);
 		model.addAttribute("receivings", receivings);
 		model.addAttribute("receiveLists", receiveLists);
 		model.addAttribute("receiveListsP", receiveListsP); //페이지용
+		model.addAttribute("receivingsP", receivingsP); //페이지용
 		return "/materials/receivings";
 	}
 	

@@ -45,8 +45,9 @@
 	        </div>
       	    <div class="card">
 	          <div class="card-body">
-	            <p class="card-title">진척검사 완료</p>
-	            <h2 class="card-content">20</h2>
+	            <p class="card-title">진척검수 완료</p>
+	            <h2 class="card-content insptext" th:text="${arr[2]}"></h2>
+	            <input type="hidden" th:value="${arr[2]}" class="inspect"> 
 	          </div>
 	        </div>
    	        <div class="card">
@@ -94,7 +95,7 @@
 	  var order = document.querySelector(".order").value;
 	  var invoice = document.querySelector(".invoice").value; */
 	
-	  function update(contract,order,invoice){
+	  function update(contract,order,inspect,invoice){
 	      option = {
 	          xAxis: {
 	              type: 'category',
@@ -105,7 +106,7 @@
 	          },
 	          series: [
 	              {
-	                  data: [contract, order, 5, invoice],
+	                  data: [contract, order, inspect, invoice],
 	                  type: 'bar',
 	                  showBackground: true,
 	                  backgroundStyle: {
@@ -127,8 +128,9 @@
 	  var contract = document.querySelector(".contract").value;
 	  var order = document.querySelector(".order").value;
 	  var invoice = document.querySelector(".invoice").value; 
+	  var inspect = document.querySelector(".inspect").value; 
 		
-	  update(contract,order,invoice);
+	  update(contract,order,inspect,invoice);
 	  
       $('#searchBtn').click(function() {
           var startDate = $('#startDate').val();
@@ -150,10 +152,12 @@
             	  $('.contract').val(data[0]);
                   $('.ordertext').text(data[1]);
                   $('.orderCount').val(data[1]);
+                  $('.insptext').text(data[2]);
+                  $('.inspect').val(data[2]);
+                  
                   $('.invtext').text(data[3]);
                   $('.invoice').val(data[3]);
-                  
-                  update(data[0],data[1],data[3]);
+                  update(data[0],data[1],date[2],data[3]);
               },
               error: function(xhr, status, error) {
                   console.error(xhr.responseText);

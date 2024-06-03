@@ -211,16 +211,16 @@ public class OrderController {
 			    model.addAttribute("orders", orderList); 
 			    
 
-//			    List<Inspection> inspections = inspectionService.getAllInspections();
-//			    model.addAttribute("inspections", inspections);
-//			    
-//			    List<InspectionList> inspectionList = inspectionListService.getAllInspectionList();
-//			    model.addAttribute("inspectionList", inspectionList);
-//			    
-//			    System.out.println("[OrderController] Inspections:");
-//			    for (Inspection inspection : inspections) {
-//			        System.out.println(inspection.toString());
-//			    }
+			    List<Inspection> inspections = inspectionService.getAllInspections();
+			    model.addAttribute("inspections", inspections);
+			    
+			    List<InspectionList> inspectionList = inspectionListService.getAllInspectionList();
+			    model.addAttribute("inspectionList", inspectionList);
+			    
+			    System.out.println("[OrderController] Inspections:");
+			    for (Inspection inspection : inspections) {
+			        System.out.println(inspection.toString());
+			    }
 			   
 
 			return"/orders/purchase_schedule";
@@ -242,7 +242,7 @@ public class OrderController {
 			 
 			inspectionList.setInspection(inspection);
 			inspectionList.setPercent(percent);
-			inspection.setInspecYn("Y");
+			inspection.setInspecYn('Y');
 			inspectionList.setInspecDate(inspecDate);
 
 			inspectionService.saveInspectionList(inspectionList);

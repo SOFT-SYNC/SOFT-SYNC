@@ -54,7 +54,7 @@
           <th> 입고마감일</th>
           <th> 현황</th>
         </tr>
-        <th:block th:each="receiving : ${receivings}">
+        <th:block th:each="receiving : ${receivingsP}">
         <tr>
           <td>
             <input type="hidden" class="receiving-number" th:value="${receiving.receiveNumber}">
@@ -77,7 +77,30 @@
         </th:block>
       </table>  
     </div>
+    <div class="paging-wrap">
+			    <ul class="pagination">
+			        <!-- 이전 페이지 링크 -->
+			        <li th:if="${receivingsP.hasPrevious()}">
+			            <a th:href="@{/receivings(page=${receivingsP.previousPageable().pageNumber})}">이전</a>
+			        </li>
+			        
+			        <!-- 페이지 번호 링크 -->
+			        <th:block th:with="startPage=${receivingsP.number - 4 >= 0 ? receivingsP.number - 4 : 0},
+			                    endPage=${receivingsP.number + 4 < receivingsP.totalPages ? receivingsP.number + 4 : receivingsP.totalPages - 1}">
+			            <li th:each="i : ${#numbers.sequence(startPage, endPage)}">
+			                <a th:href="@{/receivings(page=${i})}" th:classappend="${i == receivingsP.number} ? 'active' : ''" th:text="${i + 1}">Page number</a>
+			            </li>
+			        </th:block>
+			        
+			        <!-- 다음 페이지 링크 -->
+			        <li th:if="${receivingsP.hasNext()}">
+			            <a th:href="@{/receivings(page=${receivingsP.nextPageable().pageNumber})}">다음</a>
+			        </li>
+			    </ul>
+			</div>
   </div>
+  
+  
     <div id="row1">
     <form action="saveReceiving" method="post" onsubmit="return confirmReceiving()">
 	      <h2 class="visual-title">자재입고</h2>
@@ -150,14 +173,14 @@
 	          <th> 발주수량</th>
 	          <th> 입고수량</th>
 	        </tr>
-			<tr th:each="receiveList : ${receiveLists}" >
-				<td th:text="${receiveList.receiving.orders.orderNo}"></td>
-				<td th:text="${receiveList.receiving.orders.contract.item.itemCode}"></td>
-				<td th:text="${receiveList.receiving.orders.contract.item.itemName}"></td>
-				<td th:text="${receiveList.sysdate}"></td>
-				<td th:text="${receiveList.receiving.orders.orderQuantity}"></td>
-				<td th:text="${receiveList.quantity}"></td>
-			</tr>	
+			<tr th:each="receiveList : ${receiveListsP.content}" >
+			    <td th:text="${receiveList.receiving.orders.orderNo}"></td>
+			    <td th:text="${receiveList.receiving.orders.contract.item.itemCode}"></td>
+			    <td th:text="${receiveList.receiving.orders.contract.item.itemName}"></td>
+			    <td th:text="${receiveList.sysdate}"></td>
+			    <td th:text="${receiveList.receiving.orders.orderQuantity}"></td>
+			    <td th:text="${receiveList.quantity}"></td>
+			</tr>
 	      </table>  
 	      
 	      

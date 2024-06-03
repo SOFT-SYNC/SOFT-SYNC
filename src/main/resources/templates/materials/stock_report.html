@@ -1,264 +1,179 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>재고관리 리포트</title>
 <link type="text/css" rel="stylesheet" href="../CSS/common/header.css">
 <link type="text/css" rel="stylesheet" href="../CSS/common/common.css">
 <link type="text/css" rel="stylesheet" href="../CSS/common/sidebar.css">
-  <link type="text/css" rel="stylesheet" href="../css/materials/stockReport.css">
-  <script type="text/javascript" src="../js/sidebar.js"></script>
-  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
-
+<link type="text/css" rel="stylesheet" href="../css/materials/stockReport.css">
+<script type="text/javascript" src="../js/sidebar.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-	<div th:insert="~{common/sidebar :: sidebar}"></div>
-			<div th:insert="~{common/header :: header}"></div>
-	<div class="main-content">
+    <div th:insert="~{common/sidebar :: sidebar}"></div>
+    <div class="main-content">
+        <div th:insert="~{common/header :: header}"></div>
+        <div id="row1">
+            <h1 class="visual-title">재고관리 리포트</h1>
+            <div class="content-card">
+                <!-- 차트 영역 -->
+                <canvas id="inventoryChart" style="height: 500px; width: 100%;"></canvas>
 
-		<div id="row1">
-		<h1 class="visual-title">재고관리 리포트</h1>
-		<div class="content-card">
-<div id="container1" style="height: 700px; width: 70%;"></div>
-	    <!-- <div class="b-graph-wrap">
-	      <div class="b-graph">
-	        <p class="home-title">MONTHLY REPORT </p>
-	        <div class="b-graph-body">
-	          <div class="bar"></div>
-	          <div class="bar2"></div>
-	          <div class="bar3"></div>
-	          <div class="bar"></div>
-	          <div class="bar2"></div>
-	          <div class="bar3"></div>
-	           <div class="bar"></div>
-	          <div class="bar2"></div>
-	          <div class="bar3"></div>
-	          <div class="bar"></div>
-	          <div class="bar2"></div>
-	          <div class="bar3"></div>
-	        </div>
-	      </div>
-	    </div> -->
-	    <div class="card-wrap">
-	    <form id="searchForm">
-			<!-- 날짜 선택 영역 -->
-			<div class="date-range">
-				<label for="startDate"></label> <input type="date" id="startDate">
-				<label for="endDate">~</label> <input type="date" id="endDate">
-			</div>
-		</form>
-	      <div class="col1">
-	        <div class="card">
-	          <div class="card-body">
-	            <p class="card-title">입고 수량   </p>
-	            <h2 class="card-content">37,845</h2>
-	          </div>
-	        </div>
-	        <div class="card">
-	          <div class="card-body">
-	            <p class="card-title">출고 수량   </p>
-	            <h2 class="card-content">25,845</h2>
-	          </div>
-	        </div>
-	        <div class="card">
-	          <div class="card-body">
-	            <p class="card-title">금액 (\)</p>
-	            <h2 class="card-content">3,571,000</h2>
-	          </div>
-	        </div>
-	      </div>
-	    </div>
-		</div>
-		</div>
-</div>
-	  
-
-
-  <script type="text/javascript">
-    var dom = document.getElementById('container1');
-    var myChart = echarts.init(dom, null, {
-      renderer: 'canvas',
-      useDirtyRect: false
-    });
-    var app = {};
+                <div class="card-wrap">
+                    <form id="searchForm" method="get">
+                        <!-- 날짜 선택 영역 -->
+                        <div class="date-range">
+                            <label for="startDate">시작 날짜:</label> 
+                            <input type="date" id="startDate" name="startDate" required>
+                            <label for="endDate">종료 날짜:</label> 
+                            <input type="date" id="endDate" name="endDate" required>
+                            <label for="limit">표시 항목 수:</label>
+                            <input type="number" id="limit" name="limit" value="6" required>
+                            <label for="search">검색어:</label>
+                            <input type="text" id="search" name="search">
+                            <button type="submit" class="blueBtn">검색</button>
+                        </div>
+                    </form>
+                    <div class="col1">
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="card-title">입고 수량</p>
+                                <h2 class="card-content" id="totalReceivingQuantity">0</h2>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="card-title">출고 수량</p>
+                                <h2 class="card-content" id="totalShipmentQuantity">0</h2>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="card-title">재고 금액 (\)</p>
+                                <h2 class="card-content" id="totalInventoryValue">0</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var inventoryPeriods = /*[[${inventoryPeriods}]]*/ '[]';      
+        /*]]>*/
+    </script>
     
-    var option;
+    <script type="text/javascript">
+        var myChart;
 
-    option = {
-  tooltip: {
-    trigger: 'axis',
-    axisPointer: {
-      type: 'cross',
-      crossStyle: {
-        color: '#999'
-      }
-    }
-  },
-  toolbox: {
-    feature: {
-      dataView: { show: true, readOnly: false },
-      magicType: { show: true, type: ['line', 'bar'] },
-      restore: { show: true },
-      saveAsImage: { show: true }
-    }
-  },
-  legend: {
-    data: ['입고', '출고', '재고금액']
-  },
-  xAxis: [
-    {
-      type: 'category',
-      data: ['볼트', '너트', '전선', '커넥터', '버튼', '품목', '품목2'],
-      axisPointer: {
-        type: 'shadow'
-      }
-    }
-  ],
-  yAxis: [
-    {
-      type: 'value',
-      name: '개수',
-      min: 0,
-      
-      interval: 200,
-      axisLabel: {
-        formatter: '{value} ea'
-      }
-    },
-    {
-      type: 'value',
-      name: '금액',
-      min: 0,
-      
-      interval: 500000,
-      axisLabel: {
-        formatter: '{value} 원'
-      }
-    }
-  ],
-  series: [
-    {
-      name: '입고',
-      type: 'bar',
-      tooltip: {
-        valueFormatter: function (value) {
-          return value + ' ea';
+        function updateInventoryData(data) {
+            var inventoryPeriods = data.inventoryPeriods;
+            var itemNames = inventoryPeriods.map(ip => ip.inventoryName);
+            var receivingQuantities = inventoryPeriods.map(ip => ip.totalReceivingQuantity);
+            var shipmentQuantities = inventoryPeriods.map(ip => ip.totalShipmentQuantity);
+            var finalInventoryValues = inventoryPeriods.map(ip => ip.finalInventoryValue);
+
+            document.getElementById('totalReceivingQuantity').innerText = data.totalReceivingQuantity;
+            document.getElementById('totalShipmentQuantity').innerText = data.totalShipmentQuantity;
+            document.getElementById('totalInventoryValue').innerText = data.totalInventoryValue;
+
+            var ctx = document.getElementById('inventoryChart').getContext('2d');
+
+            if (myChart) {
+                myChart.destroy();
+            }
+
+            myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: itemNames,
+                    datasets: [
+                        {
+                            label: '입고',
+                            data: receivingQuantities,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: '출고',
+                            data: shipmentQuantities,
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: '재고 금액',
+                            data: finalInventoryValues,
+                            type: 'line',
+                            fill: false,
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            yAxisID: 'y2'
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) { return value + ' ea'; }
+                            },
+                            title: {
+                                display: true,
+                                text: '개수'
+                            }
+                        },
+                        y2: {
+                            beginAtZero: true,
+                            position: 'right',
+                            ticks: {
+                                callback: function(value) { return value + ' 원'; }
+                            },
+                            title: {
+                                display: true,
+                                text: '금액'
+                            }
+                        }
+                    }
+                }
+            });
         }
-      },
-      data: [
-        500,300,600,650,720,210,480
-      ]
-    },
-    {
-      name: '출고',
-      type: 'bar',
-      tooltip: {
-        valueFormatter: function (value) {
-          return value + ' ea';
-        }
-      },
-      data: [
-        400,250,570,620,600,120,400
-      ]
-    },
-    {
-      name: '재고금액',
-      type: 'line',
-      yAxisIndex: 1,
-      tooltip: {
-        valueFormatter: function (value) {
-          return value + ' 원';
-        }
-      },
-      data: [150000,200000,300000,175000,275000,65000,96000]
-    }
-  ]
-};
 
-    if (option && typeof option === 'object') {
-      myChart.setOption(option);
-    }
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch('/default_inventory_period_report')
+                .then(response => response.json())
+                .then(data => {
+                    updateInventoryData(data);
+                })
+                .catch(error => {
+                    console.error("Error fetching default inventory data:", error);
+                });
 
-    window.addEventListener('resize', myChart.resize);
-  </script>
- <!--  <script type="text/javascript">
-      var dom = document.getElementById('container1');
-      var myChart = echarts.init(dom, null, {
-          renderer: 'canvas',
-          useDirtyRect: false
-      });
-      var app = {};
-
-      var option;
-
-      option = {
-          xAxis: {
-              type: 'category',
-              data: ['입고수량', '출고수량', '진척 검수', '조달 마감']
-          },
-          yAxis: {
-              type: 'value'
-          },
-          series: [
-              {
-                  data: [50, 30, 20, 15],
-                  type: 'bar',
-                  showBackground: true,
-                  backgroundStyle: {
-                      color: 'rgba(180, 180, 180, 0.2)'
-                  }
-              }
-          ]
-      };
-
-      if (option && typeof option === 'object') {
-          myChart.setOption(option);
-      }
-
-      window.addEventListener('resize', myChart.resize);
-  </script> -->
-<!--   <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      // 각 막대에 대해 높이를 지정하는 값을 변경
-      var bars = document.querySelectorAll(".bar");
-      var gap = 200; // 막대 간격
-      var width = 20; // 막대 너비
-      var start
-      bars.forEach(function(bar, index) {
-        var leftValue = index * (gap + width) + 30; // 좌표 계산
-        bar.style.left = leftValue + "px"; // 각 막대에 좌표를 지정
-
-        var height = Math.random() * 90; // 0부터 100까지 무작위 높이 생성
-        bar.style.height = height + "%"; // 각 막대에 높이를 지정
-      });
-    });
-
-    document.addEventListener("DOMContentLoaded", function() {
-      // 각 막대에 대해 높이를 지정하는 값을 변경
-      var bars = document.querySelectorAll(".bar2");
-      var gap = 200; // 막대 간격
-      var width = 20; // 막대 너비
-      var start
-      bars.forEach(function(bar, index) {
-        var leftValue = index * (gap + width) + 80; // 좌표 계산
-        bar.style.left = leftValue + "px"; // 각 막대에 좌표를 지정
-
-        var height = Math.random() * 90; // 0부터 100까지 무작위 높이 생성
-        bar.style.height = height + "%"; // 각 막대에 높이를 지정
-      });
-    });
-    document.addEventListener("DOMContentLoaded", function() {
-        // 각 막대에 대해 높이를 지정하는 값을 변경
-        var bars = document.querySelectorAll(".bar3");
-        var gap = 200; // 막대 간격
-        var width = 20; // 막대 너비
-        var start
-        bars.forEach(function(bar, index) {
-          var leftValue = index * (gap + width) + 130; // 좌표 계산
-          bar.style.left = leftValue + "px"; // 각 막대에 좌표를 지정
-
-          var height = Math.random() * 90; // 0부터 100까지 무작위 높이 생성
-          bar.style.height = height + "%"; // 각 막대에 높이를 지정
+            document.getElementById('searchForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                var startDate = document.getElementById('startDate').value;
+                var endDate = document.getElementById('endDate').value;
+                var limit = document.getElementById('limit').value;
+                var search = document.getElementById('search').value;
+                var url = `/inventory_period_report?startDate=${startDate}&endDate=${endDate}&limit=${limit}&search=${search}`;
+                
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        updateInventoryData(data);
+                    })
+                    .catch(error => {
+                        console.error("Error fetching inventory period data:", error);
+                    });
+            });
         });
-      });
-  </script> -->
+    </script>
+
 </body>
 </html>

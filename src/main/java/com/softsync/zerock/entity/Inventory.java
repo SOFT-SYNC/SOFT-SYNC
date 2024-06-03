@@ -21,7 +21,7 @@ import lombok.Setter;
 @Table(name = "inventory")
 public class Inventory {
 
-   @Id 
+    @Id
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -34,6 +34,9 @@ public class Inventory {
 
     @Column(nullable = true)  
     private Integer quantity;
+
+    @Column(nullable = true)
+    private Integer initialQuantity; // 초기 재고 추가
 
     public Item getItem() {
         return item;
@@ -50,5 +53,12 @@ public class Inventory {
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
-    
+
+    public Integer getInitialQuantity() {
+        return initialQuantity;
+    }
+
+    public void setInitialQuantity(Integer initialQuantity) {
+        this.initialQuantity = initialQuantity;
+    }
 }
