@@ -43,5 +43,5 @@ public class Inspection {
 	private Integer times; //차수
 	
 	@Column(nullable = false, columnDefinition = "CHAR(1) DEFAULT 'N'")
-	private String inspecYn = "N";
+	private char inspecYn = 'N';
 }

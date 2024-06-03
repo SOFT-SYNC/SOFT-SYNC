@@ -73,6 +73,33 @@ label {
   }
 }
 
+#modalWrap {
+  position: fixed; /* 화면에 고정 */
+  z-index: 9999; /* 상위에 위치 */
+  padding-top: 50px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.7); /* 반투명한 배경색 */
+  display: none; /* 초기에는 숨김 */
+}
+#modalBody {
+  max-width: 70%; /* 최대 너비 */
+  max-height: 80%; /* 최대 높이 */
+  padding: 30px 30px;
+  margin: 0 auto;
+  overflow: auto;
+  position: relative;
+  border: 1px solid #777;
+  background-color: #fff;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
 input{
 	height : 100%;
 }

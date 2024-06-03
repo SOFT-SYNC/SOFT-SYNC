@@ -18,8 +18,8 @@
     <div class="main-content">
         <div id="row1">
             <h2 class="visual-title">거래명세서</h2>
-            <div class="search-container">       
-            <form id="searchForm">
+            <div class="search-container">
+            
                     <!-- 날짜 선택 영역 -->
                     <div class="date-range">
                         <label for="startDate"></label>
@@ -39,7 +39,7 @@
                         <input type="text" id="searchInput" placeholder="검색...">
                         <button type="button" onclick="performSearch()" class="blueBtn">검색</button>
                     </div>
-           		</form>
+              
                 <!-- 결과 표시 테이블 -->
                 <table id="resultsTable" class="table">
                     <colgroup>
@@ -196,6 +196,8 @@
     </div>
 
     <script th:inline="javascript">
+    
+    //모달 오픈인데;;
         $(document).ready(function(){
             $(".publish").click(function(){
                 var orderNo = $(this).closest("tr").find("td:first").text();
@@ -313,7 +315,7 @@
         	}
         }
         
-        //모달 계약서 저장
+        //모달 명세서 저장
 document.getElementById('saveBtn').addEventListener('click', function() {
     // invoice 요소를 가져옴
     var invoiceDiv = document.getElementById('invoice');
@@ -340,6 +342,8 @@ document.getElementById('saveBtn').addEventListener('click', function() {
         document.body.removeChild(downloadLink);
     });
 });
+     
+
         
 // 모달 외부 클릭 시 모달 닫기
 window.addEventListener("click", function(event) {
@@ -347,6 +351,8 @@ window.addEventListener("click", function(event) {
         modalWrap.style.display = "none";
     }
 });
+
+
     </script>
 </body>
 </html>

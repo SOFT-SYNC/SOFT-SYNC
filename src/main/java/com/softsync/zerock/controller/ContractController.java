@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +29,7 @@ public class ContractController {
 
 	//계약서 리스트 조회 + 저장페이지(베이직컨트롤러에서 옮김)
 	@GetMapping("/add_contract")   
-	public String addcontractview(Model model, @PageableDefault(size = 10) Pageable pageable) {
+	public String addcontractview(Model model,  @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 		System.out.println("[계약컨트롤러] 계약서 리스트");
 		
 		Page<Item> items = contractService.getAllItems(pageable);
@@ -57,6 +58,7 @@ public class ContractController {
 	        Contract contract = new Contract();
 	        Company company = contractService.getContractByBrn(brn);//회사정보 가져오기(외래키)
 	        Item item = contractService.getItemByItemCode(itemCode);//품목정보 가져오기(외래키)
+
 	        
 	        String file = contractService.saveFile(contractFile);
 	       
