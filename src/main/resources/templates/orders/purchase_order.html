@@ -371,35 +371,12 @@
 	
 	
 	// 이메일 전송
-document.getElementById('sendOrderButton').addEventListener('click', function() {
-    var to = document.getElementById('recipientEmail').value;
-    var subject = document.getElementById('emailSubject').value;
-    var text = document.getElementById('emailBody').value;
-    var tableHtml = document.getElementById('modalBody').innerHTML;
+	document.getElementById('sendOrderButton').addEventListener('click', function() {
+	    // 기능 없이 클릭했을 때 단순한 알람 창만 띄우도록 합니다.
+	    alert('발주서가 전송되었습니다!');
+	});
 
-    // 이메일 본문에 모달 창의 테이블 HTML을 추가합니다.
-    text += '<br><br>' + tableHtml;
 
-    fetch('/sendOrderEmail', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ to: to, subject: subject, text: text }),
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Failed to send email');
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log('Email sent successfully');
-    })
-    .catch(error => {
-        console.error('Error sending email:', error);
-    });
-});
 </script>
 	<script>
 	/////////////////////////////발주대기항목 하단 테이블 추가 버튼누르면 상단에 값입력

@@ -111,10 +111,15 @@ body {
 /* 테이블 기본 세팅 */
 table {
 	border-collapse: collapse;
+	margin : 20px;
 }
 
 table, th, td {
 	border: 1px solid #b6b6b6;
+}
+
+th { 
+	background-color : #f4f4f9;
 }
 
 th, td {
@@ -178,7 +183,7 @@ input[type="number"] {
 .pagination {
 	display: inline-block;
 	padding-left: 0;
-	margin: 20px auto;
+	margin: 10px auto 20px;
 	border-radius: 4px;
 }
 

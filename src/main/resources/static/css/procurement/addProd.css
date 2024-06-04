@@ -2,6 +2,7 @@
 
 body {
 	background-color: #f1f1f1;
+	font
 }
 
 .main-content {
@@ -41,7 +42,7 @@ body {
 }
 
 .visual-title {
-	margin-bottom: 25px;
+	/* margin-bottom: 10px; */
 	border-left: 3px solid black;
 	padding-left: 10px;
 }
