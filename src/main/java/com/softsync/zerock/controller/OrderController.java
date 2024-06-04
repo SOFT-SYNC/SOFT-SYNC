@@ -109,7 +109,7 @@ public class OrderController {
 	    @RequestParam("orderNote") String orderNote,
 	    @RequestParam("orderDate") String orderDate,
 	    @RequestParam("receiveDuedate") String receiveDuedate,
-	    @RequestParam("totalPrice") int totalPrice,
+	    @RequestParam("totalPrice") String totalPrice,
 	    Model model) {
 
 	    System.out.println("[OrderController] saveOrders()");

@@ -98,7 +98,7 @@
 		</div>
 		<div id="row2">
 			<div id="ordersList">
-				<h2 class="visual-title">계약관리</h2>
+				<h2 class="visual-title">발주 대기 품목</h2>
 				<div class="search-container">
 					<input type="date"> ~ <input type="date">
 					<button type="submit" class="blueBtn">검색</button>
@@ -108,8 +108,8 @@
 				</div>
 			<table class="listTable" id="3">
 					<colgroup>
-						<col width="9%">
-						<col width="5%">
+						<col width="8%">
+						<col width="6%">
 						<col width="10%">
 						<col width="10%">
 						<col width="8%">
@@ -509,10 +509,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const orderQuantity = parseFloat(orderQuantityInput.value) || 0;
         const totalPrice = unitPrice * orderQuantity;
         // 공급가액에 콤마 없이 표시
-        totalPriceInput.value = totalPrice.toString();
+        //totalPriceInput.value = totalPrice.toString();
         
         //콤마 있게 표시
-        /* totalPriceInput.value = totalPrice.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }); */
+         totalPriceInput.value = totalPrice.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }); 
     }
 
     unitPriceInput.addEventListener('input', calculateTotalPrice);

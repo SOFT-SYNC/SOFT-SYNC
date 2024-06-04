@@ -73,5 +73,5 @@ public class Orders {
    private String orderNote;
    
    @Column (nullable = true)
-   private Integer totalPrice;
+   private String totalPrice;
 }
