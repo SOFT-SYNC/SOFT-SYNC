@@ -41,14 +41,14 @@ public class ContractController {
 	
 	//계약 정보 저장
 	 @PostMapping("/saveContract")
-	    public String saveContract(@RequestParam("contract_path") MultipartFile contractFile,
+	    public String saveContract(
 	                               @RequestParam("brn") String brn,
 	                               @RequestParam("company_name") String companyName,
 	                               @RequestParam("company_account") String companyAccount,
 	                               @RequestParam("itemCode") String itemCode,
 	                               @RequestParam("itemName") String itemName,
 	                               @RequestParam("price") int price,
-	                               @RequestParam("leadTime") LocalDate leadTime,
+	                               @RequestParam("leadTime") int leadTime,
 	                               @RequestParam("contractNote") String contractNote,
 	                               @RequestParam(name = "contractNumber", required = false) Integer contractNumber,
 	                               Model model,
@@ -60,8 +60,8 @@ public class ContractController {
 	        Item item = contractService.getItemByItemCode(itemCode);//품목정보 가져오기(외래키)
 
 	        
-	        String file = contractService.saveFile(contractFile);
 	       
+	        
 	        
 	        //저장
 	        if(contractNumber != null) {
@@ -72,7 +72,6 @@ public class ContractController {
 
 	        contract.setContract_date(LocalDate.now());  //계약일 (현재시각)
 
-	        contract.setContract_path(file);
 	        contract.setItem(item);//품목정보(외래키)
 	        contract.setLead_time(leadTime);//납기일
 	        contract.setUnit_price(price);//단가
@@ -80,7 +79,7 @@ public class ContractController {
 	        contract.setContract_note(contractNote);
 			/* contract.setContractSaveName(contractFile); */
 	        
-	        contractService.saveContract(contract, contractFile);//인설트
+	        contractService.saveContract(contract);//인설트
 	        
 	        
 	        // 아이템에 계약 정보 추가

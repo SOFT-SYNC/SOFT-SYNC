@@ -112,7 +112,9 @@ public class OrderService {
 		Long contract = contractRepository.countByContractYn('y'); //계약서 발행 확인용
 		Long order = orderRepository.countByReceiptYn("Y"); //발주서 발행
 		Long invoice = invoiceRepository.countByPublishYn('Y');  //CHAR 타입..
-		Long inspect = inspectionRepository.countByinspecYn('Y');
+		Long inspect = inspectionRepository.countByinspecYn();
+		System.out.println(order);
+		
 		Long arr[] = {contract, order, inspect, invoice}; 
 		
 		return arr;

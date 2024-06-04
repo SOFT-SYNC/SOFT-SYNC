@@ -46,7 +46,7 @@ public class ContractService {
 	 
 
 
-    public void saveContract(Contract contract, MultipartFile contractFile) {
+    public void saveContract(Contract contract) {
         // 계약 정보 저장
         contractRepository.save(contract);
     }
@@ -68,29 +68,9 @@ public class ContractService {
     }
     
     
-    	public String saveFile(MultipartFile file) {
-        if (file.isEmpty()) {
-            System.out.println("Failed to save file: File is empty.");
-            return null;
-        }
+    
+   
 
-        try {
-            Path dirPath = Paths.get(uploadDir);
-            if (!Files.exists(dirPath)) {
-                Files.createDirectories(dirPath);
-            }
-            String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-            Path filePath = Paths.get(uploadDir, fileName);
-            Files.write(filePath, file.getBytes());
-
-            // 웹 접근 가능 경로 반환
-            return "/images/" + fileName;  // URL 경로로 수정
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    } 
-	
 	//계약 확정(계약하기)
 	public void contractOn(int contract_number) {
 	    // 서비스에서 리포지터리를 통해 계약을 확정시킴

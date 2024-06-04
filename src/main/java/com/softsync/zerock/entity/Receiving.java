@@ -59,6 +59,9 @@ public class Receiving { //입고
    @Column (nullable = false, length = 1, columnDefinition = "CHAR(1) DEFAULT 'N'")
    private char receiveClosingYn; // 입고상태
    
+   @Column (nullable = false, length = 1, columnDefinition = "CHAR(1) DEFAULT 'N'")
+   private char inspectYn; // 진척검수 진행여부 확인용 
+   
 
    
 }
