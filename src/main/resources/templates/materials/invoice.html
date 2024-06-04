@@ -128,7 +128,7 @@
                         <td class="company_ceo" ></td>
                     </tr>
                     <tr>
-                        <th>공급일</th>
+                        <th>발행일</th>
                         <td class="publishDate" ></td>
                         <th>주소</th>
                         <td class="company_address" ></td>
@@ -149,10 +149,10 @@
             </table>
             <table class="table1">
                 <colgroup>
-                    <col width="3%">
-                    <col width="3%">
-                    <col width="15%">
-                    <col width="15%">
+                    <col width="4%">
+                    <col width="4%">
+                    <col width="11%">
+                    <col width="17%">
                     <col width="8%">
                     <col width="8%">
                     <col width="8%">
@@ -160,8 +160,7 @@
                     <col width="15%">
                 </colgroup>
                 <tr>
-                    <th>월</th>
-                    <th>일</th>
+                    <th colspan="2">입고일</th>
                     <th>품목</th>
                     <th>규격</th>
                     <th>수량</th>
@@ -171,8 +170,8 @@
                     <th>비고</th>
                 </tr>
                 <tr class="small">
-                    <td class="month"></td>
-                    <td class="day"></td>
+                    <td colspan="2" class="month"></td>
+                    <!-- <td class="day"></td> -->
                     <td class="itemName"></td>
                     <td class="dimensions"></td>
                     <td class="quantity"></td>
@@ -244,7 +243,7 @@
                         $("#modalWrap td[class='manager_tel']").text(data.orders.company.manager_tel);
                         $("#modalWrap td[class='total_price']").text(total_price.toLocaleString());
 
-                        $("#modalWrap td[class='month']").text(mm);
+                        $("#modalWrap td[class='month']").text(yyyy+'/'+mm+'/'+dd);
                         $("#modalWrap td[class='day']").text(dd);
                         $("#modalWrap td[class='itemName']").text(data.orders.item.itemName);
                         $("#modalWrap td[class='dimensions']").text(data.orders.item.dimensions);
