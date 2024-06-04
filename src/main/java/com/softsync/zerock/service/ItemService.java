@@ -74,6 +74,7 @@ public class ItemService {
 	    // Inventory 생성 및 저장
 	    Inventory inventory = new Inventory();
 	    inventory.setItem(savedItem);
+	    inventory.setInitialQuantity(0);
 	    inventory.setQuantity(0); // 초기 재고 수량 설정 (예: 0)
 	    inventoryRepository.save(inventory);
 

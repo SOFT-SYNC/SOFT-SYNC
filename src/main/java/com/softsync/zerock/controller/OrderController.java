@@ -137,6 +137,7 @@ public class OrderController {
 	    order.setOrderNote(orderNote);
 	    order.setTotalPrice(totalPrice);
 	    order.setOrderYn("Y"); // '저장' 버튼을 눌렀을 때 orderYn을 'Y'로 설정
+	    order.setReceiptYn("Y");
 
 	    orderService.saveOrder(order);
 	    
@@ -242,7 +243,7 @@ public class OrderController {
 			 
 			inspectionList.setInspection(inspection);
 			inspectionList.setPercent(percent);
-			inspection.setInspecYn("Y");
+			inspection.setInspecYn('Y');
 			inspectionList.setInspecDate(inspecDate);
 
 			inspectionService.saveInspectionList(inspectionList);

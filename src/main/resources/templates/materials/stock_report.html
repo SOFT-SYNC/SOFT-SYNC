@@ -17,13 +17,25 @@
         <div th:insert="~{common/header :: header}"></div>
         <div id="row1">
             <h1 class="visual-title">재고관리 리포트</h1>
+             <form id="searchForm" method="get">
+                        <div class="date-range">
+                            <label for="startDate">시작 날짜</label> 
+                            <input type="date" id="startDate" name="startDate" required>
+                            <label for="endDate">종료 날짜</label> 
+                            <input type="date" id="endDate" name="endDate" required>
+                            <label for="limit">표시 항목 수:</label>
+                            <input type="number" id="limit" name="limit" value="6" required>
+                            <label for="search">검색어:</label>
+                            <input type="text" id="search" name="search">
+                            <button type="submit" class="blueBtn">검색</button>
+                        </div>
+                    </form>
             <div class="content-card">
                 <!-- 차트 영역 -->
-                <canvas id="inventoryChart" style="height: 500px; width: 100%;"></canvas>
+                <canvas id="inventoryChart"></canvas>
 
                 <div class="card-wrap">
-                    <form id="searchForm" method="get">
-                        <!-- 날짜 선택 영역 -->
+                   <!--  <form id="searchForm" method="get">
                         <div class="date-range">
                             <label for="startDate">시작 날짜:</label> 
                             <input type="date" id="startDate" name="startDate" required>
@@ -35,7 +47,7 @@
                             <input type="text" id="search" name="search">
                             <button type="submit" class="blueBtn">검색</button>
                         </div>
-                    </form>
+                    </form> -->
                     <div class="col1">
                         <div class="card">
                             <div class="card-body">
