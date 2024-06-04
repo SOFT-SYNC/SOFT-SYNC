@@ -7,10 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.softsync.zerock.entity.Inspection;
-import com.softsync.zerock.entity.InspectionList;
 import com.softsync.zerock.entity.Orders;
 import com.softsync.zerock.repository.ContractRepository;
-import com.softsync.zerock.repository.InspectionListRepository;
 import com.softsync.zerock.repository.InspectionRepository;
 import com.softsync.zerock.repository.OrderRepository;
 
@@ -22,8 +20,7 @@ public class InspectionService {
 	   @Autowired
 	   InspectionRepository inspectionRepository;
 
-	   @Autowired
-	   InspectionListRepository inspectionListRepository;
+
 		@Autowired
 		OrderRepository orderRepository;
 

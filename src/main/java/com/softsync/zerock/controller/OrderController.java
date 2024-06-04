@@ -1,7 +1,6 @@
 package com.softsync.zerock.controller;
 
 import java.sql.Date;
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -20,13 +19,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.softsync.zerock.entity.Company;
 import com.softsync.zerock.entity.Contract;
 import com.softsync.zerock.entity.Inspection;
-import com.softsync.zerock.entity.InspectionList;
 import com.softsync.zerock.entity.Item;
 import com.softsync.zerock.entity.Orders;
 import com.softsync.zerock.service.CompanyService;
 import com.softsync.zerock.service.ContractService;
 import com.softsync.zerock.service.EmailService;
-import com.softsync.zerock.service.InspectionListService;
 import com.softsync.zerock.service.InspectionService;
 import com.softsync.zerock.service.ItemService;
 import com.softsync.zerock.service.OrderService;
@@ -236,7 +233,6 @@ public class OrderController {
 			Inspection inspection = inspectionService.getinspectionByInspecNo(inspecNo);
 
 			LocalDate inspecDate = LocalDate.now();
-			
 			
 			inspection.setPercent(percent);
 			inspection.setInspecYn('Y');
