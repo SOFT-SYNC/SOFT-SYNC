@@ -45,8 +45,8 @@ public class ReceivingService {
 	
 	
 	//하단(입고 내역) 페이징
-	 public Page<ReceiveList> getAllItems(@PageableDefault(size = 10) Pageable pageable) {
-	        return receiveListRepository.findAll(pageable);
+	 public Page<Receiving> getAllItem(@PageableDefault(size = 10) Pageable pageable) {
+	        return receivingRepository.findAll(pageable);
 	  }
 
 	 
@@ -61,6 +61,11 @@ public class ReceivingService {
 		
 		return receiveListRepository.findAll();
 	}
+	
+	//상단(입고 내역) 페이징
+	 public Page<ReceiveList> getAllItems(@PageableDefault(size = 10) Pageable pageable) {
+	        return receiveListRepository.findAll(pageable);
+	  }
 	
 	public void saveReceiving(Orders order) {
 		 Receiving receiving = new Receiving();

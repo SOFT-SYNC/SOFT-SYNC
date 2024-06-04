@@ -1,6 +1,7 @@
 package com.softsync.zerock.controller;
 
 import java.sql.Date;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +26,7 @@ import com.softsync.zerock.entity.Orders;
 import com.softsync.zerock.service.CompanyService;
 import com.softsync.zerock.service.ContractService;
 import com.softsync.zerock.service.EmailService;
+import com.softsync.zerock.service.InspectionListService;
 import com.softsync.zerock.service.InspectionService;
 import com.softsync.zerock.service.ItemService;
 import com.softsync.zerock.service.OrderService;
@@ -50,7 +52,8 @@ public class OrderController {
    @Autowired
    InspectionService inspectionService;
    
-
+   @Autowired
+   InspectionListService inspectionListService;
    
    @Autowired //발주 - 입고 연계를 위해 추가 5/23 김홍택
    ReceivingService receivingService;

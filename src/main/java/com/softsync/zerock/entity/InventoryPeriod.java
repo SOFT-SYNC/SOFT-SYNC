@@ -24,15 +24,15 @@ public class InventoryPeriod {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // 기본키
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER) // eager 로딩으로 수정
     @JoinColumn(name = "inventory_id", nullable = false)
     private Inventory inventory; // 재고
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER) // eager 로딩으로 수정
     @JoinColumn(name = "shipment_list_id")
     private ShipmentList shipmentList; // 출고 목록
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER) // eager 로딩으로 수정
     @JoinColumn(name = "receiving_list_id")
     private ReceiveList receiveList; // 입고 목록
 

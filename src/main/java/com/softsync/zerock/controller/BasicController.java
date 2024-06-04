@@ -304,10 +304,10 @@ public class BasicController {
 	
 	
 	
-	@GetMapping("/inventory_period")
-	public String inventoryview() {
-		return"/materials/inventory_period";
-	}
+//	@GetMapping("/inventory_period")
+//	public String inventoryview() {
+//		return"/materials/inventory_period";
+//	}
 	
 //	@GetMapping("/invoice")
 //	public String invoiceview() {

@@ -14,6 +14,7 @@ import com.softsync.zerock.entity.Item;
 import com.softsync.zerock.entity.Orders;
 import com.softsync.zerock.repository.CompanyRepository;
 import com.softsync.zerock.repository.ContractRepository;
+import com.softsync.zerock.repository.InspectionRepository;
 import com.softsync.zerock.repository.InvoiceRepository;
 import com.softsync.zerock.repository.ItemRepository;
 import com.softsync.zerock.repository.OrderRepository;
@@ -40,8 +41,10 @@ public class OrderService {
     @Autowired
     InvoiceRepository invoiceRepository;
     
-//    @Autowired
-//    InspectionRepository inspectionRepository;
+    @Autowired
+    InspectionRepository inspectionRepository;
+    
+
 
 
 	public List<Item> getAllItems(){
@@ -109,8 +112,8 @@ public class OrderService {
 		Long contract = contractRepository.countByContractYn('y'); //계약서 발행 확인용
 		Long order = orderRepository.countByReceiptYn("Y"); //발주서 발행
 		Long invoice = invoiceRepository.countByPublishYn('Y');  //CHAR 타입..
-		
-		Long arr[] = {contract, order, 0L, invoice}; 
+		Long inspect = inspectionRepository.countByinspecYn('Y');
+		Long arr[] = {contract, order, inspect, invoice}; 
 		
 		return arr;
 	}
@@ -121,8 +124,9 @@ public class OrderService {
 		Long contract =	contractRepository.countByContractDate(startDate, endDate); //계약
 		Long order =orderRepository.countByOrderDate(startDate, endDate); //발주
 		Long invoice = invoiceRepository.countByInvoiceDate(startDate, endDate);
-		System.out.println(contract);
-		Long arr[] = {contract, order, 0L, invoice}; 
+		Long inspect = inspectionRepository.countByInspecPlanDate(startDate, endDate);
+		System.out.println(inspect);
+		Long arr[] = {contract, order, inspect, invoice}; 
 		return arr;
 	}
 
