@@ -24,7 +24,7 @@ function fetchInspections(orderNo) {
     })
     .then(data => {
         populateMainTable(data.order);
-        populateInspecPlanList(data.inspectionList);
+        populateInspecPlanList(data.inspection);
         console.log(data);
     })
     .catch(error => {
@@ -49,8 +49,8 @@ function fetchInspections(orderNo) {
 	    mainTableBody.innerHTML += row;
 	}
 
-function populateInspecPlanList(inspectionList) {
-console.log(inspectionList); // inspectionList를 콘솔에 출력하여 확인
+function populateInspecPlanList(inspection) {
+console.log(inspection); // inspectionList를 콘솔에 출력하여 확인
     const createtbBody = document.querySelector('#createtb tbody');
     createtbBody.innerHTML = '';
 

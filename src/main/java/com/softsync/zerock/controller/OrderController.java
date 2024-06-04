@@ -52,8 +52,6 @@ public class OrderController {
    @Autowired
    InspectionService inspectionService;
    
-   @Autowired
-   InspectionListService inspectionListService;
    
    @Autowired //발주 - 입고 연계를 위해 추가 5/23 김홍택
    ReceivingService receivingService;
@@ -235,18 +233,16 @@ public class OrderController {
 
 			System.out.println("[InspetionController] saveInspection()");
 
-			InspectionList inspectionList = new InspectionList();
 			Inspection inspection = inspectionService.getinspectionByInspecNo(inspecNo);
 
 			LocalDate inspecDate = LocalDate.now();
 			
-			 
-			inspectionList.setInspection(inspection);
-			inspectionList.setPercent(percent);
+			
+			inspection.setPercent(percent);
 			inspection.setInspecYn('Y');
-			inspectionList.setInspecDate(inspecDate);
+			inspection.setInspecDate(inspecDate);
 
-			inspectionService.saveInspectionList(inspectionList);
+			inspectionService.saveInspectionList(inspection);
 
 			return "redirect:/purchase_schedule";
 

@@ -65,8 +65,8 @@ public class InspectionService {
 		   }
 
 
-		public void saveInspectionList(InspectionList inspectionList) {
-			inspectionListRepository.save(inspectionList);
+		public void saveInspectionList(Inspection inspection) {
+			inspectionRepository.save(inspection);
 			
 		}
 
