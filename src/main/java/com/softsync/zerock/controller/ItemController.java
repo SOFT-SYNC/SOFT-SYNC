@@ -18,7 +18,7 @@ public class ItemController {
 	@Autowired
 	private ItemService itemService;
 	
-	
+	 
 	@PostMapping("/api/items")
 	public ResponseEntity<?> uploadProdData(@ModelAttribute ItemDto itemDto, RedirectAttributes redirectAttributes) {
 		try {

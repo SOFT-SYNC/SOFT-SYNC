@@ -18,7 +18,7 @@ public class InventoryPeriodSummaryDTO {
         this.finalInventory = finalInventory != null ? finalInventory : 0;
         this.finalInventoryValue = finalInventoryValue != null ? finalInventoryValue : 0;
     }
-
+ 
     // Getters and Setters
     public String getInventoryCode() {
         return inventoryCode;

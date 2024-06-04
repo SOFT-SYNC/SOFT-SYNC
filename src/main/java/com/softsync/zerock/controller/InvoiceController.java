@@ -24,7 +24,7 @@ public class InvoiceController {
 	InvoiceService invoiceService;
 	
 	
-	
+	 
 	@GetMapping("/invoice")
 	public String invoiceview(Model model) {
 		System.out.println("거래명세서 컨트롤러 : 명세서 조회");

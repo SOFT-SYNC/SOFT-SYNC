@@ -1,5 +1,5 @@
 package com.softsync.zerock.DTO;
-
+ 
 public class NoticeDTO {
 	
 	private Integer boardNo;
