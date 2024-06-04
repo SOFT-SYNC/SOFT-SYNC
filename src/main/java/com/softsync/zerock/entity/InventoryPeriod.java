@@ -38,7 +38,7 @@ public class InventoryPeriod {
 
     @Column(nullable = false)
     private LocalDate date; // 기록일
-
+  
     // Getter and Setter 생략
 }
 

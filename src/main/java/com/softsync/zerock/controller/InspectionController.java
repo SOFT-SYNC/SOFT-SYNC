@@ -24,7 +24,7 @@ public class InspectionController {
 
 	@Autowired
 	OrderService orderService;
-
+ 
 	@Autowired
 	ContractService contractService;
 

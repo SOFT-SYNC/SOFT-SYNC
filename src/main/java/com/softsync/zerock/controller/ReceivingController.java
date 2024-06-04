@@ -22,7 +22,7 @@ public class ReceivingController {
 	
 	@Autowired
 	ReceivingService receivingService;
-
+ 
 	@GetMapping("/receivings")
 	public String receiving(Model model, @PageableDefault(size = 5) @Qualifier("page1") Pageable pageable,
 			@PageableDefault(size = 5) @Qualifier("page2") Pageable pagere ) {

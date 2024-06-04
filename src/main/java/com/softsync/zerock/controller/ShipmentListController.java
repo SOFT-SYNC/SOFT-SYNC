@@ -26,7 +26,7 @@ public class ShipmentListController {
 
     @Autowired
     private ShipmentListService shipmentListService;
-    
+     
     @Autowired
     private InventoryRepository inventoryRepository;
     

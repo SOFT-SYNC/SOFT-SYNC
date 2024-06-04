@@ -22,7 +22,7 @@ public class InventoryPeriodController {
 
 	@Autowired
 	private InventoryPeriodService inventoryPeriodService;
-
+ 
 	@GetMapping("/inventory_period")
 	public String getInventoryPeriods(Model model,
 			@RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
