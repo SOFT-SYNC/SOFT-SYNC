@@ -3,26 +3,30 @@
 <head>
 <link type="text/css" rel="stylesheet" href="../css/common/header.css">
 <link type="text/css" rel="stylesheet" href="../css/common/common.css">
-<link type="text/css" rel="stylesheet" href="../css/procurement/add_contract.css">
+<link type="text/css" rel="stylesheet"
+	href="../css/procurement/add_contract.css">
 <link type="text/css" rel="stylesheet" href="../css/common/sidebar.css">
-  <script type="text/javascript" src="../js/sidebar.js"></script>
+
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script type="text/javascript" src="../js/sidebar.js"></script>
 <title>계약등록</title>
 </head>
 <body>
 	<div th:insert="~{common/sidebar :: sidebar}"></div>
-			<div th:insert="~{common/header :: header}"></div>
+	<div th:insert="~{common/header :: header}"></div>
 	<div class="main-content">
-	<form th:action="@{/saveContract}" method="post" enctype="multipart/form-data">
-		<div id="row1">
-			<h2 class="visual-title">계약등록</h2>
-				<table class="regi-table" id ="1">
+		<form th:action="@{/saveContract}" method="post"
+			enctype="multipart/form-data">
+			<div id="row1">
+				<h2 class="visual-title">계약등록</h2>
+				<table class="regi-table" id="1">
 					<colgroup>
 						<col width="20%">
 						<col width="70%">
 					</colgroup>
 					<tr>
-						<th>계약서</th>
-						<td id="contractPath"><input type="file" name="contract_path"></td>
+						<th>계약</th>
+						
 					</tr>
 					<tr>
 						<th>계약번호</th>
@@ -30,22 +34,26 @@
 					</tr>
 					<tr>
 						<th>사업자번호</th>
-						<td id="brn"><input type="text" name="brn" id="tt1"  placeholder="품목을 먼저 선택하세요"></td>
+						<td id="brn"><input type="text" name="brn" id="tt1"
+							placeholder="품목을 먼저 선택하세요"></td>
 					</tr>
 					<tr>
 						<th>업체명</th>
-						<td id="cName"><input type="text" name="company_name" readonly></td>
+						<td id="cName"><input type="text" name="company_name"
+							readonly></td>
 					</tr>
 					<tr>
 						<th>계좌정보</th>
-						<td id="cAc"><input type="text" name="company_account" readonly></td>
+						<td id="cAc"><input type="text" name="company_account"
+							readonly></td>
 					</tr>
 					<tr>
 						<th>비고</th>
-						<td id="cNote"><input type="text" name="company_note" readonly></td>
+						<td id="cNote"><input type="text" name="company_note"
+							readonly></td>
 					</tr>
 				</table>
-				<table class="regi-table" id ="2">
+				<table class="regi-table" id="2">
 					<colgroup>
 						<col width="20%">
 						<col width="20%">
@@ -61,15 +69,17 @@
 						<th>특이사항</th>
 					</tr>
 					<tr>
-						<td id="itemCodeCell"><input type="text" name="itemCode" readonly>
-													<input type="hidden" name="contractNumber">
-						</td>  <!-- item 테이블의 외래키 : 계약 품목에 저장  값 보내는거 생성-->
-					    <td id="itemNameCell"><input type="text" name="itemName" readonly></td>
-						<td id="unitPriceCell"><input type="text" name ="price"></td>
-						<td id="leadTimeCell"><input type="date" name="leadTime"></td> 
+						<td id="itemCodeCell"><input type="text" name="itemCode"
+							readonly> <input type="hidden" name="contractNumber">
+						</td>
+						<!-- item 테이블의 외래키 : 계약 품목에 저장  값 보내는거 생성-->
+						<td id="itemNameCell"><input type="text" name="itemName"
+							readonly></td>
+						<td id="unitPriceCell"><input type="text" name="price"></td>
+						<td id="leadTimeCell"><input type="number" name="leadTime"></td>
 						<td id="contractNote"><input type="text" name="contractNote"></td>
 					</tr>
-					
+
 				</table>
 				<div class="btn-container">
 					<button type="submit" class="blueBtn">저장</button>
@@ -77,7 +87,7 @@
 				</div>
 			</div>
 		</form>
-		
+
 		<div id="row2">
 			<div id="contractList">
 				<h2 class="visual-title">계약관리</h2>
@@ -92,7 +102,7 @@
 					<input type="text" id="searchInput" placeholder="검색어를 입력하세요">
 					<button onclick="performSearch()" class="blueBtn">검색</button>
 				</div>
-				<table class="regi-table" id ="t3">
+				<table class="regi-table" id="t3">
 					<tr>
 						<th>계약번호</th>
 						<th>품목코드</th>
@@ -132,116 +142,180 @@
 							<td th:text="${contract.unit_price}"></td>
 							<td th:text="${contract.lead_time}"></td>
 							<td th:switch="${contract.contractYn}"><span th:case="'n'">
-									<input type="button" class="blueBtn" value="계약하기" th:onclick="'confirmContract(' + ${contract.contract_number} + ')'">
-							</span> <span th:case="'y'"> <input type="button" id="blueBtn" class="blueBtn" value="계약완료">
+									<input type="button" class="blueBtn" value="계약하기"
+									th:onclick="'confirmContract(' + ${contract.contract_number} + ')'">
+							</span> <span th:case="'y'"> <input type="button" id="blueBtn"
+									class="blueBtn" value="계약완료">
 							</span></td>
 							<td th:text="${contract.contractYn}"></td>
-							<td>
-							    <input type="button" th:data-contract-number="${contract.contract_number}" th:data-contract-yn="${contract.contractYn}" class="blueBtn" value="삭제" onclick="deleteCon(this)">
-							</td>
+							<td><input type="button"
+								th:data-contract-number="${contract.contract_number}"
+								th:data-contract-yn="${contract.contractYn}" class="blueBtn"
+								value="삭제" onclick="deleteCon(this)"></td>
 							<td><input type="button" class="popupBtn blueBtn"
-								value="계약서보기"> <input type="hidden" class="contractPath"
-								th:value="${contract.contract_path}"></td>
-								<td th:text="${contract.contract_note}" style="display:none;">   <!-- 정보 조회 용 히든 값 -->
-								<td th:text="${contract.contract_path}" style="display:none;">   <!-- 정보 조회 용 히든 값 -->
+								value="계약서보기"></td>
+							<td th:text="${contract.contract_note}" style="display: none;">
+								<!-- 정보 조회 용 히든 값 -->
+							<td th:text="${contract.contract_path}" style="display: none;">
+								<!-- 정보 조회 용 히든 값 -->
 						</tr>
 					</th:block>
 					</th:block>
 				</table>
-				
-				 <div class="paging-wrap">
-                   <ul class="pagination">
-                   
-                       <!-- 이전 페이지 링크 -->
-                       <li>
-                           <a th:href="@{/add_contract(page=${items.number - 1})}">이전</a>
-                       </li>
-                       
-                       <!-- 페이지 번호 링크 -->
-                       <li th:each="i : ${#numbers.sequence(0, items.totalPages + 1)}">
-                           <a th:href="@{/add_contract(page=${i})}" th:classappend="${i == items.number} ? 'active'" th:text="${i + 1}">Page number</a>
-                       </li>
-                       
-                       <!-- 다음 페이지 링크 -->
-                       <li>
-                         <a th:href="@{/add_contract(page=${items.number + 1})}">다음</a>
-                       </li>
-                   </ul>
-               </div>
-               
-               
+
+				<div class="paging-wrap">
+					<ul class="pagination">
+
+						<!-- 이전 페이지 링크 -->
+						<li><a th:href="@{/add_contract(page=${items.number - 1})}">이전</a>
+						</li>
+
+						<!-- 페이지 번호 링크 -->
+						<li th:each="i : ${#numbers.sequence(0, items.totalPages + 1)}">
+							<a th:href="@{/add_contract(page=${i})}"
+							th:classappend="${i == items.number} ? 'active'"
+							th:text="${i + 1}">Page number</a>
+						</li>
+
+						<!-- 다음 페이지 링크 -->
+						<li><a th:href="@{/add_contract(page=${items.number + 1})}">다음</a>
+						</li>
+					</ul>
+				</div>
+
+
 			</div>
 		</div>
 	</div>
-	   
-	<!-- 모달 오픈화면 -->
-<div id="modalWrap">
-    <div id="modalBody">
-      <button type="button" id="closeBtn" class="closeBtn">&times;</button>
-        <img id="modalImage" alt="계약서 이미지">
-      <div class="modalBtn1">
-         <button type="button" class="blueBtn modalBtn" id="printBtn">인쇄</button>
-         <button type="button" class="blueBtn modalBtn" id="saveBtn">저장</button>
-         
-      </div>
-    </div>
-</div>
-	
 
-<script th:inline="javascript">
+	<!-- 모달 오픈화면 -->
+<!-- 	<div id="modalWrap">
+		<div id="modalBody">
+			<button type="button" id="closeBtn" class="closeBtn">&times;</button>
+			<img id="modalImage" alt="계약서 이미지">
+			<div class="modalBtn1">
+				<button type="button" class="blueBtn modalBtn" id="printBtn">인쇄</button>
+				<button type="button" class="blueBtn modalBtn" id="saveBtn">저장</button>
+
+			</div>
+		</div>
+	</div> -->
+	
+	<div id="modalWrap">
+		<div id="modalBody">
+		
+			<button type="button" id="closeBtn" class="closeBtn">&times;</button>
+			<div class="contractBody">
+				<h2>물품공급계약서</h2>
+				<p id="contractCompany"></p>
+				<h4>제 1 조 [품목 내역]</h4>
+				<table>
+				<tr>
+				<th>품목명</th>
+				<th>단가</th>
+				<th>L/T일</th>
+				<th>특이사항</th>
+				</tr>
+				<tr>
+					<td id="contractName" ></td>
+					<td id="contractPrice" ></td>
+					<td id="contractLeadTime" ></td>
+					<td id="contractNote1" ></td>
+				</tr>
+			    </table>
+				<h4>제 2 조 [계약단가]</h4>
+				<p id="contractPrice1"></p>
+				<h4>제 3 조 [납품기한]</h4>
+				<p> 발주일에 따름 </p>
+				
+				<h4>제 4 조 [인도조건]</h4>
+				<p>물품의 인도장소는 "을"의 지정장소로 하며 운임 및 기타소요비용 일체는 "갑"의 부담으로 한다.</p>
+				
+				<h4>제 5 조 [지체배상금]</h4>
+				<p>사전에 "을"에게 납품연기 승인을 서면 상으로 신청해야 하며, 이때 지체일수 1일에 대하여 해당 계약금액에 대해 1/1000의 지체배상금을 물품대금에서 공제하기로 한다.
+				<br>(단, 천재지변 기타 불가항력에 인한 것이라고 "을"이 인정할 때는 지체배상금을 면제 할 수 있다.) </p>
+				
+				
+				<h4>제 6 조 [검수]</h4>
+				<p>물품의 검수는 "을"이 지정하는 검수인이 "을"의 지정장소에서 행한 것으로 한다.</p>
+				
+				<h4>제 7 조 [대금 지급방법]</h4>
+				<p>"을"은 거래명세서에 따른 비용을 60일 안에 갑에게 지급하는 조건으로 한다.</p>
+				
+				<h4>제 8 조 [하자 보증]</h4>
+				<p>"갑"은 계약물품의 검수완료일로 부터 12개월간 하자보증의 책임을 진다. 또한 비용은 "갑"의 부담으로 한다.</p>
+			</div>
+			
+			<div class="modalBtn1">
+				<button type="button" class="blueBtn modalBtn" id="printBtn">인쇄</button>
+				<button type="button" class="blueBtn modalBtn" id="saveBtn">저장</button>
+			</div>
+			
+		</div>
+	</div>
+
+
+	<script th:inline="javascript">
     /* JavaScript 코드 시작 */
     /* 각 계약서 보기 버튼에 대한 이벤트 리스너 추가 */
 document.querySelectorAll('.popupBtn').forEach(button => {
     button.addEventListener('click', function() {
-        const imagePath = this.nextElementSibling.value; // 다음요소 출력
-        console.log("이미지 경로:", imagePath); // 콘솔에 이미지 경로 출력
-        document.getElementById("modalImage").src = imagePath; // 모달 이미지의 src 속성에 이미지 경로 설정
+    	
         document.getElementById("modalWrap").style.display = 'block'; // 모달 열기
     });
 });
     
     
     //모달계약서 저장하기.
-    document.getElementById('saveBtn').addEventListener('click', function() {
-        // 모달에 표시된 이미지의 URL 가져오기
-        var imageUrl = document.getElementById('modalImage').src;
+document.getElementById('saveBtn').addEventListener('click', function() {
+    // contractBody div의 모든 내용을 가져옴
+    var contractBody = document.querySelector('.contractBody');
+
+    // html2canvas를 사용하여 이미지로 변환
+    html2canvas(contractBody).then(function(canvas) {
+        // canvas를 이미지로 변환
+        var imgData = canvas.toDataURL('image/jpeg');
+
         // 새로운 a 엘리먼트 생성
         var a = document.createElement('a');
-        // a 엘리먼트의 href 속성에 이미지 URL 설정
-        a.href = imageUrl;
-        // a 엘리먼트의 download 속성에 파일명 설정 (예: 'contract_image.png')
-        a.download = 'contract_image.png'; // 파일명은 원하는대로 변경 가능
-        // body에 a 엘리먼트 추가
-        document.body.appendChild(a);
+        a.href = imgData;
+        a.download = 'contract_document.jpg'; // 파일명은 원하는대로 변경 가능
+
         // a 엘리먼트를 클릭하여 다운로드 실행
         a.click();
-        // body에서 a 엘리먼트 제거
-        document.body.removeChild(a);
     });
+});
     
     
-    document.getElementById('printBtn').addEventListener('click', function() {
-        // 모달에 표시된 이미지를 가져옴
-        var modalImage = document.getElementById('modalImage');
-        // 새로운 창을 열어서 이미지를 표시하고 인쇄
-        var printWindow = window.open('', '_blank');
-        printWindow.document.write('<html><head><title>Print</title></head><body>');
-        printWindow.document.write('<img src="' + modalImage.src + '" style="max-width: 100%; max-height: auto;">');
-        printWindow.document.write('</body></html>');
-        printWindow.document.close();
+    //인쇄
+document.getElementById('printBtn').addEventListener('click', function() {
+    // contractBody div를 가져옴
+     var contractBody = document.querySelector('.contractBody').outerHTML;
+    
+    // 새로운 창을 열어서 contractBody 내용을 표시하고 인쇄
+    var printWindow = window.open('', '_blank');
+ 
 
-        // 이미지가 로드된 후에 인쇄 실행
-        printWindow.onload = function() {
-            printWindow.print();
-            printWindow.close();
-        };
-    });
+    // 새 창의 head에 특정 스타일시트를 추가
+    printWindow.document.write('<html><head>');
+    printWindow.document.write('<link type="text/css" rel="stylesheet" href="../css/procurement/add_contract.css">');
+    printWindow.document.write('</head><body>');
+    printWindow.document.write(contractBody);
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+
+    // 내용이 로드된 후에 인쇄 실행
+    printWindow.onload = function() {
+        printWindow.print();
+        printWindow.close();
+    };
+});
 
     document.getElementById('closeBtn').addEventListener('click', function() {
         document.getElementById("modalWrap").style.display = 'none'; // 모달 닫기
     });
 </script>
-<script>
+	<script>
     //모달 닫기 버튼 클릭 시 모달 닫기
     document.getElementById("closeBtn").addEventListener("click", function() {
         modalWrap.style.display = "none";
@@ -254,7 +328,7 @@ document.querySelectorAll('.popupBtn').forEach(button => {
         }
     });
 
-    // 이미지 로드 후 모달 크기 조절
+/*     // 이미지 로드 후 모달 크기 조절
     modalImage.onload = function() {
         const imageWidth = modalImage.naturalWidth;
         const imageHeight = modalImage.naturalHeight;
@@ -272,16 +346,16 @@ document.querySelectorAll('.popupBtn').forEach(button => {
             }
         }
         
-    };
+    }; */
 </script>
 
-    
-    
-    
-  
-  <!-- 하단의 품목 클릭으로 (품목코드,이름)값을 가져옴(제이쿼리) -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
- <script th:inline="javascript">
+
+
+
+
+	<!-- 하단의 품목 클릭으로 (품목코드,이름)값을 가져옴(제이쿼리) -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script th:inline="javascript">
 
 
 $(document).ready(function() {
@@ -293,6 +367,7 @@ $(document).ready(function() {
         var itemCode = $(this).find('td:eq(1)').text().trim(); // 품목코드 (두 번째 열)
         var itemName = $(this).find('td:eq(2)').text().trim(); // 품목명 (세 번째 열)
         var brnValue = $('#brn input[name="brn"]').val();
+        
         
         // 상단에 출력
         $('#itemCodeCell input[name="itemCode"]').val(itemCode).prop('readonly', true);
@@ -352,6 +427,17 @@ $(document).ready(function() {
 		$('#leadTimeCell input[name="leadTime"]').val(leadTime).prop('readonly', ConBool);
 		$('#contractNote input[name="contractNote"]').val(contractNoteth).prop('readonly', ConBool);
 		$('#contractPath input[name="contractPath"]').val(contractPath).prop('readonly', ConBool);
+		
+		
+		//계약서에 값넣기..
+		 $('#contractName').text(itemName);
+		 $('#contractPrice').text(unitPrice);
+		 $('#contractPrice1').text(unitPrice + '원/개');
+		 $('#contractLeadTime').text(leadTime);
+		 $('#contractNote1').text(contractNoteth);
+		 $('#contractCompany').text(companyName + '(주)(이하 "값"이라 한다)와 매수인 MIT(주)(이하 "을"이라 한다)은 계약 당사자간 아래와 같은 물품공급 계약서를 체결한다.');
+		
+		 
     });
     
     // 사업자 정보를 통해 업체명/계좌/비고를 불러오는 AJAX 요청
@@ -374,9 +460,9 @@ $(document).ready(function() {
     });
 });
 	</script>
-	
-	
-<script>
+
+
+	<script>
 	// 계약을 확정하는 함수
 function confirmContract(contract_number) {
     var result = confirm("계약을 확정하시겠습니까?");
@@ -428,10 +514,10 @@ function performSearch() {
 }
 </script>
 
-<!-- 계약서 저장 유효성검사 -->
-<script type="text/javascript">
+	<!-- 계약서 저장 유효성검사 -->
+	<script type="text/javascript">
 document.querySelector('form').addEventListener('submit', function(event) {
-    const contractPath = document.querySelector('input[name="contract_path"]').value;
+/*     const contractPath = document.querySelector('input[name="contract_path"]').value; */
     const brn = document.querySelector('input[name="brn"]').value;
     const companyName = document.querySelector('input[name="company_name"]').value;
     const companyAccount = document.querySelector('input[name="company_account"]').value;
@@ -441,7 +527,7 @@ document.querySelector('form').addEventListener('submit', function(event) {
     const price = document.querySelector('input[name="price"]').value;
     const leadTime = document.querySelector('input[name="leadTime"]').value;
 
-    if (!contractPath || !brn || !companyName || !companyAccount || !itemCode || !itemName || !price || !leadTime) {
+    if ( !brn || !companyName || !companyAccount || !itemCode || !itemName || !price || !leadTime) {
         event.preventDefault(); // 폼 제출을 막음
         alert('모든 항목을 입력해주세요.'); // 경고 메시지 표시
     }

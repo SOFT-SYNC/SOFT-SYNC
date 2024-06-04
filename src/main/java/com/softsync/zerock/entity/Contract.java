@@ -55,7 +55,7 @@ public class Contract {
  
 
     @Column(name = "lead_time") //납기일
-    private LocalDate lead_time;
+    private int lead_time;
 
     @Column(name = "unit_price") // 단가
     private int unit_price;

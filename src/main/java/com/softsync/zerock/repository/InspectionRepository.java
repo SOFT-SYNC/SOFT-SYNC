@@ -19,8 +19,9 @@ public interface InspectionRepository extends JpaRepository<Inspection, Long> {
 	 */
 
 	Inspection findByInspecNo(Long inspecNo);
-		
-	Long countByinspecYn(char inspecYn);
+	
+	@Query("SELECT COUNT(DISTINCT orders.orderNo) FROM Inspection WHERE inspecYn = 'Y'")
+	Long countByinspecYn();   
 	
 	@Query("SELECT COUNT(*) FROM Inspection WHERE inspecYn BETWEEN :startDate AND :endDate")
 	Long countByInspecPlanDate(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
