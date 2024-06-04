@@ -1,5 +1,6 @@
 package com.softsync.zerock.controller;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.softsync.zerock.entity.Company;
 import com.softsync.zerock.entity.Contract;
@@ -51,6 +51,7 @@ public class ContractController {
 	                               @RequestParam("leadTime") int leadTime,
 	                               @RequestParam("contractNote") String contractNote,
 	                               @RequestParam(name = "contractNumber", required = false) Integer contractNumber,
+	                               @RequestParam("contractDate") LocalDate contractDate,
 	                               Model model,
 	                               @PageableDefault(size = 10) Pageable pageable) {
 			System.out.println("[계약컨트롤러] 계약서 저장");
@@ -70,7 +71,7 @@ public class ContractController {
 	        contract.setContract_note(contractNote);
 	        contract.setCompany(company); //회사정보(외래키)
 
-	        contract.setContract_date(LocalDate.now());  //계약일 (현재시각)
+	        contract.setContract_date(contractDate);  //계약일 
 
 	        contract.setItem(item);//품목정보(외래키)
 	        contract.setLead_time(leadTime);//납기일

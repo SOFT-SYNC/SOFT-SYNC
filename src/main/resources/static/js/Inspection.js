@@ -97,6 +97,8 @@ function registerInspectionss() {
     })
     .then(data => {
         alert('새로운 검수 계획이 등록되었습니다.');
+          populateInspecPlanList(data.inspectionList);
+  
 
     })
     .catch(error => {
@@ -112,20 +114,29 @@ function markComplete(button) {
     var orderQuantity = parseInt(row.cells[4].innerText); // 발주량
     var quantity = parseInt(row.cells[5].innerText); // 생산량
 
-  if (isNaN(orderQuantity) || isNaN(quantity)) {
+    if (isNaN(orderQuantity) || isNaN(quantity)) {
         alert("발주량 또는 생산량이 유효하지 않습니다.");
         return;
     }
-    
+
     // 진행률 계산
     var percent = (quantity / orderQuantity) * 100;
-    
-       // percent 값을 소수점 둘째 자리까지 반올림하여 소수점 이하 자리를 제한
+
+    // percent 값을 소수점 둘째 자리까지 반올림하여 소수점 이하 자리를 제한
     percent = Math.round(percent * 100) / 100;
 
     // percent 값을 문자열로 변환하여 % 기호를 추가
     percent = percent.toFixed(2) + "%";
-    
+
+    // 진행률 표시 열의 DOM 요소 찾기
+    var percentCell = row.cells[6];
+    // 진행률 값을 갱신
+    percentCell.querySelector('input[name="percent"]').value = percent;
+
+    var inspecDate = new Date().toISOString().split('T')[0];
+    row.cells[3].innerText = inspecDate;
+
+    // 서버로 데이터 저장 요청
     var formData = new FormData();
     formData.append('inspecNo', inspecNo);
     formData.append('percent', percent);
@@ -138,17 +149,14 @@ function markComplete(button) {
         if (!response.ok) {
             throw new Error('검수 등록 중에 문제가 발생했습니다.');
         }
+        return response.json(); // JSON 형식으로 응답을 파싱
     })
     .then(data => {
-     
         alert('검수가 완료되었습니다.');
+        populateInspecPlanList(data.inspectionList);
     })
     .catch(error => {
         console.error('Error registering inspection:', error);
         alert('검수 등록 중에 문제가 발생했습니다.');
     });
 }
-   
-   
-   
- 

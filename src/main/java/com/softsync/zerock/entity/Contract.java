@@ -66,6 +66,8 @@ public class Contract {
     @Column(name = "contract_note" ) //특이사항
     private String contract_note;
     
+
+    
     
 
 }

@@ -34,7 +34,7 @@
 							<th>발주번호</th>
 							<td id="orderNoCell"><input type="text" name="orderNo" readonly></td>
 							<th>사업자등록번호</th>
-							<td id="brn"><input type="text" name="brn"> </td>
+							<td id="brn"><input type="text" name="brn" readonly> </td>
 						</tr>
 						<tr>
 							<th>발신처</th>
@@ -150,6 +150,8 @@
 						<td th:unless="${contract.orders.size() > 0 && contract.orders[0].orderYn == 'Y'}">
 							<button class="blueBtn addBtn">추가</button>
 						</td>
+						
+						<td th:text="${contract.company.brn}" style="display: none;">사업자 등록번호용</td>
 					</tr>
 					
 				</table>
@@ -382,6 +384,8 @@
 	/////////////////////////////발주대기항목 하단 테이블 추가 버튼누르면 상단에 값입력
   $(document).ready(function() {
 	  $('#3').on('click', 'button.addBtn', function() {
+		  
+
 	    var $row = $(this).closest('tr');
 	    var contractNum = $row.find('td:nth-child(2)').text().trim();
 	    var itemCode = $row.find('td:nth-child(3)').text().trim();
@@ -390,18 +394,26 @@
 	    var itemDimensions = $row.find('td:nth-child(6)').text().trim();
 	    var unitPrice = $row.find('td:nth-child(8)').text().trim();
 	    var leadTime = $row.find('td:nth-child(10)').text().trim();
+	    var leadTimeValue = parseInt(leadTime, 10);
+	    console.log(leadTimeValue);
+	    
+	    
+	    var leadTimeREAL = getCurrentDate1(leadTimeValue);
+	    
+	    var brn = $row.find('td:nth-child(12)').text().trim();
 	    
 	    var orderDate = $('#orderDateCell input').val();
 	    $('#row1').find('input').val('');
 	    $('#orderDateCell input').val(orderDate);
-
+		
 	    $('#contractNumCell').val(contractNum);
 	    $('#itemCodeCell').val(itemCode);
 	    $('#itemNameCell input').val(itemName);
 	    $('#itemMaterialCell input').val(itemMaterial);
 	    $('#itemDimensionsCell input').val(itemDimensions);
 	    $('#unitPriceCell input').val(unitPrice);
-	    $('#leadTimeCell input').val(leadTime);
+	    $('#leadTimeCell input').val(leadTimeREAL);
+	    $('#brn input').val(brn).trigger('change');
 	    
 	  });
 	});
@@ -489,6 +501,22 @@ $(document).ready(function(){
         const day = String(now.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
     }
+   
+    /////////////////// 현재 날짜를 가져오는 함수2 //  납기일 더하는용으로 하나생성함 6/4
+  function getCurrentDate1(dd) {
+    var a = new Date();
+    a.setDate(a.getDate() + dd); // 현재 날짜에 dd일을 더함
+
+    var b = a.getFullYear();
+    var c = String(a.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 1을 더해줍니다.
+    var d = String(a.getDate()).padStart(2, '0');
+
+
+
+    return `${b}-${c}-${d}`;
+}
+
+
 
     // 페이지가 로드될 때 실행되는 함수
     window.onload = function() {

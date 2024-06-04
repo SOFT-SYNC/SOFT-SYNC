@@ -30,8 +30,8 @@ public class Inspection {
     @JoinColumn(name = "orderNo", nullable = false)
     private Orders orders; //발주 엔터티
 	
-  @OneToMany(fetch = FetchType.LAZY)
-    private List<InspectionList> InspectionList;
+//  @OneToMany(fetch = FetchType.LAZY)
+//    private List<InspectionList> InspectionList;
 	  
 	@Column (nullable = false)
 	private LocalDate inspecPlan; //검수예정일
@@ -44,4 +44,15 @@ public class Inspection {
 	
 	@Column(nullable = false, columnDefinition = "CHAR(1) DEFAULT 'N'")
 	private char inspecYn = 'N';
+	
+
+    @Column (nullable = true)
+    private String percent; //진행률
+    
+	@Column (nullable = true)
+	private LocalDate inspecDate; //검수일
+	
+	@Column (nullable =true)
+	private String inspecNote; //비고
+	
 }

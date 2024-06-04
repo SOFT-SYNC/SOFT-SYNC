@@ -66,6 +66,7 @@
 						<th>품목명</th>
 						<th>단가</th>
 						<th>L/T일</th>
+						<th>계약일</th>
 						<th>특이사항</th>
 					</tr>
 					<tr>
@@ -77,6 +78,7 @@
 							readonly></td>
 						<td id="unitPriceCell"><input type="text" name="price"></td>
 						<td id="leadTimeCell"><input type="number" name="leadTime"></td>
+						<td id="contractDate"> <input type="date" name="contractDate"></td>
 						<td id="contractNote"><input type="text" name="contractNote"></td>
 					</tr>
 
@@ -156,7 +158,7 @@
 								value="계약서보기"></td>
 							<td th:text="${contract.contract_note}" style="display: none;">
 								<!-- 정보 조회 용 히든 값 -->
-							<td th:text="${contract.contract_path}" style="display: none;">
+							<td th:text="${contract.contract_date}" style="display: none;">
 								<!-- 정보 조회 용 히든 값 -->
 						</tr>
 					</th:block>
@@ -398,7 +400,7 @@ $(document).ready(function() {
         var unitPrice = $(this).find('td:eq(5)').text().trim();
         var leadTime = $(this).find('td:eq(6)').text().trim();
         var contractNoteth = $(this).find('td:eq(11)').text().trim();
-        var contractPath =  $(this).find('td:eq(12)').text().trim();
+        var contractDate =  $(this).find('td:eq(12)').text().trim();
 
         var conYn = $(this).find('td:eq(8)').text().trim();
 
@@ -426,7 +428,10 @@ $(document).ready(function() {
 		$('#unitPriceCell input[name="price"]').val(unitPrice).prop('readonly', ConBool);
 		$('#leadTimeCell input[name="leadTime"]').val(leadTime).prop('readonly', ConBool);
 		$('#contractNote input[name="contractNote"]').val(contractNoteth).prop('readonly', ConBool);
-		$('#contractPath input[name="contractPath"]').val(contractPath).prop('readonly', ConBool);
+		
+		$('#contractDate input[name="contractDate"]').val(contractDate).prop('readonly', ConBool); //6/4 추가 계약일
+		
+
 		
 		
 		//계약서에 값넣기..
@@ -526,8 +531,9 @@ document.querySelector('form').addEventListener('submit', function(event) {
     const itemName = document.querySelector('input[name="itemName"]').value;
     const price = document.querySelector('input[name="price"]').value;
     const leadTime = document.querySelector('input[name="leadTime"]').value;
+    const contractDate = document.querySelector('input[name="contractDate"]').value;
 
-    if ( !brn || !companyName || !companyAccount || !itemCode || !itemName || !price || !leadTime) {
+    if ( !brn || !companyName || !companyAccount || !itemCode || !itemName || !price || !leadTime || !contractDate) {
         event.preventDefault(); // 폼 제출을 막음
         alert('모든 항목을 입력해주세요.'); // 경고 메시지 표시
     }

@@ -7,10 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.softsync.zerock.entity.Inspection;
-import com.softsync.zerock.entity.InspectionList;
 import com.softsync.zerock.entity.Orders;
 import com.softsync.zerock.repository.ContractRepository;
-import com.softsync.zerock.repository.InspectionListRepository;
+
 import com.softsync.zerock.repository.InspectionRepository;
 import com.softsync.zerock.repository.OrderRepository;
 
@@ -22,9 +21,9 @@ public class InspectionService {
 	   @Autowired
 	   InspectionRepository inspectionRepository;
 
-	   @Autowired
-	   InspectionListRepository inspectionListRepository;
-		@Autowired
+		/*
+		 * // @Autowired // InspectionListRepository inspectionListRepository;
+		 */		@Autowired
 		OrderRepository orderRepository;
 
 
@@ -35,7 +34,12 @@ public class InspectionService {
 		       inspection.setInspecPlan(inspecPlan);
 		       inspection.setQuantity(quantity);
 		       inspection.setTimes(times);
+		       inspection.setPercent("-");
 		       return inspectionRepository.save(inspection);
+		   }
+		   
+		   public void save(Inspection inspection) {
+			   inspectionRepository.save(inspection); //6/4 추가김
 		   }
 		   
 			/*
@@ -65,10 +69,10 @@ public class InspectionService {
 		   }
 
 
-		public void saveInspectionList(InspectionList inspectionList) {
-			inspectionListRepository.save(inspectionList);
-			
-		}
+//		public void saveInspectionList(InspectionList inspectionList) {
+//			inspectionListRepository.save(inspectionList);
+//			
+//		}
 
 		public Inspection getinspectionByInspecNo(Long inspecNo) {
 			Inspection inspection = inspectionRepository.findByInspecNo(inspecNo);

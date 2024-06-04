@@ -1,7 +1,6 @@
 package com.softsync.zerock.controller;
 
 import java.sql.Date;
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -20,13 +19,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.softsync.zerock.entity.Company;
 import com.softsync.zerock.entity.Contract;
 import com.softsync.zerock.entity.Inspection;
-import com.softsync.zerock.entity.InspectionList;
 import com.softsync.zerock.entity.Item;
 import com.softsync.zerock.entity.Orders;
+import com.softsync.zerock.repository.OrderRepository;
 import com.softsync.zerock.service.CompanyService;
 import com.softsync.zerock.service.ContractService;
 import com.softsync.zerock.service.EmailService;
-import com.softsync.zerock.service.InspectionListService;
 import com.softsync.zerock.service.InspectionService;
 import com.softsync.zerock.service.ItemService;
 import com.softsync.zerock.service.OrderService;
@@ -53,7 +51,11 @@ public class OrderController {
    InspectionService inspectionService;
    
    @Autowired
-   InspectionListService inspectionListService;
+   OrderRepository orderRepository;
+   
+	/*
+	 * @Autowired InspectionListService inspectionListService;
+	 */
    
    @Autowired //발주 - 입고 연계를 위해 추가 5/23 김홍택
    ReceivingService receivingService;
@@ -91,6 +93,8 @@ public class OrderController {
 		return ResponseEntity.ok(response);
 	}
 
+	
+	//발주서 저장? 
 	@PostMapping("/saveOrders")
 	public String saveOrders(
 	    @RequestParam("brn") String brn, 
@@ -230,25 +234,33 @@ public class OrderController {
 	 
 	 //검수 완료
 	 @PostMapping("/saveInspection")
-		public String saveInspection(@RequestParam Long inspecNo,
+	 @ResponseBody
+		public Map<String, Object> saveInspection(@RequestParam Long inspecNo,
 				@RequestParam String percent) {
 
 			System.out.println("[InspetionController] saveInspection()");
 
-			InspectionList inspectionList = new InspectionList();
 			Inspection inspection = inspectionService.getinspectionByInspecNo(inspecNo);
 
 			LocalDate inspecDate = LocalDate.now();
 			
 			 
-			inspectionList.setInspection(inspection);
-			inspectionList.setPercent(percent);
+			inspection.setPercent(percent);
+			System.out.println(percent);
 			inspection.setInspecYn('Y');
-			inspectionList.setInspecDate(inspecDate);
+			inspection.setInspecDate(inspecDate);
+			
+			inspectionService.save(inspection);
 
-			inspectionService.saveInspectionList(inspectionList);
+//			inspectionService.saveInspectionList(inspectionList);
+			Orders order = inspection.getOrders();
+			
+			List<Inspection> inspections = inspectionService.getInspectionsByOrderNo(order.getOrderNo());
 
-			return "redirect:/purchase_schedule";
+			Map<String, Object> response = new HashMap<>();
+			response.put("inspectionList", inspections);
+			
+			return response;
 
 		}
 
