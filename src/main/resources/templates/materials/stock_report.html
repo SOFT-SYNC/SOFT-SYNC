@@ -51,16 +51,10 @@
                     <div class="col1">
                         <div class="card">
                             <div class="card-body">
-                                <p class="card-title">입고 수량</p>
-                                <h2 class="card-content" id="totalReceivingQuantity">0</h2>
+                                <p class="card-title">재고 수량</p>
+                                <h2 class="card-content" id="finalInventory">0</h2>
                             </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-body">
-                                <p class="card-title">출고 수량</p>
-                                <h2 class="card-content" id="totalShipmentQuantity">0</h2>
-                            </div>
-                        </div>
+                        </div>               
                         <div class="card">
                             <div class="card-body">
                                 <p class="card-title">재고 금액 (\)</p>
@@ -79,18 +73,16 @@
         /*]]>*/
     </script>
     
-    <script type="text/javascript">
+<script type="text/javascript">
         var myChart;
 
         function updateInventoryData(data) {
             var inventoryPeriods = data.inventoryPeriods;
             var itemNames = inventoryPeriods.map(ip => ip.inventoryName);
-            var receivingQuantities = inventoryPeriods.map(ip => ip.totalReceivingQuantity);
-            var shipmentQuantities = inventoryPeriods.map(ip => ip.totalShipmentQuantity);
+            var finalInventoryQuantities = inventoryPeriods.map(ip => ip.finalInventory);
             var finalInventoryValues = inventoryPeriods.map(ip => ip.finalInventoryValue);
 
-            document.getElementById('totalReceivingQuantity').innerText = data.totalReceivingQuantity;
-            document.getElementById('totalShipmentQuantity').innerText = data.totalShipmentQuantity;
+            document.getElementById('finalInventory').innerText = data.finalInventory;
             document.getElementById('totalInventoryValue').innerText = data.totalInventoryValue;
 
             var ctx = document.getElementById('inventoryChart').getContext('2d');
@@ -105,17 +97,10 @@
                     labels: itemNames,
                     datasets: [
                         {
-                            label: '입고',
-                            data: receivingQuantities,
+                            label: '재고',
+                            data: finalInventoryQuantities,
                             backgroundColor: 'rgba(75, 192, 192, 0.2)',
                             borderColor: 'rgba(75, 192, 192, 1)',
-                            borderWidth: 1
-                        },
-                        {
-                            label: '출고',
-                            data: shipmentQuantities,
-                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                            borderColor: 'rgba(255, 99, 132, 1)',
                             borderWidth: 1
                         },
                         {
@@ -186,6 +171,8 @@
             });
         });
     </script>
+    
+    
 
 </body>
 </html>

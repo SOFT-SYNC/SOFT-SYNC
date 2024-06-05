@@ -23,12 +23,6 @@
 				enctype="multipart/form-data">
 				<div id="toptb">
 					<h1 class="visual-title">진척검수</h1>
-					<div class="btn-container">
-					
-						<button type="button" class="blueBtn">검수마감</button>
-						<button type="button" class="blueBtn"
-							onclick="location.href='purchase_schedule'">초기화</button>
-					</div>
 					<table class="table" id="mainTable">
 						<colgroup>
 							<col width="15%">
@@ -109,7 +103,7 @@
 			</form>
 		</div>
 		<div id="row2">
-			<h2 class="visual-title">검수 예정 품목</h2>
+			<h2 class="visual-title">검수 품목</h2>
 			<table class="listTable">
 				<colgroup>
 					<col width="12%">
@@ -125,7 +119,7 @@
 					<tr>
 						<th>발주번호</th>
 						<th>발주일</th>
-						<th>입고예정일</th>
+						<th>납기일</th>
 						<th>품목코드</th>
 						<th>품명</th>
 						<th>발주수량</th>
@@ -143,9 +137,16 @@
 						<td th:text="${contract.item.itemName}">품목명</td>
 						<td
 							th:text="${contract.orders.size() > 0 ? contract.orders[0].orderQuantity : '-'}">N/A</td>
-						<td></td>
-						<td><input type="button" value="검수" class="blueBtn"
-							onclick="addToMainTable(this)"></td>
+						<td th:text="${contract.orders[0].inspectionTime}"></td>
+						
+						<td th:switch="${contract.orders[0].inspectYNG}">
+							<span th:case="'N'"><input type="button" class="blueBtn" value="검수하기" onclick="addToMainTable(this)"></span> 
+							<span th:case="'G'"> <input type="button" class="blueBtn disabledBtn" value="마감하기" onclick="addToMainTable(this); endInspection(this)"></span>
+							<span th:case="'Y'"> <input type="button" class="blueBtn " value="마감완료"  onclick="addToMainTable(this)"></span>
+							</td>
+						
+						
+
 					</tr>
 				</thead>
 			</table>
