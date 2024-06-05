@@ -134,6 +134,7 @@
 						<td th:text="${production.item.itemCode}"></td>
 						<td th:text="${production.item.itemName}"></td>
 						<td th:text="${production.itemQuantity}"></td>
+						
 					</tr>
 				</table>
 				
@@ -282,9 +283,48 @@
 			</div>
 		</div>
 	</div>
+	
+	
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   <script>
+ function setRegistrationFields(event) {
+         var row = event.currentTarget;
+         var itemId = row.getAttribute('data-item-id');
+         <!-- 계약서 조달간격일 가져옴  6/5-->
+         $.ajax({
+             url: '/add_lt_contrct',
+             type: 'POST',
+             contentType: 'application/json',
+             data: JSON.stringify({
+            	 itemId : itemId
+             }),
+             success: function(response) {
+                 console.log('Success:', response);
+                 document.getElementById('regi_procurementInterval').value = response.ltTime;
+                 document.getElementById('regi_procurementDueDate').value = getCurrentDate1(response.ltTime);
+                 // 리스폰스 데이터를 사용하여 필요한 작업을 수행합니다.
+          }
+             
+      })
+         document.getElementById('regi_productionStartDate').value = row.getAttribute('data-production-start-date');
+         document.getElementById('regi_productionEndDate').value = row.getAttribute('data-production-end-date');
+         document.getElementById('regi_productCode').value = row.getAttribute('data-product-code');
+         document.getElementById('regi_productName').value = row.getAttribute('data-product-name');
+         document.getElementById('regi_productionQuantity').value = row.getAttribute('data-production-quantity');
+         document.getElementById('regi_itemCode').value = row.getAttribute('data-item-code');
+         document.getElementById('regi_itemName').value = row.getAttribute('data-item-name');
+         document.getElementById('regi_itemQuantity').value = row.getAttribute('data-item-quantity');
+         document.getElementById('regi_procurementQuantity').value = row.getAttribute('data-item-quantity');
+         document.getElementById('regi_productionPlanId').value = row.getAttribute('data-production-plan-id');
+         document.getElementById('regi_itemId').value = row.getAttribute('data-item-id');
+         
+      
+      };
+      </script>
+
 
 	<script>
-   
+
 
       function performProductionSearch() {
           var filter = document.getElementById('productionFilterSelect').value;
@@ -375,20 +415,7 @@
           }
       });
 
-      function setRegistrationFields(event) {
-         var row = event.currentTarget;
-
-         document.getElementById('regi_productionStartDate').value = row.getAttribute('data-production-start-date');
-         document.getElementById('regi_productionEndDate').value = row.getAttribute('data-production-end-date');
-         document.getElementById('regi_productCode').value = row.getAttribute('data-product-code');
-         document.getElementById('regi_productName').value = row.getAttribute('data-product-name');
-         document.getElementById('regi_productionQuantity').value = row.getAttribute('data-production-quantity');
-         document.getElementById('regi_itemCode').value = row.getAttribute('data-item-code');
-         document.getElementById('regi_itemName').value = row.getAttribute('data-item-name');
-         document.getElementById('regi_itemQuantity').value = row.getAttribute('data-item-quantity');
-         document.getElementById('regi_productionPlanId').value = row.getAttribute('data-production-plan-id');
-         document.getElementById('regi_itemId').value = row.getAttribute('data-item-id');
-      }
+     
 
       async function submitForm(event) {
          event.preventDefault();
@@ -415,6 +442,19 @@
             alert('조달계획 등록에 실패했습니다.');
          }
       }
+      
+      
+      /////////////////// 현재 날짜를 가져오는 함수2 //  납기일 더하는용으로 하나생성함 6/4
+      function getCurrentDate1(dd) {
+        var a = new Date();
+        a.setDate(a.getDate() + dd); // 현재 날짜에 dd일을 더함
+        var b = a.getFullYear();
+        var c = String(a.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 1을 더해줍니다.
+        var d = String(a.getDate()).padStart(2, '0');
+
+        return `${b}-${c}-${d}`;
+     }
+
    </script>
 </body>
 

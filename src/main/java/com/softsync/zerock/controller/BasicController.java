@@ -1,6 +1,8 @@
 package com.softsync.zerock.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,7 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.softsync.zerock.entity.Contract;
 import com.softsync.zerock.entity.Item;
@@ -20,6 +24,7 @@ import com.softsync.zerock.entity.Orders;
 import com.softsync.zerock.entity.ProcurementPlan;
 import com.softsync.zerock.entity.ProductionPlan;
 import com.softsync.zerock.entity.User;
+import com.softsync.zerock.repository.ContractRepository;
 import com.softsync.zerock.repository.ItemRepository;
 import com.softsync.zerock.repository.ProcurementPlanRepository;
 import com.softsync.zerock.repository.ProductionPlanRepository;
@@ -48,6 +53,9 @@ public class BasicController {
 	
 	@Autowired
 	UploadFileService uploadFileService;
+	
+	@Autowired
+	ContractRepository contractRepository;
 	
 	
 	@Autowired
@@ -291,6 +299,26 @@ public class BasicController {
 	       return "/procurement/add_LTplan";
 	   }
 	
+	 
+	 	//6/5 추가 조달관리에 납기일 받아오기위함
+	 	@PostMapping("/add_lt_contrct")
+	 	@ResponseBody
+	   public Map<String, Integer> add_lt_contrct(@RequestBody Map<String, String> request) {
+	 		String itemId = request.get("itemId"); //받아옴
+	 		System.out.println(itemId);
+	 		Long itemIdL = Long.parseLong(itemId);
+	 		Item item = itemRepository.getReferenceById(itemIdL);
+	 		System.out.println(item);
+	 		Contract contract = contractRepository.findByItem(item);
+	 		
+	 		int ltTime = contract.getLead_time();
+
+	 		Map<String, Integer> response = new HashMap<>();
+	        response.put("ltTime", ltTime); 
+	 		
+	 		
+	 		return response;
+	 	}
 	
 //	//계약 
 //	@GetMapping("/add_contract")   

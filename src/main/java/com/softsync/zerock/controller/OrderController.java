@@ -1,5 +1,6 @@
 package com.softsync.zerock.controller;
 
+import java.io.InputStream;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -128,6 +129,7 @@ public class OrderController {
 	    order.setCompany(company);
 	    order.setItem(item); 
 	    order.setOrderNo(orderNo);
+	    order.setInspectionTime("0/0");
 
 	    // orderDate 문자열을 LocalDate로 변환
 	    LocalDate parsedOrderDate = LocalDate.parse(orderDate);
@@ -236,27 +238,64 @@ public class OrderController {
 	 @PostMapping("/saveInspection")
 	 @ResponseBody
 		public Map<String, Object> saveInspection(@RequestParam Long inspecNo,
-				@RequestParam String percent) {
-
-			System.out.println("[InspetionController] saveInspection()");
+				@RequestParam String percent,
+				@RequestParam int quantity) {
+		 
+			System.out.println("[InspetionController] saveInspection()" + quantity);
 
 			Inspection inspection = inspectionService.getinspectionByInspecNo(inspecNo);
 
 			LocalDate inspecDate = LocalDate.now();
 			
+
+			
+			
+	        //검수마감 진행
+			 int totalQuantity = 0;
+			  Orders order = inspection.getOrders(); 
+	        List<Inspection> inspections = inspectionService.getInspectionsByOrderNo(order.getOrderNo());//이거 아래 또 써야될듯
+	        
+		    for (Inspection inspection1 : inspections) {
+		    	if(inspection1.getInspecYn() == 'Y') { //진척검수 완료된것만 더했을때
+		    		totalQuantity += inspection1.getQuantity();
+		    	}
+		    }
+		    System.out.println(totalQuantity);
+	    	totalQuantity += quantity;
+		    System.out.println("발주량 : " + order.getOrderQuantity() + "토탈 : " +totalQuantity);
+		    //발주량 == 검수량(생산량) 이면 검수마감 버튼이 생기게 허여함~
+	        if(order.getOrderQuantity() == totalQuantity) {
+	        	order.setInspectYNG('G'); //검수완료 및 검수 마감 대기
+	        }
+	        
+	      
+
+	        
+	        
 			 
 			inspection.setPercent(percent);
 			System.out.println(percent);
 			inspection.setInspecYn('Y');
 			inspection.setInspecDate(inspecDate);
 			
+	
+			
 			inspectionService.save(inspection);
 
 //			inspectionService.saveInspectionList(inspectionList);
-			Orders order = inspection.getOrders();
+		
 			
-			List<Inspection> inspections = inspectionService.getInspectionsByOrderNo(order.getOrderNo());
+			
+			 //orders 안에 진척검수 완료량 갱신 :  검수완료 갯수 +1
+		    String str = order.getInspectionTime();
+		    String[] parts = str.split("/"); //문자열 나누기
+	        int num = Integer.parseInt(parts[0]) + 1; //앞 숫자 1 추가
+	        String newStr = num + "/" + parts[1]; //문자열 합치기
+	        order.setInspectionTime(newStr); //저장시키기
+	        orderService.saveOrder(order);  //db에 저장
 
+
+	        order.setOrderQuantity(totalQuantity);
 			Map<String, Object> response = new HashMap<>();
 			response.put("inspectionList", inspections);
 			

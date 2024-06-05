@@ -44,12 +44,12 @@ public class Orders {
    @JoinColumn(name = "contract_number", nullable = true)
    private Contract contract;
    
-
-// @ManyToOne(fetch = FetchType.LAZY) //조달계획 :입고예정일
-// @JoinColumn(name = "procNo", nullable = false)
-// private ProcurementPlan procNo;
- 
+   @Column (nullable = false)
+   private String inspectionTime ;   //진척검수 진행횟수
    
+   @Column (nullable = false)
+   private char inspectYNG = 'N' ;   //진척검수 마감여부 Y N G
+ 
    @OneToOne(mappedBy = "orders", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
    @JsonIgnore //거래명세서용 무한참조 방지
    private Receiving receiving;  //입고 1:1

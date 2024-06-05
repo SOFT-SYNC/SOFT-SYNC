@@ -47,7 +47,7 @@
           <th> 품목코드</th>
           <th> 품목명</th>
           <th> 재질</th>
-          <th> 기입고수량</th>
+          <th> 입고수량</th>
           <th> 발주수량</th>
           <th> 발주일</th>
           <th> 납기일</th>
@@ -119,7 +119,7 @@
 	        <tr>
 	          <th> 품목코드</th>
 	          <th> 품목명</th>
-	          <th> 기입고수량</th>
+	          <th> 입고수량</th>
 	          <th> 발주수량</th>
 	          <th> 입고수량</th>
 	        </tr>
@@ -222,7 +222,7 @@
   		var receivingNumber = row.querySelector('.receiving-number').value; //입고번호(pk)
         var itemCode = row.cells[0].children[1].innerText; //품목코드
         var itemName = row.cells[1].innerText; //품목네임
-        var wQuantity = row.cells[3].innerText; //기입고수량
+        var wQuantity = row.cells[3].innerText; //입고수량
         var orderedQuantity = row.cells[4].innerText; //발주수량
         
   
@@ -247,7 +247,7 @@
 	      firstRow.cells[1].innerText =  itemName;
 	      firstRow.cells[2].innerHTML = '<input type="hidden" name="wQuantity"  id="wQuantity" value="' + wQuantity + '">' + wQuantity;
 	      firstRow.cells[3].innerHTML = '<input type="hidden" name="orderQuantity" id="orderQuantity" value="' + orderedQuantity + '">' + orderedQuantity;
-	     
+	      firstRow.cells[4].innerHTML = '<input type="number" name="orderQuantity" id="orderQuantity" value="' + orderedQuantity + '">';
 	      
 	 }
    

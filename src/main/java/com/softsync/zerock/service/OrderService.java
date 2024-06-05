@@ -131,6 +131,18 @@ public class OrderService {
 		Long arr[] = {contract, order, inspect, invoice}; 
 		return arr;
 	}
+	
+	public void getOrder(String no) {
+		
+		Orders order = orderRepository.getReferenceById(no);
+		
+        
+		if(order.getInspectYNG() == 'G') {
+			order.setInspectYNG('Y');
+			orderRepository.save(order);
+		}
+		
+	}
 
 }
  
