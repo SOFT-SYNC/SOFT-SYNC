@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link type="text/css" rel="stylesheet" href="../css/common/header.css">
+  <link type="text/css" rel="stylesheet" href="../css/common/common.css">
+  <link type="text/css" rel="stylesheet" href="../css/common/notice.css">
+  <link type="text/css" rel="stylesheet" href="../css/common/sidebar.css">
+    <script type="text/javascript" src="../js/sidebar.js"></script>
+</head>
+<body>
+<div th:insert="~{common/sidebar :: sidebar}"></div>
+<div th:insert="~{common/header :: header}"></div>
+<div class="main-content">
+	<div id="row1">
+		<div class="read_wrap">
+		    <table class="board_content">
+		        <colgroup>
+		            <col width="20">
+		            <col width="20">
+		            <col width="40">
+		            <col width="200">
+		            <col width="40">
+		            <col width="60">
+		            <col width="40">
+		            <col width="70">
+		        </colgroup>
+		        <tr>
+		            <th>No.</th>
+		            <td th:text="${notice.boardNo}" id="boardNo"></td>
+		            <th>제목</th>
+		            <td th:text="${notice.title}" id="title"></td>
+		            <th>작성자</th> 
+		            <td th:text="${notice.employeeId != null ? notice.employeeId.department : 'Unknown'}"></td>
+		            <th>작성일</th>
+		            <td th:if="${notice.modDate == null}" th:text="${#temporals.format(notice.regDate, 'yyyy-MM-dd')}">작성일</td>
+		            <td th:unless="${notice.modDate == null}" th:text="${#temporals.format(notice.modDate, 'yyyy-MM-dd')}">수정일</td>
+		        </tr>
+		        <tr>
+		            <td colspan="8" class="read_td read_content" th:text="${notice.content}"></td>
+		        </tr>
+		        
+		   </table>
+		    <div class="btn-container">
+			   <a th:href="@{/noticelist}">
+			        <button type="button" class="blueBtn">목록</button>
+			    </a>
+			</div>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

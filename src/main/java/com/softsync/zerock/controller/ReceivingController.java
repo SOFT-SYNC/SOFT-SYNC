@@ -59,4 +59,7 @@ public class ReceivingController {
 
 		return "redirect:/receivings";
 	}
+	
+	
+
 }

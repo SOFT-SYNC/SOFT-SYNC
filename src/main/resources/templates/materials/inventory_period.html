@@ -7,7 +7,7 @@
 <link type="text/css" rel="stylesheet" href="../css/common/header.css">
 <link type="text/css" rel="stylesheet" href="../css/common/common.css">
 <link type="text/css" rel="stylesheet" href="../css/common/sidebar.css">
-<link type="text/css" rel="stylesheet" href="../css/materials/invoice.css">
+<link type="text/css" rel="stylesheet" href="../css/materials/inventoryPeriod.css">
   <script type="text/javascript" src="../js/sidebar.js"></script>
 </head>
 <body>
@@ -20,10 +20,9 @@
 			<div class="search-container">
 				<form id="searchForm" th:action="@{/inventory_period}" method="get">
 					<div class="search-bar">
-						<label for="startDate">시작 날짜:</label> <input type="date"
-							id="startDate" name="startDate" required> <label
-							for="endDate">종료 날짜:</label> <input type="date" id="endDate"
-							name="endDate" required>
+						<label for="startDate"></label> 
+						<input type="date" id="startDate" name="startDate" required>
+						<label for="endDate"> ~ </label> <input type="date" id="endDate" name="endDate" required>
 						<button type="submit" class="blueBtn">검색</button>
 					</div>
 				</form>

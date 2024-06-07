@@ -1,6 +1,10 @@
 package com.softsync.zerock.entity;
 
+import java.time.LocalDateTime;
+
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -37,4 +41,11 @@ public class Notice {
 	@Column(nullable  = true)
 	private String content;
 	
+	  @CreatedDate
+	    @Column(updatable = false)
+	    private LocalDateTime regDate;
+
+	    @LastModifiedDate
+	    @Column
+	    private LocalDateTime modDate;
 }

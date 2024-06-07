@@ -21,13 +21,13 @@
 	        <div class="card">
 	          <div class="card-body">
 	            <p class="card-title">금일 입고 수량</p>
-	            <h2 class="card-content">35,000</h2>
+	            <h2 class="card-content"  th:text="${receivingQuantity}">0</h2>
 	          </div>
 	        </div>
 	        <div class="card">
 	          <div class="card-body">
 	            <p class="card-title">금일 출고 수량</p>
-	            <h2 class="card-content">12,500</h2>
+	            <h2 class="card-content" th:text="${shipmentQuantity}">0</h2>
 	          </div>
 	        </div>
 	      </div>
@@ -35,13 +35,13 @@
 	        <div class="card">
 	          <div class="card-body">
 	            <p class="card-title">금일 발주 수량</p>
-	            <h2 class="card-content">3,000</h2>
+	            <h2 class="card-content">0</h2>
 	          </div>
 	        </div>
 	        <div class="card">
 	          <div class="card-body">
 	            <p class="card-title">금일 재고 수량</p>
-	            <h2 class="card-content">1,549,900</h2>
+	            <h2 class="card-content">0</h2>
 	          </div>
 	        </div>
 	      </div>
@@ -87,7 +87,7 @@
 		            <td><h3 th:text="${contract.item.itemName}">발주내역출력</h3><h5 th:text="${contract.orders.size() > 0 ? contract.orders[0].orderDate : '-'}">발주일</h5></td>
 		            <td><h3 th:text="${contract.unit_price}">단가출력</h3><h5>Price</h5></td>
 		            <td><h3 th:text="${contract.orders.size() > 0 ? contract.orders[0].orderQuantity : '-'}">수량출력</h3><h5>Quantity</h5></td>
-		            <td><h3>총 발주금액</h3><h5>Amount</h5></td>
+		            <td><h3 th:text="${contract.orders.size() > 0 ? contract.orders[0].totalPrice : '-'}">총 발주금액</h3><h5>Amount (\)</h5></td>
 		          </tr>
 		        </table>
 		        </div>
@@ -109,22 +109,19 @@
 	    </div>
 	    <div class="notice-wrap">
 		    <div class="noticeList">
-		        <a href="notice"><span class="home-title"> NOTICE LIST </span></a>
+		        <a href="noticelist"><span class="home-title"> NOTICE LIST </span></a>
 		        <div th:if="${notices == null or notices.empty}" class="no_result">
 		            <p>공지사항이 없습니다.</p>
 		        </div>
-		        <div class="notice-content" th:if="${notices != null and not notices.empty}">
+		       <div class="notice-content" th:if="${notices != null and not notices.empty}">
 		            <table>
 		                <tr th:each="notice : ${notices}" class="notice-item">
-		                    <td th:text="${notice.title}">공지사항입니다.</td>
+		                    <td><a th:href="@{'/read/' + ${notice.boardNo}}">[[${notice.title}]]</a></td>
 		                </tr>
-		            </table>
-		        </div>
-		    </div>
+	            	</table>
+	       		 </div>
+	  	  </div>
 		</div>
-
-	  <div id="row3">
-	  </div>
   </div>
 </div>
 

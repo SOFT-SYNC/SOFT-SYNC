@@ -4,7 +4,7 @@ body {
 
 
 #resultsTable {
-   width : 90%;
+   width : 100%;
    margin : 20px auto ;
 }
 
@@ -50,11 +50,11 @@ tr.small td input{
 }
 
 .search-container form {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  width : 90%;
-  margin : 0 auto;
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	float: right;
+	
 }
 
 .date-range {

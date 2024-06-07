@@ -11,5 +11,6 @@ import com.softsync.zerock.entity.Receiving;
 public interface ReceivingRepository extends JpaRepository<Receiving, Integer> {
 
 	Receiving findByOrders(Orders order);
-	
+
+
 }

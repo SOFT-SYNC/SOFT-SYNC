@@ -85,15 +85,15 @@ canvas {
   font-weight: 800;
   font-size: 15px;
   color: black;
-  background-color: rgba(43, 128, 197, 0.5);
+/*   background-color: rgba(43, 128, 197, 0.5); */
+}
+
+.card:nth-child(1) .card-title {
+  color: black;
+  background-color: #c9e6e9;
 }
 
 .card:nth-child(2) .card-title {
   color: black;
-  background-color: rgba(222, 151, 18, 0.5);
-}
-
-.card:nth-child(3) .card-title {
-  color: black;
-  background-color: rgba(0, 128, 64, 0.5);
+  background-color:  rgba(43, 128, 197, 0.4);
 }

@@ -3,6 +3,8 @@ package com.softsync.zerock.repository;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -24,5 +26,9 @@ public interface ContractRepository extends JpaRepository<Contract, Integer> {
 	Long countByContractDate(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
 	
+	    
+	    Page<Contract> findByItem_ItemNameContaining(String itemName, Pageable pageable);
+	    Page<Contract> findByItem_ItemCodeContaining(String itemCode, Pageable pageable);
+		Page<Contract> findByOrders_OrderNoContaining(String searchKeyword, Pageable pageable);
 	 
 }
