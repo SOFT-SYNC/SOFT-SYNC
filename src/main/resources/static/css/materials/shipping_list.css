@@ -33,23 +33,22 @@ tr.small td input{
   margin: 10px 40px;
 }
 .visual-title {
-  margin-bottom: 15px;
+
   border-left: 3px solid black;
   padding-left: 10px;
 }
 
 .search-container {
-  width: 100%;
+  width: 90%;
   margin: 20px auto;
   padding: 20px;
   border-radius: 5px;
 }
-.search-container form {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  width : 90%;
-  margin : 0 auto;
+
+.search-bar {
+
+	float: right;
+	margin: 0 0 30px 0 ;
 }
 
 form div {

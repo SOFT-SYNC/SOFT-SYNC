@@ -18,4 +18,8 @@ public class NoticeService {
 		return noticeRepository.findAll();
 	}
 
+	public Notice getNoticeDetail(Integer boardNo) {
+		return noticeRepository.findByBoardNo(boardNo);
+	}
+
 }

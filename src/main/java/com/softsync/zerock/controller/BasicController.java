@@ -1,5 +1,6 @@
 package com.softsync.zerock.controller;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,8 @@ import com.softsync.zerock.repository.ProductionPlanRepository;
 import com.softsync.zerock.service.ItemService;
 import com.softsync.zerock.service.NoticeService;
 import com.softsync.zerock.service.OrderService;
+import com.softsync.zerock.service.ReceivingService;
+import com.softsync.zerock.service.ShipmentService;
 import com.softsync.zerock.service.UploadFileService;
 import com.softsync.zerock.service.UserService;
 
@@ -57,6 +60,11 @@ public class BasicController {
 	@Autowired
 	ContractRepository contractRepository;
 	
+	@Autowired
+	ReceivingService receivingService;
+	
+	@Autowired
+	ShipmentService shipmentService;
 	
 	@Autowired
 	ProductionPlanRepository productionPlanRepository;
@@ -361,6 +369,20 @@ public class BasicController {
 	@GetMapping("/dashBoard")
 	public String dashBoard(Model model) {
 	    System.out.println("[DashBoard]");
+	    
+	 // 오늘 날짜
+	    LocalDate today = LocalDate.now();
+
+	    // 오늘 날짜에 해당하는 입고된 수량 계산
+	    int receivingQuantity = receivingService.getReceivingQuantityByDate(today);
+
+	    // 오늘 날짜에 해당하는 출고된 수량 계산
+	    int shipmentQuantity = shipmentService.getShipmentQuantityByDate(today);
+
+	    // 모델에 계산된 수량들 추가
+	    model.addAttribute("receivingQuantity", receivingQuantity);
+	    model.addAttribute("shipmentQuantity", shipmentQuantity);
+	    
 	    List<Contract> contracts = orderService.getAllContracts();
 	    model.addAttribute("contracts", contracts);
 
@@ -370,7 +392,10 @@ public class BasicController {
 	    List<Notice> notices = noticeService.getAllNotices();
 	    model.addAttribute("notices", notices);
 
+	    
 	    return "common/home";
 	}
+	
+	
 
 }

@@ -8,4 +8,6 @@ import com.softsync.zerock.entity.Notice;
 @Repository
 public interface NoticeRepository extends JpaRepository<Notice,Integer>{
 
+	Notice findByBoardNo(Integer boardNo);
+
 }

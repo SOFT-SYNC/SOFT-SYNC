@@ -34,22 +34,16 @@ tr.small td input{
 }
 
 .search-container {
-  width: 90%;
+  width: 100%;
   margin: 20px auto;
   padding: 20px;
   border-radius: 5px;
 }
 
-.search-container form {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-    width : 90%;
-  margin : 0 auto;
-}
-
 .date-range {
 	margin-left : 70px;
+	
+	
 }
 form div {
   margin-bottom: 20px;
@@ -57,9 +51,13 @@ form div {
 label {
   margin-right: 10px;
 }
-
-
-
+.search-bar{
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	float: right;
+	margin: 0 90px 30px;
+}
 
 /* 반응형 웹 */
 @media (max-width: 768px) {

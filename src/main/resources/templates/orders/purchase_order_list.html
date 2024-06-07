@@ -15,10 +15,18 @@
 
     <div id="row1">
       <h1 class="visual-title">발주 리스트</h1>
-       <div class="btn-container">
-	        	<input id="searchInput" type="text" placeholder="품목코드 입력">
-				<button onclick="search()" class="blueBtn">검색</button>
-		</div>
+      
+		 <form onsubmit="performitemSearch(event)">
+                       <div class="btn-container">
+                           <select id="itemFilterSelect">
+                               <option value="itemCode" th:selected="${searchField == 'itemCode'}">품목코드</option>
+                               <option value="itemName" th:selected="${searchField == 'itemName'}">품목명</option>
+                               <option value="orderNo" th:selected="${searchField == 'orderNo'}">발주번호</option>
+                           </select>
+                           <input type="text" id="itemSearchInput" placeholder="검색어를 입력하세요">
+                           <input type="submit" value="검색" class="blueBtn">
+                       </div>
+                   </form>
                <table id="purchaseOrderListForm">
                    <colgroup>
                    	<col width="11%">
@@ -60,9 +68,86 @@
 					</td>
 				</tr>
                </table>
+               <div class="paging-wrap">
+                  <ul class="pagination"
+						th:if="${contracts.totalElements > 0}">
+                    <!--  처음 페이지로 이동 -->
+                     <li th:if="${contracts.number >= 10}"><a
+                        th:href="@{/purchase_order_list(page=${0})}">&laquo;</a></li>
+
+                     <!-- 이전 페이지 링크 -->
+                     <li th:if="${!contracts.isFirst()}"><a
+                        th:href="@{/purchase_order_list(page=${contracts.number - 1})}">&lt;</a></li>
+
+                   <!--   페이지 번호 링크 -->
+                     <th:block
+                        th:with="startPage=${(contracts.number / 10) * 10}, endPage=${(startPage + 9) < contracts.totalPages ? (startPage + 9) : contracts.totalPages - 1}">
+                        <li th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                          <!--  현재 페이지일 경우 active 클래스 추가 --> <a
+                           th:href="@{/purchase_order_list(page=${i})}"
+                           th:classappend="${i == contracts.number} ? 'active'"
+                           th:text="${i + 1}">Page number</a>
+                        </li>
+                     </th:block>
+
+                   <!--   다음 페이지 링크 -->
+                     <li th:if="${!contracts.isLast()}"><a
+                        th:href="@{/purchase_order_list(page=${contracts.number + 1})}">&gt;</a></li>                                                             
+                   <!--   10 페이지 앞으로 이동	 -->					
+						<li
+							th:if="${(contracts.number div 10) < ((contracts.totalPages - 1) div 10)}">
+							<a
+							th:href="@{/purchase_order_list(page=${(contracts.number div 10 + 1) * 10}, page=${contracts.number})}">&raquo;</a>
+						</li>	
+                  </ul>
+               </div>
     </div>
 </div>
+ <script>
+   function performitemSearch(event) {
+      event.preventDefault();
+       var filter = document.getElementById('itemFilterSelect').value;
+       var searchText = document.getElementById('itemSearchInput').value.trim();
 
+       if (searchText === '') {
+           alert("검색어를 입력하세요");
+           return;
+       }
+
+       // 검색어와 필터를 세션에 저장합니다.
+       sessionStorage.setItem('itemSearchField', filter);
+       sessionStorage.setItem('itemSearchKeyword', searchText);
+       sessionStorage.setItem('searchType', 'item');
+
+       var url = '/purchase_order_list?searchField=' + encodeURIComponent(filter) + '&searchKeyword=' + encodeURIComponent(searchText) + '&searchType=item';
+       window.location.href = url;
+   }
+
+
+   // 새로고침 시 세션 저장소를 확인하여 검색어와 필터를 초기화합니다.
+   document.addEventListener('DOMContentLoaded', function () {
+       var itemSearchField = sessionStorage.getItem('itemSearchField');
+       var itemSearchKeyword = sessionStorage.getItem('itemSearchKeyword');
+
+       if (itemSearchField && itemSearchKeyword) {
+           document.getElementById('itemFilterSelect').value = itemSearchField;
+           document.getElementById('itemSearchInput').value = itemSearchKeyword;
+           // URL에서 검색 조건 제거
+           window.history.replaceState({}, document.title, window.location.pathname);
+       }
+
+       // 검색 결과가 없는 경우 경고 메시지를 표시합니다.
+       var contractSearchEmpty = [[${contractSearchEmpty}]];
+
+       if (contractSearchEmpty && sessionStorage.getItem('searchType') === 'item') {
+           alert("검색 결과가 없습니다.");
+           sessionStorage.removeItem('itemSearchField');
+           sessionStorage.removeItem('itemSearchKeyword');
+       }
+       // 검색 후 세션 저장소를 비웁니다.
+       sessionStorage.removeItem('searchType');
+   });
+    </script>
 
 </body>
 </html>

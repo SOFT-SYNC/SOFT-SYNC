@@ -118,7 +118,7 @@ body {
 
 
 /* 계약서  */
-body {
+#modalWrap body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 20px;
@@ -126,7 +126,7 @@ body {
     color: #333;
 }
 
-.contractBody {
+#modalWrap .contractBody {
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
@@ -135,7 +135,7 @@ body {
     margin: auto;
 }
 
-.contractBody h2 {
+#modalWrap .contractBody h2 {
     text-align: center;
     font-size: 24px;
     color: #2c3e50;
@@ -158,28 +158,28 @@ body {
     margin-bottom: 5px;
 }
 
-.contractBody table {
+#modalWrap .contractBody table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
     margin-bottom: 20px;
 }
 
-.contractBody table, .contractBody th, .contractBody td {
+#modalWrap .contractBody table, .contractBody th, .contractBody td {
     border: 1px solid #ddd;
 }
 
-.contractBody th, .contractBody td {
+#modalWrap .contractBody th, .contractBody td {
     padding: 10px;
     text-align: left;
 }
 
-.contractBody th {
+#modalWrap .contractBody th {
     background-color: #2c3e50;
     color: #fff;
     font-weight: bold;
 }
 
-.contractBody td {
+#modalWrap .contractBody td {
     background-color: #ecf0f1;
 }

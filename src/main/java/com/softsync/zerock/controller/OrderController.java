@@ -1,6 +1,5 @@
 package com.softsync.zerock.controller;
 
-import java.io.InputStream;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -8,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +24,8 @@ import com.softsync.zerock.entity.Contract;
 import com.softsync.zerock.entity.Inspection;
 import com.softsync.zerock.entity.Item;
 import com.softsync.zerock.entity.Orders;
+import com.softsync.zerock.repository.ContractRepository;
+import com.softsync.zerock.repository.ItemRepository;
 import com.softsync.zerock.repository.OrderRepository;
 import com.softsync.zerock.service.CompanyService;
 import com.softsync.zerock.service.ContractService;
@@ -30,6 +34,8 @@ import com.softsync.zerock.service.InspectionService;
 import com.softsync.zerock.service.ItemService;
 import com.softsync.zerock.service.OrderService;
 import com.softsync.zerock.service.ReceivingService;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class OrderController {
@@ -53,28 +59,77 @@ public class OrderController {
    
    @Autowired
    OrderRepository orderRepository;
-   
-	/*
-	 * @Autowired InspectionListService inspectionListService;
-	 */
-   
+
+	@Autowired
+	ItemRepository itemRepository;
+	
+	@Autowired
+	ContractRepository contractRepository;
+	
    @Autowired //발주 - 입고 연계를 위해 추가 5/23 김홍택
    ReceivingService receivingService;
+   
+   
+   
+   @GetMapping("/purchase_order")
+   public String purchaseOrder(Model model,
+              @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+              @RequestParam(value = "searchField", required = false) String searchField,
+              @RequestParam(value = "searchKeyword", required = false) String searchKeyword,
+              HttpSession session) {
+       
+       System.out.println("[OrderController] getPurchaseOrder()");
+       
+       Pageable pageable = PageRequest.of(page, 10);
+       
+       Page<Contract> contracts;  // contracts 변수를 초기화
+       boolean contractSearchEmpty = false;
+          
+       List<Orders> orderList = orderService.getAllOrders();
+       model.addAttribute("orders", orderList); 
 
-	@GetMapping("/purchase_order")
-	public String purchaseOrder(Model model) {
-	    System.out.println("[OrderContorller] getPurchaseOrder()");
+       // 세션에서 검색 조건을 초기화하거나 세션에 저장합니다.
+       if (searchField != null && searchKeyword != null && !searchKeyword.isEmpty()) {
+           session.setAttribute("contractSearchField", searchField);
+           session.setAttribute("contractSearchKeyword", searchKeyword);
+       } else {
+           session.removeAttribute("contractSearchField");
+           session.removeAttribute("contractSearchKeyword");
+       }
 
-	    List<Contract> contracts = orderService.getAllContracts();
-	    model.addAttribute("contracts", contracts);
-	    
-	    List<Orders> orderList = orderService.getAllOrders();
-	    model.addAttribute("orders", orderList); 
-	    
+       if (searchField != null && searchKeyword != null && !searchKeyword.isEmpty()) {
+           try {
+               switch (searchField) {
+                  
+                   case "itemCode":
+                       contracts = contractRepository.findByItem_ItemCodeContaining(searchKeyword, pageable);
+                       break;
+                   case "itemName":
+                       contracts = contractRepository.findByItem_ItemNameContaining(searchKeyword, pageable);
+                       break;
+                   default:
+                       contracts = contractRepository.findAll(pageable);
+                       break;
+               }
+           } catch (Exception e) {
+               contracts = contractRepository.findAll(pageable);
+           }
+       } else {
+           contracts = contractRepository.findAll(pageable);
+       }
 
-	    return "orders/purchase_order";
-	}
+       if (contracts.isEmpty()) {
+           contractSearchEmpty = true;
+           contracts = contractRepository.findAll(pageable); // 전체 목록 반환
+       }
 
+       model.addAttribute("contracts", contracts);
+       model.addAttribute("searchField", searchField);
+       model.addAttribute("searchKeyword", searchKeyword);
+       model.addAttribute("contractSearchEmpty", contractSearchEmpty);
+
+       return "orders/purchase_order";
+   }
 
 		
 
@@ -195,14 +250,66 @@ public class OrderController {
 	
 	
 	 @GetMapping("/purchase_order_list")
-	    public String purchaseOrderListView(Model model) {
+	    public String purchaseOrderListView(Model model,
+	              @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+	              @RequestParam(value = "searchField", required = false) String searchField,
+	              @RequestParam(value = "searchKeyword", required = false) String searchKeyword,
+	              HttpSession session) {
+		 
 		 System.out.println("[OrderContorller] getOrderedList()");
-		   List<Contract> contracts = orderService.getAllContracts();
-		    model.addAttribute("contracts", contracts);
-		    
-		    List<Orders> orderList = orderService.getAllOrders();
-		    model.addAttribute("orders", orderList); 
-		    
+			
+		 
+		  Pageable pageable = PageRequest.of(page, 10);
+	       
+	       Page<Contract> contracts;  // contracts 변수를 초기화
+	       boolean contractSearchEmpty = false;
+	          
+	       List<Orders> orderList = orderService.getAllOrders();
+	       model.addAttribute("orders", orderList); 
+
+	       // 세션에서 검색 조건을 초기화하거나 세션에 저장합니다.
+	       if (searchField != null && searchKeyword != null && !searchKeyword.isEmpty()) {
+	           session.setAttribute("contractSearchField", searchField);
+	           session.setAttribute("contractSearchKeyword", searchKeyword);
+	       } else {
+	           session.removeAttribute("contractSearchField");
+	           session.removeAttribute("contractSearchKeyword");
+	       }
+
+	       if (searchField != null && searchKeyword != null && !searchKeyword.isEmpty()) {
+	           try {
+	               switch (searchField) {
+	                  
+	                   case "itemCode":
+	                       contracts = contractRepository.findByItem_ItemCodeContaining(searchKeyword, pageable);
+	                       break;
+	                   case "itemName":
+	                       contracts = contractRepository.findByItem_ItemNameContaining(searchKeyword, pageable);
+	                       break;
+	                   case "orderNo":
+	                       contracts = contractRepository.findByOrders_OrderNoContaining(searchKeyword, pageable);
+	                       break;
+	                   default:
+	                       contracts = contractRepository.findAll(pageable);
+	                       break;
+	               }
+	           } catch (Exception e) {
+	               contracts = contractRepository.findAll(pageable);
+	           }
+	       } else {
+	           contracts = contractRepository.findAll(pageable);
+	       }
+
+	       if (contracts.isEmpty()) {
+	           contractSearchEmpty = true;
+	           contracts = contractRepository.findAll(pageable); // 전체 목록 반환
+	       }
+
+	       model.addAttribute("contracts", contracts);
+	       model.addAttribute("searchField", searchField);
+	       model.addAttribute("searchKeyword", searchKeyword);
+	       model.addAttribute("contractSearchEmpty", contractSearchEmpty);
+
 	        return "orders/purchase_order_list";
 	    }
 

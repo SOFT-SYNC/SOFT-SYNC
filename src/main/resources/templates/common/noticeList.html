@@ -5,125 +5,49 @@
   <link type="text/css" rel="stylesheet" href="../css/common/common.css">
   <link type="text/css" rel="stylesheet" href="../css/common/notice.css">
   <link type="text/css" rel="stylesheet" href="../css/common/sidebar.css">
-    <script type="text/javascript" src="../js/sidebar.js"></script>
+  <script type="text/javascript" src="../js/sidebar.js"></script>
 </head>
 <body>
-	<div th:insert="~{common/sidebar :: sidebar}"></div>
-	<div class="main-content">
-		<div th:insert="~{common/header :: header}"></div>
-  <div id="row1">
-    <div class="list_wrap">
-    <h2 class="visual-title">공지사항</h2>
-        <table class="sub_news" cellspacing="0">
-          <caption>게시판 리스트</caption>
-          <colgroup>
-            <col width="80">
-            <col>
-            <col width="90">
-            <col width="100">
-          </colgroup>
-          <thead>
-            <tr>
-              <th scope="col">번호</th>
-              <th scope="col">제목</th>
-              <th scope="col">작성자</th>
-              <th scope="col">날짜</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="num">5874</td>
-              <td class="title">
-                <a href="#">연/월차 소진시 자율 소진제 시행 안내</a>
-              </td>
-              <td class="name">인사과</td>
-              <td class="date">2024/04/29</td>
-            </tr>
-            <tr>
-              <td class="num">5873</td>
-              <td class="title">
-                <a href="#">사칙 변동사항 안내드립니다.</a>
-              </td>
+<div th:insert="~{common/sidebar :: sidebar}"></div>
+<div th:insert="~{common/header :: header}"></div>
+<div class="main-content">
+	<div id="row1">
+		<div class="list_wrap">
+			<h2 class="visual-title">공지사항</h2>
+			<div th:if="${notices == null or notices.empty}" class="no_result">
+				<p>공지사항이 없습니다.</p>
+			</div>
+			<div th:if="${notices != null and not notices.empty}" class="notice-content">
+				<table>
+					<colgroup>
+						<col width="50">
+						<col width="700">
+						<col width="100">
+						<col width="100">
+					</colgroup>
+					<thead>
+						<tr>
+							<th scope="col">번호</th>
+							<th scope="col">제목</th>
+							<th scope="col">작성자</th>
+							<th scope="col">작성일</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="notice : ${notices}">
+							<td th:text="${notice.boardNo}" class="list_num"></td>
+							<td class="list_title">
+								<a th:href="@{'/read/' + ${notice.boardNo}}">[[${notice.title}]]</a>
+							</td>
+							<td><p th:text="${notice.employeeId != null ? notice.employeeId.department : 'Unknown'}"></p></td>
+							<td th:text="${#temporals.format(notice.regDate, 'yyyy-MM-dd')}"></td>
 
-              <td class="name">인사과</td>
-              <td class="date">2024/04/29</td>
-            </tr>
-            <tr>
-              <td class="num">5872</td>
-              <td class="title">
-                <a href="#">2024년 하반기 정직원 전환신청 모집 안내 (해당자 계약근무자)</a>
-              </td>
-              <td class="name">홍보담당관</td>
-              <td class="date">2024/04/29</td>
-            </tr>
-            <tr>
-              <td class="num">5870</td>
-              <td class="title">
-                <a href="#">2024년 장애아동가족지원사업(발달재활서비스) 이용자 모집 안내(대기자모집)</a>
-              </td>
-              <td class="name">복지행정과</td>
-              <td class="date">2024/04/28</td>
-            </tr>
-            <tr>
-              <td class="num">5869</td>
-              <td class="title">
-                <a href="#">2024년 05월 직원식당 일정표</a>
-              </td>
-              <td class="name">영양사</td>
-              <td class="date">2024/04/28</td>
-            </tr>
-            <tr>
-              <td class="num">5868</td>
-              <td class="title">
-                <a href="#">자재 불출 및 반품 정산 관련 공지</a>
-              </td>
-              <td class="name">예산과</td>
-              <td class="date">2024/04/28</td>
-            </tr>
-            <tr>
-              <td class="num">5867</td>
-              <td class="title">
-                <a href="#">인사발령 게시(2024. 4. 25.자)</a>
-              </td>              
-              <td class="name">인사과</td>
-              <td class="date">2024/04/27</td>
-            </tr>
-            <tr>
-              <td class="num">5866</td>
-              <td class="title">
-                <a href="#">연말정산 관련 공지</a>
-              </td>             
-              <td class="name">총무과</td>
-              <td class="date">2024/04/27</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="buttons_wrap">
-          <button type="button" class="list_buttons"><a href="#"><<</a></button>
-          <button type="button" class="list_buttons sec"><a href="#">1</a></button>
-          <button type="button" class="list_buttons"><a href="#">2</a></button>
-          <button type="button" class="list_buttons"><a href="#">3</a></button>
-          <button type="button" class="list_buttons"><a href="#">4</a> </button>
-          <button type="button" class="list_buttons"><a href="#">5</a> </button>
-          <button type="button" class="list_buttons"><a href="#">6</a> </button>
-          <button type="button" class="list_buttons"><a href="#">7</a> </button>
-          <button type="button" class="list_buttons"><a href="#">8</a> </button>
-          <button type="button" class="list_buttons"><a href="#">9</a> </button>
-          <button type="button" class="list_buttons"><a href="#">10</a> </button>
-          <button type="button" class="list_buttons"><a href="#">>></a></button>
-        </div>
-      </div>
-  </div>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 </div>
-</div>
-
-  <script>
-    function performSearch() {
-        var filter = document.getElementById('filterSelect').value;
-        var searchText = document.getElementById('searchInput').value.trim();
-        alert("검색 필터: " + filter + "\n검색어: " + searchText);
-        // 실제 검색 로직 구현 필요
-    }
-    </script>
 </body>
 </html>

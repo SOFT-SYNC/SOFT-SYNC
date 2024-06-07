@@ -146,5 +146,10 @@ public class ReceivingService {
 		receivingRepository.save(receiving);
 	}
 	
-	
+    // 오늘 날짜에 해당하는 입고 수량 조회
+    public int getReceivingQuantityByDate(LocalDate date) {
+        int receivingQuantity = receiveListRepository.getReceivingQuantityByDate(date);
+        System.out.println("Today's receiving quantity: " + receivingQuantity);
+        return receivingQuantity;
+    }
 }

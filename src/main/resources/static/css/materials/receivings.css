@@ -23,16 +23,19 @@ body {
   border-radius: 5px;
 }
 .search-container form {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  width : 90%;
-  margin : 0 auto;
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	float: right;
+	margin: 0 90px 30px;
 }
- .btn-container {
+
+.btn-container {
 	float: right;
 	margin: 0 90px 20px;
 }
+
+
  
 .regi-table { 
   width:90%;
