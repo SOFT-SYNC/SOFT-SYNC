@@ -1,11 +1,17 @@
 package com.softsync.zerock.controller;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,10 +29,12 @@ import com.softsync.zerock.service.ShipmentService;
 @RestController
 @RequestMapping("/api")
 public class ShipmentListController {
+	
+	 private static final Logger logger = LoggerFactory.getLogger(ShipmentController.class);
 
     @Autowired
     private ShipmentListService shipmentListService;
-     
+    
     @Autowired
     private InventoryRepository inventoryRepository;
     
@@ -86,6 +94,53 @@ public class ShipmentListController {
             } else {
                 throw new RuntimeException("Not enough inventory for the shipment");
             }
+        } else {
+            throw new RuntimeException("Inventory not found for the shipment");
+        }
+    }
+    
+    @DeleteMapping("/shipments/{shipmentListId}")
+    public ResponseEntity<String> deleteShipment(@PathVariable Long shipmentListId) {
+        try {
+            logger.info("Attempting to delete shipmentListId with ID: {}", shipmentListId);
+            ShipmentList shipmentList = shipmentListService.findById(shipmentListId);
+            if (shipmentList == null) {
+                throw new IllegalArgumentException("ShipmentList not found");
+            }
+
+            
+         // 재고 수량을 복원
+            Shipment shipment = shipmentList.getShipment();
+            restoreInventoryQuantity(shipment, shipmentList.getQuantity());
+            
+         // InventoryPeriod 삭제
+            List<InventoryPeriod> inventoryPeriods = inventoryPeriodService.findByShipmentListId(shipmentListId);
+            for (InventoryPeriod inventoryPeriod : inventoryPeriods) {
+                inventoryPeriodService.delete(inventoryPeriod);
+            }
+            
+         // ShipmentList 삭제
+            shipmentListService.deleteShipmentListById(shipmentListId);
+            
+                     
+            
+            logger.info("ShipmentList with ID: {} successfully deleted", shipmentListId);
+            return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body("{\"message\":\"출고내역이 성공적으로 삭제되었습니다.\"}");
+        } catch (IllegalArgumentException e) {
+            logger.error("ShipmentList not found: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).contentType(MediaType.APPLICATION_JSON).body("{\"message\":\"" + e.getMessage() + "\"}");
+        } catch (Exception e) {
+            logger.error("Error deleting shipmentList: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).contentType(MediaType.APPLICATION_JSON).body("{\"message\":\"출고내역 삭제 중 오류가 발생했습니다.\"}");
+        }
+    }
+
+    // 재고 수량을 복원하는 메서드
+    private void restoreInventoryQuantity(Shipment shipment, Integer quantity) {
+        Inventory inventory = shipment.getInventory();
+        if (inventory != null) {
+            inventory.setQuantity(inventory.getQuantity() + quantity);
+            inventoryRepository.save(inventory);
         } else {
             throw new RuntimeException("Inventory not found for the shipment");
         }
