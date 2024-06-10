@@ -70,5 +70,7 @@ public interface InventoryPeriodRepository extends JpaRepository<InventoryPeriod
             "LEFT JOIN o.contract c " +
             "GROUP BY ip.inventory.item.itemCode, ip.inventory.item.itemName, ip.inventory.id")
      List<InventoryPeriodSummaryDTO> findAllInventoryPeriodSummaries();
+    
+    List<InventoryPeriod> findByShipmentListId(Long shipmentListId);
 }
 
