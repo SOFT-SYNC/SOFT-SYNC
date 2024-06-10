@@ -5,6 +5,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -30,7 +31,7 @@ public class Item {
     private Long id;
     
     @JsonIgnore //명세서 발행시 필요
-    @OneToOne(mappedBy = "item", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "item", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Inventory inventory;
 
     @JsonIgnore //명세서 발행시 필요

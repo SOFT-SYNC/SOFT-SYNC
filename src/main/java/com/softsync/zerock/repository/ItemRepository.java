@@ -11,7 +11,8 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
    
     Item findByItemNameAndItemCode(String itemName, String itemCode);
     
-
+    void deleteByItemCode(String itemCode);
+    
     Page<Item> findByItemCodeContaining(String itemCode, Pageable pageable);
     Page<Item> findByItemNameContaining(String itemName, Pageable pageable);
     Page<Item> findByMaterialContaining(String material, Pageable pageable);
