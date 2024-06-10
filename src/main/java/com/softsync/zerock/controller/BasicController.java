@@ -328,48 +328,17 @@ public class BasicController {
 	 		return response;
 	 	}
 	
-//	//계약 
-//	@GetMapping("/add_contract")   
-//	public String addcontractview(Model model) {
-//		
-////		  List<Item> items = itemRepository.findAll();
-////	       model.addAttribute("items", items);
-//		
-//		return"/procurement/add_contract";
-//	}
-	
-	
-	
-//	@GetMapping("/inventory_period")
-//	public String inventoryview() {
-//		return"/materials/inventory_period";
-//	}
-	
-//	@GetMapping("/invoice")
-//	public String invoiceview() {
-//		return"/materials/invoice";
-//	}
-	
 
-//	@GetMapping("/receivings")
-//	public String receivingview() {
-//		return"/materials/receivings";
-//	}
 	
 	@GetMapping("/stock_report")
 	public String stockReport() {
 		return"/materials/stock_report";
 	}
-//
-//	@GetMapping("/purchase_schedule")
-//	public String purchaseview() {
-//		return"/orders/purchase_schedule";
-//	}
-	
+
 	@GetMapping("/dashBoard")
 	public String dashBoard(Model model) {
 	    System.out.println("[DashBoard]");
-	    
+
 	 // 오늘 날짜
 	    LocalDate today = LocalDate.now();
 
@@ -378,10 +347,19 @@ public class BasicController {
 
 	    // 오늘 날짜에 해당하는 출고된 수량 계산
 	    int shipmentQuantity = shipmentService.getShipmentQuantityByDate(today);
+	    
+	 // 오늘 날짜에 해당하는 발주된 수량 계산
+	    int totalOrderQuantity = orderService.getTotalOrderQuantityByDate(today);
+
+	    // 오늘 날짜에 해당하는 입고 예정 수량 계산
+	    int totalReceiveDuedateQuantity = orderService.getTotalOrderQuantityByReceiveDuedate(today);
+
 
 	    // 모델에 계산된 수량들 추가
 	    model.addAttribute("receivingQuantity", receivingQuantity);
 	    model.addAttribute("shipmentQuantity", shipmentQuantity);
+	    model.addAttribute("totalOrderQuantity", totalOrderQuantity);
+	    model.addAttribute("totalReceiveDuedateQuantity", totalReceiveDuedateQuantity);
 	    
 	    List<Contract> contracts = orderService.getAllContracts();
 	    model.addAttribute("contracts", contracts);

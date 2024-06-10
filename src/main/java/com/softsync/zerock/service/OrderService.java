@@ -1,6 +1,8 @@
 package com.softsync.zerock.service;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -144,5 +146,29 @@ public class OrderService {
 		
 	}
 
+	/*
+	 * public int getOrdersQuantityByDate(LocalDate date) { int ordersQuantity =
+	 * orderRepository.getOrdersQuantityByDate(date);
+	 * System.out.println("Today's orders quantity: " + ordersQuantity); return
+	 * ordersQuantity; }
+	 */
+	 public List<Orders> getOrdersByDate(LocalDate date) {
+	        return orderRepository.findByOrderDate(date);
+	    }
+	
+	public int getTotalOrderQuantityByDate(LocalDate date) {
+        List<Orders> orders = getOrdersByDate(date);
+        return orders.stream().mapToInt(Orders::getOrderQuantity).sum();
+    }
+
+	   public List<Orders> getOrdersByReceiveDuedate(LocalDate localDate) {
+	        Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+	        return orderRepository.findByReceiveDuedate(date);
+	    }
+
+	    public int getTotalOrderQuantityByReceiveDuedate(LocalDate localDate) {
+	        List<Orders> orders = getOrdersByReceiveDuedate(localDate);
+	        return orders.stream().mapToInt(Orders::getOrderQuantity).sum();
+	    }
 }
  
