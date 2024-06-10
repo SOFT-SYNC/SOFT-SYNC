@@ -97,18 +97,21 @@
 				            </tr>
 				        </thead>
 						<tbody>
-						    <!-- 타임리프 반복문을 사용하여 데이터 표시 -->
-						    <tr th:each="shipmentList : ${shipmentLists}">
-						        <td th:text="${shipmentList.shipment.procurementPlan.productionPlan.item.itemCode}"></td>
-						        <td th:text="${shipmentList.shipment.procurementPlan.productionPlan.item.itemName}"></td>
-						        <td th:text="${shipmentList.shipment.procurementPlan.productionPlan.productName}"></td>
-						        <td th:text="${shipmentList.shipment.procurementPlan.productionPlan.productionStartDate}"></td>
-						        <td th:text="${shipmentList.shipment.procurementPlan.productionPlan.itemQuantity}"></td>
-						        <td th:text="${shipmentList.inventoryQuantity}"></td>
-								<td th:text="${shipmentList.quantity}"></td>
-								<td th:text="${shipmentList.shipmentDate}"></td>
-						    </tr>
-						</tbody>
+					        <!-- 타임리프 반복문을 사용하여 데이터 표시 -->
+					        <tr th:each="shipmentList : ${shipmentLists}">
+					            <td th:text="${shipmentList.shipment.procurementPlan.productionPlan.item.itemCode}"></td>
+					            <td th:text="${shipmentList.shipment.procurementPlan.productionPlan.item.itemName}"></td>
+					            <td th:text="${shipmentList.shipment.procurementPlan.productionPlan.productName}"></td>
+					            <td th:text="${shipmentList.shipment.procurementPlan.productionPlan.productionStartDate}"></td>
+					            <td th:text="${shipmentList.shipment.procurementPlan.productionPlan.itemQuantity}"></td>
+					            <td th:text="${shipmentList.inventoryQuantity}"></td>
+					            <td th:text="${shipmentList.quantity}"></td>
+					            <td th:text="${shipmentList.shipmentDate}"></td>
+					            <td>
+					                <button type="button" class="deleteBtn" th:attr="data-shipment-list-id=${shipmentList.id}">삭제</button>
+					            </td>
+					        </tr>
+					    </tbody>
 				    </table>				
 				</form>
 			</div>
@@ -188,5 +191,42 @@ function saveShipmentList() {
     });
 }
 
+</script>
+
+<script>
+    function deleteShipmentList(button) {
+        const shipmentListId = button.getAttribute('data-shipment-list-id');
+        if (!confirm('정말로 삭제하시겠습니까?')) {
+            return;
+        }
+
+        fetch(`/api/shipments/${shipmentListId}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(error => { throw new Error(error.message); });
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.message) {
+                alert(data.message);
+                window.location.reload(); // 페이지 새로고침하여 목록 갱신
+            }
+        })
+        .catch(error => {
+            console.error('Error deleting shipment:', error);
+            alert('출고 삭제 중 문제가 발생했습니다: ' + error.message);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.deleteBtn').forEach(button => {
+            button.addEventListener('click', function() {
+                deleteShipmentList(button);
+            });
+        });
+    });
 </script>
 </html>

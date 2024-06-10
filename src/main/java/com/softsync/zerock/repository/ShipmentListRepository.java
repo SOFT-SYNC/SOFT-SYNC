@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ShipmentListRepository extends JpaRepository<ShipmentList, Long> {
+	ShipmentList findById(long id);
 }

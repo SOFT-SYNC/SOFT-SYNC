@@ -21,4 +21,5 @@ public interface ProductionPlanRepository extends JpaRepository<ProductionPlan, 
 
     @Query("SELECT p FROM ProductionPlan p WHERE str(p.productionEndDate) LIKE %:keyword%")
     Page<ProductionPlan> findByProductionEndDateContaining(@Param("keyword") String keyword, Pageable pageable);
+    
 }

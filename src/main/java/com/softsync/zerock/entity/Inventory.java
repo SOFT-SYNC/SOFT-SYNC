@@ -35,7 +35,7 @@ public class Inventory {
     @Column(nullable = true)  
     private Integer quantity;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Integer initialQuantity; // 초기 재고 추가
 
     public Item getItem() {

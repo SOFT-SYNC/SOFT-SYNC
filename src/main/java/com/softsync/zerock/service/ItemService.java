@@ -22,6 +22,8 @@ import com.softsync.zerock.repository.CategoryRepository;
 import com.softsync.zerock.repository.InventoryRepository;
 import com.softsync.zerock.repository.ItemRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class ItemService {
 
@@ -79,6 +81,16 @@ public class ItemService {
 
 	    return savedItem;
 	}
+	
+	@Transactional
+    public void deleteItemByCode(String itemCode) {
+        Item item = itemRepository.findByItemCode(itemCode);
+        if (item != null) {
+            itemRepository.delete(item);
+        } else {
+            throw new IllegalArgumentException("Item not found with itemCode: " + itemCode);
+        }
+    }
 
 	public String generateUniqueCode() {
 	    try {

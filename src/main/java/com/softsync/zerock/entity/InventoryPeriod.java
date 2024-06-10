@@ -2,6 +2,7 @@ package com.softsync.zerock.entity;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -28,7 +29,7 @@ public class InventoryPeriod {
     @JoinColumn(name = "inventory_id", nullable = false)
     private Inventory inventory; // 재고
 
-    @ManyToOne(fetch = FetchType.EAGER) // eager 로딩으로 수정
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "shipment_list_id")
     private ShipmentList shipmentList; // 출고 목록
 
