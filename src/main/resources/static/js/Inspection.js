@@ -102,7 +102,7 @@ console.log(inspectionList +"검수리스트"); // inspectionList를 콘솔에 �
         let percent = inspection.percent ? inspection.percent : '-'; // 진행률 확인
 
         let row = `<tr>
-                    <td><input type="text" name="inspecNo" value="${inspection.inspecNo}" readonly></td>
+                    <td style="display:none;"><input type="text" name="inspecNo" value="${inspection.inspecNo}" readonly></td>
                     <td>${inspection.times}</td>
                     <td>${inspection.inspecPlan}</td>
                     <td>${inspecDate}</td>
