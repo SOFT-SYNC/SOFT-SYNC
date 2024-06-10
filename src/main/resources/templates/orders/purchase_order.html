@@ -540,16 +540,23 @@ $(document).ready(function(){
         return `${year}-${month}-${day}`;
     }
    
-    /////////////////// 현재 날짜를 가져오는 함수2 //  납기일 더하는용으로 하나생성함 6/4
-  function getCurrentDate1(dd) {
-    var a = new Date();
-    a.setDate(a.getDate() + dd); // 현재 날짜에 dd일을 더함
-    var b = a.getFullYear();
-    var c = String(a.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 1을 더해줍니다.
-    var d = String(a.getDate()).padStart(2, '0');
-    
-    return `${b}-${c}-${d}`;
-  }
+/////////////////// 현재 날짜를 가져오는 함수2 //  납기일 더하는 용으로 하나 생성함 6/4
+    function getCurrentDate1(dd) {
+    	const a = new Date();
+        a.setDate(a.getDate() + dd); // 현재 날짜에 dd일을 더함
+        const y = a.getFullYear();
+        const m = String(a.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 1을 더해줍니다.
+        const d = String(a.getDate()).padStart(2, '0');
+        
+        console.log("a:", a); // 디버깅용으로 날짜 객체 출력
+        console.log("y:", y);
+        console.log("m:", m);
+        console.log("d:", d);
+        
+        return `${y}-${m}-${d}`;
+    }
+
+
 
 
 
