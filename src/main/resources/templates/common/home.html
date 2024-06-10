@@ -6,6 +6,7 @@
   <link type="text/css" rel="stylesheet" href="../css/common/home.css">
   <link type="text/css" rel="stylesheet" href="../css/common/sidebar.css">
     <script type="text/javascript" src="../js/sidebar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 	<div th:insert="~{common/sidebar :: sidebar}"></div>
@@ -18,52 +19,57 @@
 	  <div id="row1">
 	    <div class="card-wrap">
 	      <div class="col1">
-	        <div class="card">
+	       <div class="card">
+	          <div class="card-body">
+	            <p class="card-title">금일 입고 예정</p>
+	            <h2 class="card-content" th:text="${totalReceiveDuedateQuantity}">0</h2>
+	          </div>
+	        </div>
+	           <div class="card">
+	          <div class="card-body">
+	            <p class="card-title">금일 발주 수량</p>
+	            <h2 class="card-content" th:text = "${totalOrderQuantity}">0</h2>
+	          </div>
+	        </div>
+	  
+	      </div>
+	      <div class="col1">
+	  
+	           <div class="card">
 	          <div class="card-body">
 	            <p class="card-title">금일 입고 수량</p>
 	            <h2 class="card-content"  th:text="${receivingQuantity}">0</h2>
 	          </div>
 	        </div>
-	        <div class="card">
+	  
+	             <div class="card">
 	          <div class="card-body">
 	            <p class="card-title">금일 출고 수량</p>
 	            <h2 class="card-content" th:text="${shipmentQuantity}">0</h2>
 	          </div>
 	        </div>
 	      </div>
-	      <div class="col1">
-	        <div class="card">
-	          <div class="card-body">
-	            <p class="card-title">금일 발주 수량</p>
-	            <h2 class="card-content">0</h2>
-	          </div>
-	        </div>
-	        <div class="card">
-	          <div class="card-body">
-	            <p class="card-title">금일 재고 수량</p>
-	            <h2 class="card-content">0</h2>
-	          </div>
-	        </div>
-	      </div>
 	    </div>
-	    <!-- 이거 백엔드 구현할 때는 프론트 코드 고쳐야함 svg text -->
 	    <div class="b-graph-wrap">
 	      <div class="b-graph">
-	        <p class="home-title"> MONTHLY </p>
-	        <div class="b-graph-body">
-	         <div class="bar bar1"></div>
-	          <div class="bar bar2"></div>
-	          <div class="bar bar3"></div>
-	          <div class="bar bar4"></div>
-	          <div class="bar bar5"></div>
-	          <div class="bar bar6"></div>
-	          <div class="bar bar7"></div>
-	          <div class="bar bar8"></div>
-	          <div class="bar bar9"></div>
-	          <div class="bar bar10"></div>
-	          <div class="bar bar11"></div>
-	          <div class="bar bar12"></div>
-	        </div>
+	        <a href="/stock_report"><p class="home-title"> STOCK</p></a>
+	          
+	                      <!-- 차트 영역 -->
+                <canvas id="inventoryChart"></canvas>
+                <div class="col1" style="display:none;">
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="card-title">재고 수량</p>
+                                <h2 class="card-content" id="finalInventory">0</h2>
+                            </div>
+                        </div>               
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="card-title">재고 금액 (\)</p>
+                                <h2 class="card-content" id="totalInventoryValue">0</h2>
+                            </div>
+                        </div>
+                    </div>
 	      </div>
 	    </div>
 	  </div>
@@ -95,7 +101,7 @@
 	      </div>
 	    </div>
 	    <!-- 이거 백엔드 구현할 때는 프론트 코드 고쳐야함 svg text -->
-	    <div class="c-graph-wrap">
+	    <!-- <div class="c-graph-wrap">
 	      <div class="c-graph">
 	        <p class="home-title"> MONTHLY</p>
 	        <div class="c-graph-body">
@@ -106,10 +112,10 @@
 	          <div class="slice slice5">e</div>
 	        </div>
 	      </div>
-	    </div>
+	    </div> -->
 	    <div class="notice-wrap">
 		    <div class="noticeList">
-		        <a href="noticelist"><span class="home-title"> NOTICE LIST </span></a>
+		        <a href="/noticelist"><span class="home-title"> NOTICE LIST </span></a>
 		        <div th:if="${notices == null or notices.empty}" class="no_result">
 		            <p>공지사항이 없습니다.</p>
 		        </div>
@@ -125,7 +131,7 @@
   </div>
 </div>
 
-
+<!-- 
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       // 각 막대에 대해 높이를 지정하는 값을 변경
@@ -155,5 +161,112 @@
       });
     });
   </script>
+   -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var inventoryPeriods = /*[[${inventoryPeriods}]]*/ '[]';      
+        /*]]>*/
+    </script>
+    
+<script type="text/javascript">
+        var myChart;
+
+        function updateInventoryData(data) {
+            var inventoryPeriods = data.inventoryPeriods;
+            var itemNames = inventoryPeriods.map(ip => ip.inventoryName);
+            var finalInventoryQuantities = inventoryPeriods.map(ip => ip.finalInventory);
+            var finalInventoryValues = inventoryPeriods.map(ip => ip.finalInventoryValue);
+
+            document.getElementById('finalInventory').innerText = data.finalInventory;
+            document.getElementById('totalInventoryValue').innerText = data.totalInventoryValue;
+
+            var ctx = document.getElementById('inventoryChart').getContext('2d');
+
+            if (myChart) {
+                myChart.destroy();
+            }
+
+            myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: itemNames,
+                    datasets: [
+                        {
+                            label: '재고',
+                            data: finalInventoryQuantities,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: '재고 금액',
+                            data: finalInventoryValues,
+                            type: 'line',
+                            fill: false,
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            yAxisID: 'y2'
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) { return value + ' ea'; }
+                            },
+                            title: {
+                                display: true,
+                                text: '개수'
+                            }
+                        },
+                        y2: {
+                            beginAtZero: true,
+                            position: 'right',
+                            ticks: {
+                                callback: function(value) { return value + ' 원'; }
+                            },
+                            title: {
+                                display: true,
+                                text: '금액'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch('/default_inventory_period_report')
+                .then(response => response.json())
+                .then(data => {
+                    updateInventoryData(data);
+                })
+                .catch(error => {
+                    console.error("Error fetching default inventory data:", error);
+                });
+
+            document.getElementById('searchForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                var startDate = document.getElementById('startDate').value;
+                var endDate = document.getElementById('endDate').value;
+                var limit = document.getElementById('limit').value;
+                var search = document.getElementById('search').value;
+                var url = `/inventory_period_report?startDate=${startDate}&endDate=${endDate}&limit=${limit}&search=${search}`;
+                
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        updateInventoryData(data);
+                    })
+                    .catch(error => {
+                        console.error("Error fetching inventory period data:", error);
+                    });
+            });
+        });
+        
+        
+        
+    </script>
 </body>
 </html>

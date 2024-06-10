@@ -44,7 +44,7 @@ public class ReceivingController {
 	@PostMapping("/saveReceiving")
 	public String saveReceiving(@RequestParam("quantity") int quantity,
 							    @RequestParam("receivingNumber") int num) {
-		System.out.println("입고 컨트롤러 : 자재입고");
+		System.out.println("입고 컨트롤러 : 자재입고" +quantity);
 		receivingService.updateReceiving(quantity, num);
 		
 		return "redirect:/receivings";

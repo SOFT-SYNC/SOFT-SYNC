@@ -61,7 +61,7 @@ public class Orders {
    private LocalDate orderDate;
 
    @Column (nullable = false)
-   private Date receiveDuedate;
+   private Date receiveDuedate; //납기일
    
    @Column(nullable = false, columnDefinition = "CHAR(1) DEFAULT 'N'")
    private String orderYn = "N";
