@@ -16,20 +16,19 @@
 		<div id="row2">
     <div id="planList">
       <h2 class="visual-title">입고예정품목</h2>
-<!--       <div class="search-container">
-        <label for="dateInput"></label>
-        <input type="date" id="dateInput">
-
-        드롭다운 메뉴로 필터 선택
-        <select id="filterSelect">
-            <option value="itemCode">품목코드</option>
-            <option value="itemName">품목명</option>
-        </select>
-        검색 입력 필드
-        <input type="text" id="searchInput" placeholder="검색어를 입력하세요">
-        검색 버튼
-        <button onclick="performSearch()" class="blueBtn">검색</button>
-      </div> -->
+      
+      	<div class="search-container">
+			<form id="searchForm1" onsubmit="performSearch1(); return false;">
+				<div class="search-bar">
+					<select id="filterSelect1">
+						<option value="itemCode">품목코드</option>
+						<option value="itemName">품목명</option>
+					</select>
+					<input type="text" id="searchInput1" placeholder="검색어를 입력하세요">
+					<button onclick="performSearch1()" class="blueBtn">검색</button>
+				 </div>
+			 </form>
+	   </div>
 
       <table class="list-table" id="res">
         <colgroup>
@@ -77,27 +76,31 @@
         </th:block>
       </table>  
     </div>
-    <div class="paging-wrap">
-			    <ul class="pagination">
-			        <!-- 이전 페이지 링크 -->
-			        <li th:if="${receivingsP.hasPrevious()}">
-			            <a th:href="@{/receivings(page=${receivingsP.previousPageable().pageNumber})}">이전</a>
-			        </li>
-			        
-			        <!-- 페이지 번호 링크 -->
-			        <th:block th:with="startPage=${receivingsP.number - 4 >= 0 ? receivingsP.number - 4 : 0},
-			                    endPage=${receivingsP.number + 4 < receivingsP.totalPages ? receivingsP.number + 4 : receivingsP.totalPages - 1}">
-			            <li th:each="i : ${#numbers.sequence(startPage, endPage)}">
-			                <a th:href="@{/receivings(page=${i})}" th:classappend="${i == receivingsP.number} ? 'active' : ''" th:text="${i + 1}">Page number</a>
-			            </li>
-			        </th:block>
-			        
-			        <!-- 다음 페이지 링크 -->
-			        <li th:if="${receivingsP.hasNext()}">
-			            <a th:href="@{/receivings(page=${receivingsP.nextPageable().pageNumber})}">다음</a>
-			        </li>
-			    </ul>
-			</div>
+    
+    
+           <!-- 상단(입고 내역) 페이징 -->
+            <div class="paging-wrap">
+                <ul class="pagination">
+                    <!-- 이전 페이지 링크 -->
+                    <li th:if="${receivingsP.hasPrevious()}">
+                        <a th:href="@{/receivings(page1=${receivingsP.previousPageable().pageNumber}, page2=${page2})}">&lt;</a>
+                    </li>
+
+                    <!-- 페이지 번호 링크 -->
+                    <th:block th:with="startPage=${receivingsP.number - 4 >= 0 ? receivingsP.number - 4 : 0},
+                                       endPage=${receivingsP.number + 4 < receivingsP.totalPages ? receivingsP.number + 4 : receivingsP.totalPages - 1}">
+                        <li th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                            <a th:href="@{/receivings(page1=${i}, page2=${page2})}" th:text="${i + 1}"
+                               th:classappend="${receivingsP.number} == ${i} ? 'active' : ''">${i + 1}</a>
+                        </li>
+                    </th:block>
+
+                    <!-- 다음 페이지 링크 -->
+                    <li th:if="${receivingsP.hasNext()}">
+                        <a th:href="@{/receivings(page1=${receivingsP.nextPageable().pageNumber}, page2=${page2})}">&gt;</a>
+                    </li>
+                </ul>
+            </div>
   </div>
   
   
@@ -143,15 +146,13 @@
         <h2 class="visual-title">입고내역</h2>
         
 		<div class="search-container">
-			<form id="searchForm">	
+			<form id="searchForm" onsubmit="performSearch(); return false;">
 				<div class="search-bar">
 					<select id="filterSelect">
-						<option value="0">발주번호</option>
-						<option value="1">품목코드</option>
-						<option value="2">품목명</option>
-						<option value="3">입고일</option>
+						<option value="itemCode">품목코드</option>
+						<option value="itemName">품목명</option>
 					</select>
-					<input type="text" id="searchInput2" placeholder="검색어를 입력하세요">
+					<input type="text" id="searchInput" placeholder="검색어를 입력하세요">
 					<button onclick="performSearch()" class="blueBtn">검색</button>
 				 </div>
 			 </form>
@@ -183,28 +184,32 @@
 			</tr>
 	      </table>  
 	      
-	      
-			<div class="paging-wrap">
-			    <ul class="pagination">
-			        <!-- 이전 페이지 링크 -->
-			        <li th:if="${receiveListsP.hasPrevious()}">
-			            <a th:href="@{/receivings(page=${receiveListsP.previousPageable().pageNumber})}">이전</a>
-			        </li>
-			        
-			        <!-- 페이지 번호 링크 -->
-			        <th:block th:with="startPage=${receiveListsP.number - 4 >= 0 ? receiveListsP.number - 4 : 0},
-			                    endPage=${receiveListsP.number + 4 < receiveListsP.totalPages ? receiveListsP.number + 4 : receiveListsP.totalPages - 1}">
-			            <li th:each="i : ${#numbers.sequence(startPage, endPage)}">
-			                <a th:href="@{/receivings(page=${i})}" th:classappend="${i == receiveListsP.number} ? 'active' : ''" th:text="${i + 1}">Page number</a>
-			            </li>
-			        </th:block>
-			        
-			        <!-- 다음 페이지 링크 -->
-			        <li th:if="${receiveListsP.hasNext()}">
-			            <a th:href="@{/receivings(page=${receiveListsP.nextPageable().pageNumber})}">다음</a>
-			        </li>
-			    </ul>
-			</div>
+	                 <!-- 하단(자재 입고) 페이징 -->
+            <div class="paging-wrap">
+                <ul class="pagination">
+                    <!-- 이전 페이지 링크 -->
+                    <li th:if="${receiveListsP.hasPrevious()}">
+                        <a th:href="@{/receivings(page1=${page1}, page2=${receiveListsP.previousPageable().pageNumber})}">&lt;</a>
+                    </li>
+
+                    <!-- 페이지 번호 링크 -->
+                    <th:block th:with="startPage=${receiveListsP.number - 4 >= 0 ? receiveListsP.number - 4 : 0},
+                                       endPage=${receiveListsP.number + 4 < receiveListsP.totalPages ? receiveListsP.number + 4 : receiveListsP.totalPages - 1}">
+                        <li th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                      <a th:href="@{/receivings(page1=${page1}, page2=${i})}" th:text="${i + 1}"
+   th:classappend="${receiveListsP.number} == ${i} ? 'active' : ''">${i + 1}</a>
+                        </li>
+                    </th:block>
+
+                    <!-- 다음 페이지 링크 -->
+                    <li th:if="${receiveListsP.hasNext()}">
+                        <a th:href="@{/receivings(page1=${page1}, page2=${receiveListsP.nextPageable().pageNumber})}">&gt;</a>
+                    </li>
+                </ul>
+            </div>
+
+
+
 	   </div> <!-- search-container -->
 	 </div><!-- row2  -->
 </div> <!-- main-content-->
@@ -305,30 +310,50 @@
 		
 	}
 	     
+	function performSearch1() {
+	    // 검색 필터 선택 요소와 검색어 입력 요소를 가져옴
+	    var filterSelect = document.getElementById('filterSelect1');
+	    var searchInput = document.getElementById('searchInput1');
+	    
+	    // 검색 필터와 검색어 값을 가져옴
+	    var filterValue = filterSelect.value;
+	    var searchKeyword = searchInput1.value.trim();
+	    
+	    // 검색어가 비어있는지 확인
+	    if (searchKeyword === "") {
+	        alert("검색어를 입력하세요.");
+	        return;
+	    }
+	    
+	    // 검색 결과 페이지로 리디렉션
+	    var formAction = '/receivings?page1=0&page2=0&searchField1=' + filterValue + '&searchKeyword1=' + encodeURIComponent(searchKeyword);
+	    window.location.href = formAction;
+	}
+
+	function performSearch() {
+	    // 검색 필터 선택 요소와 검색어 입력 요소를 가져옴
+	    var filterSelect = document.getElementById('filterSelect');
+	    var searchInput = document.getElementById('searchInput');
+	    
+	    // 검색 필터와 검색어 값을 가져옴
+	    var filterValue = filterSelect.value;
+	    var searchKeyword = searchInput.value.trim();
+	    
+	    // 검색어가 비어있는지 확인
+	    if (searchKeyword === "") {
+	        alert("검색어를 입력하세요.");
+	        return;
+	    }
+	    
+	    // 검색 결과 페이지로 리디렉션
+	    var formAction = '/receivings?page1=0&page2=0&searchField=' + filterValue + '&searchKeyword=' + encodeURIComponent(searchKeyword);
+	    window.location.href = formAction;
+	}
 	  
+
   </script>  
 
 
-  <script>
-  function performSearch() {
-	    var filter = document.getElementById('filterSelect').value; // 필터 값을 가져옴
-	    var searchText = document.getElementById('searchInput2').value.trim(); // 검색어 값을 가져옴
-	    
-	    var tableRows = document.querySelectorAll('#row2 table tr'); // 수정된 부분
-	    
-	    tableRows.forEach(function(row) { // 각 행에 대해 반복
-	        if (!row.querySelector('th')) {  // th가 아닌 행만 처리
-	            // 검색 대상 열을 선택할 때 필터 값을 사용하여 수정
-	            var columnIndex = parseInt(filter) + 1;
-	            var searchTarget = row.querySelector('td:nth-child(' + columnIndex + ')').textContent;
-	            if (searchTarget.includes(searchText)) {
-	                row.style.display = 'table-row';
-	            } else {
-	                row.style.display = 'none';
-	            }
-	        }
-	    });
-	}
-    </script>
+
 </body>
 </html>
