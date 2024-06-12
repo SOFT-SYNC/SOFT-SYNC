@@ -53,7 +53,7 @@ public class ContractController {
 	                               @RequestParam(name = "contractNumber", required = false) Integer contractNumber,
 	                               @RequestParam("contractDate") LocalDate contractDate,
 	                               Model model,
-	                               @PageableDefault(size = 10) Pageable pageable) {
+	                               @PageableDefault(size = 5) Pageable pageable) {
 			System.out.println("[계약컨트롤러] 계약서 저장");
 			 
 	        Contract contract = new Contract();
@@ -103,7 +103,7 @@ public class ContractController {
 	   //계약 확정
 	    @GetMapping("/contractOn")
 	    public String confirmContract(@RequestParam("contract_number") int contract_number,Model model,
-	    								@PageableDefault(size = 10) Pageable pageable) {
+	    								@PageableDefault(size = 5) Pageable pageable) {
 	        // 컨트롤러에서 서비스를 호출하여 계약을 확정시킴
 	        contractService.contractOn(contract_number);
 	         

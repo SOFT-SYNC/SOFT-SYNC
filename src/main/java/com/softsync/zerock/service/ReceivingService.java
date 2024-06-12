@@ -63,7 +63,7 @@ public class ReceivingService {
 	}
 	
 	//상단(입고 내역) 페이징
-	 public Page<ReceiveList> getAllItems(@PageableDefault(size = 10) Pageable pageable) {
+	 public Page<ReceiveList> getAllItems(@PageableDefault(size = 5) Pageable pageable) {
 	        return receiveListRepository.findAll(pageable);
 	  }
 	
@@ -82,6 +82,32 @@ public class ReceivingService {
 	        // 입고 정보 저장
 	        receivingRepository.save(receiving);
 	}
+	
+	//페이징
+    public Page<Receiving> searchReceivings1(String searchField, String searchKeyword, Pageable pageable) {
+        switch (searchField) {
+            case "itemCode":
+                return receivingRepository.findByOrders_Contract_Item_ItemCodeContaining(searchKeyword, pageable);
+            case "itemName":
+                return receivingRepository.findByOrders_Contract_Item_ItemNameContaining(searchKeyword, pageable);
+            default:
+                return receivingRepository.findAll(pageable);
+        }
+    }
+    
+    
+    public Page<ReceiveList> searchReceivings(String searchField, String searchKeyword, Pageable pageable) {
+        switch (searchField) {
+            case "itemCode":
+                return receiveListRepository.findByReceiving_Orders_Contract_Item_ItemCodeContaining(searchKeyword, pageable);
+            case "itemName":
+                return receiveListRepository.findByReceiving_Orders_Contract_Item_ItemNameContaining(searchKeyword, pageable);
+            default:
+                return receiveListRepository.findAll(pageable);
+        }
+    }
+
+
 	
 	//입고처리  > 입고테이블 : 입고총량 / 입고내역 :컬럼추가 / 인벤토리 : 재고추가됨
 	public void updateReceiving(int quantity, int num) {
