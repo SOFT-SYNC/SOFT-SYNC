@@ -45,4 +45,6 @@ public class ShipmentList {
     }
 
     // Getters and setters...
+    
+    
 }

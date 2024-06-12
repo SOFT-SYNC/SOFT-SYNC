@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.softsync.zerock.DTO.InventoryPeriodSummaryDTO;
@@ -28,12 +30,12 @@ public class InventoryPeriodService {
         return inventoryPeriodRepository.findByShipmentListId(shipmentListId);
     }
 
-    public List<InventoryPeriodSummaryDTO> getInventoryPeriodSummaries(LocalDate startDate, LocalDate endDate) {
-        return inventoryPeriodRepository.findInventoryPeriodSummaries(startDate, endDate);
+    public Page<InventoryPeriodSummaryDTO> getInventoryPeriodSummaries(LocalDate startDate, LocalDate endDate, Pageable pageable) {
+        return inventoryPeriodRepository.findInventoryPeriodSummaries(startDate, endDate, pageable);
     }
     
-    public List<InventoryPeriodSummaryDTO> getAllInventoryPeriodSummaries() {
-        return inventoryPeriodRepository.findAllInventoryPeriodSummaries();
+    public Page<InventoryPeriodSummaryDTO> getAllInventoryPeriodSummaries(Pageable pageable) {
+        return inventoryPeriodRepository.findAllInventoryPeriodSummaries(pageable);
     }
     
     public void delete(InventoryPeriod inventoryPeriod) {
