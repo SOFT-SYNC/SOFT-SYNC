@@ -58,6 +58,35 @@
 						</tr>
 					</tbody>
 				</table>
+				<!-- 페이징 컨트롤 추가 -->
+                <div class="paging-wrap">
+                    <ul class="pagination" th:if="${totalPages > 1}">
+                        <!-- 처음 페이지로 이동 -->
+                        <li th:if="${currentPage >= 10}">
+                            <a th:href="@{/inventory_period(page=${0}, size=${pageSize}, startDate=${startDate}, endDate=${endDate})}">&laquo;</a>
+                        </li>
+                        <!-- 이전 페이지 링크 -->
+                        <li th:if="${currentPage > 0}">
+                            <a th:href="@{/inventory_period(page=${currentPage - 1}, size=${pageSize}, startDate=${startDate}, endDate=${endDate})}">&lt;</a>
+                        </li>
+                        <!-- 페이지 번호 링크 -->
+                        <th:block th:with="startPage=${(currentPage div 10) * 10}, endPage=${(startPage + 9) < totalPages ? (startPage + 9) : totalPages - 1}">
+                            <li th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                                <a th:href="@{/inventory_period(page=${i}, size=${pageSize}, startDate=${startDate}, endDate=${endDate})}"
+                                   th:classappend="${i == currentPage} ? 'active'"
+                                   th:text="${i + 1}">Page number</a>
+                            </li>
+                        </th:block>
+                        <!-- 다음 페이지 링크 -->
+                        <li th:if="${currentPage < totalPages - 1}">
+                            <a th:href="@{/inventory_period(page=${currentPage + 1}, size=${pageSize}, startDate=${startDate}, endDate=${endDate})}">&gt;</a>
+                        </li>
+                        <!-- 10 페이지 앞으로 이동 -->
+                        <li th:if="${(currentPage div 10) < ((totalPages - 1) div 10)}">
+                            <a th:href="@{/inventory_period(page=${(currentPage div 10 + 1) * 10}, size=${pageSize}, startDate=${startDate}, endDate=${endDate})}">&raquo;</a>
+                        </li>
+                    </ul>
+                </div>
 			</div>
 		</div>
 	</div>

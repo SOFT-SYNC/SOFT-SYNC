@@ -22,6 +22,8 @@ import com.softsync.zerock.repository.CategoryRepository;
 import com.softsync.zerock.repository.InventoryRepository;
 import com.softsync.zerock.repository.ItemRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class ItemService {
 
@@ -74,12 +76,21 @@ public class ItemService {
 	    // Inventory 생성 및 저장
 	    Inventory inventory = new Inventory();
 	    inventory.setItem(savedItem);
-	    inventory.setInitialQuantity(0);
 	    inventory.setQuantity(0); // 초기 재고 수량 설정 (예: 0)
 	    inventoryRepository.save(inventory);
 
 	    return savedItem;
 	}
+	
+	@Transactional
+    public void deleteItemByCode(String itemCode) {
+        Item item = itemRepository.findByItemCode(itemCode);
+        if (item != null) {
+            itemRepository.delete(item);
+        } else {
+            throw new IllegalArgumentException("Item not found with itemCode: " + itemCode);
+        }
+    }
 
 	public String generateUniqueCode() {
 	    try {

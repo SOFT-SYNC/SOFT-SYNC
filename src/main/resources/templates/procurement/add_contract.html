@@ -168,7 +168,7 @@
 					<ul class="pagination">
 
 						<!-- 이전 페이지 링크 -->
-						<li><a th:href="@{/add_contract(page=${items.number - 1})}">이전</a>
+						<li><a th:href="@{/add_contract(page=${items.number - 1})}">&lt;</a>
 						</li>
 
 						<!-- 페이지 번호 링크 -->
@@ -179,7 +179,7 @@
 						</li>
 
 						<!-- 다음 페이지 링크 -->
-						<li><a th:href="@{/add_contract(page=${items.number + 1})}">다음</a>
+						<li><a th:href="@{/add_contract(page=${items.number + 1})}">&gt;</a>
 						</li>
 					</ul>
 				</div>

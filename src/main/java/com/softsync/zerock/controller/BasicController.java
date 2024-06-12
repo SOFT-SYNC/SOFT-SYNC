@@ -173,6 +173,7 @@ public class BasicController {
 	           @RequestParam(value = "pageProcurement", required = false, defaultValue = "0") int pageProcurement,
 	           @RequestParam(value = "searchField", required = false) String searchField,
 	           @RequestParam(value = "searchKeyword", required = false) String searchKeyword,
+	           @RequestParam(value = "searchType", required = false) String searchType,
 	           @RequestParam(value = "startDate", required = false) String startDate,
 	           @RequestParam(value = "endDate", required = false) String endDate,
 	           HttpSession session) {
@@ -182,15 +183,10 @@ public class BasicController {
 	       boolean productionSearchEmpty = false;
 
 	       // 세션에서 검색 조건을 초기화하거나 세션에 저장합니다.
-	       if (searchField != null && searchKeyword != null && !searchKeyword.isEmpty()) {
+	       if ("production".equals(searchType) && searchField != null && searchKeyword != null && !searchKeyword.isEmpty()) {
 	           session.setAttribute("productionSearchField", searchField);
 	           session.setAttribute("productionSearchKeyword", searchKeyword);
-	       } else {
-	           session.removeAttribute("productionSearchField");
-	           session.removeAttribute("productionSearchKeyword");
-	       }
-
-	       if (searchField != null && searchKeyword != null && !searchKeyword.isEmpty()) {
+	       	       
 	           try {
 	               switch (searchField) {
 	                   case "itemCode":
@@ -237,15 +233,10 @@ public class BasicController {
 	       Page<ProcurementPlan> procurementPlans = procurementPlanRepository.findAll(pageableProcurement);
 	       boolean procurementSearchEmpty = false;
 
-	       if (searchField != null && searchKeyword != null && !searchKeyword.isEmpty()) {
+	       if ("procurement".equals(searchType) && searchField != null && searchKeyword != null && !searchKeyword.isEmpty()) {
 	           session.setAttribute("procurementSearchField", searchField);
 	           session.setAttribute("procurementSearchKeyword", searchKeyword);
-	       } else {
-	           session.removeAttribute("procurementSearchField");
-	           session.removeAttribute("procurementSearchKeyword");
-	       }
-
-	       if (searchField != null && searchKeyword != null && !searchKeyword.isEmpty()) {
+	       
 	           try {
 	               switch (searchField) {
 	                   case "itemCode":

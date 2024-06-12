@@ -8,116 +8,298 @@
 <link type="text/css" rel="stylesheet" href="../css/common/header.css">
 <link type="text/css" rel="stylesheet" href="../css/common/common.css">
 <link type="text/css" rel="stylesheet" href="../css/common/sidebar.css">
-  <link type="text/css" rel="stylesheet" href="../css/materials/shipping_list.css">
-  <script type="text/javascript" src="../js/sidebar.js"></script>
+<link type="text/css" rel="stylesheet"
+	href="../css/materials/shipping_list.css">
+<script type="text/javascript" src="../js/sidebar.js"></script>
 </head>
 <body>
 	<div th:insert="~{common/sidebar :: sidebar}"></div>
-			<div th:insert="~{common/header :: header}"></div>
+	<div th:insert="~{common/header :: header}"></div>
 	<div class="main-content">
 
 		<div id="row1">
 			<h1 class="visual-title">출고목록</h1>
 			<div class="search-container">
-				<form id="searchForm">					
+				<form id="shipmentSearchForm">
 					<div class="search-bar">
-						<select id="filterSelect">
+						<select id="shipmentFilterSelect">
 							<option value="itemCode">품목코드</option>
 							<option value="itemName">품목명</option>
 							<option value="productName">제품명</option>
-							<option value="consumption">소요량</option>
-							<option value="stock">재고수량</option>
-						</select> 
-						<input type="text" id="searchInput" placeholder="검색..."> 
-						 <button type="button" class="blueBtn">검색</button>
-					</div>
-				</form>
-				<form class="shipmentForm" id="shipmentForm" action="/api/saveShipmentList" method="post">
-				<!-- 결과 표시 테이블 -->
-				<table id="resultsTable">
-				        <thead>
-				            <tr>
-				                <th>품목코드</th>
-				                <th>품목명</th>
-				                <th>제품명</th>
-				                <th>생산일자</th>
-				                <th>소요량</th>
-				                <th>재고수량</th>
-				                <th>출고수량</th>
-				            </tr>
-				        </thead>
-						<tbody>
-						    <!-- 타임리프 반복문을 사용하여 데이터 표시 -->
-						    <tr th:each="shipment : ${shipments}">
-						        <td th:text="${shipment.procurementPlan.productionPlan.item.itemCode}"></td>
-						        <td th:text="${shipment.procurementPlan.productionPlan.item.itemName}"></td>
-						        <td th:text="${shipment.procurementPlan.productionPlan.productName}"></td>
-						        <td th:text="${shipment.procurementPlan.productionPlan.productionStartDate}"></td>
-						        <td th:text="${shipment.procurementPlan.productionPlan.itemQuantity}"></td>
-						        <td th:text="${shipment.inventory.quantity}"></td>
-								<td><input type="number" name="quantity"></td>
-								<td class="shipment-id" th:text="${shipment.id}" style="display: none;"></td>
-						    </tr>
-						</tbody>
-				    </table>
-				<div class="actions">
-					<button type="button" class="blueBtn" onclick="saveShipmentList()">저장</button>
-				</div>
-				</form>
-			</div>
-		</div>
-		
-		<div id="row2">
-			<h1 class="visual-title">출고내역</h1>
-			<div class="search-container">
-				<form id="searchForm">					
-					<div class="search-bar">
-						<select id="filterSelect">
-							<option value="itemCode">품목코드</option>
-							<option value="itemName">품목명</option>
-							<option value="productName">제품명</option>
-							<option value="consumption">소요량</option>
-							<option value="stock">재고수량</option>
-						</select> <input type="text" id="searchInput" placeholder="검색...">
-						 <button type="button" class="blueBtn">검색</button>
+							<option value="productionStartDate">생산일자</option>
+							<option value="itemQuantity">소요량</option>							
+							<option value="inventoryQuantity">재고수량</option>
+						</select> <input type="text" id="shipmentSearchInput" placeholder="검색...">
+						<button type="button" class="blueBtn"
+							onclick="performShipmentSearch()">검색</button>
 					</div>
 				</form>
 				<form id="shipmentForm" action="/api/saveShipmentList" method="post">
-				<!-- 결과 표시 테이블 -->
-				<table id="resultsTable">
-				        <thead>
-				            <tr>
-				                <th>품목코드</th>
-				                <th>품목명</th>
-				                <th>제품명</th>
-				                <th>생산일자</th>
-				                <th>소요량</th>
-				                <th>재고수량</th>
-				                <th>출고수량</th>
-				                <th>출고일</th>
-				            </tr>
-				        </thead>
+					<!-- 결과 표시 테이블 -->
+					<table id="resultsTable">
+						<thead>
+							<tr>
+								<th>품목코드</th>
+								<th>품목명</th>
+								<th>제품명</th>
+								<th>생산일자</th>
+								<th>소요량</th>
+								<th>재고수량</th>
+								<th>출고수량</th>
+							</tr>
+						</thead>
 						<tbody>
-						    <!-- 타임리프 반복문을 사용하여 데이터 표시 -->
-						    <tr th:each="shipmentList : ${shipmentLists}">
-						        <td th:text="${shipmentList.shipment.procurementPlan.productionPlan.item.itemCode}"></td>
-						        <td th:text="${shipmentList.shipment.procurementPlan.productionPlan.item.itemName}"></td>
-						        <td th:text="${shipmentList.shipment.procurementPlan.productionPlan.productName}"></td>
-						        <td th:text="${shipmentList.shipment.procurementPlan.productionPlan.productionStartDate}"></td>
-						        <td th:text="${shipmentList.shipment.procurementPlan.productionPlan.itemQuantity}"></td>
-						        <td th:text="${shipmentList.inventoryQuantity}"></td>
+							<!-- 타임리프 반복문을 사용하여 데이터 표시 -->
+							<tr th:each="shipment : ${shipments}">
+								<td
+									th:text="${shipment.procurementPlan.productionPlan.item.itemCode}"></td>
+								<td
+									th:text="${shipment.procurementPlan.productionPlan.item.itemName}"></td>
+								<td
+									th:text="${shipment.procurementPlan.productionPlan.productName}"></td>
+								<td
+									th:text="${shipment.procurementPlan.productionPlan.productionStartDate}"></td>
+								<td
+									th:text="${shipment.procurementPlan.productionPlan.itemQuantity}"></td>
+								<td th:text="${shipment.inventory.quantity}"></td>
+								<td><input type="number" name="quantity"></td>
+								<td class="shipment-id" th:text="${shipment.id}"
+									style="display: none;"></td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="actions">
+						<button type="button" class="blueBtn" onclick="saveShipmentList()">저장</button>
+					</div>
+				</form>
+			</div>
+			<div class="paging-wrap">
+				<ul class="pagination" th:if="${shipments.totalElements > 0}">
+					<!-- 처음 페이지로 이동 -->
+					<li th:if="${shipments.number >= 10}"><a
+						th:href="@{/shipping_list(pageShipment=${0}, pageShipmentList=${pageShipmentList})}">&laquo;</a></li>
+
+					<!-- 이전 페이지 링크 -->
+					<li th:if="${!shipments.isFirst()}"><a
+						th:href="@{/shipping_list(pageShipment=${shipments.number - 1}, pageShipmentList=${pageShipmentList})}">&lt;</a></li>
+
+					<!-- 페이지 번호 링크 -->
+					<th:block
+						th:with="startPage=${(shipments.number div 10) * 10}, endPage=${(startPage + 9) < shipments.totalPages ? (startPage + 9) : shipments.totalPages - 1}">
+						<li th:each="i : ${#numbers.sequence(startPage, endPage)}"><a
+							th:href="@{/shipping_list(pageShipment=${i}, pageShipmentList=${pageShipmentList})}"
+							th:classappend="${i == shipments.number} ? 'active'"
+							th:text="${i + 1}">Page number</a></li>
+					</th:block>
+
+					<!-- 다음 페이지 링크 -->
+					<li th:if="${!shipments.isLast()}"><a
+						th:href="@{/shipping_list(pageShipment=${shipments.number + 1}, pageShipmentList=${pageShipmentList})}">&gt;</a></li>
+
+					<!-- 10 페이지 앞으로 이동 -->
+					<li
+						th:if="${(shipments.number div 10) < ((shipments.totalPages - 1) div 10)}">
+						<a
+						th:href="@{/shipping_list(pageShipment=${(shipments.number div 10 + 1) * 10}, pageShipmentList=${pageShipmentList})}">&raquo;</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div id="row1">
+			<h1 class="visual-title">출고내역</h1>
+			<div class="search-container">
+				 <form id="shipmentListSearchForm">
+					<div class="search-bar">
+						<select id="shipmentListFilterSelect">
+							<option value="itemCode">품목코드</option>
+							<option value="itemName">품목명</option>
+							<option value="productName">제품명</option>
+							<option value="productionStartDate">생산일자</option>
+							<option value="itemQuantity">소요량</option>
+							<option value="inventoryQuantity">재고수량</option>
+							<option value="quantity">출고수량</option>
+							<option value="shipmentDate">출고일</option>
+						</select> <input type="text" id="shipmentListSearchInput"
+							placeholder="검색...">
+						<button type="button" class="blueBtn"
+							onclick="performShipmentListSearch()">검색</button>
+					</div>
+				</form>
+				<form id="shipmentForm" action="/api/saveShipmentList" method="post">
+					<!-- 결과 표시 테이블 -->
+					<table id="resultsTable">
+						<thead>
+							<tr>
+								<th>품목코드</th>
+								<th>품목명</th>
+								<th>제품명</th>
+								<th>생산일자</th>
+								<th>소요량</th>
+								<th>재고수량</th>
+								<th>출고수량</th>
+								<th>출고일</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- 타임리프 반복문을 사용하여 데이터 표시 -->
+							<tr th:each="shipmentList : ${shipmentLists}">
+								<td
+									th:text="${shipmentList.shipment.procurementPlan.productionPlan.item.itemCode}"></td>
+								<td
+									th:text="${shipmentList.shipment.procurementPlan.productionPlan.item.itemName}"></td>
+								<td
+									th:text="${shipmentList.shipment.procurementPlan.productionPlan.productName}"></td>
+								<td
+									th:text="${shipmentList.shipment.procurementPlan.productionPlan.productionStartDate}"></td>
+								<td
+									th:text="${shipmentList.shipment.procurementPlan.productionPlan.itemQuantity}"></td>
+								<td th:text="${shipmentList.inventoryQuantity}"></td>
 								<td th:text="${shipmentList.quantity}"></td>
 								<td th:text="${shipmentList.shipmentDate}"></td>
-						    </tr>
+								<td>
+									<button type="button" class="blueBtn"
+										th:attr="data-shipment-list-id=${shipmentList.id}">x</button>
+								</td>
+							</tr>
 						</tbody>
-				    </table>				
+					</table>
 				</form>
+			</div>
+			<div class="paging-wrap">
+				<ul class="pagination" th:if="${shipmentLists.totalElements > 0}">
+					<!-- 처음 페이지로 이동 -->
+					<li th:if="${shipmentLists.number >= 10}"><a
+						th:href="@{/shipping_list(pageShipment=${pageShipment}, pageShipmentList=${0})}">&laquo;</a></li>
+
+					<!-- 이전 페이지 링크 -->
+					<li th:if="${!shipmentLists.isFirst()}"><a
+						th:href="@{/shipping_list(pageShipment=${pageShipment}, pageShipmentList=${shipmentLists.number - 1})}">&lt;</a></li>
+
+					<!-- 페이지 번호 링크 -->
+					<th:block
+						th:with="startPage=${(shipmentLists.number div 10) * 10}, endPage=${(startPage + 9) < shipmentLists.totalPages ? (startPage + 9) : shipmentLists.totalPages - 1}">
+						<li th:each="i : ${#numbers.sequence(startPage, endPage)}"><a
+							th:href="@{/shipping_list(pageShipment=${pageShipment}, pageShipmentList=${i})}"
+							th:classappend="${i == shipmentLists.number} ? 'active'"
+							th:text="${i + 1}">Page number</a></li>
+					</th:block>
+
+					<!-- 다음 페이지 링크 -->
+					<li th:if="${!shipmentLists.isLast()}"><a
+						th:href="@{/shipping_list(pageShipment=${pageShipment}, pageShipmentList=${shipmentLists.number + 1})}">&gt;</a></li>
+
+					<!-- 10 페이지 앞으로 이동 -->
+					<li
+						th:if="${(shipmentLists.number div 10) < ((shipmentLists.totalPages - 1) div 10)}">
+						<a
+						th:href="@{/shipping_list(pageShipment=${pageShipment}, pageShipmentList=${(shipmentLists.number div 10 + 1) * 10})}">&raquo;</a>
+					</li>
+				</ul>
 			</div>
 		</div>
 	</div>
-	
+
 </body>
-<script>
+<script type="text/javascript">
+ function performShipmentSearch() {
+     var filter = document.getElementById('shipmentFilterSelect').value;
+     var searchText = document.getElementById('shipmentSearchInput').value.trim();
+
+     if (searchText === '') {
+         alert("검색어를 입력하세요");
+         return;
+     }
+
+     sessionStorage.setItem('shipmentSearchField', filter);
+     sessionStorage.setItem('shipmentSearchKeyword', searchText);
+     sessionStorage.setItem('searchType', 'shipment');
+
+     var pageShipmentList = sessionStorage.getItem('pageShipmentList') || 0;
+
+     var url = '/shipping_list?searchField=' + encodeURIComponent(filter) + '&searchKeyword=' + encodeURIComponent(searchText) + '&searchType=shipment&pageShipmentList=' + pageShipmentList;
+     window.location.href = url;
+ }
+
+ function performShipmentListSearch() {
+     var filter = document.getElementById('shipmentListFilterSelect').value;
+     var searchText = document.getElementById('shipmentListSearchInput').value.trim();
+
+     if (searchText === '') {
+         alert("검색어를 입력하세요");
+         return;
+     }
+
+     sessionStorage.setItem('shipmentListSearchField', filter);
+     sessionStorage.setItem('shipmentListSearchKeyword', searchText);
+     sessionStorage.setItem('searchType', 'shipmentList');
+
+     var pageShipment = sessionStorage.getItem('pageShipment') || 0;
+
+     var url = '/shipping_list?searchField=' + encodeURIComponent(filter) + '&searchKeyword=' + encodeURIComponent(searchText) + '&searchType=shipmentList&pageShipment=' + pageShipment;
+     window.location.href = url;
+ }
+
+ document.addEventListener('DOMContentLoaded', function () {
+     // 출고목록 검색 세션 저장 값 복원
+     var shipmentSearchField = sessionStorage.getItem('shipmentSearchField');
+     var shipmentSearchKeyword = sessionStorage.getItem('shipmentSearchKeyword');
+
+     if (shipmentSearchField && shipmentSearchKeyword) {
+         document.getElementById('shipmentFilterSelect').value = shipmentSearchField;
+         document.getElementById('shipmentSearchInput').value = shipmentSearchKeyword;
+         window.history.replaceState({}, document.title, window.location.pathname);
+     }
+
+     // 출고내역 검색 세션 저장 값 복원
+     var shipmentListSearchField = sessionStorage.getItem('shipmentListSearchField');
+     var shipmentListSearchKeyword = sessionStorage.getItem('shipmentListSearchKeyword');
+
+     if (shipmentListSearchField && shipmentListSearchKeyword) {
+         document.getElementById('shipmentListFilterSelect').value = shipmentListSearchField;
+         document.getElementById('shipmentListSearchInput').value = shipmentListSearchKeyword;
+         window.history.replaceState({}, document.title, window.location.pathname);
+     }
+
+     var pageShipment = [[${pageShipment}]];
+     var pageShipmentList = [[${pageShipmentList}]];
+
+     sessionStorage.setItem('pageShipment', pageShipment);
+     sessionStorage.setItem('pageShipmentList', pageShipmentList);
+
+     var shipmentSearchEmpty = [[${shipmentSearchEmpty}]];
+     var shipmentListSearchEmpty = [[${shipmentListSearchEmpty}]];
+
+     if (shipmentSearchEmpty && sessionStorage.getItem('searchType') === 'shipment') {
+         alert("출고목록 검색 결과가 없습니다.");
+         sessionStorage.removeItem('shipmentSearchField');
+         sessionStorage.removeItem('shipmentSearchKeyword');
+     }
+
+     if (shipmentListSearchEmpty && sessionStorage.getItem('searchType') === 'shipmentList') {
+         alert("출고내역 검색 결과가 없습니다.");
+         sessionStorage.removeItem('shipmentListSearchField');
+         sessionStorage.removeItem('shipmentListSearchKeyword');
+     }
+
+     sessionStorage.removeItem('searchType');
+ });
+
+ // 수정된 부분: preventDefault() 추가
+ document.getElementById('shipmentSearchInput').addEventListener('keypress', function (e) {
+     if (e.key === 'Enter') {
+         e.preventDefault(); // 폼 제출 방지
+         performShipmentSearch();
+     }
+ });
+
+ document.getElementById('shipmentListSearchInput').addEventListener('keypress', function (e) {
+     if (e.key === 'Enter') {
+         e.preventDefault(); // 폼 제출 방지
+         performShipmentListSearch();
+     }
+ });
+ 
 // 테이블의 각 행을 클릭할 때마다 실행되는 함수
 function handleRowClick(event) {
     var row = event.target.closest("tr"); // 클릭한 요소가 포함된 행 선택
@@ -189,5 +371,41 @@ function saveShipmentList() {
     });
 }
 
+// 출고 삭제 함수
+function deleteShipmentList(button) {
+    const shipmentListId = button.getAttribute('data-shipment-list-id');
+    if (!confirm('정말로 삭제하시겠습니까?')) {
+        return;
+    }
+
+    fetch(`/api/shipments/${shipmentListId}`, {
+        method: 'DELETE'
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.json().then(error => { throw new Error(error.message); });
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.message) {
+            alert(data.message);
+            window.location.reload(); // 페이지 새로고침하여 목록 갱신
+        }
+    })
+    .catch(error => {
+        console.error('Error deleting shipment:', error);
+        alert('출고 삭제 중 문제가 발생했습니다: ' + error.message);
+    });
+}
+
+// DOMContentLoaded 이벤트 핸들러에서 deleteBtn 클릭 이벤트 리스너 추가
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.deleteBtn').forEach(button => {
+        button.addEventListener('click', function() {
+            deleteShipmentList(button);
+        });
+    });
+});
 </script>
 </html>
