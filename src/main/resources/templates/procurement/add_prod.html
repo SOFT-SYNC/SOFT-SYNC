@@ -7,161 +7,167 @@
 <link type="text/css" rel="stylesheet" href="css/common/header.css">
 <link type="text/css" rel="stylesheet" href="css/common/common.css">
 <link type="text/css" rel="stylesheet" href="css/common/sidebar.css">
-<link type="text/css" rel="stylesheet" href="css/procurement/addProd.css">
-    <script type="text/javascript" src="../js/sidebar.js"></script>
+<link type="text/css" rel="stylesheet"
+	href="css/procurement/addProd.css">
+<script type="text/javascript" src="../js/sidebar.js"></script>
 
 </head>
 <body>
-   <div th:insert="~{common/sidebar :: sidebar}"></div>
-   <div th:insert="~{common/header :: header}"></div>
-   <div class="main-content">
-      <form id="productForm" method="POST" action="/api/items"
-         enctype="multipart/form-data" onsubmit="submitProduct(event)">
-         <div id="row1">
-            <h2 class="visual-title">품목정보등록</h2>
-            <table>
-               <tr>
-                  <th rowspan="3">품목코드</th>
-                  <td>대분류</td>
-                  <td><select id="categorySelect"
-                     onchange="fetchSubcategories(this.value, 'subcategorySelect')">
-                        <option></option>
-                  </select></td>
-               </tr>
-               <tr>
-                  <td>중분류</td>
-                  <td><select id="subcategorySelect"
-                     onchange="fetchSubcategories(this.value, 'childcategorySelect')"
-                     disabled>
-                        <option></option>
-                  </select></td>
-               </tr>
-               <tr>
-                  <td>소분류</td>
-                  <td><select id="childcategorySelect" name="childcategoryId"
-                     disabled>
-                        <option></option>
-                  </select></td>
-               </tr>
-               <tr>
-                  <th>품목명</th>
-                  <td colspan="2"><input type="text" id="itemName"
-                     name="itemName"></td>
-               </tr>
-               <tr>
-                  <th rowspan="3">규격</th>
-                  <td>가로(W)</td>
-                  <td><input type="text" id="width" onchange="setDimensions()"></td>
-               </tr>
-               <tr>
-                  <td>세로(D)</td>
-                  <td><input type="text" id="depth" onchange="setDimensions()"></td>
-               </tr>
-               <tr>
-                  <td>높이(H)</td>
-                  <td><input type="text" id="height" onchange="setDimensions()"></td>
-                  <input type="hidden" id="dimensions" name="dimensions">
-               </tr>
-               <tr>
-                  <th>재질</th>
-                  <td colspan="2"><input type="text" id="material"
-                     name="material"></td>
-               </tr>
-               <tr>
-                  <th>도면</th>
-                  <td colspan="2"><input type="file" id="blueprintPath"
-                     name="blueprintPath"></td>
-               </tr>
-            </table>
-	            <div class="btn-container">
-	            <button type="submit" class="blueBtn">등록</button>
-	           		<button type="reset" class="blueBtn">초기화</button>
-	            </div>
-         </div>
-      </form>
-      <div id="row2">
-      <h2 class="visual-title">품목 리스트</h2>
-         <div id="productList">
-            <div>
-                   <form onsubmit="performitemSearch(event)">
-                       <div class="search-container">
-                           <select id="itemFilterSelect">
-                               <option value="itemCode" th:selected="${searchField == 'itemCode'}">품목코드</option>
-                               <option value="itemName" th:selected="${searchField == 'itemName'}">품목명</option>
-                               <option value="material" th:selected="${searchField == 'material'}">재질</option>
-                           </select>
-                           <input type="text" id="itemSearchInput" placeholder="검색어를 입력하세요">
-                           <input type="submit" value="검색" class="blueBtn">
-                       </div>
-                   </form>
-               <table class="listTable">
-               <colgroup>
-               <col width="20%">
-               <col width="15%">
-               <col width="30%">
-               <col width="20%">
-               <col width="20%">
-               </colgroup>
-                  <thead>
-                     <tr>
-                        <th>품목코드</th>
-                        <th>품목명</th>
-                        <th>규격</th>
-                        <th>재질</th>
-                        <th>도면</th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     <tr th:each="item : ${items.content}">
-                        <td th:text="${item.itemCode}"></td>
-                        <td th:text="${item.itemName}"></td>
-                        <td th:text="${item.dimensions}"></td>
-                        <td th:text="${item.material}"></td>
-                        <td><a th:href="@{${item.blueprintPath}}" th:text="도면">View</a></td>
-                     </tr>
-                  </tbody>
-               </table>
-               <div class="paging-wrap">
-                  <ul class="pagination"
-						th:if="${items.totalElements > 0}">
-                     <!-- 처음 페이지로 이동 -->
-                     <li th:if="${items.number >= 10}"><a
-                        th:href="@{/add_prod(page=${0})}">&laquo;</a></li>
+	<div th:insert="~{common/sidebar :: sidebar}"></div>
+	<div th:insert="~{common/header :: header}"></div>
+	<div class="main-content">
+		<form id="productForm" method="POST" action="/api/items"
+			enctype="multipart/form-data" onsubmit="submitProduct(event)">
+			<div id="row1">
+				<h2 class="visual-title">품목정보등록</h2>
+				<table>
+					<tr>
+						<th rowspan="3">품목코드</th>
+						<td>대분류</td>
+						<td><select id="categorySelect"
+							onchange="fetchSubcategories(this.value, 'subcategorySelect')">
+								<option></option>
+						</select></td>
+					</tr>
+					<tr>
+						<td>중분류</td>
+						<td><select id="subcategorySelect"
+							onchange="fetchSubcategories(this.value, 'childcategorySelect')"
+							disabled>
+								<option></option>
+						</select></td>
+					</tr>
+					<tr>
+						<td>소분류</td>
+						<td><select id="childcategorySelect" name="childcategoryId"
+							disabled>
+								<option></option>
+						</select></td>
+					</tr>
+					<tr>
+						<th>품목명</th>
+						<td colspan="2"><input type="text" id="itemName"
+							name="itemName"></td>
+					</tr>
+					<tr>
+						<th rowspan="3">규격</th>
+						<td>가로(W)</td>
+						<td><input type="text" id="width" onchange="setDimensions()"></td>
+					</tr>
+					<tr>
+						<td>세로(D)</td>
+						<td><input type="text" id="depth" onchange="setDimensions()"></td>
+					</tr>
+					<tr>
+						<td>높이(H)</td>
+						<td><input type="text" id="height" onchange="setDimensions()"></td>
+						<input type="hidden" id="dimensions" name="dimensions">
+					</tr>
+					<tr>
+						<th>재질</th>
+						<td colspan="2"><input type="text" id="material"
+							name="material"></td>
+					</tr>
+					<tr>
+						<th>도면</th>
+						<td colspan="2"><input type="file" id="blueprintPath"
+							name="blueprintPath"></td>
+					</tr>
+				</table>
+				<div class="btn-container">
+					<button type="submit" class="blueBtn">등록</button>
+					<button type="reset" class="blueBtn">초기화</button>
+				</div>
+			</div>
+		</form>
+		<div id="row2">
+			<h2 class="visual-title">품목 리스트</h2>
+			<div id="productList">
+				<div>
+					<form onsubmit="performitemSearch(event)">
+						<div class="search-container">
+							<select id="itemFilterSelect">
+								<option value="itemCode"
+									th:selected="${searchField == 'itemCode'}">품목코드</option>
+								<option value="itemName"
+									th:selected="${searchField == 'itemName'}">품목명</option>
+								<option value="material"
+									th:selected="${searchField == 'material'}">재질</option>
+							</select> <input type="text" id="itemSearchInput" placeholder="검색어를 입력하세요">
+							<input type="submit" value="검색" class="blueBtn">
+						</div>
+					</form>
+					<table class="listTable">
+						<colgroup>
+							<col width="20%">
+							<col width="15%">
+							<col width="30%">
+							<col width="20%">
+							<col width="20%">
+						</colgroup>
+						<thead>
+							<tr>
+								<th>품목코드</th>
+								<th>품목명</th>
+								<th>규격</th>
+								<th>재질</th>
+								<th>도면</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="item : ${items.content}">
+								<td th:text="${item.itemCode}"></td>
+								<td th:text="${item.itemName}"></td>
+								<td th:text="${item.dimensions}"></td>
+								<td th:text="${item.material}"></td>
+								<td><a th:href="@{${item.blueprintPath}}" th:text="도면">View</a></td>
+								<td>
+									<button type="button" class="blueBtn"
+										th:attr="data-item-code=${item.itemCode}">x</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="paging-wrap">
+						<ul class="pagination" th:if="${items.totalElements > 0}">
+							<!-- 처음 페이지로 이동 -->
+							<li th:if="${items.number >= 10}"><a
+								th:href="@{/add_prod(page=${0})}">&laquo;</a></li>
 
-                     <!-- 이전 페이지 링크 -->
-                     <li th:if="${!items.isFirst()}"><a
-                        th:href="@{/add_prod(page=${items.number - 1})}">&lt;</a></li>
+							<!-- 이전 페이지 링크 -->
+							<li th:if="${!items.isFirst()}"><a
+								th:href="@{/add_prod(page=${items.number - 1})}">&lt;</a></li>
 
-                     <!-- 페이지 번호 링크 -->
-                     <th:block
-                        th:with="startPage=${(items.number / 10) * 10}, endPage=${(startPage + 9) < items.totalPages ? (startPage + 9) : items.totalPages - 1}">
-                        <li th:each="i : ${#numbers.sequence(startPage, endPage)}">
-                           <!-- 현재 페이지일 경우 active 클래스 추가 --> <a
-                           th:href="@{/add_prod(page=${i})}"
-                           th:classappend="${i == items.number} ? 'active'"
-                           th:text="${i + 1}">Page number</a>
-                        </li>
-                     </th:block>
+							<!-- 페이지 번호 링크 -->
+							<th:block
+								th:with="startPage=${(items.number / 10) * 10}, endPage=${(startPage + 9) < items.totalPages ? (startPage + 9) : items.totalPages - 1}">
+								<li th:each="i : ${#numbers.sequence(startPage, endPage)}">
+									<!-- 현재 페이지일 경우 active 클래스 추가 --> <a
+									th:href="@{/add_prod(page=${i})}"
+									th:classappend="${i == items.number} ? 'active'"
+									th:text="${i + 1}">Page number</a>
+								</li>
+							</th:block>
 
-                     <!-- 다음 페이지 링크 -->
-                     <li th:if="${!items.isLast()}"><a
-                        th:href="@{/add_prod(page=${items.number + 1})}">&gt;</a></li>                                                             
-                     <!-- 10 페이지 앞으로 이동 -->						
-						<li
-							th:if="${(items.number div 10) < ((items.totalPages - 1) div 10)}">
-							<a
-							th:href="@{/add_prod(page=${(items.number div 10 + 1) * 10}, page=${items.number})}">&raquo;</a>
-						</li>	
-                  </ul>
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
+							<!-- 다음 페이지 링크 -->
+							<li th:if="${!items.isLast()}"><a
+								th:href="@{/add_prod(page=${items.number + 1})}">&gt;</a></li>
+							<!-- 10 페이지 앞으로 이동 -->
+							<li
+								th:if="${(items.number div 10) < ((items.totalPages - 1) div 10)}">
+								<a
+								th:href="@{/add_prod(page=${(items.number div 10 + 1) * 10}, page=${items.number})}">&raquo;</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
 
-   <script>
+	<script>
    function performitemSearch(event) {
       event.preventDefault();
        var filter = document.getElementById('itemFilterSelect').value;
@@ -297,7 +303,7 @@
 	      });
 	   });
 	</script>
-   <script>
+	<script>
       function submitProduct(event) {
          event.preventDefault(); // 기본 이벤트 중지
 
@@ -322,7 +328,7 @@
              });
       }
    </script>
-   <script>
+	<script>
       // 가로, 세로, 높이 값을 가져와서 dimensions에 설정하는 함수
       function setDimensions() {
           // 가로, 세로, 높이 값을 가져옴
@@ -337,6 +343,42 @@
           document.getElementById('dimensions').value = dimensions;
       }
    </script>
+	<script>
+    function deleteItem(button) {
+        const itemCode = button.getAttribute('data-item-code');
+        if (!confirm('정말로 삭제하시겠습니까?')) {
+            return;
+        }
+
+        fetch(`/api/items/${itemCode}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(error => { throw new Error(error.message); });
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.message) {
+                alert(data.message);
+                window.location.reload(); // 페이지 새로고침하여 목록 갱신
+            }
+        })
+        .catch(error => {
+            console.error('Error deleting item:', error);
+            alert('품목 삭제 중 문제가 발생했습니다: ' + error.message);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.deleteBtn').forEach(button => {
+            button.addEventListener('click', function() {
+                deleteItem(button);
+            });
+        });
+    });
+</script>
 </body>
 
 </html>
