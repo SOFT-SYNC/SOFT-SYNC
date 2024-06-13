@@ -9,5 +9,4 @@ public class SoftsyncApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SoftsyncApplication.class, args);
 	}
-
 }
