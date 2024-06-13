@@ -139,6 +139,7 @@
 								<th>재고수량</th>
 								<th>출고수량</th>
 								<th>출고일</th>
+								<th>삭제</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -158,8 +159,8 @@
 								<td th:text="${shipmentList.quantity}"></td>
 								<td th:text="${shipmentList.shipmentDate}"></td>
 								<td>
-									<button type="button" class="blueBtn"
-										th:attr="data-shipment-list-id=${shipmentList.id}">x</button>
+									<button type="button" class="deleteBtn"
+										th:attr="data-shipment-list-id=${shipmentList.id}">삭제</button>
 								</td>
 							</tr>
 						</tbody>
