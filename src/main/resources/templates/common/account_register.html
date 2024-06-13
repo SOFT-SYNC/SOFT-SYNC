@@ -8,83 +8,124 @@
 </head>
 <body id="full_body">
 
-	<!-- 회원가입 -->
-	<div id="container">
-		<div id="register_container">
-			<div class="side_logo">
-				<a href="/login"><img src="/images/logo.png" alt="로고"></a>
-			</div>
-			<h3>회원가입</h3>
-			<br>
-			<div id="register_wrap">
-				<form th:action="@{/account_register}" th:object="${User}"
-					id="create_account_from" method="post">
-					<div class="form_list">
-						<div class="form_item">
-							<label for="id"></label> <input type="text" id="id"
-								th:field="*{employeeId}" placeholder="아이디를 입력하세요" autofocus>
-						</div>
-						<hr>
-						<div class="form_item">
-							<label for="password"></label> <input type="password"
-								id="password" th:field="*{password}" placeholder="비밀번호를 입력하세요">
-						</div>
-						<hr>
-						<div class="form_item">
-							<label for="password_check"></label> <input
-								type="password" id="password_check" placeholder="비밀번호를 다시 입력하세요">
-						</div>
-						<hr>
-						<div class="form_item">
-							<label for="name"></label> <input type="text" id="name"
-								th:field="*{name}" placeholder="이름을 입력하세요">
-						</div>
-						<hr>
-						<div class="form_item">
-							<label for="email"></label> <input type="email" id="email"
-								th:field="*{email}" placeholder="이메일을 입력하세요">
-						</div>
-						<hr>
-						<div class="form_item">
-							<label for="phone"></label> <input type="tel" id="phone"
-								th:field="*{phone}" placeholder="전화번호를 입력하세요">
-						</div>
-						<hr>
-						<div class="form_item">
-							<label for="num"></label> <input type="text" id="num"
-								th:field="*{EMP_num}" placeholder="사번을 입력하세요">
-						</div>
-						<hr>
-						<div class="form_item form_select">
-							<label for="gender"></label> <select id="gender"
-								th:field="*{gender}">
-								<option value="">성별을 선택하세요</option>
-								<option value="M">남자</option>
-								<option value="F">여자</option>
-							</select>
-						</div><hr>
-						<div class="form_item form_select">
-							<label for="dept"></label>
-							<!-- 레이블 추가 -->
-							<select name="dept" id="dept" th:field="*{department}">
-								<option value="">부서를 선택하세요</option>
-								<option value="Materials" th:selected="${User.department == 'Materials'}">자재</option>
-								<!-- 선택된 부서에 따라 selected 속성 추가 -->
-								<option value="Production" th:selected="${User.department == 'Production'}">생산</option>
-								<!-- 선택된 부서에 따라 selected 속성 추가 -->
-								<option value="Purchasing" th:selected="${User.department == 'Purchasing'}">구매</option>
-								<!-- 선택된 부서에 따라 selected 속성 추가 -->
-							</select>
-						</div>
-					</div>
-					<button class="regi_button" type="submit">가입하기</button>
-				</form>
-				<div class="account_links">
-					<a href="/login">로그인 페이지로 이동</a>
-				</div>
-			</div>
-		</div>
-	</div>
+
+   <!-- 회원가입 -->
+   <div id="container">
+      <div id="register_container">
+         <div class="side_logo">
+            <a href="@{/}"><img src="/images/logo.png" alt="로고"></a>
+         </div>
+         <h3>회원가입</h3>
+         <br>
+         <div id="register_wrap">
+            <form th:action="@{/account_register}" th:object="${User}" id="create_account_form" method="post">
+               
+               <div class="form_list">
+                  <div class="form_item">
+                     <label for="id"></label> <input type="text" id="id"
+                        th:field="*{employeeId}" placeholder="아이디를 입력하세요" autofocus>
+                  </div>
+                  <hr>
+                  <div class="form_item">
+                     <label for="password"></label> <input type="password"
+                        id="password" th:field="*{password}" placeholder="비밀번호를 입력하세요">
+                  </div>
+                  <hr>
+                  <div class="form_item">
+                     <label for="password_check"></label> <input
+                        type="password" id="password_check" placeholder="비밀번호를 다시 입력하세요">
+                  </div>
+                  <hr>
+                  <div class="form_item">
+                     <label for="name"></label> <input type="text" id="name"
+                        th:field="*{name}" placeholder="이름을 입력하세요">
+                  </div>
+                  <hr>
+                  <div class="form_item">
+                     <label for="email"></label> <input type="email" id="email"
+                        th:field="*{email}" placeholder="이메일을 입력하세요">
+                  </div>
+                  <hr>
+                  <div class="form_item">
+                     <label for="phone"></label> <input type="tel" id="phone"
+                        th:field="*{phone}" placeholder="전화번호를 입력하세요">
+                  </div>
+                  <hr>
+                  <div class="form_item">
+                     <label for="num"></label> <input type="text" id="num"
+                        th:field="*{EMP_num}" placeholder="사번을 입력하세요">
+                  </div>
+                  <hr>
+                  <div class="form_item form_select">
+                     <label for="gender"></label> <select id="gender"
+                        th:field="*{gender}">
+                        <option value="">성별을 선택하세요</option>
+                        <option value="M">남자</option>
+                        <option value="F">여자</option>
+                     </select>
+                  </div><hr>
+                  <div class="form_item form_select">
+                     <label for="dept"></label>
+                     <!-- 레이블 추가 -->
+                     <select name="dept" id="dept" th:field="*{department}">
+                        <option value="">부서를 선택하세요</option>
+                        <option value="Materials" th:selected="${User.department == 'Materials'}">자재</option>
+                        <!-- 선택된 부서에 따라 selected 속성 추가 -->
+                        <option value="Production" th:selected="${User.department == 'Production'}">생산</option>
+                        <!-- 선택된 부서에 따라 selected 속성 추가 -->
+                        <option value="Purchasing" th:selected="${User.department == 'Purchasing'}">구매</option>
+                        <!-- 선택된 부서에 따라 selected 속성 추가 -->
+                     </select>
+                  </div>
+               </div>
+               <button class="regi_button" type="submit">가입하기</button>
+            </form>
+            <div class="account_links">
+               <a href="/login">로그인 페이지로 이동</a>
+            </div>
+         </div>
+      </div>
+   </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var form = document.getElementById('create_account_form');
+    form.addEventListener('submit', validateForm);
+});
+
+function validateForm(event) {
+    // Prevent the form from submitting
+    event.preventDefault();
+
+    // Get all form fields
+    var id = document.getElementById('id');
+    var password = document.getElementById('password');
+    var passwordCheck = document.getElementById('password_check');
+    var name = document.getElementById('name');
+    var email = document.getElementById('email');
+    var phone = document.getElementById('phone');
+    var empNum = document.getElementById('num');
+    var gender = document.getElementById('gender');
+    var dept = document.getElementById('dept');
+
+    // Check if any field is empty
+    if (!id.value || !password.value || !passwordCheck.value || !name.value || !email.value || !phone.value || !empNum.value || !gender.value || !dept.value) {
+        alert('모든 항목을 입력해 주세요.');
+        return false;
+    }
+
+    // Check if passwords match
+    if (password.value !== passwordCheck.value) {
+        alert('비밀번호가 일치하지 않습니다.');
+        return false;
+    }
+
+    // If all fields are filled, submit the form
+    event.target.submit();
+}
+
+
+</script>
 
 </body>
 </html>
