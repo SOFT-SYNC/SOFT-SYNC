@@ -220,6 +220,19 @@
 							<br> <br></td>
 					</tr>
 					<tr>
+						<th colspan="4" style="text-align: center;"> 공급받는자 </th>
+					</tr>
+					<tr>
+						<th>상호</th>
+						<td>(주) SOFT-SYNC</td>
+						<th>연락처</th>
+						<td>031-5555-5555</td>
+					</tr>
+					<tr> 
+						<th colspan="4" style="text-align: center;"> 공급자 </th>
+					</tr>
+					
+					<tr>
 						<th>사업자번호</th>
 						<td id="brnModal"><input type="text" name="brn" readonly></td>
 						<th>발주번호</th>
@@ -314,9 +327,9 @@
 						<td></td>
 						<td></td>
 					</tr>
-					<tr>
+					<tr th:each="contract : ${contracts}">
 						<td>비고</td>
-						<td colspan="4"></td>
+						<td colspan="4" th:text="${contract.orders.size() > 0 ? contract.orders[0].orderNote : '-'}"></td>
 					</tr>
 				</tbody>
 			</table>
@@ -488,6 +501,7 @@ $(document).ready(function(){
             	    $('#itemMaterialCell input').val(data.item.material).prop('readonly', true);
             	    $('#orderQuantityCell input').val(data.orderQuantity).prop('readonly', true);
             	    $('#totalPriceCell input').val(data.totalPrice).prop('readonly', true);
+            	    $("#row1 input[name='orderNote']").val(data.orderNote).prop('readonly', true) ;
             	    $("#row1 input[name='brn']").val(data.company.brn);
             	    $("#row1 input[name='company_name']").val(data.company.company_name);
             	    $("#row1 input[name='company_ceo']").val(data.company.company_ceo);
@@ -540,16 +554,23 @@ $(document).ready(function(){
         return `${year}-${month}-${day}`;
     }
    
-    /////////////////// 현재 날짜를 가져오는 함수2 //  납기일 더하는용으로 하나생성함 6/4
-  function getCurrentDate1(dd) {
-    var a = new Date();
-    a.setDate(a.getDate() + dd); // 현재 날짜에 dd일을 더함
-    var b = a.getFullYear();
-    var c = String(a.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 1을 더해줍니다.
-    var d = String(a.getDate()).padStart(2, '0');
-    
-    return `${b}-${c}-${d}`;
-  }
+/////////////////// 현재 날짜를 가져오는 함수2 //  납기일 더하는 용으로 하나 생성함 6/4
+    function getCurrentDate1(dd) {
+    	const a = new Date();
+        a.setDate(a.getDate() + dd); // 현재 날짜에 dd일을 더함
+        const y = a.getFullYear();
+        const m = String(a.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 1을 더해줍니다.
+        const d = String(a.getDate()).padStart(2, '0');
+        
+        console.log("a:", a); // 디버깅용으로 날짜 객체 출력
+        console.log("y:", y);
+        console.log("m:", m);
+        console.log("d:", d);
+        
+        return `${y}-${m}-${d}`;
+    }
+
+
 
 
 

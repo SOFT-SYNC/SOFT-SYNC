@@ -20,7 +20,7 @@
 			enctype="multipart/form-data" onsubmit="submitProduct(event)">
 			<div id="row1">
 				<h2 class="visual-title">품목정보등록</h2>
-				<table>
+				<table class="prodTB">
 					<tr>
 						<th rowspan="3">품목코드</th>
 						<td>대분류</td>
@@ -102,8 +102,9 @@
 							<col width="20%">
 							<col width="15%">
 							<col width="30%">
-							<col width="20%">
-							<col width="20%">
+							<col width="13%">
+							<col width="12%">
+							<col width="10%">
 						</colgroup>
 						<thead>
 							<tr>
@@ -112,6 +113,7 @@
 								<th>규격</th>
 								<th>재질</th>
 								<th>도면</th>
+								<th>삭제</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -123,7 +125,7 @@
 								<td><a th:href="@{${item.blueprintPath}}" th:text="도면">View</a></td>
 								<td>
 									<button type="button" class="blueBtn"
-										th:attr="data-item-code=${item.itemCode}">x</button>
+										th:attr="data-item-code=${item.itemCode}">삭제</button>
 								</td>
 							</tr>
 						</tbody>
