@@ -38,7 +38,8 @@ body {
 	padding: 20px;
 	margin: 10px 20px;
 	width: 1200px;
-	height: 850px
+	height: 850px;
+		   overflow-y: auto;
 }
 
 .visual-title {
@@ -95,7 +96,7 @@ label {
 .listTable {
 	width: 90%;
 	margin: 20px auto;
-	   overflow-y: auto;
+
 }
 
 .deleteBtn {
