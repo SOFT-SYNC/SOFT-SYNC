@@ -63,3 +63,10 @@ td {
 td.list_num {
   text-align: center; /* 가운데 정렬 */
 }
+
+
+.read_td {
+	margin : 30px auto;
+	
+	padding : 100px 200px;
+}
