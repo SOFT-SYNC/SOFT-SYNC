@@ -53,6 +53,8 @@
 <p align="center">
   <br>
   <img src="https://github.com/SOFT-SYNC/SOFT-SYNC/assets/158006769/eb8e53f9-93d4-4cc8-9434-8da3cc029934">
+    <img src="https://github.com/SOFT-SYNC/SOFT-SYNC/assets/158006769/5b5d7560-97f2-48a6-b039-c614bf593839">
+    <img src="https://github.com/SOFT-SYNC/SOFT-SYNC/assets/158006769/dd60343d-344b-4535-9e72-978256a4ba24">
   <br>
 </p>
 
