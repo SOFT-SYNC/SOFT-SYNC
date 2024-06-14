@@ -128,7 +128,7 @@ public class OrderController {
        model.addAttribute("searchKeyword", searchKeyword);
        model.addAttribute("contractSearchEmpty", contractSearchEmpty);
 
-       return "orders/purchase_order";
+       return "/orders/purchase_order";
    }
 
 		
@@ -310,7 +310,7 @@ public class OrderController {
 	       model.addAttribute("searchKeyword", searchKeyword);
 	       model.addAttribute("contractSearchEmpty", contractSearchEmpty);
 
-	        return "orders/purchase_order_list";
+	        return "/orders/purchase_order_list";
 	    }
 
 	

@@ -27,27 +27,28 @@ import com.softsync.zerock.repository.ReceivingRepository;
 @Service
 public class ReceivingService {
 
-	
-	@Autowired
-	ReceivingRepository receivingRepository;
-	
-	@Autowired
-	ReceiveListRepository receiveListRepository;
-	
-	@Autowired
-	InventoryRepository inventoryRepository;
-	
-	@Autowired
-	InvoiceRepository invoiceRepository;
-	
-	@Autowired
-	InventoryPeriodRepository inventoryPeriodRepository;
-	
-	
-	//하단(입고 내역) 페이징
-	 public Page<Receiving> getAllItem(@PageableDefault(size = 10) Pageable pageable) {
-	        return receivingRepository.findAll(pageable);
-	  }
+   
+   @Autowired
+   ReceivingRepository receivingRepository;
+   
+   @Autowired
+   ReceiveListRepository receiveListRepository;
+   
+   @Autowired
+   InventoryRepository inventoryRepository;
+   
+   @Autowired
+   InvoiceRepository invoiceRepository;
+   
+   @Autowired
+   InventoryPeriodRepository inventoryPeriodRepository;
+   
+   
+   //하단(입고 내역) 페이징
+    public Page<Receiving> getAllItem(@PageableDefault(size = 10) Pageable pageable) {
+           return receivingRepository.findAll(pageable);
+     }
+
 
 	 
 	//입고 리스트
@@ -84,6 +85,7 @@ public class ReceivingService {
 	}
 	
 	//페이징
+
     public Page<Receiving> searchReceivings1(String searchField, String searchKeyword, Pageable pageable) {
         switch (searchField) {
             case "itemCode":
@@ -106,6 +108,7 @@ public class ReceivingService {
                 return receiveListRepository.findAll(pageable);
         }
     }
+
 
 
 	
@@ -172,6 +175,7 @@ public class ReceivingService {
 		receivingRepository.save(receiving);
 	}
 	
+
     // 오늘 날짜에 해당하는 입고 수량 조회
     public int getReceivingQuantityByDate(LocalDate date) {
         int receivingQuantity = receiveListRepository.getReceivingQuantityByDate(date);
@@ -179,3 +183,4 @@ public class ReceivingService {
         return receivingQuantity;
     }
 }
+

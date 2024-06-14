@@ -1,6 +1,9 @@
 package com.softsync.zerock.controller;
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +17,18 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.softsync.zerock.DTO.ItemDto;
 import com.softsync.zerock.service.ItemService;
 
+
+
 @RestController
 public class ItemController {
 
 	@Autowired
 	private ItemService itemService;
+	
+	@Value("${file.upload-dir}")
+    private String uploadDir;
+
+   
 	
 	
 	@PostMapping("/api/items")
@@ -45,5 +55,6 @@ public class ItemController {
         }
     }
 
+	
 
 }

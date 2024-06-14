@@ -84,9 +84,9 @@ public class ReceivingController {
 		
 		receivingService.endRecieving(num);
 
-		return "redirect:/receivings";
-	}
-	
-	
+      return "redirect:/receivings";
+   }
+   
+   
 
 }
