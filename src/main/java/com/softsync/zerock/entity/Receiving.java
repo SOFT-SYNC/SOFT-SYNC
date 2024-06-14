@@ -44,7 +44,7 @@ public class Receiving { //입고
     private List<ReceiveList> receiveLists;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    @JsonIgnore 
     @JoinColumn(name = "inventory_id", nullable = true)
     private Inventory inventory; // 재고
 

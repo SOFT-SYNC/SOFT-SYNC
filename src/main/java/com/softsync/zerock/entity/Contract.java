@@ -44,7 +44,7 @@ public class Contract {
     private Item item;
      
     @OneToMany(mappedBy = "contract", fetch = FetchType.LAZY)
-    @JsonIgnore //명세서 발행시 필요
+    @JsonIgnore //거래명세서 발행용
     private List<Orders> orders;
     
     @Column(name = "contract_date")//계약일 

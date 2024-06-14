@@ -230,11 +230,11 @@
 
                         var quantity = data.receiveQuantity;
                         console.log(quantity);
-                        var price = data.orders.contract.unit_price;
-                        var supply_price = quantity * price;
-                        var tax = supply_price * 0.1;
-                        var total_price = supply_price + tax;
-                        console.log(data);
+                        var price = data.orders.contract.unit_price; //단가
+                        var supply_price = quantity * price;     // 총단가
+                        var tax = supply_price * 0.1;   //세금
+                        var total_price = supply_price + tax; //총액
+                        console.log(data); // data : 입고
                         $("#modalWrap td[class='brn']").text(data.orders.company.brn);
                         $("#modalWrap td[class='company_name']").text(data.orders.company.company_name);
                         $("#modalWrap td[class='company_ceo']").text(data.orders.company.company_ceo);

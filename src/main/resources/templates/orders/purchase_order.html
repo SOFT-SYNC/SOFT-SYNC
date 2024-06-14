@@ -220,6 +220,19 @@
 							<br> <br></td>
 					</tr>
 					<tr>
+						<th colspan="4" style="text-align: center;"> 공급받는자 </th>
+					</tr>
+					<tr>
+						<th>상호</th>
+						<td>(주) SOFT-SYNC</td>
+						<th>연락처</th>
+						<td>031-5555-5555</td>
+					</tr>
+					<tr> 
+						<th colspan="4" style="text-align: center;"> 공급자 </th>
+					</tr>
+					
+					<tr>
 						<th>사업자번호</th>
 						<td id="brnModal"><input type="text" name="brn" readonly></td>
 						<th>발주번호</th>
@@ -314,9 +327,9 @@
 						<td></td>
 						<td></td>
 					</tr>
-					<tr>
+					<tr th:each="contract : ${contracts}">
 						<td>비고</td>
-						<td colspan="4"></td>
+						<td colspan="4" th:text="${contract.orders.size() > 0 ? contract.orders[0].orderNote : '-'}"></td>
 					</tr>
 				</tbody>
 			</table>
@@ -488,6 +501,7 @@ $(document).ready(function(){
             	    $('#itemMaterialCell input').val(data.item.material).prop('readonly', true);
             	    $('#orderQuantityCell input').val(data.orderQuantity).prop('readonly', true);
             	    $('#totalPriceCell input').val(data.totalPrice).prop('readonly', true);
+            	    $("#row1 input[name='orderNote']").val(data.orderNote).prop('readonly', true) ;
             	    $("#row1 input[name='brn']").val(data.company.brn);
             	    $("#row1 input[name='company_name']").val(data.company.company_name);
             	    $("#row1 input[name='company_ceo']").val(data.company.company_ceo);

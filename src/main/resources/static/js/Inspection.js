@@ -2,7 +2,7 @@
 function endInspection(button) {
     // 버튼을 클릭하여 해당 주문번호 가져오기
     let orderNo = button.closest('tr').querySelector('td').innerText;
-
+    console.log(orderNo);
     // 서버로 데이터를 전송하기 위한 fetch 요청 보내기
     fetch('/endInspections', {
         method: 'POST', // POST 방식으로 요청

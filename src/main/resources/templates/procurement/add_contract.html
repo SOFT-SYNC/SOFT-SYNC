@@ -444,17 +444,17 @@ $(document).ready(function() {
 		 
     });
     
-    // 사업자 정보를 통해 업체명/계좌/비고를 불러오는 AJAX 요청
+    // '사업자 정보'로  업체명/계좌/비고를 불러옴
     $('input[name="brn"]').on('change', function(event) { 
         var brn = $(this).val(); 
         if (brn !== '') { 
             $.ajax({
-                url: '/getCompanyInfo', // 서버의 컨트롤러 경로
+                url: '/getCompanyInfo', 
                 type: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify({ brn: brn }), // 사업자번호를 JSON 형식으로 전송
+                data: JSON.stringify({ brn: brn }), // 사업자번호 전송
                 success: function(response) {
-                    // 서버로부터 받은 데이터를 화면에 표시
+                    // 출력
                     $('input[name="company_name"]').val(response.company_name);
                     $('input[name="company_account"]').val(response.company_account);
                     $('input[name="company_note"]').val(response.company_note);

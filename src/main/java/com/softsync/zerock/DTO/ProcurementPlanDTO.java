@@ -15,7 +15,7 @@ public class ProcurementPlanDTO {
     private int procurementQuantity; // 조달 수량
     private LocalDate procurementDueDate; // 조달 납기일
 
-    // 기본 생성자
+    // 기본 생성자	
     public ProcurementPlanDTO() {}
 
     // 모든 필드를 사용하는 생성자
