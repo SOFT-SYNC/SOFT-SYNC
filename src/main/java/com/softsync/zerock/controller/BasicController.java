@@ -365,7 +365,7 @@ public class BasicController {
 	    model.addAttribute("notices", notices);
 
 	    
-	    return "common/home";
+	    return "/common/home";
 	}
 	
    

@@ -13,8 +13,8 @@
 
 </head>
 <body>
-	<div th:insert="~{common/sidebar :: sidebar}"></div>
-	<div th:insert="~{common/header :: header}"></div>
+	<div th:insert="~{/common/sidebar :: sidebar}"></div>
+	<div th:insert="~{/common/header :: header}"></div>
 	<div class="main-content">
 		<form id="productForm" method="POST" action="/api/items"
 			enctype="multipart/form-data" onsubmit="submitProduct(event)">
@@ -124,7 +124,11 @@
 								<td th:text="${item.material}"></td>
 								<td><a th:href="@{${item.blueprintPath}}" th:text="도면">View</a></td>
 								<td>
+<<<<<<< HEAD
 									<button type="button" class="blueBtn"
+=======
+									<button type="button" class="deleteBtn"
+>>>>>>> de6ea33e1bae39fb8775b33592b6e545e3f56f35
 										th:attr="data-item-code=${item.itemCode}">삭제</button>
 								</td>
 							</tr>

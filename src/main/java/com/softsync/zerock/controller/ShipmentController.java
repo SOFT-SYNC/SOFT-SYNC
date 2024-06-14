@@ -144,7 +144,7 @@ public class ShipmentController {
         model.addAttribute("pageShipment", pageShipment);
         model.addAttribute("pageShipmentList", pageShipmentList);
 
-        return "materials/shipping_list";
+        return "/materials/shipping_list";
     }
     }
 

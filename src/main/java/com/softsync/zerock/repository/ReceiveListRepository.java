@@ -25,5 +25,5 @@ public interface ReceiveListRepository extends JpaRepository<ReceiveList, Long>{
 	    Page<ReceiveList> findByReceiving_Orders_Contract_Item_ItemNameContaining(String itemName, Pageable pageable);
 	    
 	    Page<ReceiveList> findByReceiving_Orders_OrderNoContaining(String searchKeyword, Pageable pageable);
-	    
+
 }

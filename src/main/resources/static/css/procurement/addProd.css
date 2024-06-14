@@ -38,7 +38,12 @@ body {
 	padding: 20px;
 	margin: 10px 20px;
 	width: 1200px;
+<<<<<<< HEAD
 	height: 850px
+=======
+	height: 850px;
+		   overflow-y: auto;
+>>>>>>> de6ea33e1bae39fb8775b33592b6e545e3f56f35
 }
 
 .visual-title {
@@ -95,4 +100,20 @@ label {
 .listTable {
 	width: 90%;
 	margin: 20px auto;
+
+}
+
+.deleteBtn {
+	padding: 10px 20px;
+	color: white;
+	background-color: #2d91ff;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+	heigth : 
+}
+
+.deleteBtn:hover {
+	background-color: #0056b3;
 }

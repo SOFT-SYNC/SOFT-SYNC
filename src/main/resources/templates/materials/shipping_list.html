@@ -13,8 +13,8 @@
 <script type="text/javascript" src="../js/sidebar.js"></script>
 </head>
 <body>
-	<div th:insert="~{common/sidebar :: sidebar}"></div>
-	<div th:insert="~{common/header :: header}"></div>
+	<div th:insert="~{/common/sidebar :: sidebar}"></div>
+	<div th:insert="~{/common/header :: header}"></div>
 	<div class="main-content">
 
 		<div id="row1">
@@ -129,6 +129,17 @@
 				<form id="shipmentForm" action="/api/saveShipmentList" method="post">
 					<!-- 결과 표시 테이블 -->
 					<table id="resultsTable">
+						<colgroup>
+							<col width="15%">
+							<col width="13%">
+							<col width="10%">
+							<col width="12%">
+							<col width="10%">
+							<col width="10%">
+							<col width="10%">
+							<col width="12%">
+							<col width="8%">
+						</colgroup>
 						<thead>
 							<tr>
 								<th>품목코드</th>
@@ -139,6 +150,7 @@
 								<th>재고수량</th>
 								<th>출고수량</th>
 								<th>출고일</th>
+								<th>삭제</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -158,8 +170,8 @@
 								<td th:text="${shipmentList.quantity}"></td>
 								<td th:text="${shipmentList.shipmentDate}"></td>
 								<td>
-									<button type="button" class="blueBtn"
-										th:attr="data-shipment-list-id=${shipmentList.id}">x</button>
+									<button type="button" class="deleteBtn"
+										th:attr="data-shipment-list-id=${shipmentList.id}">삭제</button>
 								</td>
 							</tr>
 						</tbody>

@@ -6,8 +6,11 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.PosixFilePermissions;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -104,21 +107,24 @@ public class ItemService {
 	    }
 	}
 
-	private String saveFile(MultipartFile file) {
+	public String saveFile(MultipartFile file) {
 	    if (file.isEmpty()) {
 	        System.out.println("Failed to save file: File is empty.");
 	        return null;
 	    }
 
-
 	    try {
-	        Path dirPath = Paths.get(uploadDir);
+	        Path dirPath = Paths.get(uploadDir).toAbsolutePath().normalize();
 	        if (!Files.exists(dirPath)) {
 	            Files.createDirectories(dirPath);
 	        }
 	        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-	        Path filePath = Paths.get(uploadDir, fileName);
+	        Path filePath = dirPath.resolve(fileName);
 	        Files.write(filePath, file.getBytes());
+
+	        // 파일 권한 설정
+	        Set<PosixFilePermission> permissions = PosixFilePermissions.fromString("rw-r--r--");
+	        Files.setPosixFilePermissions(filePath, permissions);
 
 	        // 웹 접근 가능 경로 반환
 	        return "/images/" + fileName;  // URL 경로로 수정
