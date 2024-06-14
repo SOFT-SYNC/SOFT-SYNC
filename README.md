@@ -152,4 +152,4 @@
 
 ## 라이센스
 
-MIT &copy; [이유리](9048jj@naver.com) , [김홍택](gyutaeg60@gmail.com)
+MIT &copy; [이유리](9048jj@naver.com) , [김홍택](gyutaeg60@gmail.com), [이태관](dbss6388@gmail.com)
