@@ -24,7 +24,7 @@ public class NoticeController {
 		
 		List<Notice> notices = noticeService.getAllNotices();
 		model.addAttribute("notices", notices); // 모델 속성명 변경
-		return "common/noticeList";
+		return "/common/noticeList";
 	}
 	
 	@GetMapping("/read/{boardNo}")
@@ -33,6 +33,6 @@ public class NoticeController {
 		Notice notice = noticeService.getNoticeDetail(boardNo);
 		model.addAttribute("notice", notice);
 		
-		return "common/read";
+		return "/common/read";
 	}
 }

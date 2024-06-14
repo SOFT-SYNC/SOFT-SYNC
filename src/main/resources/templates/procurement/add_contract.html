@@ -11,8 +11,8 @@
 <title>계약등록</title>
 </head>
 <body>
-	<div th:insert="~{common/sidebar :: sidebar}"></div>
-	<div th:insert="~{common/header :: header}"></div>
+	<div th:insert="~{/common/sidebar :: sidebar}"></div>
+	<div th:insert="~{/common/header :: header}"></div>
 	<div class="main-content">
 		<form th:action="@{/saveContract}" method="post"
 			enctype="multipart/form-data">

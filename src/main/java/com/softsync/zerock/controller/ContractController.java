@@ -35,7 +35,7 @@ public class ContractController {
 		Page<Item> items = contractService.getAllItems(pageable);
 	       model.addAttribute("items", items);
 		
-		return"procurement/add_contract";
+		return"/procurement/add_contract";
 	}
 	
 	
@@ -97,7 +97,7 @@ public class ContractController {
 	        Page<Item> items = contractService.getAllItems(pageable);//리다이렉트용 품목리스트
 		       model.addAttribute("items", items);
 
-	        return "redirect:add_contract"; // 저장 후 홈페이지로 리다이렉트
+	        return "redirect:/add_contract"; // 저장 후 홈페이지로 리다이렉트
 	    } 
 	
 	   //계약 확정
@@ -109,7 +109,7 @@ public class ContractController {
 	         
 	        Page<Item> items = contractService.getAllItems(pageable);//리다이렉트용 품목리스트
 		     model.addAttribute("items", items);
-	        return "redirect:add_contract"; // 확정 후 계약 리스트 페이지로 리다이렉트
+	        return "redirect:/add_contract"; // 확정 후 계약 리스트 페이지로 리다이렉트
 	    }
 
 	    
@@ -118,7 +118,7 @@ public class ContractController {
 	    public String contractOut(@RequestParam("contract_number") int contract_number) {
 	    	System.out.println("계약 컨트롤러");
 	    	 contractService.contractOut(contract_number);
-	    	return "redirect:add_contract";
+	    	return "redirect:/add_contract";
 	    }
 }   
 
