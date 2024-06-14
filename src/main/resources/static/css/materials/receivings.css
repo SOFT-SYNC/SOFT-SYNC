@@ -11,6 +11,14 @@ body {
   margin: 10px 40px;
  }
  
+ 
+/*  .current-page {
+	background-color: #004080;
+	color: white;
+	border: 1px solid #004080;
+} */
+
+
  .visual-title {
    margin-bottom: 15px;
    border-left: 3px solid black;

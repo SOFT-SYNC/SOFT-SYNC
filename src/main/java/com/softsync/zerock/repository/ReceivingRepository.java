@@ -12,10 +12,12 @@ import com.softsync.zerock.entity.Receiving;
 @Repository
 public interface ReceivingRepository extends JpaRepository<Receiving, Integer> {
 
-   Receiving findByOrders(Orders order);
-   Page<Receiving> findByOrders_Contract_Item_ItemCodeContaining(String searchKeyword, Pageable  pageable);
-   Page<Receiving> findByOrders_Contract_Item_ItemNameContaining(String searchKeyword, Pageable  pageable);
-   
+
+	Receiving findByOrders(Orders order);
+	Page<Receiving> findByOrders_Contract_Item_ItemCodeContaining(String searchKeyword, Pageable  pageable);
+	Page<Receiving> findByOrders_Contract_Item_ItemNameContaining(String searchKeyword, Pageable  pageable);
+	
+
 
 
 }

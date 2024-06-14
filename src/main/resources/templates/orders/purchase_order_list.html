@@ -66,6 +66,9 @@
 					<td th:if="${contract.orders.size() > 0 && contract.orders[0].receiptYn == 'Y'}">
 						<button class="blueBtn" onclick="location.href='purchase_schedule'">검수대기</button>
 					</td>
+					<td th:if="${contract.orders.size() > 0 && contract.orders[0].receiptYn == 'Y' && contract.orders[0].inspectYNG == 'Y'}">
+						<button class="blueBtn" onclick="location.href='purchase_schedule'">검수완료</button>
+					</td>
 				</tr>
                </table>
                <div class="paging-wrap">

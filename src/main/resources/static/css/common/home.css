@@ -128,6 +128,10 @@ table{
 .recent-item:hover{
  background-color: #e7e7e7;
 }
+.recent-content {
+    max-height: 450px; /* 최대 높이 설정 */
+    overflow-y: auto; /* 세로 스크롤이 필요할 때만 표시 */
+}
 
 
 
@@ -170,6 +174,6 @@ canvas {
   flex: 1; /* 캔버스가 가능한 최대 공간을 차지하도록 설정 */
   max-width: calc(100% - 320px); /* card-wrap의 너비를 고려한 최대 너비 설정 */
   max-height: 250px; /* 캔버스의 최대 높이 설정 */
-  margin-right: 10px; /* 캔버스와 card-wrap 사이의 간격 설정 */
+  margin-left: 20px; /* 캔버스와 card-wrap 사이의 간격 설정 */
   max-width: 700px; 
 }

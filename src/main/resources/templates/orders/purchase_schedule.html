@@ -47,7 +47,7 @@
 					</table>
 					<table class="inspecPlanList table" id="createtb">
 						<colgroup>
-							<col width="8%">
+					
 							<col width="8%">
 							<col width="15%">
 							<col width="15%">
@@ -58,7 +58,7 @@
 						</colgroup>
 						<thead>
 							<tr>
-								<th>일정번호</th>
+								<th style="display:none;">일정번호</th>
 								<th>차수</th>
 								<th>검수예정일</th>
 								<th>검수일</th>
@@ -136,8 +136,8 @@
 						<td th:text="${contract.item.itemCode}">품목코드</td>
 						<td th:text="${contract.item.itemName}">품목명</td>
 						<td
-							th:text="${contract.orders.size() > 0 ? contract.orders[0].orderQuantity : '-'}">N/A</td>
-						<td th:text="${contract.orders[0].inspectionTime}"></td>
+							th:text="${contract.orders.size() > 0 ? contract.orders[0].orderQuantity : '-'}">발주수량</td>
+						<td th:text="${contract.orders[0].inspectionTime}">검수현황</td>
 						
 						<td th:switch="${contract.orders[0].inspectYNG}">
 							<span th:case="'N'"><input type="button" class="blueBtn" value="검수하기" onclick="addToMainTable(this)"></span> 
