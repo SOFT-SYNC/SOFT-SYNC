@@ -22,6 +22,7 @@
 ## 프로젝트 소개
 [노션](https://complex-sneezeweed-b0d.notion.site/SOFT-SYNC-PROJECT-08bac4d1e9d248558070890c81ce30e3?pvs=4)
 [배포](http://192.168.35.8:9050/login)
+테스트 계정 ID : TEST PW :test
 
 ### 프로젝트 주제
 \- ERP 시스템 중 '자재구매조달시스템' 구현
